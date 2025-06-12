@@ -1,21 +1,42 @@
 import abc
-import json
 from datetime import datetime, UTC
 from typing import List, Dict, Any, Optional, Union, Annotated, Literal, get_args
 from uuid import uuid4, UUID
 
-from pydantic import Field, PositiveInt, NonNegativeInt, UUID4, BaseModel, AnyUrl, computed_field, model_validator
-from pydantic.json_schema import models_json_schema
+from pydantic import (
+    Field,
+    PositiveInt,
+    NonNegativeInt,
+    UUID4,
+    BaseModel,
+    AnyUrl,
+    computed_field,
+    model_validator,
+)
 
-from colander_data_converter.base.common import ObjectReference, SuperType, TlpPapLevel, Singleton
+from colander_data_converter.base.common import (
+    ObjectReference,
+    SuperType,
+    TlpPapLevel,
+    Singleton,
+)
 
 # Annotated union type representing all possible entity definitions in the model.
 # This type is used for fields that can accept any of the defined entity classes.
 # The Field discriminator 'colander_internal_type' is used for type resolution during (de)serialization.
-EntityTypes = Annotated[Union[
-    'Actor', 'Artifact', 'DataFragment', 'Observable',
-    'DetectionRule', 'Device', 'Event', 'Threat'
-], Field(discriminator='colander_internal_type')]
+EntityTypes = Annotated[
+    Union[
+        "Actor",
+        "Artifact",
+        "DataFragment",
+        "Observable",
+        "DetectionRule",
+        "Device",
+        "Event",
+        "Threat",
+    ],
+    Field(discriminator="colander_internal_type"),
+]
 
 
 class ColanderType(BaseModel):
@@ -27,9 +48,10 @@ class ColanderType(BaseModel):
     all model entities. It includes methods for linking and unlinking object references,
     resolving type hints, and extracting subclass information.
     """
+
     model_config = {
-        'str_strip_whitespace': True,
-        'arbitrary_types_allowed': True,
+        "str_strip_whitespace": True,
+        "arbitrary_types_allowed": True,
     }
 
     def model_post_init(self, __context):
@@ -100,7 +122,7 @@ class ColanderType(BaseModel):
                 if type(ref) is UUID:
                     x = Repository() >> ref
                     if strict and isinstance(x, UUID):
-                        raise ValueError(f'Unable to resolve UUID reference {x}')
+                        raise ValueError(f"Unable to resolve UUID reference {x}")
                     self.__setattr__(field, x)
             elif List[ObjectReference] in annotation_args:
                 refs = self.__getattribute__(field)
@@ -110,14 +132,14 @@ class ColanderType(BaseModel):
                     if type(ref) is UUID:
                         x = Repository() >> ref
                         if strict and isinstance(x, UUID):
-                            raise ValueError(f'Unable to resolve UUID reference {x}')
+                            raise ValueError(f"Unable to resolve UUID reference {x}")
                         object_references.append(x)
                         _update = True
                 if _update:
                     self.__setattr__(field, object_references)
 
     @classmethod
-    def subclasses(cls) -> Dict[str, type['EntityTypes']]:
+    def subclasses(cls) -> Dict[str, type["EntityTypes"]]:
         """
         Generates a dictionary containing all subclasses of the current class.
 
@@ -135,7 +157,7 @@ class ColanderType(BaseModel):
         return subclasses
 
     @classmethod
-    def resolve_type(cls, content_type: str) -> type['EntityTypes']:
+    def resolve_type(cls, content_type: str) -> type["EntityTypes"]:
         """
         Resolves a specific type of entity definition based on the provided content type by
         matching it against the available subclasses of the class. This utility ensures that
@@ -172,21 +194,23 @@ class ColanderType(BaseModel):
         :raises ValueError: If the type hint cannot be extracted from the provided dictionary.
         """
         try:
-            if 'colander_internal_type' in obj:
-                return obj.get('colander_internal_type')
-            elif 'super_type' in obj:
-                return obj.get('super_type').get('short_name').lower().replace('_', '')
+            if "colander_internal_type" in obj:
+                return obj.get("colander_internal_type")
+            elif "super_type" in obj:
+                return obj.get("super_type").get("short_name").lower().replace("_", "")
         except:
             pass
-        raise ValueError('Unable to extract type hints.')
+        raise ValueError("Unable to extract type hints.")
 
     @computed_field
     def super_type(self) -> SuperType:
-        return SuperType(**{
-            'name': self.__class__.__name__,
-            'short_name': self.__class__.__name__.upper(),
-            'class': self.__class__
-        })
+        return SuperType(
+            **{
+                "name": self.__class__.__name__,
+                "short_name": self.__class__.__name__.upper(),
+                "class": self.__class__,
+            }
+        )
 
 
 class Case(ColanderType):
@@ -225,7 +249,7 @@ class Case(ColanderType):
     pap: TlpPapLevel = TlpPapLevel.WHITE
     """The PAP (Permissible Actions Protocol) level for the case."""
 
-    parent_case: Optional['Case'] | Optional[ObjectReference] = None
+    parent_case: Optional["Case"] | Optional[ObjectReference] = None
     """Reference to a parent case, if this case is a sub-case."""
 
     signing_key: str | None = None
@@ -237,7 +261,7 @@ class Case(ColanderType):
     verify_key: str | None = None
     """Optional verification key associated with the case."""
 
-    colander_internal_type: Literal['case'] = 'case'
+    colander_internal_type: Literal["case"] = "case"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -384,6 +408,7 @@ class ArtifactType(CommonModelType):
         >>> print(artifact_type.short_name)
         PDF
     """
+
     pass
 
 
@@ -401,6 +426,7 @@ class ObservableType(CommonModelType):
         >>> print(observable_type.name)
         IP v4 address
     """
+
     pass
 
 
@@ -417,6 +443,7 @@ class ThreatType(CommonModelType):
         >>> print(threat_type.name)
         A trojan malware
     """
+
     pass
 
 
@@ -434,6 +461,7 @@ class ActorType(CommonModelType):
         >>> print(actor_type.name)
         Individual
     """
+
     pass
 
 
@@ -451,6 +479,7 @@ class DeviceType(CommonModelType):
         >>> print(device_type.name)
         Mobile Device
     """
+
     pass
 
 
@@ -468,6 +497,7 @@ class EventType(CommonModelType):
         >>> print(event_type.name)
         Network Connection
     """
+
     pass
 
 
@@ -485,6 +515,7 @@ class DetectionRuleType(CommonModelType):
         >>> print(detection_rule_type.name)
         Yara Rule
     """
+
     pass
 
 
@@ -502,6 +533,7 @@ class DataFragmentType(CommonModelType):
         >>> print(data_fragment_type.name)
         Code Snippet
     """
+
     pass
 
 
@@ -524,7 +556,7 @@ class Actor(Entity):
     type: ActorType
     """The type definition for the actor."""
 
-    colander_internal_type: Literal['actor'] = 'actor'
+    colander_internal_type: Literal["actor"] = "actor"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -557,7 +589,7 @@ class Device(Entity):
     operated_by: Actor | None = None
     """Reference to the actor operating the device."""
 
-    colander_internal_type: Literal['device'] = 'device'
+    colander_internal_type: Literal["device"] = "device"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -621,7 +653,7 @@ class Artifact(Entity):
     size_in_bytes: NonNegativeInt = 0
     """The size of the artifact in bytes."""
 
-    colander_internal_type: Literal['artifact'] = 'artifact'
+    colander_internal_type: Literal["artifact"] = "artifact"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -657,7 +689,7 @@ class DataFragment(Entity):
     extracted_from: Optional[Artifact] | Optional[ObjectReference] = None
     """Reference to the artifact from which this data fragment was extracted."""
 
-    colander_internal_type: Literal['datafragment'] = 'datafragment'
+    colander_internal_type: Literal["datafragment"] = "datafragment"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -680,7 +712,7 @@ class Threat(Entity):
     type: ThreatType
     """The type definition for the threat."""
 
-    colander_internal_type: Literal['threat'] = 'threat'
+    colander_internal_type: Literal["threat"] = "threat"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -725,7 +757,7 @@ class Observable(Entity):
     operated_by: Optional[Actor] | Optional[ObjectReference] = None
     """Reference to the actor operating this observable."""
 
-    colander_internal_type: Literal['observable'] = 'observable'
+    colander_internal_type: Literal["observable"] = "observable"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -747,16 +779,19 @@ class DetectionRule(Entity):
         >>> print(rule.name)
         Detect Malicious IP
     """
+
     type: DetectionRuleType
     """The type definition for the detection rule."""
 
     content: str
     """The content or logic of the detection rule."""
 
-    targeted_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
+    targeted_observables: (
+        Optional[List[Observable]] | Optional[List[ObjectReference]]
+    ) = None
     """List of observables or references targeted by this detection rule."""
 
-    colander_internal_type: Literal['detectionrule'] = 'detectionrule'
+    colander_internal_type: Literal["detectionrule"] = "detectionrule"
     """Internal type discriminator for (de)serialization."""
 
 
@@ -809,13 +844,15 @@ class Event(Entity):
     detected_by: Optional[DetectionRule] | Optional[ObjectReference] = None
     """Reference to the detection rule that detected this event."""
 
-    involved_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
+    involved_observables: (
+        Optional[List[Observable]] | Optional[List[ObjectReference]]
+    ) = None
     """List of observables or references involved in this event."""
 
-    colander_internal_type: Literal['event'] = 'event'
+    colander_internal_type: Literal["event"] = "event"
     """Internal type discriminator for (de)serialization."""
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def _check_dates(self) -> Any:
         if self.first_seen > self.last_seen:
             raise ValueError("first_seen must be before last_seen")
@@ -829,6 +866,7 @@ class Repository(object, metaclass=Singleton):
     This class provides centralized storage and reference management for all model instances,
     supporting insertion, lookup, and reference resolution/unlinking.
     """
+
     cases: Dict[str, Case]
     entities: Dict[str, EntityTypes]
     relations: Dict[str, EntityRelation]
@@ -930,7 +968,7 @@ class EntityFeed(ColanderType):
     """Dictionary of case objects, keyed by their IDs."""
 
     @staticmethod
-    def load(raw_object: dict | list) -> 'EntityFeed':
+    def load(raw_object: dict | list) -> "EntityFeed":
         """
         Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
 
@@ -943,22 +981,29 @@ class EntityFeed(ColanderType):
 
         :raises ValueError: If there are inconsistencies in entity IDs or relations.
         """
-        if 'entities' in raw_object:
-            for entity_id, entity in raw_object['entities'].items():
-                if entity_id != entity.get('id'):
-                    raise ValueError(f'Relation {entity_id} does not match with the ID of {entity}')
-                entity['colander_internal_type'] = entity['super_type']['short_name'].lower()
-        if 'relations' in raw_object:
-            for relation_id, relation in raw_object['relations'].items():
-                if relation_id != relation.get('id'):
-                    raise ValueError(f'Relation {relation_id} does not match with the ID of {relation}')
-                if ('obj_from' not in relation
-                        and 'obj_to' not in relation
-                        and 'obj_from_id' in relation
-                        and 'obj_to_id' in relation
+        if "entities" in raw_object:
+            for entity_id, entity in raw_object["entities"].items():
+                if entity_id != entity.get("id"):
+                    raise ValueError(
+                        f"Relation {entity_id} does not match with the ID of {entity}"
+                    )
+                entity["colander_internal_type"] = entity["super_type"][
+                    "short_name"
+                ].lower()
+        if "relations" in raw_object:
+            for relation_id, relation in raw_object["relations"].items():
+                if relation_id != relation.get("id"):
+                    raise ValueError(
+                        f"Relation {relation_id} does not match with the ID of {relation}"
+                    )
+                if (
+                    "obj_from" not in relation
+                    and "obj_to" not in relation
+                    and "obj_from_id" in relation
+                    and "obj_to_id" in relation
                 ):
-                    relation['obj_from'] = relation['obj_from_id']
-                    relation['obj_to'] = relation['obj_to_id']
+                    relation["obj_from"] = relation["obj_from_id"]
+                    relation["obj_to"] = relation["obj_to_id"]
         entity_feed = EntityFeed.model_validate(raw_object)
         entity_feed.resolve_references()
         for _, entity in entity_feed.entities.items():

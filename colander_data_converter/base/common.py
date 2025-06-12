@@ -1,7 +1,6 @@
-import threading
+import enum
 
 from pydantic import BaseModel, Field, UUID4
-import enum
 
 
 class TlpPapLevel(str, enum.Enum):
@@ -16,16 +15,16 @@ class TlpPapLevel(str, enum.Enum):
         RED
     """
 
-    RED = 'RED'
+    RED = "RED"
     """Highly sensitive information, restricted to specific recipients."""
 
-    AMBER = 'AMBER'
+    AMBER = "AMBER"
     """Sensitive information, limited to a defined group."""
 
-    GREEN = 'GREEN'
+    GREEN = "GREEN"
     """Information that can be shared within the community."""
 
-    WHITE = 'WHITE'
+    WHITE = "WHITE"
     """Information that can be shared publicly."""
 
 
@@ -56,8 +55,8 @@ class Singleton(type):
     """
 
     _instances = {}
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
-

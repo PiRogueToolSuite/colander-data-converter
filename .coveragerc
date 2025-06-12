@@ -1,0 +1,14 @@
+[paths]
+source =
+    ../colander_data_converter
+
+[run]
+branch = true
+parallel = false
+source =
+    colander_data_converter
+    .
+
+[report]
+show_missing = true
+precision = 2
