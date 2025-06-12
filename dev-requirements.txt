@@ -1,0 +1,6 @@
+-r requirements.txt
+
+pytest==8.4.0
+pytest-isolate==0.0.12
+sphinx-pydantic==0.1.1
+pytest-cov-6.2.0
