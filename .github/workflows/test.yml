@@ -61,11 +61,9 @@ jobs:
       - name: Build documentation
         run: make -C docs html
       - name: Upload documentation
-        if: startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'PiRogueToolSuite'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs/_build/html
       - name: Publish documentation on GitHub Pages
-        if: startsWith(github.ref, 'refs/tags/') && github.repository_owner == 'PiRogueToolSuite'
         uses: actions/deploy-pages@v4
         id: deployment
