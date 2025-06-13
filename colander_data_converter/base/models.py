@@ -18,7 +18,7 @@ from colander_data_converter.base.common import (
     ObjectReference,
     SuperType,
     TlpPapLevel,
-    Singleton,
+    Singleton, CommonModelType,
 )
 
 # Annotated union type representing all possible entity definitions in the model.
@@ -351,50 +351,6 @@ class EntityRelation(ColanderType):
     """The target entity or reference in the relation."""
 
 
-class CommonModelType(ColanderType, abc.ABC):
-    """
-    CommonModelType is an abstract base class for defining shared attributes across various model types.
-
-    This class provides fields for identifiers, names, descriptions, and other metadata.
-    """
-
-    id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
-    """The unique identifier for the model type."""
-
-    short_name: str = Field(frozen=True, max_length=32)
-    """A short name for the model type."""
-
-    name: str = Field(frozen=True, max_length=512)
-    """The name of the model type."""
-
-    description: str | None = None
-    """An optional description of the model type."""
-
-    svg_icon: str | None = None
-    """Optional SVG icon for the model type."""
-
-    nf_icon: str | None = None
-    """Optional NF icon for the model type."""
-
-    stix2_type: str | None = None
-    """Optional STIX 2.0 type for the model type."""
-
-    stix2_value_field_name: str | None = None
-    """Optional STIX 2.0 value field name."""
-
-    stix2_pattern: str | None = None
-    """Optional STIX 2.0 pattern."""
-
-    stix2_pattern_type: str | None = None
-    """Optional STIX 2.0 pattern type."""
-
-    default_attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of default attributes."""
-
-    type_hints: Dict[Any, Any] | None = None
-    """Optional dictionary of type hints."""
-
-
 class ArtifactType(CommonModelType):
     """
     ArtifactType represents metadata for artifacts in the system.
@@ -586,7 +542,7 @@ class Device(Entity):
     attributes: Optional[Dict[str, str]] = None
     """Optional dictionary of additional attributes for the device."""
 
-    operated_by: Actor | None = None
+    operated_by: Optional[Actor] | Optional[ObjectReference] = None
     """Reference to the actor operating the device."""
 
     colander_internal_type: Literal["device"] = "device"
@@ -626,7 +582,7 @@ class Artifact(Entity):
     attributes: Optional[Dict[str, str]] = None
     """Optional dictionary of additional attributes for the artifact."""
 
-    extracted_from: Device | None = None
+    extracted_from: Optional[Device] | Optional[ObjectReference] = None
     """Reference to the device from which this artifact was extracted."""
 
     extension: str | None = None
@@ -893,7 +849,7 @@ class Repository(object, metaclass=Singleton):
         elif isinstance(other, Case):
             self.cases[str(other.id)] = other
 
-    def __rshift__(self, other: str | UUID4) -> EntityTypes | Case:
+    def __rshift__(self, other: str | UUID4) -> EntityTypes | EntityRelation | Case:
         """
         Retrieves an object by its string or UUID identifier from entities, relations, or cases.
 
@@ -901,7 +857,7 @@ class Repository(object, metaclass=Singleton):
         :type other: str | UUID4
 
         :return: The found object or the identifier if not found.
-        :rtype: EntityTypes | Case
+        :rtype: EntityTypes | EntityRelation | Case
         """
         _other = str(other)
         if _other in self.entities:
