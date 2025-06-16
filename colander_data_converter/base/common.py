@@ -14,7 +14,7 @@ class TlpPapLevel(str, enum.Enum):
     Example:
         >>> level = TlpPapLevel.RED
         >>> print(level)
-        RED
+        TlpPapLevel.RED
     """
 
     RED = "RED"
@@ -42,7 +42,7 @@ class SuperType(BaseModel):
 
 class CommonModelType(BaseModel, abc.ABC):
     """
-    CommonModelType is an abstract base class for defining shared attributes across various model types.
+    CommonModelType is an abstract base class for defining shared attributes across various model data_types.
 
     This class provides fields for identifiers, names, descriptions, and other metadata.
     """

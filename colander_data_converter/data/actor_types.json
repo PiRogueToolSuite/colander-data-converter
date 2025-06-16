@@ -1,0 +1,134 @@
+[
+  {
+    "short_name": "NGO",
+    "name": "NGO",
+    "description": "A non-governmental organization.",
+    "svg_icon": "",
+    "nf_icon": "nf-fae-cc_nc",
+    "stix2_type": "identity",
+    "stix2_value_field_name": "name:organization",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "COMPANY",
+    "name": "Private company",
+    "description": "A privately owned business entity, often a target or participant in cyber activities.",
+    "svg_icon": "",
+    "nf_icon": "nf-fa-dollar",
+    "stix2_type": "identity",
+    "stix2_value_field_name": "name:organization",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "APT",
+    "name": "APT",
+    "description": "An advanced persistent threat group, typically well-resourced and highly skilled.",
+    "svg_icon": "",
+    "nf_icon": "nf-fae-virus",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "THREAT_ACTOR",
+    "name": "Threat actor",
+    "description": "An individual or group responsible for malicious cyber activities.",
+    "svg_icon": "",
+    "nf_icon": "nf-fae-virus",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "INDIVIDUAL",
+    "name": "Individual",
+    "description": "A single person involved in threat activity or as a target.",
+    "svg_icon": "",
+    "nf_icon": "nf-cod-person",
+    "stix2_type": "identity",
+    "stix2_value_field_name": "name:individual",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "PUB_INST",
+    "name": "Public institution",
+    "description": "A government or public sector organization.",
+    "svg_icon": "",
+    "nf_icon": "nf-fa-bank",
+    "stix2_type": "identity",
+    "stix2_value_field_name": "name:organization",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "OTHER",
+    "name": "Other",
+    "description": "A general or unspecified actor type.",
+    "svg_icon": "",
+    "nf_icon": "nf-cod-person",
+    "stix2_type": "identity",
+    "stix2_value_field_name": "name:organization",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "HACKTIVIST",
+    "name": "Hacktivist",
+    "description": "An individual or group using hacking to promote political or social agendas.",
+    "svg_icon": "",
+    "nf_icon": "nf-mdi-hammer_sickle",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "CYBER_CRIMINAL",
+    "name": "Cyber criminal",
+    "description": "An individual or group engaging in illegal activities for financial gain.",
+    "svg_icon": "",
+    "nf_icon": "nf-fa-user_secret",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "INSIDER",
+    "name": "Insider threat",
+    "description": "An individual within an organization posing a security risk.",
+    "svg_icon": "",
+    "nf_icon": "nf-fa-user",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "NATION_STATE",
+    "name": "Nation-state actor",
+    "description": "A government-sponsored group conducting cyber operations.",
+    "svg_icon": "",
+    "nf_icon": "nf-mdi-flag",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  },
+  {
+    "short_name": "SCRIPT_KIDDIE",
+    "name": "Script kiddie",
+    "description": "An inexperienced individual using pre-written tools for hacking.",
+    "svg_icon": "",
+    "nf_icon": "nf-mdi-code_tags",
+    "stix2_type": "threat-actor",
+    "stix2_value_field_name": "name",
+    "stix2_pattern": "",
+    "stix2_pattern_type": ""
+  }
+]

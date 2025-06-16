@@ -1,51 +1,49 @@
 from colander_data_converter.base.common import Singleton
 
 
-def test_creates_single_instance_for_multiple_calls():
-    class Configuration(metaclass=Singleton):
-        def __init__(self, value):
-            self.value = value
+class TestSingleton:
+    def test_creates_single_instance_for_multiple_calls(self):
+        class Configuration(metaclass=Singleton):
+            def __init__(self, value):
+                self.value = value
 
-    config1 = Configuration(value=1)
-    config2 = Configuration(value=2)
-    assert config1 is config2
+        config1 = Configuration(value=1)
+        config2 = Configuration(value=2)
+        assert config1 is config2
 
+    def test_preserves_initialization_of_first_instance(self):
+        class Configuration(metaclass=Singleton):
+            def __init__(self, value):
+                self.value = value
 
-def test_preserves_initialization_of_first_instance():
-    class Configuration(metaclass=Singleton):
-        def __init__(self, value):
-            self.value = value
+        config1 = Configuration(value=10)
+        config2 = Configuration(value=20)
+        assert config1.value == 10
+        assert config2.value == 10
 
-    config1 = Configuration(value=10)
-    config2 = Configuration(value=20)
-    assert config1.value == 10
-    assert config2.value == 10
+    def test_allows_different_singletons_for_different_classes(self):
+        class A(metaclass=Singleton):
+            pass
 
+        class B(metaclass=Singleton):
+            pass
 
-def test_allows_different_singletons_for_different_classes():
-    class A(metaclass=Singleton):
-        pass
+        a1 = A()
+        a2 = A()
+        b1 = B()
+        b2 = B()
+        assert a1 is a2
+        assert b1 is b2
+        assert a1 is not b1
 
-    class B(metaclass=Singleton):
-        pass
+    def test_supports_init_with_args_and_kwargs(self):
+        class Example(metaclass=Singleton):
+            def __init__(self, x, y=0):
+                self.x = x
+                self.y = y
 
-    a1 = A()
-    a2 = A()
-    b1 = B()
-    b2 = B()
-    assert a1 is a2
-    assert b1 is b2
-    assert a1 is not b1
-
-
-def test_supports_init_with_args_and_kwargs():
-    class Example(metaclass=Singleton):
-        def __init__(self, x, y=0):
-            self.x = x
-            self.y = y
-
-    e1 = Example(5, y=7)
-    e2 = Example(10, y=20)
-    assert e1 is e2
-    assert e1.x == 5
-    assert e1.y == 7
+        e1 = Example(5, y=7)
+        e2 = Example(10, y=20)
+        assert e1 is e2
+        assert e1.x == 5
+        assert e1.y == 7

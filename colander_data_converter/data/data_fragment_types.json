@@ -1,0 +1,37 @@
+[
+    {
+      "short_name": "CODE",
+      "name": "Piece of code",
+      "description": "A snippet or segment of source code from any programming language.",
+      "svg_icon": "",
+      "nf_icon": "nf-md-code_braces"
+    },
+    {
+      "short_name": "PATTERN",
+      "name": "Pattern",
+      "description": "A recognizable sequence or structure, such as a regular expression or YARA rule.",
+      "svg_icon": "",
+      "nf_icon": "nf-fa-puzzle_piece"
+    },
+    {
+      "short_name": "TEXT",
+      "name": "Piece of text",
+      "description": "A fragment of unstructured or plain text.",
+      "svg_icon": "",
+      "nf_icon": "nf-fa-file_text"
+    },
+    {
+      "short_name": "PAYLOAD",
+      "name": "Raw payload",
+      "description": "A block of raw binary or encoded data.",
+      "svg_icon": "",
+      "nf_icon": "nf-oct-file_binary"
+    },
+    {
+      "short_name": "OTHER",
+      "name": "Other",
+      "description": "Unspecified or unknown type of data.",
+      "svg_icon": "",
+      "nf_icon": "nf-oct-file_binary"
+    }
+  ]

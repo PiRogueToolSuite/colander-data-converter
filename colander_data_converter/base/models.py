@@ -1,5 +1,8 @@
 import abc
+import json
 from datetime import datetime, UTC
+from enum import Enum
+from importlib import resources
 from typing import List, Dict, Any, Optional, Union, Annotated, Literal, get_args
 from uuid import uuid4, UUID
 
@@ -12,6 +15,7 @@ from pydantic import (
     AnyUrl,
     computed_field,
     model_validator,
+    field_validator,
 )
 
 from colander_data_converter.base.common import (
@@ -21,6 +25,20 @@ from colander_data_converter.base.common import (
     Singleton,
     CommonModelType,
 )
+
+resource_package = __name__
+
+
+def _load_entity_supported_types(name: str) -> List[Dict]:
+    json_file = (
+        resources.files(resource_package)
+        .joinpath("..")
+        .joinpath("data")
+        .joinpath(f"{name}_types.json")
+    )
+    with json_file.open() as f:
+        return json.load(f)
+
 
 # Annotated union type representing all possible entity definitions in the model.
 # This type is used for fields that can accept any of the defined entity classes.
@@ -42,7 +60,7 @@ EntityTypes = Annotated[
 
 class ColanderType(BaseModel):
     """
-    Base class for all Colander model types, providing common functionality for
+    Base class for all Colander model data_types, providing common functionality for
     post-initialization, reference management, and type resolution.
 
     This class extends Pydantic's BaseModel and is intended to be subclassed by
@@ -149,7 +167,7 @@ class ColanderType(BaseModel):
         organizing and accessing class hierarchies dynamically.
 
         :return: A dictionary where the keys are the lowercase names of the subclasses,
-                 and the values are the subclass types themselves.
+                 and the values are the subclass data_types themselves.
         :rtype: Dict[str, type['EntityTypes']]
         """
         subclasses = {}
@@ -311,20 +329,23 @@ class EntityRelation(ColanderType):
 
     Example:
         >>> obs1 = Observable(
+        ...     id=uuid4(),
         ...     name='1.1.1.1',
-        ...     type=ObservableType(name='IP v4 address', short_name='IPV4')
+        ...     type=ObservableTypes.enum.IPV4.value
         ... )
         >>> obs2 = Observable(
+        ...     id=uuid4(),
         ...     name='8.8.8.8',
-        ...     type=ObservableType(name='IP v4 address', short_name='IPV4')
+        ...     type=ObservableTypes.enum.IPV4.value
         ... )
         >>> relation = EntityRelation(
+        ...     id=uuid4(),
         ...     name='connection',
         ...     obj_from=obs1,
         ...     obj_to=obs2
         ... )
         >>> print(relation.name)
-        Connection
+        connection
     """
 
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
@@ -357,16 +378,49 @@ class ArtifactType(CommonModelType):
     ArtifactType represents metadata for artifacts in the system.
 
     Example:
-        >>> artifact_type = ArtifactType(
-        ...     id=uuid4(),
-        ...     short_name='PDF',
-        ...     name='PDF document'
-        ... )
+        >>> artifact_type = ArtifactTypes.enum.REPORT.value
         >>> print(artifact_type.short_name)
-        PDF
+        REPORT
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("artifact")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class ArtifactTypes:
+    """
+    ArtifactTypes provides access to all supported artifact types.
+
+    This class loads artifact type definitions from the artifact types JSON file and exposes them as an enum.
+    It also provides a method to look up an artifact type by its short name.
+
+    Example:
+        >>> artifact_type = ArtifactTypes.enum.REPORT.value
+        >>> print(artifact_type.name)
+        Report
+        >>> default_type = ArtifactTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other type of file
+    """
+
+    _types: List[ArtifactType] = [
+        ArtifactType(**t) for t in _load_entity_supported_types("artifact")
+    ]
+    enum = Enum("ArtifactTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> ArtifactType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class ObservableType(CommonModelType):
@@ -377,14 +431,51 @@ class ObservableType(CommonModelType):
         >>> observable_type = ObservableType(
         ...     id=uuid4(),
         ...     short_name='IPV4',
-        ...     name='IP v4 address',
+        ...     name='IPv4',
         ...     description='An IPv4 address type'
         ... )
         >>> print(observable_type.name)
-        IP v4 address
+        IPv4
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("observable")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class ObservableTypes:
+    """
+    ObservableTypes provides access to all supported observable types.
+
+    This class loads observable type definitions from the observable types JSON file and exposes them as an enum.
+    It also provides a method to look up an observable type by its short name.
+
+    Example:
+        >>> observable_type = ObservableTypes.enum.IPV4.value
+        >>> print(observable_type.name)
+        IPv4
+        >>> default_type = ObservableTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Namespace
+    """
+
+    _types: List[ObservableType] = [
+        ObservableType(**t) for t in _load_entity_supported_types("observable")
+    ]
+    enum = Enum("ObservableTypes", [(t.short_name, t) for t in _types])
+    default = enum.NAMESPACE.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> ObservableType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class ThreatType(CommonModelType):
@@ -392,16 +483,49 @@ class ThreatType(CommonModelType):
     ThreatType represents metadata for threats in the system.
 
     Example:
-        >>> threat_type = ThreatType(
-        ...     id=uuid4(),
-        ...     short_name='TROJAN',
-        ...     name='A trojan malware'
-        ... )
+        >>> threat_type = ThreatTypes.enum.TROJAN.value
         >>> print(threat_type.name)
-        A trojan malware
+        Trojan
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("threat")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class ThreatTypes:
+    """
+    ThreatTypes provides access to all supported threat types.
+
+    This class loads threat type definitions from the threat types JSON file and exposes them as an enum.
+    It also provides a method to look up a threat type by its short name.
+
+    Example:
+        >>> threat_type = ThreatTypes.enum.TROJAN.value
+        >>> print(threat_type.name)
+        Trojan
+        >>> default_type = ThreatTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Generic
+    """
+
+    _types: List[ThreatType] = [
+        ThreatType(**t) for t in _load_entity_supported_types("threat")
+    ]
+    enum = Enum("ThreatTypes", [(t.short_name, t) for t in _types])
+    default = enum.GENERIC.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> ThreatType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class ActorType(CommonModelType):
@@ -409,17 +533,49 @@ class ActorType(CommonModelType):
     ActorType represents metadata for actors in the system.
 
     Example:
-        >>> actor_type = ActorType(
-        ...     id=uuid4(),
-        ...     short_name='INDIVIDUAL',
-        ...     name='Individual',
-        ...     description='A type for actors'
-        ... )
+        >>> actor_type = ActorTypes.enum.INDIVIDUAL.value
         >>> print(actor_type.name)
         Individual
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("actor")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class ActorTypes:
+    """
+    ActorTypes provides access to all supported actor types.
+
+    This class loads actor type definitions from the actor types JSON file and exposes them as an enum.
+    It also provides a method to look up an actor type by its short name.
+
+    Example:
+        >>> actor_type = ActorTypes.enum.INDIVIDUAL.value
+        >>> print(actor_type.name)
+        Individual
+        >>> default_type = ActorTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other
+    """
+
+    _types: List[ActorType] = [
+        ActorType(**t) for t in _load_entity_supported_types("actor")
+    ]
+    enum = Enum("ActorTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> ActorType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class DeviceType(CommonModelType):
@@ -427,17 +583,49 @@ class DeviceType(CommonModelType):
     DeviceType represents metadata for devices in the system.
 
     Example:
-        >>> device_type = DeviceType(
-        ...     id=uuid4(),
-        ...     short_name='MOBILE',
-        ...     name='Mobile Device',
-        ...     description='A type for devices'
-        ... )
+        >>> device_type = DeviceTypes.enum.MOBILE.value
         >>> print(device_type.name)
-        Mobile Device
+        Mobile device
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("device")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class DeviceTypes:
+    """
+    DeviceTypes provides access to all supported device types.
+
+    This class loads device type definitions from the device types JSON file and exposes them as an enum.
+    It also provides a method to look up a device type by its short name.
+
+    Example:
+        >>> device_type = DeviceTypes.enum.LAPTOP.value
+        >>> print(device_type.name)
+        Laptop
+        >>> default_type = DeviceTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other
+    """
+
+    _types: List[DeviceType] = [
+        DeviceType(**t) for t in _load_entity_supported_types("device")
+    ]
+    enum = Enum("DeviceTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> DeviceType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class EventType(CommonModelType):
@@ -445,17 +633,49 @@ class EventType(CommonModelType):
     EventType represents metadata for events in the system.
 
     Example:
-        >>> event_type = EventType(
-        ...     id=uuid4(),
-        ...     short_name='NETCONN',
-        ...     name='Network Connection',
-        ...     description='A type for events'
-        ... )
+        >>> event_type = EventTypes.enum.HIT.value
         >>> print(event_type.name)
-        Network Connection
+        Hit
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("event")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class EventTypes:
+    """
+    EventTypes provides access to all supported event types.
+
+    This class loads event type definitions from the event types JSON file and exposes them as an enum.
+    It also provides a method to look up an event type by its short name.
+
+    Example:
+        >>> event_type = EventTypes.enum.HIT.value
+        >>> print(event_type.name)
+        Hit
+        >>> default_type = EventTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other
+    """
+
+    _types: List[EventType] = [
+        EventType(**t) for t in _load_entity_supported_types("event")
+    ]
+    enum = Enum("EventTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> EventType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class DetectionRuleType(CommonModelType):
@@ -463,17 +683,49 @@ class DetectionRuleType(CommonModelType):
     DetectionRuleType represents metadata for detection rules in the system.
 
     Example:
-        >>> detection_rule_type = DetectionRuleType(
-        ...     id=uuid4(),
-        ...     short_name='YARA',
-        ...     name='Yara Rule',
-        ...     description='A type for detection rules'
-        ... )
+        >>> detection_rule_type = DetectionRuleTypes.enum.YARA.value
         >>> print(detection_rule_type.name)
-        Yara Rule
+        Yara rule
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("detection_rule")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class DetectionRuleTypes:
+    """
+    DetectionRuleTypes provides access to all supported detection rule types.
+
+    This class loads detection rule type definitions from the detection rule types JSON file and exposes them as an enum.
+    It also provides a method to look up a detection rule type by its short name.
+
+    Example:
+        >>> detection_rule_type = DetectionRuleTypes.enum.YARA.value
+        >>> print(detection_rule_type.name)
+        Yara rule
+        >>> default_type = DetectionRuleTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other
+    """
+
+    _types: List[DetectionRuleType] = [
+        DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")
+    ]
+    enum = Enum("DetectionRuleTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> DetectionRuleType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class DataFragmentType(CommonModelType):
@@ -481,17 +733,49 @@ class DataFragmentType(CommonModelType):
     DataFragmentType represents metadata for data fragments in the system.
 
     Example:
-        >>> data_fragment_type = DataFragmentType(
-        ...     id=uuid4(),
-        ...     short_name='CODE',
-        ...     name='Code Snippet',
-        ...     description='A type for data fragments'
-        ... )
+        >>> data_fragment_type = DataFragmentTypes.enum.CODE.value
         >>> print(data_fragment_type.name)
-        Code Snippet
+        Piece of code
     """
 
-    pass
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {
+            t["short_name"] for t in _load_entity_supported_types("data_fragment")
+        }:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class DataFragmentTypes:
+    """
+    DataFragmentTypes provides access to all supported data fragment types.
+
+    This class loads data fragment type definitions from the data fragment types JSON file and exposes them as an enum.
+    It also provides a method to look up a data fragment type by its short name.
+
+    Example:
+        >>> data_fragment_type = DataFragmentTypes.enum.CODE.value
+        >>> print(data_fragment_type.name)
+        Piece of code
+        >>> default_type = DataFragmentTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Other
+    """
+
+    _types: List[DataFragmentType] = [
+        DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")
+    ]
+    enum = Enum("DataFragmentTypes", [(t.short_name, t) for t in _types])
+    default = enum.OTHER.value
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> DataFragmentType:
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls.enum._member_names_:
+            return cls.enum[sn].value
+        return cls.default
 
 
 class Actor(Entity):
@@ -501,7 +785,7 @@ class Actor(Entity):
     This class extends the Entity base class and includes additional fields specific to actors.
 
     Example:
-        >>> actor_type = ActorType(name='Individual', short_name='INDIVIDUAL')
+        >>> actor_type = ActorTypes.enum.INDIVIDUAL.value
         >>> actor = Actor(
         ...     name='John Doe',
         ...     type=actor_type
@@ -525,8 +809,8 @@ class Device(Entity):
     such as their type, attributes, and the actor operating the device.
 
     Example:
-        >>> device_type = DeviceType(name='Mobile Device', short_name='MOBILE')
-        >>> actor = Actor(name='John Doe', type=ActorType(name='Individual', short_name='INDIVIDUAL'))
+        >>> device_type = DeviceTypes.enum.MOBILE.value
+        >>> actor = Actor(name='John Doe', type=ActorTypes.enum.INDIVIDUAL.value)
         >>> device = Device(
         ...     name="John's Phone",
         ...     type=device_type,
@@ -558,8 +842,8 @@ class Artifact(Entity):
     such as type, attributes, extraction source, file metadata, and cryptographic hashes.
 
     Example:
-        >>> artifact_type = ArtifactType(name='PDF document', short_name='PDF')
-        >>> device_type = DeviceType(name='Laptop', short_name='LAPTOP')
+        >>> artifact_type = ArtifactTypes.enum.DOCUMENT.value
+        >>> device_type = DeviceTypes.enum.LAPTOP.value
         >>> device = Device(name='Analyst Laptop', type=device_type)
         >>> artifact = Artifact(
         ...     name='malware_sample.pdf',
@@ -622,10 +906,10 @@ class DataFragment(Entity):
     such as their type, content, and the artifact from which they were extracted.
 
     Example:
-        >>> data_fragment_type = DataFragmentType(name='Code Snippet', short_name='CODE')
+        >>> data_fragment_type = DataFragmentTypes.enum.CODE.value
         >>> artifact = Artifact(
         ...     name='example_artifact',
-        ...     type=ArtifactType(name='PDF document', short_name='PDF')
+        ...     type=ArtifactTypes.enum.DOCUMENT.value
         ... )
         >>> data_fragment = DataFragment(
         ...     name='Sample Code',
@@ -657,7 +941,7 @@ class Threat(Entity):
     This class extends the Entity base class and includes a type field for threat classification.
 
     Example:
-        >>> threat_type = ThreatType(name='Trojan', short_name='TROJAN')
+        >>> threat_type = ThreatTypes.enum.TROJAN.value
         >>> threat = Threat(
         ...     name='Emotet',
         ...     type=threat_type
@@ -681,7 +965,7 @@ class Observable(Entity):
     such as classification, raw value, extraction source, associated threat, and operator.
 
     Example:
-        >>> ot = ObservableType(name='IP v4 address', short_name='IPV4')
+        >>> ot = ObservableTypes.enum.IPV4.value
         >>> obs = Observable(
         ...     name='1.2.3.4',
         ...     type=ot,
@@ -727,7 +1011,7 @@ class DetectionRule(Entity):
     identify patterns or conditions defined by the user.
 
     Example:
-        >>> drt = DetectionRuleType(name='Yara', short_name='YARA')
+        >>> drt = DetectionRuleTypes.enum.YARA.value
         >>> rule = DetectionRule(
         ...     name='Detect Malicious IP',
         ...     type=drt,
@@ -760,9 +1044,10 @@ class Event(Entity):
     such as timestamps, count, involved observables, and references to related entities.
 
     Example:
-        >>> et = EventType(name='Network Connection', short_name='NETCONN')
-        >>> obs_type = ObservableType(name='IP v4 address', short_name='IPV4')
+        >>> et = EventTypes.enum.HIT.value
+        >>> obs_type = ObservableTypes.enum.IPV4.value
         >>> obs = Observable(
+        ...     id=uuid4(),
         ...     name='8.8.8.8',
         ...     type=obs_type
         ... )
@@ -901,9 +1186,11 @@ class EntityFeed(ColanderType):
     Example:
         >>> feed_data = {
         ...     "entities": {
-        ...         "1": {
+        ...         "204d4590-a3ee-4f24-8eaf-350ec2fa751b": {
+        ...             "id": "204d4590-a3ee-4f24-8eaf-350ec2fa751b",
         ...             "name": "Example Observable",
-        ...             "type": {"name": "IP v4 address", "short_name": "IPV4"},
+        ...             "type": {"name": "IPv4", "short_name": "IPV4"},
+        ...             "super_type": {"short_name": "observable"},
         ...             "colander_internal_type": "observable"
         ...         }
         ...     },
@@ -912,7 +1199,7 @@ class EntityFeed(ColanderType):
         ... }
         >>> feed = EntityFeed.load(feed_data)
         >>> print(list(feed.entities.keys()))
-        ['1']
+        ['204d4590-a3ee-4f24-8eaf-350ec2fa751b']
     """
 
     entities: Optional[Dict[str, EntityTypes]] = {}

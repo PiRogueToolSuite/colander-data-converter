@@ -34,7 +34,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.githubpages",
     "sphinxcontrib.autodoc_pydantic",
-    # "sphinx_rtd_dark_mode",
+    "sphinxcontrib.datatemplates",
 ]
 
 templates_path = ["_templates"]
