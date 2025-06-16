@@ -11,7 +11,7 @@ The ``colander_data_converter`` Python package provides utilities for converting
 
 .. toctree::
    :maxdepth: 1
-   :caption: Data types:
+   :caption: Data mappings:
 
    data_types/entity
 

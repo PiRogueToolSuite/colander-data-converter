@@ -8,53 +8,53 @@ Actors
 An actor represents an individual or group involved in an event, activity, or system.
 
 .. datatemplate:json:: ../../colander_data_converter/data/actor_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Artifacts
 ---------
 An artifact represents a file or data object, such as a document, image, or binary, within the system.
 
 .. datatemplate:json:: ../../colander_data_converter/data/artifact_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Data Fragments
 --------------
 A data fragment represents a fragment of data, such as a code snippet, text, or other content.
 
 .. datatemplate:json:: ../../colander_data_converter/data/data_fragment_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Detection Rules
 ---------------
 A detection rule represents a rule used for detecting specific content or logic related to observables.
 
 .. datatemplate:json:: ../../colander_data_converter/data/detection_rule_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Devices
 -------
 A device represents a physical or virtual device in a system.
 
 .. datatemplate:json:: ../../colander_data_converter/data/device_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Events
 ------
 An event represents an occurrence or activity observed within a system, such as a detection, alert, or log entry.
 
 .. datatemplate:json:: ../../colander_data_converter/data/event_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Observables
 -----------
 Observable represents an entity such as an IP address that can be observed or detected within a system.
 
 .. datatemplate:json:: ../../colander_data_converter/data/observable_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
 
 Threats
 -------
 A threat represents a potentially malicious entity, such as a malware family, campaign, or adversary.
 
 .. datatemplate:json:: ../../colander_data_converter/data/threat_types.json
-   :template: ../data_types/type.tmpl
+   :template: type.tmpl
