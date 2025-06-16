@@ -59,7 +59,7 @@ jobs:
       - name: Run tests and coverage
         shell: bash
         run: |
-          tox -e py
+          tox run
           if [ -f "test-report.md" ]; then
             echo "### Test Report" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
