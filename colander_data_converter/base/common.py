@@ -46,6 +46,7 @@ class CommonModelType(BaseModel, abc.ABC):
 
     This class provides fields for identifiers, names, descriptions, and other metadata.
     """
+
     short_name: str = Field(frozen=True, max_length=32)
     """A short name for the model type."""
 

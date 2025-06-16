@@ -18,7 +18,8 @@ from colander_data_converter.base.common import (
     ObjectReference,
     SuperType,
     TlpPapLevel,
-    Singleton, CommonModelType,
+    Singleton,
+    CommonModelType,
 )
 
 # Annotated union type representing all possible entity definitions in the model.
