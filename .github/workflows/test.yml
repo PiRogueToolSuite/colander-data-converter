@@ -72,8 +72,6 @@ jobs:
             cat "test-coverage.md" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
           fi
-      - name: Build documentation
-        run: make -C docs html
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v3
         with:

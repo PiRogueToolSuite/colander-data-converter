@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 include = ["colander_data_converter*"]
 namespaces = false
 
-[tool.coverage.runx]
+[tool.coverage.run]
 omit = [
     "*test_*",
     ]

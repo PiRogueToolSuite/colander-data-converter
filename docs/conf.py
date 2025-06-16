@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Colander data converter"
-copyright = "2025, Esther Onfroy"
+copyright = "2025, Defensive Lab Agency - Esther Onfroy"
 author = "Esther Onfroy"
 
 autodoc_pydantic_model_show_json = True
@@ -42,9 +42,6 @@ exclude_patterns = []
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
 }
-
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
