@@ -18,12 +18,6 @@ autodoc_pydantic_model_show_json = True
 autodoc_pydantic_model_show_validator_summary = True
 autodoc_pydantic_settings_show_json = False
 
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx-pydantic",
@@ -38,10 +32,13 @@ extensions = [
 ]
 
 templates_path = ["_templates"]
+html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
+html_logo = "_static/pts_logo.png"
+
 exclude_patterns = []
+
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
 }
 
-html_theme = "sphinx_rtd_theme"
-html_static_path = ["_static"]

@@ -375,7 +375,8 @@ class EntityRelation(ColanderType):
 
 class ArtifactType(CommonModelType):
     """
-    ArtifactType represents metadata for artifacts in the system.
+    ArtifactType represents metadata for artifacts in Colander. Check :ref:`the list of supported
+    types <artifact_types>`.
 
     Example:
         >>> artifact_type = ArtifactTypes.enum.REPORT.value
@@ -425,7 +426,8 @@ class ArtifactTypes:
 
 class ObservableType(CommonModelType):
     """
-    ObservableType represents metadata for observables in the system.
+    ObservableType represents metadata for observables in Colander. Check :ref:`the list of supported
+    types <observable_types>`.
 
     Example:
         >>> observable_type = ObservableType(
@@ -480,7 +482,7 @@ class ObservableTypes:
 
 class ThreatType(CommonModelType):
     """
-    ThreatType represents metadata for threats in the system.
+    ThreatType represents metadata for threats in Colander. Check :ref:`the list of supported types <threat_types>`.
 
     Example:
         >>> threat_type = ThreatTypes.enum.TROJAN.value
@@ -530,7 +532,7 @@ class ThreatTypes:
 
 class ActorType(CommonModelType):
     """
-    ActorType represents metadata for actors in the system.
+    ActorType represents metadata for actors in Colander. Check :ref:`the list of supported types <actor_types>`.
 
     Example:
         >>> actor_type = ActorTypes.enum.INDIVIDUAL.value
@@ -580,7 +582,7 @@ class ActorTypes:
 
 class DeviceType(CommonModelType):
     """
-    DeviceType represents metadata for devices in the system.
+    DeviceType represents metadata for devices in Colander. Check :ref:`the list of supported types <device_types>`.
 
     Example:
         >>> device_type = DeviceTypes.enum.MOBILE.value
@@ -630,7 +632,7 @@ class DeviceTypes:
 
 class EventType(CommonModelType):
     """
-    EventType represents metadata for events in the system.
+    EventType represents metadata for events in Colander. Check :ref:`the list of supported types <event_types>`.
 
     Example:
         >>> event_type = EventTypes.enum.HIT.value
@@ -680,7 +682,8 @@ class EventTypes:
 
 class DetectionRuleType(CommonModelType):
     """
-    DetectionRuleType represents metadata for detection rules in the system.
+    DetectionRuleType represents metadata for detection rules in Colander. Check :ref:`the list of supported
+    types <detection_rule_types>`.
 
     Example:
         >>> detection_rule_type = DetectionRuleTypes.enum.YARA.value
@@ -730,7 +733,8 @@ class DetectionRuleTypes:
 
 class DataFragmentType(CommonModelType):
     """
-    DataFragmentType represents metadata for data fragments in the system.
+    DataFragmentType represents metadata for data fragments in Colander. Check :ref:`the list of supported
+    types <data_fragment_types>`.
 
     Example:
         >>> data_fragment_type = DataFragmentTypes.enum.CODE.value
@@ -803,7 +807,7 @@ class Actor(Entity):
 
 class Device(Entity):
     """
-    Device represents a physical or virtual device in the system.
+    Device represents a physical or virtual device in Colander.
 
     This class extends the Entity base class and includes additional fields specific to devices,
     such as their type, attributes, and the actor operating the device.
