@@ -56,8 +56,22 @@ jobs:
       - name: Check code formatting with Ruff
         run: ruff format --diff
         continue-on-error: true
-      - name: Run tox
-        run: tox -e py
+      - name: Run tests and coverage
+        shell: bash
+        run: |
+          tox -e py
+          if [ -f "test-report.md" ]; then
+            echo "### Test Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            cat "test-report.md" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -f "test-coverage.md" ]; then
+            echo "### Code coverage" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            cat "test-coverage.md" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
       - name: Build documentation
         run: make -C docs html
       - name: Upload documentation

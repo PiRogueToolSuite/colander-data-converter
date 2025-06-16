@@ -6,24 +6,34 @@ build-backend = "setuptools.build_meta"
 include = ["colander_data_converter*"]
 namespaces = false
 
+[tool.coverage.runx]
+omit = [
+    "*test_*",
+    ]
+
+[tool.coverage.report]
+omit = [
+    "tests/*",
+    ]
+
 [project]
 name = "colander-data-converter"
 version = "1.0.0"
 description = "A set of helpers to manipulate Colander data."
 readme = "README.md"
-license = {text = "GPL-3.0+ AND MIT"}
+license = { text = "GPL-3.0+ AND MIT" }
 
 requires-python = ">= 3.11"
 dependencies = [
-  "pydantic==2.11",
+    "pydantic==2.11",
 ]
 
 authors = [
-  {name = "U+039b", email = "hello@pts-project.org"}
+    { name = "U+039b", email = "hello@pts-project.org" }
 ]
 
 maintainers = [
-  {name = "U+039b", email = "hello@pts-project.org"}
+    { name = "U+039b", email = "hello@pts-project.org" }
 ]
 
 [project.urls]

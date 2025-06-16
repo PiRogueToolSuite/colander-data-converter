@@ -3,6 +3,6 @@
 pytest==8.4.0
 pytest-isolate==0.0.12
 sphinx-pydantic==0.1.1
-pytest-cov==6.2.0
 tox==4.26.0
 ruff==0.11.13
+pytest-md-report==0.7.0
