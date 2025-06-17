@@ -293,5 +293,16 @@ class TestLoadingThreatrFeedFromJSON:
         with json_file.open() as f:
             raw = json.load(f)
         feed = ThreatrFeed.load(raw)
+        for r in feed.relations:
+            assert isinstance(r.obj_from, Entity)
+            assert isinstance(r.obj_to, Entity)
+        for e in feed.events:
+            assert isinstance(e.involved_entity, Entity)
+        feed.model_dump_json()
         feed.unlink_references()
+        for r in feed.relations:
+            assert isinstance(r.obj_from, UUID)
+            assert isinstance(r.obj_to, UUID)
+        for e in feed.events:
+            assert isinstance(e.involved_entity, UUID)
         feed.model_dump_json()
