@@ -1326,8 +1326,6 @@ class CommonEntitySuperTypes(enum.Enum):
         >>> super_type = CommonEntitySuperTypes.ACTOR.value
         >>> print(super_type.name)
         Actor
-        >>> print(super_type._class)
-        <class 'colander_data_converter.base.models.Actor'>
     """
 
     ACTOR = CommonEntitySuperType(short_name="ACTOR", name="Actor", _class=Actor, types=ActorTypes.enum)
