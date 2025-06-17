@@ -75,14 +75,18 @@ class ThreatrRepository(object, metaclass=Singleton):
         for _, event in self.events.items():
             event.unlink_references()
 
-    def resolve_references(self):
+    def resolve_references(self, strict=False):
         """
         Resolves all UUID references in relations and events to their corresponding objects.
+
+        Args:
+            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
+                           If False, unresolved references remain as UUIDs.
         """
         for _, relation in self.relations.items():
-            relation.resolve_references()
+            relation.resolve_references(strict=strict)
         for _, event in self.events.items():
-            event.resolve_references()
+            event.resolve_references(strict=strict)
 
 
 class ThreatrType(BaseModel):
@@ -109,6 +113,47 @@ class ThreatrType(BaseModel):
         _ = ThreatrRepository()
         _ << self
 
+    def _process_reference_fields(self, operation, strict=False):
+        """
+        Helper method to process reference fields for both unlinking and resolving operations.
+
+        Args:
+            operation (str): The operation to perform, either 'unlink' or 'resolve'.
+            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
+                           Only used for 'resolve' operation.
+
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
+            AttributeError: If the class instance does not have the expected field or attribute.
+        """
+        for field, info in self.__class__.model_fields.items():
+            annotation_args = get_args(info.annotation)
+            if ObjectReference in annotation_args:
+                ref = getattr(self, field)
+                if operation == "unlink" and ref and type(ref) is not UUID:
+                    setattr(self, field, ref.id)
+                elif operation == "resolve" and type(ref) is UUID:
+                    x = ThreatrRepository() >> ref
+                    if strict and isinstance(x, UUID):
+                        raise ValueError(f"Unable to resolve UUID reference {x}")
+                    setattr(self, field, x)
+            elif List[ObjectReference] in annotation_args:
+                refs = getattr(self, field)
+                new_refs = []
+                _update = False
+                for ref in refs:
+                    if operation == "unlink" and ref and type(ref) is not UUID:
+                        new_refs.append(ref.id)
+                        _update = True
+                    elif operation == "resolve" and type(ref) is UUID:
+                        x = ThreatrRepository() >> ref
+                        if strict and isinstance(x, UUID):
+                            raise ValueError(f"Unable to resolve UUID reference {x}")
+                        new_refs.append(x)
+                        _update = True
+                if _update:
+                    setattr(self, field, new_refs)
+
     def unlink_references(self):
         """
         Unlinks object references by replacing them with their respective UUIDs.
@@ -128,49 +173,24 @@ class ThreatrType(BaseModel):
         Raises:
             AttributeError: If the class instance does not have the expected field or attribute.
         """
-        for field, info in self.__class__.model_fields.items():
-            annotation_args = get_args(info.annotation)
-            if ObjectReference in annotation_args:
-                ref = self.__getattribute__(field)
-                if ref and type(ref) is not UUID:
-                    self.__setattr__(field, ref.id)
-            elif List[ObjectReference] in annotation_args:
-                refs = self.__getattribute__(field)
-                object_refences: List[UUID] = []
-                _update = False
-                for ref in refs:
-                    if ref and type(ref) is not UUID:
-                        object_refences.append(ref.id)
-                        _update = True
-                if _update:
-                    self.__setattr__(field, object_refences)
+        self._process_reference_fields("unlink")
 
-    def resolve_references(self):
+    def resolve_references(self, strict=False):
         """
         Resolves references for the fields in the object's model. Fields annotated with `ObjectReference` or
         `List[ObjectReference]` are processed to fetch and replace their UUID references with respective
         entities using the `ThreatrRepository`.
 
         This method updates the object in-place.
+
+        Args:
+            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
+                           If False, unresolved references remain as UUIDs.
+
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
         """
-        for field, info in self.__class__.model_fields.items():
-            annotation_args = get_args(info.annotation)
-            if ObjectReference in annotation_args:
-                ref = self.__getattribute__(field)
-                if type(ref) is UUID:
-                    x = ThreatrRepository() >> ref
-                    self.__setattr__(field, x)
-            elif List[ObjectReference] in annotation_args:
-                refs = self.__getattribute__(field)
-                object_references: List[Entity] = []
-                _update = False
-                for ref in refs:
-                    if type(ref) is UUID:
-                        x = ThreatrRepository() >> ref
-                        object_references.append(x)
-                        _update = True
-                if _update:
-                    self.__setattr__(field, object_references)
+        self._process_reference_fields("resolve", strict)
 
 
 class Entity(ThreatrType):
@@ -310,43 +330,49 @@ class ThreatrFeed(ThreatrType):
     @staticmethod
     def load(
         raw_object: Dict[str, Union[Entity, Event, EntityRelation]],
+        strict: bool = False,
     ) -> "ThreatrFeed":
         """
         Loads a ThreatrFeed from a raw object dictionary, resolving references.
 
         Args:
             raw_object (Dict[str, Union[Entity, Event, EntityRelation]]): The raw data to validate and load.
+            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
+                           If False, unresolved references remain as UUIDs.
 
         Returns:
             ThreatrFeed: The loaded and reference-resolved feed.
         """
         feed = ThreatrFeed.model_validate(raw_object)
-        feed.resolve_references()
+        feed.resolve_references(strict=strict)
         return feed
 
-    def resolve_references(self):
+    def resolve_references(self, strict=False):
         """
         Resolves references within entities, relations, and events.
 
-        Iterates over each entity, relation, and case within the respective collections, calling their
+        Iterates over each entity, relation, and event within the respective collections, calling their
         `resolve_references` method to update them with any referenced data. This helps in synchronizing
         internal state with external dependencies or updates.
+
+        Args:
+            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
+                           If False, unresolved references remain as UUIDs.
         """
         for entity in self.entities:
-            entity.resolve_references()
+            entity.resolve_references(strict=strict)
         for event in self.events:
-            event.resolve_references()
+            event.resolve_references(strict=strict)
         for relation in self.relations:
-            relation.resolve_references()
+            relation.resolve_references(strict=strict)
 
     def unlink_references(self) -> None:
         """
         Unlinks references from all entities, relations, and events within the current context.
 
-        This method iterates through each entity, relation, and case stored in the `entities`, `relations`,
-        and `cases` dictionaries respectively, invoking their `unlink_references()` methods to clear any references
-        held by these objects. This operation is useful for breaking dependencies or preparing data for deletion
-        or modification.
+        This method iterates through each entity, event, and relation in the respective lists, invoking their
+        `unlink_references()` methods to replace object references with UUIDs. This operation is useful for
+        breaking dependencies or preparing data for serialization.
         """
         for entity in self.entities:
             entity.unlink_references()

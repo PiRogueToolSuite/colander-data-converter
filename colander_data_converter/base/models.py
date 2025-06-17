@@ -120,6 +120,46 @@ class ColanderType(BaseModel):
         _ = Repository()
         _ << self
 
+    def _process_reference_fields(self, operation, strict=False):
+        """
+        Helper method to process reference fields for both unlinking and resolving operations.
+
+        :param operation: The operation to perform, either 'unlink' or 'resolve'.
+        :type operation: str
+        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                       Only used for 'resolve' operation.
+        :type strict: bool
+        :raises ValueError: If strict is True and a UUID reference cannot be resolved.
+        :raises AttributeError: If the class instance does not have the expected field or attribute.
+        """
+        for field, info in self.__class__.model_fields.items():
+            annotation_args = get_args(info.annotation)
+            if ObjectReference in annotation_args:
+                ref = getattr(self, field)
+                if operation == "unlink" and ref and type(ref) is not UUID:
+                    setattr(self, field, ref.id)
+                elif operation == "resolve" and type(ref) is UUID:
+                    x = Repository() >> ref
+                    if strict and isinstance(x, UUID):
+                        raise ValueError(f"Unable to resolve UUID reference {x}")
+                    setattr(self, field, x)
+            elif List[ObjectReference] in annotation_args:
+                refs = getattr(self, field)
+                new_refs = []
+                _update = False
+                for ref in refs:
+                    if operation == "unlink" and ref and type(ref) is not UUID:
+                        new_refs.append(ref.id)
+                        _update = True
+                    elif operation == "resolve" and type(ref) is UUID:
+                        x = Repository() >> ref
+                        if strict and isinstance(x, UUID):
+                            raise ValueError(f"Unable to resolve UUID reference {x}")
+                        new_refs.append(x)
+                        _update = True
+                if _update:
+                    setattr(self, field, new_refs)
+
     def unlink_references(self):
         """
         Unlinks object references by replacing them with their respective UUIDs.
@@ -138,22 +178,7 @@ class ColanderType(BaseModel):
 
         :raises AttributeError: If the class instance does not have the expected field or attribute.
         """
-        for field, info in self.__class__.model_fields.items():
-            annotation_args = get_args(info.annotation)
-            if ObjectReference in annotation_args:
-                ref = self.__getattribute__(field)
-                if ref and type(ref) is not UUID:
-                    self.__setattr__(field, ref.id)
-            elif List[ObjectReference] in annotation_args:
-                refs = self.__getattribute__(field)
-                object_refences: List[UUID] = []
-                _update = False
-                for ref in refs:
-                    if ref and type(ref) is not UUID:
-                        object_refences.append(ref.id)
-                        _update = True
-                if _update:
-                    self.__setattr__(field, object_refences)
+        self._process_reference_fields("unlink")
 
     def resolve_references(self, strict=False):
         """
@@ -169,28 +194,7 @@ class ColanderType(BaseModel):
 
         :raises ValueError: If strict is True and a UUID reference cannot be resolved.
         """
-        for field, info in self.__class__.model_fields.items():
-            annotation_args = get_args(info.annotation)
-            if ObjectReference in annotation_args:
-                ref = self.__getattribute__(field)
-                if type(ref) is UUID:
-                    x = Repository() >> ref
-                    if strict and isinstance(x, UUID):
-                        raise ValueError(f"Unable to resolve UUID reference {x}")
-                    self.__setattr__(field, x)
-            elif List[ObjectReference] in annotation_args:
-                refs = self.__getattribute__(field)
-                object_references: List[EntityTypes] = []
-                _update = False
-                for ref in refs:
-                    if type(ref) is UUID:
-                        x = Repository() >> ref
-                        if strict and isinstance(x, UUID):
-                            raise ValueError(f"Unable to resolve UUID reference {x}")
-                        object_references.append(x)
-                        _update = True
-                if _update:
-                    self.__setattr__(field, object_references)
+        self._process_reference_fields("resolve", strict)
 
     @classmethod
     def subclasses(cls) -> Dict[str, type["EntityTypes"]]:
