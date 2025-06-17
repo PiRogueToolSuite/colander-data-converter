@@ -1,8 +1,6 @@
-import abc
 import enum
-from typing import Optional, Dict, Any
 
-from pydantic import BaseModel, Field, UUID4
+from pydantic import UUID4
 
 
 class TlpPapLevel(str, enum.Enum):
@@ -28,57 +26,6 @@ class TlpPapLevel(str, enum.Enum):
 
     WHITE = "WHITE"
     """Information that can be shared publicly."""
-
-
-class SuperType(BaseModel):
-    short_name: str = Field(frozen=True, max_length=32)
-    """A short name for the model type."""
-
-    name: str = Field(frozen=True, max_length=512)
-    """The name of the model type."""
-
-    _class: type
-
-
-class CommonModelType(BaseModel, abc.ABC):
-    """
-    CommonModelType is an abstract base class for defining shared attributes across various model data_types.
-
-    This class provides fields for identifiers, names, descriptions, and other metadata.
-    """
-
-    short_name: str = Field(frozen=True, max_length=32)
-    """A short name for the model type."""
-
-    name: str = Field(frozen=True, max_length=512)
-    """The name of the model type."""
-
-    description: str | None = None
-    """An optional description of the model type."""
-
-    svg_icon: str | None = None
-    """Optional SVG icon for the model type."""
-
-    nf_icon: str | None = None
-    """Optional NF icon for the model type."""
-
-    stix2_type: str | None = None
-    """Optional STIX 2.0 type for the model type."""
-
-    stix2_value_field_name: str | None = None
-    """Optional STIX 2.0 value field name."""
-
-    stix2_pattern: str | None = None
-    """Optional STIX 2.0 pattern."""
-
-    stix2_pattern_type: str | None = None
-    """Optional STIX 2.0 pattern type."""
-
-    default_attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of default attributes."""
-
-    type_hints: Dict[Any, Any] | None = None
-    """Optional dictionary of type hints."""
 
 
 type ObjectReference = UUID4

@@ -1,4 +1,5 @@
 import abc
+import enum
 import json
 from datetime import datetime, UTC
 from enum import Enum
@@ -20,22 +21,15 @@ from pydantic import (
 
 from colander_data_converter.base.common import (
     ObjectReference,
-    SuperType,
     TlpPapLevel,
     Singleton,
-    CommonModelType,
 )
 
 resource_package = __name__
 
 
 def _load_entity_supported_types(name: str) -> List[Dict]:
-    json_file = (
-        resources.files(resource_package)
-        .joinpath("..")
-        .joinpath("data")
-        .joinpath(f"{name}_types.json")
-    )
+    json_file = resources.files(resource_package).joinpath("..").joinpath("data").joinpath(f"{name}_types.json")
     with json_file.open() as f:
         return json.load(f)
 
@@ -56,6 +50,47 @@ EntityTypes = Annotated[
     ],
     Field(discriminator="colander_internal_type"),
 ]
+
+
+class CommonEntityType(BaseModel, abc.ABC):
+    """
+    CommonEntityType is an abstract base class for defining shared attributes across various entity data types.
+
+    This class provides fields for identifiers, names, descriptions, and other metadata.
+    """
+
+    short_name: str = Field(frozen=True, max_length=32)
+    """A short name for the model type."""
+
+    name: str = Field(frozen=True, max_length=512)
+    """The name of the model type."""
+
+    description: str | None = None
+    """An optional description of the model type."""
+
+    svg_icon: str | None = None
+    """Optional SVG icon for the model type."""
+
+    nf_icon: str | None = None
+    """Optional NF icon for the model type."""
+
+    stix2_type: str | None = None
+    """Optional STIX 2.0 type for the model type."""
+
+    stix2_value_field_name: str | None = None
+    """Optional STIX 2.0 value field name."""
+
+    stix2_pattern: str | None = None
+    """Optional STIX 2.0 pattern."""
+
+    stix2_pattern_type: str | None = None
+    """Optional STIX 2.0 pattern type."""
+
+    default_attributes: Optional[Dict[str, str]] = None
+    """Optional dictionary of default attributes."""
+
+    type_hints: Dict[Any, Any] | None = None
+    """Optional dictionary of type hints."""
 
 
 class ColanderType(BaseModel):
@@ -222,12 +257,12 @@ class ColanderType(BaseModel):
         raise ValueError("Unable to extract type hints.")
 
     @computed_field
-    def super_type(self) -> SuperType:
-        return SuperType(
+    def super_type(self) -> "CommonEntitySuperType":
+        return CommonEntitySuperType(
             **{
                 "name": self.__class__.__name__,
                 "short_name": self.__class__.__name__.upper(),
-                "class": self.__class__,
+                "_class": self.__class__,
             }
         )
 
@@ -373,7 +408,7 @@ class EntityRelation(ColanderType):
     """The target entity or reference in the relation."""
 
 
-class ArtifactType(CommonModelType):
+class ArtifactType(CommonEntityType):
     """
     ArtifactType represents metadata for artifacts in Colander. Check :ref:`the list of supported
     types <artifact_types>`.
@@ -387,9 +422,7 @@ class ArtifactType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("artifact")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("artifact")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -410,10 +443,8 @@ class ArtifactTypes:
         Other type of file
     """
 
-    _types: List[ArtifactType] = [
-        ArtifactType(**t) for t in _load_entity_supported_types("artifact")
-    ]
-    enum = Enum("ArtifactTypes", [(t.short_name, t) for t in _types])
+    _types: List[ArtifactType] = [ArtifactType(**t) for t in _load_entity_supported_types("artifact")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -424,7 +455,7 @@ class ArtifactTypes:
         return cls.default
 
 
-class ObservableType(CommonModelType):
+class ObservableType(CommonEntityType):
     """
     ObservableType represents metadata for observables in Colander. Check :ref:`the list of supported
     types <observable_types>`.
@@ -443,9 +474,7 @@ class ObservableType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("observable")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("observable")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -466,10 +495,8 @@ class ObservableTypes:
         Namespace
     """
 
-    _types: List[ObservableType] = [
-        ObservableType(**t) for t in _load_entity_supported_types("observable")
-    ]
-    enum = Enum("ObservableTypes", [(t.short_name, t) for t in _types])
+    _types: List[ObservableType] = [ObservableType(**t) for t in _load_entity_supported_types("observable")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.NAMESPACE.value
 
     @classmethod
@@ -480,7 +507,7 @@ class ObservableTypes:
         return cls.default
 
 
-class ThreatType(CommonModelType):
+class ThreatType(CommonEntityType):
     """
     ThreatType represents metadata for threats in Colander. Check :ref:`the list of supported types <threat_types>`.
 
@@ -493,9 +520,7 @@ class ThreatType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("threat")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("threat")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -516,10 +541,8 @@ class ThreatTypes:
         Generic
     """
 
-    _types: List[ThreatType] = [
-        ThreatType(**t) for t in _load_entity_supported_types("threat")
-    ]
-    enum = Enum("ThreatTypes", [(t.short_name, t) for t in _types])
+    _types: List[ThreatType] = [ThreatType(**t) for t in _load_entity_supported_types("threat")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.GENERIC.value
 
     @classmethod
@@ -530,7 +553,7 @@ class ThreatTypes:
         return cls.default
 
 
-class ActorType(CommonModelType):
+class ActorType(CommonEntityType):
     """
     ActorType represents metadata for actors in Colander. Check :ref:`the list of supported types <actor_types>`.
 
@@ -543,9 +566,7 @@ class ActorType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("actor")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("actor")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -566,10 +587,8 @@ class ActorTypes:
         Other
     """
 
-    _types: List[ActorType] = [
-        ActorType(**t) for t in _load_entity_supported_types("actor")
-    ]
-    enum = Enum("ActorTypes", [(t.short_name, t) for t in _types])
+    _types: List[ActorType] = [ActorType(**t) for t in _load_entity_supported_types("actor")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -580,7 +599,7 @@ class ActorTypes:
         return cls.default
 
 
-class DeviceType(CommonModelType):
+class DeviceType(CommonEntityType):
     """
     DeviceType represents metadata for devices in Colander. Check :ref:`the list of supported types <device_types>`.
 
@@ -593,9 +612,7 @@ class DeviceType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("device")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("device")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -616,10 +633,8 @@ class DeviceTypes:
         Other
     """
 
-    _types: List[DeviceType] = [
-        DeviceType(**t) for t in _load_entity_supported_types("device")
-    ]
-    enum = Enum("DeviceTypes", [(t.short_name, t) for t in _types])
+    _types: List[DeviceType] = [DeviceType(**t) for t in _load_entity_supported_types("device")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -630,7 +645,7 @@ class DeviceTypes:
         return cls.default
 
 
-class EventType(CommonModelType):
+class EventType(CommonEntityType):
     """
     EventType represents metadata for events in Colander. Check :ref:`the list of supported types <event_types>`.
 
@@ -643,9 +658,7 @@ class EventType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("event")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("event")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -666,10 +679,8 @@ class EventTypes:
         Other
     """
 
-    _types: List[EventType] = [
-        EventType(**t) for t in _load_entity_supported_types("event")
-    ]
-    enum = Enum("EventTypes", [(t.short_name, t) for t in _types])
+    _types: List[EventType] = [EventType(**t) for t in _load_entity_supported_types("event")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -680,7 +691,7 @@ class EventTypes:
         return cls.default
 
 
-class DetectionRuleType(CommonModelType):
+class DetectionRuleType(CommonEntityType):
     """
     DetectionRuleType represents metadata for detection rules in Colander. Check :ref:`the list of supported
     types <detection_rule_types>`.
@@ -694,9 +705,7 @@ class DetectionRuleType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("detection_rule")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("detection_rule")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -717,10 +726,8 @@ class DetectionRuleTypes:
         Other
     """
 
-    _types: List[DetectionRuleType] = [
-        DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")
-    ]
-    enum = Enum("DetectionRuleTypes", [(t.short_name, t) for t in _types])
+    _types: List[DetectionRuleType] = [DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -731,7 +738,7 @@ class DetectionRuleTypes:
         return cls.default
 
 
-class DataFragmentType(CommonModelType):
+class DataFragmentType(CommonEntityType):
     """
     DataFragmentType represents metadata for data fragments in Colander. Check :ref:`the list of supported
     types <data_fragment_types>`.
@@ -745,9 +752,7 @@ class DataFragmentType(CommonModelType):
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
-        if short_name not in {
-            t["short_name"] for t in _load_entity_supported_types("data_fragment")
-        }:
+        if short_name not in {t["short_name"] for t in _load_entity_supported_types("data_fragment")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
@@ -768,10 +773,8 @@ class DataFragmentTypes:
         Other
     """
 
-    _types: List[DataFragmentType] = [
-        DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")
-    ]
-    enum = Enum("DataFragmentTypes", [(t.short_name, t) for t in _types])
+    _types: List[DataFragmentType] = [DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")]
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
     default = enum.OTHER.value
 
     @classmethod
@@ -1031,9 +1034,7 @@ class DetectionRule(Entity):
     content: str
     """The content or logic of the detection rule."""
 
-    targeted_observables: (
-        Optional[List[Observable]] | Optional[List[ObjectReference]]
-    ) = None
+    targeted_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
     """List of observables or references targeted by this detection rule."""
 
     colander_internal_type: Literal["detectionrule"] = "detectionrule"
@@ -1090,9 +1091,7 @@ class Event(Entity):
     detected_by: Optional[DetectionRule] | Optional[ObjectReference] = None
     """Reference to the detection rule that detected this event."""
 
-    involved_observables: (
-        Optional[List[Observable]] | Optional[List[ObjectReference]]
-    ) = None
+    involved_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
     """List of observables or references involved in this event."""
 
     colander_internal_type: Literal["event"] = "event"
@@ -1181,9 +1180,9 @@ class Repository(object, metaclass=Singleton):
             case.resolve_references()
 
 
-class EntityFeed(ColanderType):
+class ColanderFeed(ColanderType):
     """
-    EntityFeed aggregates entities, relations, and cases for bulk operations or data exchange.
+    ColanderFeed aggregates entities, relations, and cases for bulk operations or data exchange.
 
     This class is used to load, manage, and resolve references for collections of model objects.
 
@@ -1201,7 +1200,7 @@ class EntityFeed(ColanderType):
         ...     "relations": {},
         ...     "cases": {}
         ... }
-        >>> feed = EntityFeed.load(feed_data)
+        >>> feed = ColanderFeed.load(feed_data)
         >>> print(list(feed.entities.keys()))
         ['204d4590-a3ee-4f24-8eaf-350ec2fa751b']
     """
@@ -1216,7 +1215,7 @@ class EntityFeed(ColanderType):
     """Dictionary of case objects, keyed by their IDs."""
 
     @staticmethod
-    def load(raw_object: dict | list) -> "EntityFeed":
+    def load(raw_object: dict | list) -> "ColanderFeed":
         """
         Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
 
@@ -1225,25 +1224,19 @@ class EntityFeed(ColanderType):
         :type raw_object: dict | list
 
         :return: The EntityFeed loaded from a raw object.
-        :rtype: EntityFeed
+        :rtype: ColanderFeed
 
         :raises ValueError: If there are inconsistencies in entity IDs or relations.
         """
         if "entities" in raw_object:
             for entity_id, entity in raw_object["entities"].items():
                 if entity_id != entity.get("id"):
-                    raise ValueError(
-                        f"Relation {entity_id} does not match with the ID of {entity}"
-                    )
-                entity["colander_internal_type"] = entity["super_type"][
-                    "short_name"
-                ].lower()
+                    raise ValueError(f"Relation {entity_id} does not match with the ID of {entity}")
+                entity["colander_internal_type"] = entity["super_type"]["short_name"].lower()
         if "relations" in raw_object:
             for relation_id, relation in raw_object["relations"].items():
                 if relation_id != relation.get("id"):
-                    raise ValueError(
-                        f"Relation {relation_id} does not match with the ID of {relation}"
-                    )
+                    raise ValueError(f"Relation {relation_id} does not match with the ID of {relation}")
                 if (
                     "obj_from" not in relation
                     and "obj_to" not in relation
@@ -1252,7 +1245,7 @@ class EntityFeed(ColanderType):
                 ):
                     relation["obj_from"] = relation["obj_from_id"]
                     relation["obj_to"] = relation["obj_to_id"]
-        entity_feed = EntityFeed.model_validate(raw_object)
+        entity_feed = ColanderFeed.model_validate(raw_object)
         entity_feed.resolve_references()
         for _, entity in entity_feed.entities.items():
             entity.resolve_references()
@@ -1275,11 +1268,11 @@ class EntityFeed(ColanderType):
         :type strict: bool
         """
         for _, entity in self.entities.items():
-            entity.resolve_references()
+            entity.resolve_references(strict=strict)
         for _, relation in self.relations.items():
-            relation.resolve_references()
+            relation.resolve_references(strict=strict)
         for _, case in self.cases.items():
-            case.resolve_references()
+            case.resolve_references(strict=strict)
 
     def unlink_references(self) -> None:
         """
@@ -1296,3 +1289,63 @@ class EntityFeed(ColanderType):
             relation.unlink_references()
         for _, case in self.cases.items():
             case.unlink_references()
+
+
+class CommonEntitySuperType(BaseModel):
+    """
+    CommonEntitySuperType defines metadata for a super type of entities in the Colander data model.
+
+    This class is used to represent high-level categories of entities (such as Actor, Artifact, Device, etc.)
+    and provides fields for the short name, display name, associated types, and the Python class implementing the entity.
+    """
+
+    short_name: str = Field(frozen=True, max_length=32)
+    """A short name for the model type."""
+
+    name: str = Field(frozen=True, max_length=512)
+    """The name of the model type."""
+
+    types: Optional[object] = Field(default=None, exclude=True)
+    """Optional reference to the enum or collection of supported types."""
+
+    _class: type
+    """The Python class associated with this super type."""
+
+
+class CommonEntitySuperTypes(enum.Enum):
+    """
+    CommonEntitySuperTypes is an enumeration of all super types for entities in the Colander data model.
+
+    Each member of this enum represents a high-level entity category (such as Actor, Artifact, Device, etc.)
+    and holds a CommonEntitySuperType instance containing metadata and references to the corresponding
+    entity class and its supported types.
+
+    This enum is used for type resolution and validation across the model.
+
+    Example:
+        >>> super_type = CommonEntitySuperTypes.ACTOR.value
+        >>> print(super_type.name)
+        Actor
+        >>> print(super_type._class)
+        <class 'colander_data_converter.base.models.Actor'>
+    """
+
+    ACTOR = CommonEntitySuperType(short_name="ACTOR", name="Actor", _class=Actor, types=ActorTypes.enum)
+    ARTIFACT = CommonEntitySuperType(short_name="ARTIFACT", name="Artifact", _class=Artifact, types=ArtifactTypes.enum)
+    DATA_FRAGMENT = CommonEntitySuperType(
+        short_name="DATA_FRAGMENT", name="Data fragment", _class=DataFragment, types=DataFragmentTypes.enum
+    )
+    DETECTION_RULE = CommonEntitySuperType(
+        short_name="DETECTION_RULE", name="Detection rule", _class=DetectionRule, types=DetectionRuleTypes.enum
+    )
+    DEVICE = CommonEntitySuperType(short_name="DEVICE", name="Device", _class=Device, types=DeviceTypes.enum)
+    EVENT = CommonEntitySuperType(short_name="EVENT", name="Event", _class=Event, types=EventTypes.enum)
+    OBSERVABLE = CommonEntitySuperType(
+        short_name="OBSERVABLE", name="Observable", _class=Observable, types=ObservableTypes.enum
+    )
+    THREAT = CommonEntitySuperType(short_name="THREAT", name="Threat", _class=Threat, types=ThreatTypes.enum)
+
+    @classmethod
+    def by_short_name(cls, short_name: str) -> CommonEntitySuperType:
+        sn = short_name.replace(" ", "_").upper()
+        return cls[sn].value

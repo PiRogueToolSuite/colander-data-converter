@@ -5,7 +5,7 @@ from uuid import UUID
 import pytest
 
 from colander_data_converter.base.models import (
-    EntityFeed,
+    ColanderFeed,
     Observable,
     EntityRelation,
     Case,
@@ -13,11 +13,11 @@ from colander_data_converter.base.models import (
 )
 
 
-class TestEntityFeed:
+class TestFeed:
     def test_loads_entity_feed_with_minimal_entities(self):
         ot = ObservableTypes.enum.IPV4.value
         obs = Observable(name="1.2.3.4", type=ot)
-        feed = EntityFeed(entities={str(obs.id): obs})
+        feed = ColanderFeed(entities={str(obs.id): obs})
         assert str(obs.id) in feed.entities
         assert feed.entities[str(obs.id)].name == "1.2.3.4"
 
@@ -27,7 +27,7 @@ class TestEntityFeed:
         obs2 = Observable(name="8.8.8.8", type=ot)
         case = Case(name="Case X", description="desc")
         rel = EntityRelation(name="rel", obj_from=obs1, obj_to=obs2, case=case)
-        feed = EntityFeed(
+        feed = ColanderFeed(
             entities={str(obs1.id): obs1, str(obs2.id): obs2},
             relations={str(rel.id): rel},
             cases={str(case.id): case},
@@ -58,7 +58,7 @@ class TestEntityFeed:
             "cases": {},
         }
         with pytest.raises(ValueError):
-            EntityFeed.load(raw)
+            ColanderFeed.load(raw)
 
     def test_load_method_success(self):
         raw = {
@@ -80,7 +80,7 @@ class TestEntityFeed:
             },
             "cases": {},
         }
-        feed = EntityFeed.load(raw)
+        feed = ColanderFeed.load(raw)
         assert "81afaa00-d67c-4805-b66e-53371a6ce7cc" in feed.entities
         assert "5f35ceeb-52c9-4244-88fb-043b3e4c8aae" in feed.relations
         assert (
@@ -112,7 +112,7 @@ class TestEntityFeed:
             },
             "cases": {},
         }
-        feed = EntityFeed.load(raw)
+        feed = ColanderFeed.load(raw)
         assert "81afaa00-d67c-4805-b66e-53371a6ce7cc" in feed.entities
         assert "5f35ceeb-52c9-4244-88fb-043b3e4c8aae" in feed.relations
         assert feed.relations["5f35ceeb-52c9-4244-88fb-043b3e4c8aae"].obj_from == UUID(
@@ -144,7 +144,7 @@ class TestEntityFeed:
             "cases": {},
         }
         with pytest.raises(ValueError):
-            EntityFeed.load(raw)
+            ColanderFeed.load(raw)
 
     def test_load(self):
         resource_package = __name__
@@ -155,7 +155,7 @@ class TestEntityFeed:
         )
         with json_file.open() as f:
             raw = json.load(f)
-            feed = EntityFeed.load(raw)
+            feed = ColanderFeed.load(raw)
             feed.unlink_references()
             feed.resolve_references()
 
@@ -164,7 +164,7 @@ class TestEntityFeed:
         obs1 = Observable(name="1.1.1.1", type=ot)
         obs2 = Observable(name="8.8.8.8", type=ot)
         rel = EntityRelation(name="rel", obj_from=obs1, obj_to=obs2)
-        feed = EntityFeed(
+        feed = ColanderFeed(
             entities={str(obs1.id): obs1, str(obs2.id): obs2},
             relations={str(rel.id): rel},
         )
@@ -173,7 +173,7 @@ class TestEntityFeed:
         assert isinstance(feed.relations[str(rel.id)].obj_to, type(obs2.id))
 
     def test_handles_empty_feed_gracefully(self):
-        feed = EntityFeed()
+        feed = ColanderFeed()
         assert feed.entities == {}
         assert feed.relations == {}
         assert feed.cases == {}
