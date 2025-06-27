@@ -10,11 +10,7 @@
       "ASN": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-ethernet",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "ipv4-addr:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-ethernet"
   },
   {
     "short_name": "IPV6",
@@ -27,11 +23,7 @@
       "ASN": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-ethernet",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "ipv6-addr:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-ethernet"
   },
   {
     "short_name": "MAC",
@@ -41,11 +33,7 @@
       "manufacturer": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-ethernet",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "mac-addr:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-ethernet"
   },
   {
     "short_name": "DOMAIN",
@@ -56,11 +44,7 @@
       "registration_date": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "domain-name:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "DOMAIN_REGISTRAR",
@@ -71,7 +55,7 @@
       "organization": "",
       "street": "",
       "city": "",
-      "state/province": "",
+      "state": "",
       "postal code": "",
       "country": "",
       "phone": "",
@@ -79,11 +63,7 @@
       "email": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "DOMAIN_REGISTRANT",
@@ -102,11 +82,7 @@
       "email": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "HOSTNAME",
@@ -114,11 +90,7 @@
     "description": "A label assigned to a device on a network, used to identify it in various forms.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "EMAIL",
@@ -126,11 +98,7 @@
     "description": "An address used to send and receive electronic mail.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-email_outline",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "email-addr:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-email_outline"
   },
   {
     "short_name": "PHONE",
@@ -142,11 +110,7 @@
       "country_name": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-fa-phone",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-fa-phone"
   },
   {
     "short_name": "SOCIAL_ACCOUNT",
@@ -156,11 +120,7 @@
       "platform": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-account_card_details",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "user-account:user_id",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-account_card_details"
   },
   {
     "short_name": "URL",
@@ -168,11 +128,7 @@
     "description": "A Uniform Resource Locator, specifying the address of a resource on the internet.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "url:value",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "URI",
@@ -180,11 +136,7 @@
     "description": "A Uniform Resource Identifier, a string used to identify a resource.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "MD5",
@@ -192,11 +144,7 @@
     "description": "A 128-bit hash value, commonly used to verify file integrity.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "file:hashes.'MD5'",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "COMMUNITY_ID",
@@ -204,11 +152,7 @@
     "description": "A hash value used to uniquely identify network flows across tools.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "SHA1",
@@ -216,11 +160,7 @@
     "description": "A 160-bit hash value, used for data integrity and file identification.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "file:hashes.'SHA-1'",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "SHA256",
@@ -228,11 +168,7 @@
     "description": "A 256-bit hash value, widely used for file and data integrity verification.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "file:hashes.'SHA-256'",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "PEHASH",
@@ -240,11 +176,7 @@
     "description": "A hash value calculated from the structure of a Portable Executable (PE) file.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "IMPHASH",
@@ -252,11 +184,7 @@
     "description": "A hash of the import table of a PE file, used to identify similar binaries.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "DEXOFUZZY",
@@ -264,11 +192,7 @@
     "description": "A fuzzy hash value used to compare Android DEX files for similarity.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-fa-hashtag",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-fa-hashtag"
   },
   {
     "short_name": "CIDR",
@@ -276,11 +200,7 @@
     "description": "A Classless Inter-Domain Routing block, representing a range of IP addresses.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-ethernet",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-ethernet"
   },
   {
     "short_name": "PATH",
@@ -288,11 +208,7 @@
     "description": "A string specifying the location of a file or directory in a filesystem.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-file_tree",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "directory:path",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-file_tree"
   },
   {
     "short_name": "MUTEX",
@@ -300,11 +216,7 @@
     "description": "A mutual exclusion object used for process synchronization.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-mdi-pencil_lock",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "mutex:name",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-pencil_lock"
   },
   {
     "short_name": "CVE",
@@ -312,11 +224,7 @@
     "description": "A Common Vulnerabilities and Exposures identifier for publicly known security flaws.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-cod-debug_console",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-cod-debug_console"
   },
   {
     "short_name": "OS_QUERY",
@@ -324,11 +232,7 @@
     "description": "A query or result from an operating system instrumentation framework.",
     "default_attributes": {},
     "svg_icon": "",
-    "nf_icon": "nf-cod-inspect",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-cod-inspect"
   },
   {
     "short_name": "SSL_CERT_F",
@@ -345,11 +249,7 @@
       "not_after": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-certificate",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-certificate"
   },
   {
     "short_name": "DNS_RECORD",
@@ -359,11 +259,7 @@
       "resolver": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "ASN",
@@ -373,11 +269,7 @@
       "organization": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "autonomous-system:number",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "PROCESS",
@@ -388,11 +280,7 @@
       "path": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-cod-debug_console",
-    "stix2_type": "indicator",
-    "stix2_value_field_name": "pattern",
-    "stix2_pattern": "process:name",
-    "stix2_pattern_type": "stix2"
+    "nf_icon": "nf-cod-debug_console"
   },
   {
     "short_name": "SERVICE",
@@ -404,11 +292,7 @@
       "port": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-mdi-web",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-mdi-web"
   },
   {
     "short_name": "NAMESPACE",
@@ -418,11 +302,7 @@
       "fully_qualified_name": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-md-code_tags",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-md-code_tags"
   },
   {
     "short_name": "LOCATION",
@@ -438,10 +318,13 @@
       "address": ""
     },
     "svg_icon": "",
-    "nf_icon": "nf-fa-globe",
-    "stix2_type": "",
-    "stix2_value_field_name": "",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf-fa-globe"
+  },
+  {
+    "short_name": "GENERIC",
+    "name": "Generic",
+    "description": "A general or unspecified observable type that does not fit other categories.",
+    "svg_icon": "",
+    "nf_icon": "nf nf-fa-bug"
   }
 ]

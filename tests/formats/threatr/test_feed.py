@@ -7,7 +7,7 @@ import pytest
 from pydantic import ValidationError
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import CommonEntitySuperTypes
+from colander_data_converter.base.models import CommonEntitySuperTypes, ObservableTypes
 from colander_data_converter.formats.threatr.models import (
     Entity,
     EntityRelation,
@@ -32,7 +32,7 @@ def sample_entity():
     """Creates a sample entity for testing"""
     return Entity(
         name="Test Entity",
-        type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+        type=ObservableTypes.enum.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Test description",
     )
@@ -43,13 +43,13 @@ def sample_entities():
     """Creates two related entities for testing"""
     entity1 = Entity(
         name="Source Entity",
-        type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+        type=ObservableTypes.enum.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Source entity for testing",
     )
     entity2 = Entity(
         name="Target Entity",
-        type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+        type=ObservableTypes.enum.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Target entity for testing",
     )
@@ -126,12 +126,12 @@ class TestEntity:
         """Test creating entity with minimal required fields"""
         entity = Entity(
             name="Test Entity",
-            type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+            type=ObservableTypes.enum.DOMAIN.value,
             super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         )
         assert isinstance(entity.id, UUID)
         assert entity.name == "Test Entity"
-        assert entity.type == CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value
+        assert entity.type == ObservableTypes.enum.DOMAIN.value
         assert entity.super_type == CommonEntitySuperTypes.OBSERVABLE.value
         assert entity.tlp == TlpPapLevel.WHITE  # default value
         assert entity.pap == TlpPapLevel.WHITE  # default value
@@ -140,7 +140,7 @@ class TestEntity:
         """Test creating entity with all fields"""
         entity = Entity(
             name="Full Test Entity",
-            type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+            type=ObservableTypes.enum.DOMAIN.value,
             super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             description="Test description",
             pap=TlpPapLevel.RED,
@@ -159,14 +159,14 @@ class TestEntity:
         with pytest.raises(ValidationError):
             Entity(
                 name="",  # Empty name should fail
-                type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+                type=ObservableTypes.enum.DOMAIN.value,
                 super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             )
 
         with pytest.raises(ValidationError):
             Entity(
                 name="a" * 513,  # Name too long
-                type=CommonEntitySuperTypes.OBSERVABLE.value.types.DOMAIN.value,
+                type=ObservableTypes.enum.DOMAIN.value,
                 super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             )
 

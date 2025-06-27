@@ -4,329 +4,209 @@
     "name": "Adware",
     "description": "Software that automatically displays or downloads advertising material, often unwanted.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:adware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "APT",
     "name": "APT",
     "description": "Advanced Persistent Threat; a prolonged and targeted cyberattack by a well-resourced adversary.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:apt",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "BACKDOOR",
     "name": "Backdoor",
     "description": "Malware that allows unauthorized remote access to a compromised system.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:backdoor",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "BOTNET",
     "name": "Botnet",
     "description": "A network of compromised computers controlled by an attacker to perform coordinated tasks.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:bot",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "BROWSER_HIJACKER",
     "name": "Browser Hijacker",
     "description": "Malware that alters browser settings, redirects traffic, or injects unwanted ads.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "CRYPTOJACKING",
     "name": "Cryptojacking",
     "description": "Unauthorized use of a device to mine cryptocurrency.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "DROPPER",
     "name": "Dropper",
     "description": "A type of malware designed to deliver and install other malicious software.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:dropper",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "EXPLOIT_KIT",
     "name": "Exploit Kit",
     "description": "A toolkit used to exploit vulnerabilities in software to deliver malware.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:exploit-kit",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "FF_BOTNET",
     "name": "Fast Flux Botnet",
     "description": "A botnet that rapidly changes DNS records to hide malicious activities.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:bot",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "INFO_STEALER",
     "name": "Information Stealer",
     "description": "Malware designed to steal sensitive information such as credentials or financial data.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "LOADER",
     "name": "Loader",
     "description": "Malware that loads and executes other malicious payloads on a system.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "MALVERTISING",
     "name": "Malvertising",
     "description": "The use of online advertising to spread malware.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:adware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "MOBILE_TROJAN",
     "name": "Mobile Trojan",
     "description": "A trojan specifically targeting mobile devices to steal data or perform malicious actions.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:trojan",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "POS_MALWARE",
     "name": "Point-of-sale Malware",
     "description": "Malware targeting point-of-sale systems to steal payment card data.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:exploit-kit",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "RANSOMWARE",
     "name": "Ransomware",
     "description": "Malware that encrypts data and demands payment for decryption.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:ransomware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "PHISHING",
     "name": "Phishing",
     "description": "A technique to trick users into revealing sensitive information, often via fake emails or websites.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "STALKERWARE",
     "name": "Stalkerware",
     "description": "Software used to secretly monitor and track user activity, often for surveillance.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:spyware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "WATCHWARE",
     "name": "Watchware",
     "description": "Malware designed to monitor user activity, similar to spyware or stalkerware.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:spyware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "MALWARE",
     "name": "Malware",
     "description": "A general term for any software intentionally designed to cause damage or unauthorized actions.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:virus",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "RAT",
     "name": "Remote Access Trojan (RAT)",
     "description": "Malware that provides remote control over an infected system.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:remote-access-trojan",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "ROOTKIT",
     "name": "Rootkit",
     "description": "Malware designed to hide its presence and provide privileged access to a system.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:rootkit",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "SCAREWARE",
     "name": "Scareware",
     "description": "Malware that tricks users into buying unnecessary or harmful software by scaring them.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:virus",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "SINKHOLE",
     "name": "Sinkhole",
     "description": "A technique or system used to redirect malicious traffic for analysis or mitigation.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "SPAM",
     "name": "Spam",
     "description": "Unsolicited or bulk messages, often used to deliver malware or phishing attempts.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "DIALER",
     "name": "Dialer",
     "description": "Malware that makes unauthorized calls or connections, often to premium-rate numbers.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "CVE",
     "name": "CVE",
     "description": "A Common Vulnerabilities and Exposures identifier for a known security flaw.",
     "svg_icon": "",
-    "nf_icon": "nf nf-cod-debug_console",
-    "stix2_type": "",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-cod-debug_console"
   },
   {
     "short_name": "GENERIC",
     "name": "Generic",
     "description": "A general or unspecified threat type that does not fit other categories.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "",
-    "stix2_value_field_name": "name:unknown",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "SPYWARE",
     "name": "Spyware",
     "description": "Malware that secretly gathers user information without consent.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:spyware",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "TROJAN",
     "name": "Trojan",
     "description": "Malware disguised as legitimate software to trick users into installing it.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:trojan",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   },
   {
     "short_name": "WORM",
     "name": "Worm",
     "description": "Self-replicating malware that spreads across networks without user intervention.",
     "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug",
-    "stix2_type": "malware",
-    "stix2_value_field_name": "name:worm",
-    "stix2_pattern": "",
-    "stix2_pattern_type": ""
+    "nf_icon": "nf nf-fa-bug"
   }
 ]

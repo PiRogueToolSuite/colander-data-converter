@@ -1,0 +1,38 @@
+.. -*- mode: rst -*-
+
+
+Attributes conversion
+---------------------
+
+{% with d=data.get(options.data_type) %}
+Conversion from STIX2 to Colander:
+{% for from, to in d.stix2_to_colander.items() %}
+  * ``{{from}}``: ``{{to}}``
+{% endfor %}
+
+Conversion from Colander to STIX2:
+{% for from, to in d.colander_to_stix2.items() %}
+  * ``{{from}}``: ``{{to}}``
+{% endfor %}
+{% endwith %}
+
+
+Types conversion
+----------------
+
+{% with d=data.get(options.data_type) %}
+    {% for type, definition in d.types.items() %}
+* ``{{type|upper}}``:
+
+  * STIX2 type: ``{{definition.stix2_type}}``
+  {% if definition.pattern %}
+  * STIX2 pattern: ``{{definition.pattern}}``
+  {% endif %}
+  {% if definition.malware_types %}
+  * STIX2 malware types attribute: ``{{definition.malware_types}}``
+  {% endif %}
+  {% if definition.infrastructure_types %}
+  * STIX2 infrastructure types attribute: ``{{definition.infrastructure_types}}``
+  {% endif %}
+    {% endfor %}
+{% endwith %}

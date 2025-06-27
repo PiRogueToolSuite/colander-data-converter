@@ -56,8 +56,8 @@
     "nf_icon": "nf-mdi-white_balance_sunny"
   },
   {
-    "short_name": "OTHER",
-    "name": "Other",
+    "short_name": "GENERIC",
+    "name": "Generic",
     "description": "An event that does not fit into any of the predefined categories.",
     "svg_icon": "",
     "nf_icon": "nf-mdi-white_balance_sunny"

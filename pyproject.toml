@@ -26,6 +26,7 @@ license = { text = "GPL-3.0+ AND MIT" }
 requires-python = ">= 3.11"
 dependencies = [
     "pydantic==2.11",
+    "stix2==3.0.1",
 ]
 
 authors = [

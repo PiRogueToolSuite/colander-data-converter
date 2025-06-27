@@ -262,6 +262,9 @@ class ColanderType(BaseModel):
 
     @computed_field
     def super_type(self) -> "CommonEntitySuperType":
+        return self.get_super_type()
+
+    def get_super_type(self) -> "CommonEntitySuperType":
         return CommonEntitySuperType(
             **{
                 "name": self.__class__.__name__,
@@ -423,12 +426,27 @@ class ArtifactType(CommonEntityType):
         REPORT
     """
 
+    type_hints: Dict[str, Any] = Field(default_factory=dict)
+
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
         if short_name not in {t["short_name"] for t in _load_entity_supported_types("artifact")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
+
+    def match_mime_type(self, mime_type) -> bool:
+        wildcard = "*"
+        if not mime_type:
+            return False
+        striped_mime_type = mime_type.lower().strip()
+        if self.type_hints and "suggested_by_mime_types" in self.type_hints:
+            for _mime_type in self.type_hints["suggested_by_mime_types"].get("types", []):
+                _prefix = _mime_type.replace("*", "")
+                if wildcard in _mime_type and striped_mime_type.startswith(_prefix):
+                    return True
+            return striped_mime_type in self.type_hints["suggested_by_mime_types"].get("types", [])
+        return False
 
 
 class ArtifactTypes:
@@ -444,12 +462,12 @@ class ArtifactTypes:
         Report
         >>> default_type = ArtifactTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other type of file
+        Generic
     """
 
     _types: List[ArtifactType] = [ArtifactType(**t) for t in _load_entity_supported_types("artifact")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ArtifactType:
@@ -457,6 +475,14 @@ class ArtifactTypes:
         if sn in cls.enum._member_names_:
             return cls.enum[sn].value
         return cls.default
+
+    @classmethod
+    def by_mime_type(cls, mime_type: str) -> ArtifactType:
+        for _artifact_type in cls._types:
+            if _artifact_type.match_mime_type(mime_type):
+                return _artifact_type
+        else:
+            return cls.default
 
 
 class ObservableType(CommonEntityType):
@@ -496,12 +522,12 @@ class ObservableTypes:
         IPv4
         >>> default_type = ObservableTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Namespace
+        Generic
     """
 
     _types: List[ObservableType] = [ObservableType(**t) for t in _load_entity_supported_types("observable")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.NAMESPACE.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ObservableType:
@@ -588,12 +614,12 @@ class ActorTypes:
         Individual
         >>> default_type = ActorTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other
+        Generic
     """
 
     _types: List[ActorType] = [ActorType(**t) for t in _load_entity_supported_types("actor")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ActorType:
@@ -634,12 +660,12 @@ class DeviceTypes:
         Laptop
         >>> default_type = DeviceTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other
+        Generic
     """
 
     _types: List[DeviceType] = [DeviceType(**t) for t in _load_entity_supported_types("device")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DeviceType:
@@ -680,12 +706,12 @@ class EventTypes:
         Hit
         >>> default_type = EventTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other
+        Generic
     """
 
     _types: List[EventType] = [EventType(**t) for t in _load_entity_supported_types("event")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> EventType:
@@ -727,12 +753,12 @@ class DetectionRuleTypes:
         Yara rule
         >>> default_type = DetectionRuleTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other
+        Generic
     """
 
     _types: List[DetectionRuleType] = [DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DetectionRuleType:
@@ -774,12 +800,12 @@ class DataFragmentTypes:
         Piece of code
         >>> default_type = DataFragmentTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
-        Other
+        Generic
     """
 
     _types: List[DataFragmentType] = [DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")]
     enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.OTHER.value
+    default = enum.GENERIC.value
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DataFragmentType:
@@ -810,6 +836,9 @@ class Actor(Entity):
 
     colander_internal_type: Literal["actor"] = "actor"
     """Internal type discriminator for (de)serialization."""
+
+    attributes: Optional[Dict[str, str]] = None
+    """Optional dictionary of additional attributes for the device."""
 
 
 class Device(Entity):
@@ -1128,6 +1157,11 @@ class Repository(object, metaclass=Singleton):
         self.entities = {}
         self.relations = {}
 
+    def clear(self):
+        self.cases.clear()
+        self.entities.clear()
+        self.relations.clear()
+
     def __lshift__(self, other: EntityTypes | Case) -> None:
         """
         Inserts an object (Entity, EntityRelation, or Case) into the appropriate repository dictionary.
@@ -1208,6 +1242,15 @@ class ColanderFeed(ColanderType):
         >>> print(list(feed.entities.keys()))
         ['204d4590-a3ee-4f24-8eaf-350ec2fa751b']
     """
+
+    id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
+    """The unique identifier for the feed."""
+
+    name: str = None
+    """Optional name of the feed."""
+
+    description: str = None
+    """Optional description of the feed."""
 
     entities: Optional[Dict[str, EntityTypes]] = {}
     """Dictionary of entity objects, keyed by their IDs."""
@@ -1309,11 +1352,17 @@ class CommonEntitySuperType(BaseModel):
     name: str = Field(frozen=True, max_length=512)
     """The name of the model type."""
 
-    types: Optional[object] = Field(default=None, exclude=True)
+    types: Optional[List[object]] = Field(default=None, exclude=True)
     """Optional reference to the enum or collection of supported types."""
 
     _class: type
     """The Python class associated with this super type."""
+
+    def type_by_short_name(self, short_name: str):
+        for t in self.types:
+            if hasattr(t, short_name.upper()):
+                return getattr(t, short_name.upper())
+        return None
 
 
 class CommonEntitySuperTypes(enum.Enum):

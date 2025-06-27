@@ -14,9 +14,9 @@
     "nf_icon": "nf-cod-server_process"
   },
   {
-    "short_name": "OTHER",
-    "name": "Other",
-    "description": "Other type of rule.",
+    "short_name": "GENERIC",
+    "name": "Generic",
+    "description": "A general or unspecified detection rule type that does not fit other categories.",
     "svg_icon": "",
     "nf_icon": "nf-cod-server_process"
   }

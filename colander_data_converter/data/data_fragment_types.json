@@ -28,9 +28,9 @@
       "nf_icon": "nf-oct-file_binary"
     },
     {
-      "short_name": "OTHER",
-      "name": "Other",
-      "description": "Unspecified or unknown type of data.",
+      "short_name": "GENERIC",
+      "name": "Generic",
+      "description": "A general or unspecified data fragment type that does not fit other categories.",
       "svg_icon": "",
       "nf_icon": "nf-oct-file_binary"
     }

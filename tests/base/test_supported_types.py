@@ -23,23 +23,19 @@ from colander_data_converter.base.models import (
 
 class TestArtifactTypes:
     def test_artifact_type_valid_creation(self):
-        artifact_type = ArtifactType(
-            short_name="REPORT", name="Report", description="A report artifact"
-        )
+        artifact_type = ArtifactType(short_name="REPORT", name="Report", description="A report artifact")
         assert artifact_type.short_name == "REPORT"
         assert artifact_type.name == "Report"
         assert artifact_type.description == "A report artifact"
 
     def test_artifact_type_invalid_short_name(self):
         with pytest.raises(ValidationError) as exc_info:
-            ArtifactType(
-                short_name="INVALID_TYPE", name="Invalid", description="Invalid type"
-            )
+            ArtifactType(short_name="INVALID_TYPE", name="Invalid", description="Invalid type")
         assert "is not supported" in str(exc_info.value)
 
     def test_artifact_types_enum_contains_expected_types(self):
         # Test that common artifact types are present in the enum
-        expected_types = {"REPORT", "BINARY", "PCAP", "OTHER"}
+        expected_types = {"REPORT", "BINARY", "PCAP", "GENERIC"}
         enum_types = set(ArtifactTypes.enum._member_names_)
         assert expected_types.issubset(enum_types)
 
@@ -69,18 +65,14 @@ class TestArtifactTypes:
 
 class TestObservableTypes:
     def test_observable_type_valid_creation(self):
-        observable_type = ObservableType(
-            short_name="IPV4", name="IP Address", description="An IP address observable"
-        )
+        observable_type = ObservableType(short_name="IPV4", name="IP Address", description="An IP address observable")
         assert observable_type.short_name == "IPV4"
         assert observable_type.name == "IP Address"
         assert observable_type.description == "An IP address observable"
 
     def test_observable_type_invalid_short_name(self):
         with pytest.raises(ValidationError) as exc_info:
-            ObservableType(
-                short_name="INVALID_TYPE", name="Invalid", description="Invalid type"
-            )
+            ObservableType(short_name="INVALID_TYPE", name="Invalid", description="Invalid type")
         assert "is not supported" in str(exc_info.value)
 
     def test_observable_types_enum_contains_expected_types(self):
@@ -91,18 +83,14 @@ class TestObservableTypes:
 
 class TestThreatTypes:
     def test_threat_type_valid_creation(self):
-        threat_type = ThreatType(
-            short_name="MALWARE", name="Malware", description="A malware threat"
-        )
+        threat_type = ThreatType(short_name="MALWARE", name="Malware", description="A malware threat")
         assert threat_type.short_name == "MALWARE"
         assert threat_type.name == "Malware"
         assert threat_type.description == "A malware threat"
 
     def test_threat_type_invalid_short_name(self):
         with pytest.raises(ValidationError) as exc_info:
-            ThreatType(
-                short_name="INVALID_THREAT", name="Invalid", description="Invalid type"
-            )
+            ThreatType(short_name="INVALID_THREAT", name="Invalid", description="Invalid type")
         assert "is not supported" in str(exc_info.value)
 
     def test_threat_types_enum_contains_expected_types(self):
@@ -115,9 +103,7 @@ def test_cross_type_validation():
     """Test that types from different categories don't interfere with each other"""
     # Valid types in their respective categories
     artifact = ArtifactType(short_name="REPORT", name="Report", description="A report")
-    observable = ObservableType(
-        short_name="IPV4", name="IP Address", description="An IP address"
-    )
+    observable = ObservableType(short_name="IPV4", name="IP Address", description="An IP address")
     threat = ThreatType(short_name="MALWARE", name="Malware", description="A malware")
 
     # Verify that valid types in one category are not valid in others
@@ -145,9 +131,7 @@ def test_all_type_classes_have_default():
     ]
 
     for type_class in type_classes:
-        assert hasattr(type_class, "default"), (
-            f"{type_class.__name__} missing default value"
-        )
+        assert hasattr(type_class, "default"), f"{type_class.__name__} missing default value"
         assert type_class.default is not None
         assert isinstance(
             type_class.default,
@@ -180,9 +164,7 @@ def test_type_enums_unique_values():
     for type_class in type_classes:
         enum_values = list(type_class.enum._member_names_)
         unique_values = set(enum_values)
-        assert len(enum_values) == len(unique_values), (
-            f"Duplicate values found in {type_class.__name__}"
-        )
+        assert len(enum_values) == len(unique_values), f"Duplicate values found in {type_class.__name__}"
 
 
 def test_by_short_name_consistency():
