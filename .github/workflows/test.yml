@@ -94,6 +94,8 @@ jobs:
           python-version: "3.13"
       - name: Install the project
         run: uv sync --locked --all-extras --dev
+      - name: Install tox
+        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv
       - name: Generate documentation
         shell: bash
         run: |
