@@ -253,9 +253,9 @@ class ColanderType(BaseModel):
         """
         try:
             if "colander_internal_type" in obj:
-                return obj.get("colander_internal_type")
+                return obj.get("colander_internal_type", "")
             elif "super_type" in obj:
-                return obj.get("super_type").get("short_name").lower().replace("_", "")
+                return obj.get("super_type").get("short_name").lower().replace("_", "")  # type: ignore[union-attr]
         except:
             pass
         raise ValueError("Unable to extract type hints.")
@@ -466,8 +466,8 @@ class ArtifactTypes:
     """
 
     _types: List[ArtifactType] = [ArtifactType(**t) for t in _load_entity_supported_types("artifact")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ArtifactType:
@@ -526,8 +526,8 @@ class ObservableTypes:
     """
 
     _types: List[ObservableType] = [ObservableType(**t) for t in _load_entity_supported_types("observable")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ObservableType:
@@ -572,8 +572,8 @@ class ThreatTypes:
     """
 
     _types: List[ThreatType] = [ThreatType(**t) for t in _load_entity_supported_types("threat")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ThreatType:
@@ -618,8 +618,8 @@ class ActorTypes:
     """
 
     _types: List[ActorType] = [ActorType(**t) for t in _load_entity_supported_types("actor")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> ActorType:
@@ -664,8 +664,8 @@ class DeviceTypes:
     """
 
     _types: List[DeviceType] = [DeviceType(**t) for t in _load_entity_supported_types("device")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DeviceType:
@@ -710,8 +710,8 @@ class EventTypes:
     """
 
     _types: List[EventType] = [EventType(**t) for t in _load_entity_supported_types("event")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> EventType:
@@ -757,8 +757,8 @@ class DetectionRuleTypes:
     """
 
     _types: List[DetectionRuleType] = [DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DetectionRuleType:
@@ -804,8 +804,8 @@ class DataFragmentTypes:
     """
 
     _types: List[DataFragmentType] = [DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])
-    default = enum.GENERIC.value
+    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
     def by_short_name(cls, short_name: str) -> DataFragmentType:
@@ -1176,7 +1176,7 @@ class Repository(object, metaclass=Singleton):
         elif isinstance(other, Case):
             self.cases[str(other.id)] = other
 
-    def __rshift__(self, other: str | UUID4) -> EntityTypes | EntityRelation | Case:
+    def __rshift__(self, other: str | UUID4) -> EntityTypes | EntityRelation | Case | str | UUID4:
         """
         Retrieves an object by its string or UUID identifier from entities, relations, or cases.
 
@@ -1184,7 +1184,7 @@ class Repository(object, metaclass=Singleton):
         :type other: str | UUID4
 
         :return: The found object or the identifier if not found.
-        :rtype: EntityTypes | EntityRelation | Case
+        :rtype: EntityTypes | EntityRelation | Case | str | UUID4
         """
         _other = str(other)
         if _other in self.entities:
@@ -1246,10 +1246,10 @@ class ColanderFeed(ColanderType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the feed."""
 
-    name: str = None
+    name: str = ""
     """Optional name of the feed."""
 
-    description: str = None
+    description: str = ""
     """Optional description of the feed."""
 
     entities: Optional[Dict[str, EntityTypes]] = {}
@@ -1330,11 +1330,11 @@ class ColanderFeed(ColanderType):
         held by these objects. This operation is useful for breaking dependencies or preparing data for deletion
         or modification.
         """
-        for _, entity in self.entities.items():
+        for _, entity in self.entities.items():  # type: ignore[union-attr]
             entity.unlink_references()
-        for _, relation in self.relations.items():
+        for _, relation in self.relations.items():  # type: ignore[union-attr]
             relation.unlink_references()
-        for _, case in self.cases.items():
+        for _, case in self.cases.items():  # type: ignore[union-attr]
             case.unlink_references()
 
 

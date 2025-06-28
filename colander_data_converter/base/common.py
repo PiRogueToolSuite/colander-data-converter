@@ -1,4 +1,5 @@
 import enum
+from typing import Dict
 
 from pydantic import UUID4
 
@@ -48,7 +49,7 @@ class Singleton(type):
         42
     """
 
-    _instances = {}
+    _instances: Dict[type, type] = {}
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:

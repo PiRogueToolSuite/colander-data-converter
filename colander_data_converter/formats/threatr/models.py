@@ -47,7 +47,7 @@ class ThreatrRepository(object, metaclass=Singleton):
         elif isinstance(other, Event):
             self.events[str(other.id)] = other
 
-    def __rshift__(self, other: str | UUID4) -> Union["Entity", "Event", "EntityRelation"]:
+    def __rshift__(self, other: str | UUID4) -> Union["Entity", "Event", "EntityRelation", str, UUID4]:
         """
         Retrieves an object by its string or UUID identifier from entities, relations, or events.
 

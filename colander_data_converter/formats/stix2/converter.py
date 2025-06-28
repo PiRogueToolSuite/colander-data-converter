@@ -61,7 +61,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         repository = Repository()
 
         # Keep track of processed STIX2 object IDs to handle duplicates
-        processed_ids = {}
+        processed_ids: Dict[str, str] = {}
 
         # Process STIX2 objects
         for stix2_object in stix2_data.get("objects", []):
