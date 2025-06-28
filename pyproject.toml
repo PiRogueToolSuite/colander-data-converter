@@ -75,6 +75,14 @@ omit = [
   "tests/*",
 ]
 
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = false
+ignore_missing_imports = true
+disable_error_code = [
+  "call-overload"
+]
+
 [tool.uv]
 concurrent-builds = 4
 trusted-publishing = "always"

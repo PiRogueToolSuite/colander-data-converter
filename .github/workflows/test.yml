@@ -38,36 +38,45 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version:
+        env:
+          - "fix"
           - "3.12"
           - "3.13"
+          - "3.14"
 
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           version: "0.7.16"
-          python-version: ${{ matrix.python-version }}
-      - name: Install the project
-        run: uv sync --locked --all-extras --dev
-      - name: Lint code with Ruff
-        run: ruff check --output-format=github
-      - name: Run tests and coverage
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+      - name: Install tox
+        run: uv tool install --python-preference only-managed --python 3.13 tox --with tox-uv
+      - name: Install Python
+        if: startsWith(matrix.env, '3.') && matrix.env != '3.13'
+        run: uv python install --python-preference only-managed ${{ matrix.env }}
+      - name: Setup environment ${{ matrix.env }}
+        run: tox run --notest --skip-missing-interpreters false -e ${{ matrix.env }}
+      - name: Run environment ${{ matrix.env }}
+        run: tox run --skip-pkg-install -e ${{ matrix.env }}
+      - name: Generate reports
         shell: bash
         run: |
-          tox run
           if [ -f "test-report.md" ]; then
             echo "### Test Report" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             cat "test-report.md" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
+            rm -f test-report.md
           fi
           if [ -f "test-coverage.md" ]; then
             echo "### Code coverage" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             cat "test-coverage.md" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
+            rm -f test-coverage.md
           fi
   doc:
     needs:
@@ -80,7 +89,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v6
         with:
           version: "0.7.16"
           python-version: "3.13"
