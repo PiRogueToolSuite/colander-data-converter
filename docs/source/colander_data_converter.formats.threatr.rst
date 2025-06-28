@@ -8,4 +8,3 @@ colander\_data\_converter.formats.threatr.models module
    :members:
    :undoc-members:
    :show-inheritance:
-

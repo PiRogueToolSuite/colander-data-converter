@@ -32,4 +32,3 @@ colander\_data\_converter.formats.stix2.utils module
    :members:
    :undoc-members:
    :show-inheritance:
-

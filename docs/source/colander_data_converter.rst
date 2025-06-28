@@ -11,4 +11,3 @@ Subpackages
    colander_data_converter.formats.misp
    colander_data_converter.formats.stix2
    colander_data_converter.formats.threatr
-

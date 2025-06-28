@@ -8,4 +8,3 @@ colander\_data\_converter.formats.misp.models module
    :members:
    :undoc-members:
    :show-inheritance:
-

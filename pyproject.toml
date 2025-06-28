@@ -1,20 +1,6 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-include = ["colander_data_converter*"]
-namespaces = false
-
-[tool.coverage.run]
-omit = [
-    "*test_*",
-    ]
-
-[tool.coverage.report]
-omit = [
-    "tests/*",
-    ]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
 
 [project]
 name = "colander-data-converter"
@@ -23,70 +9,80 @@ description = "A set of helpers to manipulate Colander data."
 readme = "README.md"
 license = { text = "GPL-3.0+ AND MIT" }
 
-requires-python = ">= 3.11"
-dependencies = [
-    "pydantic==2.11",
-    "stix2==3.0.1",
+maintainers = [
+  { name = "U+039b", email = "hello@pts-project.org" },
 ]
 
 authors = [
-    { name = "U+039b", email = "hello@pts-project.org" }
+  { name = "U+039b", email = "hello@pts-project.org" },
 ]
 
-maintainers = [
-    { name = "U+039b", email = "hello@pts-project.org" }
+requires-python = ">=3.12"
+# Ruff ----
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "pydantic==2.11",
 ]
 
-[project.urls]
-repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
-issues = "https://github.com/PiRogueToolSuite/colander-data-converter/issues"
-
+urls.issues = "https://github.com/PiRogueToolSuite/colander-data-converter/issues"
+urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
 
 [tool.ruff]
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
-    ".ipynb_checkpoints",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pyenv",
-    ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    ".vscode",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "site-packages",
-    "venv",
-]
-
+target-version = "py312"
 line-length = 120
 indent-width = 4
-target-version = "py311"
+exclude = [
+  ".eggs",
+  ".git",
+  ".git-rewrite",
+  ".ruff_cache",
+  ".tox",
+  ".venv",
+  ".vscode",
+  "__pypackages__",
+  "_build",
+  "build",
+  "dist",
+  "site-packages",
+]
+format.indent-style = "space"
+format.quote-style = "double"
+format.line-ending = "auto"
+format.skip-magic-trailing-comma = false
+format.docstring-code-line-length = "dynamic"
+format.docstring-code-format = false
+lint.select = [ "E4", "E7", "E9", "F" ]
+lint.ignore = [ "E722", "F841" ]
+lint.fixable = [ "ALL" ]
+lint.unfixable = [  ]
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-[tool.ruff.lint]
-select = ["E4", "E7", "E9", "F"]
-ignore = ["E722", "F841"]
-fixable = ["ALL"]
-unfixable = []
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+[tool.codespell]
+builtin = "clear,usage,en-GB_to_en-US"
+count = true
 
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
-docstring-code-format = false
-docstring-code-line-length = "dynamic"
+[tool.coverage.run]
+omit = [
+  "*test_*",
+]
+
+[tool.coverage.report]
+omit = [
+  "tests/*",
+]
+
+[tool.uv]
+concurrent-builds = 4
+trusted-publishing = "always"
+dev-dependencies = [
+  "hatchling>=1.27.0",
+  "pytest>=8.4.1",
+  "pytest-md-report>=0.7.0",
+  "ruff>=0.12.1",
+  "sphinx-pydantic>=0.1.1",
+  "tox>=4.27.0",
+]

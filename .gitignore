@@ -20,3 +20,5 @@ coverage.xml
 cover/
 /colander_data_converter.egg-info/
 /junit/
+/test-coverage.md
+/test-report.md
