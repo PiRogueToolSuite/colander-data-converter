@@ -69,7 +69,12 @@ class BaseModelMerger:
         extra_attributes_supported = hasattr(destination, "attributes")
         source_field_value = field_value
         source_field_value_type = type(field_value)
-        if field_name not in destination.__class__.model_fields and extra_attributes_supported:
+        if field_name == "involved_observables":
+            pass
+        if (field_name not in destination.__class__.model_fields
+                and extra_attributes_supported
+                and source_field_value_type not in [list, dict, tuple, set, ObjectReference]
+                and not isinstance(source_field_value, BaseModel)):
             destination.attributes[field_name] = str(source_field_value)
             field_processed = True
         elif field_name in destination.__class__.model_fields:
@@ -77,6 +82,7 @@ class BaseModelMerger:
             annotation_args = get_args(field_info.annotation)
             if (
                 ObjectReference not in annotation_args
+                and List[ObjectReference] not in annotation_args
                 and not field_info.frozen
                 and (not getattr(destination, field_name, None) or self.strategy == MergingStrategy.OVERWRITE)
                 and (source_field_value_type is field_info.annotation or source_field_value_type in annotation_args)

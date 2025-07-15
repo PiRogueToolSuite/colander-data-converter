@@ -173,3 +173,4 @@ class TestColanderToThreatrConverter(unittest.TestCase):
         self.assertEqual(len(threatr_feed.entities), 4)
         self.assertEqual(len(threatr_feed.events), 1)
         self.assertEqual(len(threatr_feed.relations), 4)
+        self.assertNotIn("involved_observables", threatr_feed.events[0].attributes)
