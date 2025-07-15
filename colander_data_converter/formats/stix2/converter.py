@@ -48,7 +48,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
     Maps STIX2 data to Colander data using the mapping file.
     """
 
-    def convert_stix2_to_colander(self, stix2_data: Dict[str, Any]) -> ColanderFeed:
+    def convert(self, stix2_data: Dict[str, Any]) -> ColanderFeed:
         """
         Convert STIX2 data to Colander data.
 
@@ -497,7 +497,7 @@ class ColanderToStix2Mapper(Stix2Mapper):
     Maps Colander data to STIX2 data using the mapping file.
     """
 
-    def convert_colander_to_stix2(self, colander_feed: ColanderFeed) -> Dict[str, Any]:
+    def convert(self, colander_feed: ColanderFeed) -> Dict[str, Any]:
         """
         Convert Colander data to STIX2 data.
 

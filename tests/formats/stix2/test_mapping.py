@@ -37,7 +37,7 @@ class TestStix2ToColanderMapping:
     def test_stix2_converter(self):
         Repository().clear()
         mapper = Stix2ToColanderMapper()
-        f = mapper.convert_stix2_to_colander(
+        f = mapper.convert(
             {
                 "objects": [
                     {
@@ -60,4 +60,4 @@ class TestStix2ToColanderMapping:
         json_file = resources.files(resource_package).joinpath("data").joinpath("stix2_bundle.json")
         with json_file.open() as f:
             raw = json.load(f)
-        f = mapper.convert_stix2_to_colander(raw)
+        f = mapper.convert(raw)

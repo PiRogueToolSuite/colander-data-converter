@@ -17,6 +17,7 @@ from pydantic import (
     computed_field,
     model_validator,
     field_validator,
+    ConfigDict,
 )
 
 from colander_data_converter.base.common import (
@@ -92,6 +93,9 @@ class CommonEntityType(BaseModel, abc.ABC):
     type_hints: Dict[Any, Any] | None = None
     """Optional dictionary of type hints."""
 
+    def __str__(self):
+        return self.short_name
+
 
 class ColanderType(BaseModel):
     """
@@ -103,10 +107,10 @@ class ColanderType(BaseModel):
     resolving type hints, and extracting subclass information.
     """
 
-    model_config = {
-        "str_strip_whitespace": True,
-        "arbitrary_types_allowed": True,
-    }
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+    )
 
     def model_post_init(self, __context):
         """
@@ -313,14 +317,8 @@ class Case(ColanderType):
     parent_case: Optional["Case"] | Optional[ObjectReference] = None
     """Reference to a parent case, if this case is a sub-case."""
 
-    signing_key: str | None = None
-    """Optional signing key associated with the case."""
-
     tlp: TlpPapLevel = TlpPapLevel.WHITE
     """The TLP (Traffic Light Protocol) level for the case."""
-
-    verify_key: str | None = None
-    """Optional verification key associated with the case."""
 
     colander_internal_type: Literal["case"] = "case"
     """Internal type discriminator for (de)serialization."""
@@ -355,7 +353,7 @@ class Entity(ColanderType, abc.ABC):
     pap: TlpPapLevel = TlpPapLevel.WHITE
     """The PAP (Permissible Actions Protocol) level for the entity."""
 
-    source_url: AnyUrl | None = None
+    source_url: str | AnyUrl | None = None
     """Optional source URL for the entity."""
 
     tlp: TlpPapLevel = TlpPapLevel.WHITE

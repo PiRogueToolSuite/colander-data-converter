@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 from typing import Optional, Dict, Any, List, Union, get_args
 from uuid import uuid4, UUID
 
-from pydantic import Field, BaseModel, model_validator
+from pydantic import Field, BaseModel, model_validator, ConfigDict
 from pydantic.types import UUID4, PositiveInt
 
 from colander_data_converter.base.common import (
@@ -97,10 +97,10 @@ class ThreatrType(BaseModel):
     methods to unlink and resolve object references for serialization and deserialization.
     """
 
-    model_config = {
-        "str_strip_whitespace": True,
-        "arbitrary_types_allowed": True,
-    }
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+    )
 
     def model_post_init(self, __context):
         """

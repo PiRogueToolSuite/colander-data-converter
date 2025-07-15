@@ -74,7 +74,7 @@ class Stix2Converter:
         from colander_data_converter.formats.stix2.converter import Stix2ToColanderMapper
 
         mapper = Stix2ToColanderMapper()
-        return mapper.convert_stix2_to_colander(stix2_data)
+        return mapper.convert(stix2_data)
 
     @staticmethod
     def colander_to_stix2(colander_feed: ColanderFeed) -> Dict[str, Any]:
@@ -91,4 +91,4 @@ class Stix2Converter:
         from colander_data_converter.formats.stix2.converter import ColanderToStix2Mapper
 
         mapper = ColanderToStix2Mapper()
-        return mapper.convert_colander_to_stix2(colander_feed)
+        return mapper.convert(colander_feed)

@@ -13,7 +13,7 @@ class TlpPapLevel(str, enum.Enum):
     Example:
         >>> level = TlpPapLevel.RED
         >>> print(level)
-        TlpPapLevel.RED
+        RED
     """
 
     RED = "RED"
@@ -27,6 +27,9 @@ class TlpPapLevel(str, enum.Enum):
 
     WHITE = "WHITE"
     """Information that can be shared publicly."""
+
+    def __str__(self):
+        return self.value
 
 
 type ObjectReference = UUID4

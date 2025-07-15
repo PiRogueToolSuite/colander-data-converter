@@ -1,0 +1,126 @@
+import enum
+from typing import get_args, List, Any
+
+from pydantic import BaseModel
+
+from colander_data_converter.base.common import ObjectReference
+
+
+class MergingStrategy(str, enum.Enum):
+    PRESERVE = "preserve"
+    OVERWRITE = "overwrite"
+
+
+class BaseModelMerger:
+    """
+    A utility class for merging Pydantic BaseModel instances with configurable strategies.
+
+    This class provides functionality to merge fields from a source BaseModel into a
+    destination BaseModel, handling both regular model fields and extra attributes.
+
+    Example:
+        >>> from pydantic import BaseModel
+        >>> class SourceModel(BaseModel):
+        ...     name: str
+        ...     age: int
+        >>> class DestinationModel(BaseModel):
+        ...     name: str
+        ...     age: int
+        ...     city: str = "Unknown"
+        >>> source = SourceModel(name="Alice", age=30)
+        >>> destination = DestinationModel(name="Bob", age=25)
+        >>> merger = BaseModelMerger()
+        >>> unprocessed = merger.merge(source, destination)
+        >>> print(destination)
+        name='Alice' age=30 city='Unknown'
+        >>> print(unprocessed)
+        []
+    """
+
+    def __init__(self, strategy: MergingStrategy = MergingStrategy.OVERWRITE):
+        """
+        Initialize the BaseModelMerger with a merging strategy.
+
+        :param strategy: The strategy to use when merging fields.
+        :type strategy: MergingStrategy
+        """
+        self.strategy = strategy
+
+    def _merge_field(self, destination: BaseModel, field_name: str, field_value: Any) -> bool:
+        """
+        Merge a single field from source to destination model.
+
+        This method handles the logic for merging individual fields, including
+        type checking, field existence validation, and attribute handling.
+
+        :param destination: The target model to merge into
+        :type destination: BaseModel
+        :param field_name: The name of the field to merge
+        :type field_name: str
+        :param field_value: The value to merge
+        :type field_value: Any
+        :return: True if the field was processed (successfully merged or handled),
+                 False if the field could not be processed
+        :rtype: bool
+        """
+        field_processed = False
+        if not field_value:
+            return field_processed
+        extra_attributes_supported = hasattr(destination, "attributes")
+        source_field_value = field_value
+        source_field_value_type = type(field_value)
+        if field_name not in destination.__class__.model_fields and extra_attributes_supported:
+            destination.attributes[field_name] = str(source_field_value)
+            field_processed = True
+        elif field_name in destination.__class__.model_fields:
+            field_info = destination.__class__.model_fields[field_name]
+            annotation_args = get_args(field_info.annotation)
+            if (
+                ObjectReference not in annotation_args
+                and not field_info.frozen
+                and (not getattr(destination, field_name, None) or self.strategy == MergingStrategy.OVERWRITE)
+                and (source_field_value_type is field_info.annotation or source_field_value_type in annotation_args)
+            ):
+                setattr(destination, field_name, source_field_value)
+                field_processed = True
+        return field_processed
+
+    def merge(self, source: BaseModel, destination: BaseModel) -> List[str]:
+        """
+        Merge all compatible fields from the source object into the destination object.
+
+        This method iterates through all fields in the source object and attempts
+        to merge them into the destination object. It handles both regular object
+        fields and extra attributes dictionary if supported.
+
+        :param source: The source model to merge from
+        :type source: BaseModel
+        :param destination: The destination model to merge to
+        :type destination: BaseModel
+        :return: A list of field names that could not be processed during
+                 the merge operation. Fields containing ObjectReference types
+                 are automatically added to this list.
+        :rtype: List[str]
+        """
+        unprocessed_fields = []
+        source_attributes = getattr(source, "attributes", None)
+        destination_attributes = getattr(destination, "attributes", None)
+
+        if destination_attributes is None and hasattr(destination, "attributes"):
+            destination.attributes = {}
+
+        # Merge model fields
+        for field_name, field_info in source.__class__.model_fields.items():
+            source_field_value = getattr(source, field_name, None)
+            if ObjectReference in get_args(field_info.annotation):
+                unprocessed_fields.append(field_name)
+            elif not self._merge_field(destination, field_name, source_field_value):
+                unprocessed_fields.append(field_name)
+
+        # Merge extra attributes
+        if source_attributes:
+            for name, value in source_attributes.items():
+                if not self._merge_field(destination, name, value):
+                    unprocessed_fields.append(f"attributes.{name}")
+
+        return unprocessed_fields
