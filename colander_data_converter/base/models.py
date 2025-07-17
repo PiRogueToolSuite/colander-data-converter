@@ -1361,10 +1361,10 @@ class CommonEntitySuperType(BaseModel):
     types: Optional[List[object]] = Field(default=None, exclude=True)
     """Optional reference to the enum or collection of supported types."""
 
-    model_class: type = Field(default=None, exclude=True)
+    model_class: Any = Field(default=None, exclude=True)
     """The Python class associated with this super type (Observable...)."""
 
-    type_class: type = Field(default=None, exclude=True)
+    type_class: Any = Field(default=None, exclude=True)
     """The Python class associated with the entity type (ObservableType...)."""
 
     default_type: Any = Field(default=None, exclude=True)

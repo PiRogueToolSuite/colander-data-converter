@@ -17,24 +17,44 @@ class BaseModelMerger:
 
     This class provides functionality to merge fields from a source BaseModel into a
     destination BaseModel, handling both regular model fields and extra attributes.
+    Fields containing ObjectReference types are automatically excluded from merging
+    and reported as unprocessed.
+
+    The merger supports two strategies:
+    - PRESERVE: Only merge fields if the destination field is empty/None
+    - OVERWRITE: Always merge fields from source to destination
+
+    Fields are merged based on type compatibility and field constraints. Extra
+    attributes are automatically converted to strings when stored in the attributes
+    dictionary (if supported by the destination model).
 
     Example:
         >>> from pydantic import BaseModel
         >>> class SourceModel(BaseModel):
         ...     name: str
         ...     age: int
+        ...     attributes: dict = {}
         >>> class DestinationModel(BaseModel):
         ...     name: str
         ...     age: int
         ...     city: str = "Unknown"
+        ...     attributes: dict = {}
         >>> source = SourceModel(name="Alice", age=30)
         >>> destination = DestinationModel(name="Bob", age=25)
-        >>> merger = BaseModelMerger()
+        >>> merger = BaseModelMerger(strategy=MergingStrategy.OVERWRITE)
         >>> unprocessed = merger.merge(source, destination)
-        >>> print(destination)
-        name='Alice' age=30 city='Unknown'
-        >>> print(unprocessed)
-        []
+        >>> print(destination.name)
+        Alice
+        >>> print(destination.age)
+        30
+        >>> print(destination.city)
+        Unknown
+
+    Note:
+        - Fields with ObjectReference types are never merged and are reported as unprocessed
+        - Frozen fields cannot be modified and will be reported as unprocessed
+        - Complex types (list, dict, tuple, set) in extra attributes are not supported
+        - Extra attributes are converted to strings when stored
     """
 
     def __init__(self, strategy: MergingStrategy = MergingStrategy.OVERWRITE):
@@ -53,14 +73,27 @@ class BaseModelMerger:
         Merge a single field from source to destination model.
 
         This method handles the logic for merging individual fields, including
-        type checking, field existence validation, and attribute handling.
+        type checking, field existence validation, and attribute handling. It
+        processes both regular model fields and extra attributes based on the
+        destination model's capabilities and field constraints.
 
-        :param destination: The target model to merge into
+        The method follows these rules:
+        - Skips fields listed in ignored_fields
+        - Skips empty/None field values
+        - For fields not in the destination model schema: stores as string in
+          attributes dict (if supported) unless the value is a complex type
+        - For schema fields: merges only if type-compatible, not frozen, not
+          containing ObjectReference, and destination is empty (PRESERVE) or
+          strategy is OVERWRITE
+
+        :param destination: The target model to merge into.
         :type destination: BaseModel
-        :param field_name: The name of the field to merge
+        :param field_name: The name of the field to merge.
         :type field_name: str
-        :param field_value: The value to merge
+        :param field_value: The value to merge from the source.
         :type field_value: Any
+        :param ignored_fields: List of field names to skip during merging.
+        :type ignored_fields: List[str], optional
         :return: True if the field was processed (successfully merged or handled),
                  False if the field could not be processed
         :rtype: bool
@@ -110,6 +143,8 @@ class BaseModelMerger:
         :type source: BaseModel
         :param destination: The destination model to merge to
         :type destination: BaseModel
+        :param ignored_fields: List of field names to skip during merging
+        :type ignored_fields: List[str], optional
         :return: A list of field names that could not be processed during
                  the merge operation. Fields containing ObjectReference types
                  are automatically added to this list.

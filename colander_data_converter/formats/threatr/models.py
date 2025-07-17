@@ -40,11 +40,23 @@ class ThreatrRepository(object, metaclass=Singleton):
 
     def __lshift__(self, other: Union["Entity", "Event", "EntityRelation"]) -> None:
         """
-        Inserts an object (Entity, EntityRelation, or Event) into the appropriate repository dictionary.
+        Inserts an object into the appropriate repository dictionary using the left shift operator.
 
-        Args:
-            other (Union[Entity, Event, EntityRelation]): The object to insert.
+        This method overloads the << operator to provide a convenient way to register
+        Entity, Event, and EntityRelation objects in their respective dictionaries.
+        The object's ID is used as the key, converted to string format for consistency.
+
+        Usage:
+            repository = ThreatrRepository()
+            entity = Entity(name="example")
+            repository << entity  # Equivalent to repository.__lshift__(entity)
+
+        :param other: The object to insert into the repository
+        :type other: Union[Entity, Event, EntityRelation]
+        :return: None
+        :rtype: None
         """
+
         if isinstance(other, Entity):
             self.entities[str(other.id)] = other
         elif isinstance(other, EntityRelation):
@@ -54,13 +66,24 @@ class ThreatrRepository(object, metaclass=Singleton):
 
     def __rshift__(self, other: str | UUID4) -> Union["Entity", "Event", "EntityRelation", str, UUID4]:
         """
-        Retrieves an object by its string or UUID identifier from entities, relations, or events.
+        Retrieves an object by its string or UUID identifier using the right shift operator.
 
-        Args:
-            other (str | UUID4): The identifier to look up.
+        This method overloads the >> operator to provide a convenient way to lookup
+        Entity, Event, and EntityRelation objects from their respective dictionaries.
+        The method searches through entities, relations, and events in that order,
+        returning the first match found. If no object is found, the original
+        identifier is returned unchanged.
 
-        Returns:
-            Union[Entity, Event, EntityRelation]: The found object or the identifier if not found.
+        Usage:
+            repository = ThreatrRepository()
+            entity_id = "some-uuid-string"
+            found_entity = repository >> entity_id
+
+        :param other: The string or UUID identifier to look up in the repository
+        :type other: str | UUID4
+        :return: The found Entity, Event, or EntityRelation object, or the original
+                 identifier if no matching object is found
+        :rtype: Union[Entity, Event, EntityRelation, str, UUID4]
         """
         _other = str(other)
         if _other in self.entities:
@@ -84,9 +107,18 @@ class ThreatrRepository(object, metaclass=Singleton):
         """
         Resolves all UUID references in relations and events to their corresponding objects.
 
-        Args:
-            strict (bool): If True, raises a ValueError when a UUID reference cannot be resolved.
-                           If False, unresolved references remain as UUIDs.
+        This method iterates through all stored relations and events in the repository,
+        calling their respective resolve_references methods to convert UUID references
+        back to actual object instances. This is typically used after deserialization
+        to restore object relationships.
+
+        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                       If False, unresolved references remain as UUIDs.
+        :type strict: bool
+        :return: None
+        :rtype: None
+        :raises ValueError: If strict is True and any UUID reference cannot be resolved
+                            to an existing object in the repository
         """
         for _, relation in self.relations.items():
             relation.resolve_references(strict=strict)
