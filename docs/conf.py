@@ -19,8 +19,12 @@ autodoc_pydantic_model_show_validator_summary = True
 autodoc_pydantic_settings_show_json = False
 
 extensions = [
+    "autoclasstoc",
+    "autoapi.extension",
     "sphinx.ext.autodoc",
     "sphinx-pydantic",
+    "sphinx_copybutton",
+    "sphinx_rtd_theme",
     "sphinx.ext.coverage",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
@@ -33,27 +37,38 @@ extensions = [
 
 templates_path = ["_templates"]
 html_static_path = ["_static"]
+# html_theme = "furo"
 html_theme = "sphinx_rtd_theme"
 html_logo = "_static/pts_logo.png"
+html_theme_options = {
+    "logo_only": False,
+    "prev_next_buttons_location": "bottom",
+    "style_external_links": True,
+    "vcs_pageview_mode": "",
+    "flyout_display": "hidden",
+    "collapse_navigation": True,
+    "sticky_navigation": True,
+    "navigation_depth": 4,
+    "titles_only": False,
+}
 
 exclude_patterns = []
+# autosummary_generate = True
 
-apidoc_modules = [
-    {
-        "path": "colander_data_converter",
-        "destination": "docs/source/",
-        "exclude_patterns": ["**/test*", "**/docs/"],
-        "max_depth": 4,
-        "follow_links": False,
-        "separate_modules": True,
-        "include_private": False,
-        "no_headings": False,
-        "module_first": False,
-        "implicit_namespaces": False,
-        "automodule_options": {"members", "show-inheritance", "undoc-members"},
-    },
+autoapi_dirs = ["../colander_data_converter"]
+autoapi_type = "python"
+autoapi_keep_files = True
+autoapi_options = [
+    "members",
+    "undoc-members",
+    "special-members",
+    "show-inheritance",
+    "show-module-summary",
+    "imported-members",
 ]
+autoapi_member_order = "alphabetical"
 
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
+    "python": ("https://docs.python.org/", None),
 }

@@ -11,7 +11,7 @@ The ``colander_data_converter`` Python package provides utilities for converting
 
 .. toctree::
    :maxdepth: 2
-   :caption: Data formats:
+   :caption: Data formats
 
    data_types/colander
    data_types/stix2
@@ -20,4 +20,5 @@ The ``colander_data_converter`` Python package provides utilities for converting
    :maxdepth: 1
    :caption: Modules:
 
-   source/modules
+   ...
+   autoapi/index
