@@ -63,7 +63,6 @@ class TestArtifact:
         assert artifact.md5 is None
         assert artifact.sha1 is None
         assert artifact.sha256 is None
-        assert artifact.attributes is None
 
     def test_mime_types(self):
         mimetypes = {

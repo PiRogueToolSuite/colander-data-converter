@@ -9,7 +9,7 @@
     },
     "type": {
       "name": "Domain",
-      "short_name": "DOMAIN",
+      "short_name": "FOO",
       "description": null,
       "nf_icon": "nf-mdi-web"
     },

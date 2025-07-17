@@ -46,7 +46,9 @@ class BaseModelMerger:
         """
         self.strategy = strategy
 
-    def _merge_field(self, destination: BaseModel, field_name: str, field_value: Any) -> bool:
+    def _merge_field(
+        self, destination: BaseModel, field_name: str, field_value: Any, ignored_fields: List[str] = None
+    ) -> bool:
         """
         Merge a single field from source to destination model.
 
@@ -66,20 +68,25 @@ class BaseModelMerger:
         field_processed = False
         if not field_value:
             return field_processed
+        if not ignored_fields:
+            ignored_fields = []
         extra_attributes_supported = hasattr(destination, "attributes")
         source_field_value = field_value
         source_field_value_type = type(field_value)
-        if field_name == "involved_observables":
-            pass
-        if (field_name not in destination.__class__.model_fields
-                and extra_attributes_supported
-                and source_field_value_type not in [list, dict, tuple, set, ObjectReference]
-                and not isinstance(source_field_value, BaseModel)):
+        if field_name in ignored_fields:
+            return field_processed
+        # Append in extra attribute dict if supported
+        if (
+            field_name not in destination.__class__.model_fields
+            and extra_attributes_supported
+            and source_field_value_type not in [list, dict, tuple, set, ObjectReference]
+            and not isinstance(source_field_value, BaseModel)
+        ):
             destination.attributes[field_name] = str(source_field_value)
             field_processed = True
         elif field_name in destination.__class__.model_fields:
             field_info = destination.__class__.model_fields[field_name]
-            annotation_args = get_args(field_info.annotation)
+            annotation_args = get_args(field_info.annotation) or []
             if (
                 ObjectReference not in annotation_args
                 and List[ObjectReference] not in annotation_args
@@ -91,7 +98,7 @@ class BaseModelMerger:
                 field_processed = True
         return field_processed
 
-    def merge(self, source: BaseModel, destination: BaseModel) -> List[str]:
+    def merge(self, source: BaseModel, destination: BaseModel, ignored_fields: List[str] = None) -> List[str]:
         """
         Merge all compatible fields from the source object into the destination object.
 
@@ -120,7 +127,7 @@ class BaseModelMerger:
             source_field_value = getattr(source, field_name, None)
             if ObjectReference in get_args(field_info.annotation):
                 unprocessed_fields.append(field_name)
-            elif not self._merge_field(destination, field_name, source_field_value):
+            elif not self._merge_field(destination, field_name, source_field_value, ignored_fields):
                 unprocessed_fields.append(field_name)
 
         # Merge extra attributes

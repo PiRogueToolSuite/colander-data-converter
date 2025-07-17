@@ -3,7 +3,7 @@ from datetime import datetime, UTC, timedelta
 
 from colander_data_converter.base.models import (
     ColanderFeed,
-    Repository,
+    ColanderRepository,
     Actor,
     Observable,
     EntityRelation,
@@ -25,7 +25,7 @@ from colander_data_converter.formats.threatr.models import ThreatrFeed
 class TestColanderToThreatrConverter(unittest.TestCase):
     def setUp(self):
         # Clear the repository before each test
-        Repository().clear()
+        ColanderRepository().clear()
 
     def test_convert_entity(self):
         # Create a Colander entity

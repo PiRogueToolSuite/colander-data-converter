@@ -76,8 +76,6 @@ class TestEvent:
     def test_allows_optional_fields_to_be_none(self):
         event_type = EventTypes.enum.HIT.value
         event = Event(name="Event 3", type=event_type)
-        assert event.attributes is None
         assert event.extracted_from is None
         assert event.observed_on is None
         assert event.detected_by is None
-        assert event.involved_observables is None

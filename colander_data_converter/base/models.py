@@ -121,7 +121,7 @@ class ColanderType(BaseModel):
                           handling.
         :type __context: Any
         """
-        _ = Repository()
+        _ = ColanderRepository()
         _ << self
 
     def _process_reference_fields(self, operation, strict=False):
@@ -143,7 +143,7 @@ class ColanderType(BaseModel):
                 if operation == "unlink" and ref and type(ref) is not UUID:
                     setattr(self, field, ref.id)
                 elif operation == "resolve" and type(ref) is UUID:
-                    x = Repository() >> ref
+                    x = ColanderRepository() >> ref
                     if strict and isinstance(x, UUID):
                         raise ValueError(f"Unable to resolve UUID reference {x}")
                     setattr(self, field, x)
@@ -156,7 +156,7 @@ class ColanderType(BaseModel):
                         new_refs.append(ref.id)
                         _update = True
                     elif operation == "resolve" and type(ref) is UUID:
-                        x = Repository() >> ref
+                        x = ColanderRepository() >> ref
                         if strict and isinstance(x, UUID):
                             raise ValueError(f"Unable to resolve UUID reference {x}")
                         new_refs.append(x)
@@ -296,10 +296,10 @@ class Case(ColanderType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the case."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the case was created."""
 
-    updated_at: datetime | None = Field(default=None)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the case was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -335,10 +335,10 @@ class Entity(ColanderType, abc.ABC):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the entity."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the entity was created."""
 
-    updated_at: datetime | None = Field(default=None, frozen=True)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the entity was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -391,10 +391,10 @@ class EntityRelation(ColanderType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the entity relation."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the entity relation was created."""
 
-    updated_at: datetime | None = Field(default=None)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the entity relation was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -404,7 +404,7 @@ class EntityRelation(ColanderType):
     """Reference to the case this relation belongs to."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the relation."""
+    """Dictionary of additional attributes for the relation."""
 
     obj_from: EntityTypes | ObjectReference = Field(...)
     """The source entity or reference in the relation."""
@@ -836,7 +836,7 @@ class Actor(Entity):
     """Internal type discriminator for (de)serialization."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the device."""
+    """Dictionary of additional attributes for the device."""
 
 
 class Device(Entity):
@@ -863,7 +863,7 @@ class Device(Entity):
     """The type definition for the device."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the device."""
+    """Dictionary of additional attributes for the device."""
 
     operated_by: Optional[Actor] | Optional[ObjectReference] = None
     """Reference to the actor operating the device."""
@@ -903,7 +903,7 @@ class Artifact(Entity):
     """The type definition for the artifact."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the artifact."""
+    """Dictionary of additional attributes for the artifact."""
 
     extracted_from: Optional[Device] | Optional[ObjectReference] = None
     """Reference to the device from which this artifact was extracted."""
@@ -1019,7 +1019,7 @@ class Observable(Entity):
     """The type definition for the observable."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the observable."""
+    """Dictionary of additional attributes for the observable."""
 
     classification: str | None = Field(default=None, max_length=512)
     """Optional classification label for the observable."""
@@ -1102,7 +1102,7 @@ class Event(Entity):
     """The type definition for the event."""
 
     attributes: Optional[Dict[str, str]] = None
-    """Optional dictionary of additional attributes for the event."""
+    """Dictionary of additional attributes for the event."""
 
     first_seen: datetime = datetime.now(UTC)
     """The timestamp when the event was first observed."""
@@ -1122,7 +1122,15 @@ class Event(Entity):
     detected_by: Optional[DetectionRule] | Optional[ObjectReference] = None
     """Reference to the detection rule that detected this event."""
 
-    involved_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
+    # ToDo: missing attribute in Colander implementation
+    attributed_to: Optional[Actor] | Optional[ObjectReference] = None
+    """Reference to the actor attributed to this event."""
+
+    # ToDo: missing attribute in Colander implementation
+    target: Optional[Actor] | Optional[ObjectReference] = None
+    """Reference to the actor targeted during this event."""
+
+    involved_observables: List[Observable] | List[ObjectReference] = []
     """List of observables or references involved in this event."""
 
     colander_internal_type: Literal["event"] = "event"
@@ -1135,7 +1143,7 @@ class Event(Entity):
         return self
 
 
-class Repository(object, metaclass=Singleton):
+class ColanderRepository(object, metaclass=Singleton):
     """
     Singleton repository for managing and storing Case, Entity, and EntityRelation objects.
 
@@ -1353,14 +1361,20 @@ class CommonEntitySuperType(BaseModel):
     types: Optional[List[object]] = Field(default=None, exclude=True)
     """Optional reference to the enum or collection of supported types."""
 
-    _class: type
-    """The Python class associated with this super type."""
+    model_class: type = Field(default=None, exclude=True)
+    """The Python class associated with this super type (Observable...)."""
+
+    type_class: type = Field(default=None, exclude=True)
+    """The Python class associated with the entity type (ObservableType...)."""
+
+    default_type: Any = Field(default=None, exclude=True)
+    """The default entity type (GENERIC...)."""
 
     def type_by_short_name(self, short_name: str):
         for t in self.types:
             if hasattr(t, short_name.upper()):
-                return getattr(t, short_name.upper())
-        return None
+                return getattr(t, short_name.upper()).value
+        return self.default_type
 
 
 class CommonEntitySuperTypes(enum.Enum):
@@ -1379,22 +1393,74 @@ class CommonEntitySuperTypes(enum.Enum):
         Actor
     """
 
-    ACTOR = CommonEntitySuperType(short_name="ACTOR", name="Actor", _class=Actor, types=ActorTypes.enum)
-    ARTIFACT = CommonEntitySuperType(short_name="ARTIFACT", name="Artifact", _class=Artifact, types=ArtifactTypes.enum)
+    ACTOR = CommonEntitySuperType(
+        short_name="ACTOR",
+        name="Actor",
+        model_class=Actor,
+        type_class=ActorType,
+        default_type=ActorTypes.default,
+        types=ActorTypes.enum,
+    )
+    ARTIFACT = CommonEntitySuperType(
+        short_name="ARTIFACT",
+        name="Artifact",
+        model_class=Artifact,
+        type_class=ArtifactType,
+        default_type=ArtifactTypes.default,
+        types=ArtifactTypes.enum,
+    )
     DATA_FRAGMENT = CommonEntitySuperType(
-        short_name="DATA_FRAGMENT", name="Data fragment", _class=DataFragment, types=DataFragmentTypes.enum
+        short_name="DATA_FRAGMENT",
+        name="Data fragment",
+        model_class=DataFragment,
+        type_class=DataFragmentType,
+        default_type=DataFragmentTypes.default,
+        types=DataFragmentTypes.enum,
     )
     DETECTION_RULE = CommonEntitySuperType(
-        short_name="DETECTION_RULE", name="Detection rule", _class=DetectionRule, types=DetectionRuleTypes.enum
+        short_name="DETECTION_RULE",
+        name="Detection rule",
+        model_class=DetectionRule,
+        type_class=DetectionRuleType,
+        default_type=DetectionRuleTypes.default,
+        types=DetectionRuleTypes.enum,
     )
-    DEVICE = CommonEntitySuperType(short_name="DEVICE", name="Device", _class=Device, types=DeviceTypes.enum)
-    EVENT = CommonEntitySuperType(short_name="EVENT", name="Event", _class=Event, types=EventTypes.enum)
+    DEVICE = CommonEntitySuperType(
+        short_name="DEVICE",
+        name="Device",
+        model_class=Device,
+        type_class=DeviceType,
+        default_type=DeviceTypes.default,
+        types=DeviceTypes.enum,
+    )
+    EVENT = CommonEntitySuperType(
+        short_name="EVENT",
+        name="Event",
+        model_class=Event,
+        type_class=EventType,
+        default_type=EventTypes.default,
+        types=EventTypes.enum,
+    )
     OBSERVABLE = CommonEntitySuperType(
-        short_name="OBSERVABLE", name="Observable", _class=Observable, types=ObservableTypes.enum
+        short_name="OBSERVABLE",
+        name="Observable",
+        model_class=Observable,
+        type_class=ObservableType,
+        default_type=ObservableTypes.default,
+        types=ObservableTypes.enum,
     )
-    THREAT = CommonEntitySuperType(short_name="THREAT", name="Threat", _class=Threat, types=ThreatTypes.enum)
+    THREAT = CommonEntitySuperType(
+        short_name="THREAT",
+        name="Threat",
+        model_class=Threat,
+        type_class=ThreatType,
+        default_type=ThreatTypes.default,
+        types=ThreatTypes.enum,
+    )
 
     @classmethod
-    def by_short_name(cls, short_name: str) -> CommonEntitySuperType:
+    def by_short_name(cls, short_name: str) -> Optional[CommonEntitySuperType]:
         sn = short_name.replace(" ", "_").upper()
-        return cls[sn].value
+        if sn in cls.__members__:
+            return cls[sn].value
+        return None

@@ -4,7 +4,7 @@
       "source_type": "event",
       "target_type": "observable",
       "fields": {
-        "involved_observables": "was observed"
+        "involved_observables": "related to"
       }
     },
     {
@@ -69,6 +69,14 @@
       "target_type": "detection_rule",
       "fields": {
         "detected_by": "detected by"
+      }
+    },
+    {
+      "source_type": "event",
+      "target_type": "actor",
+      "fields": {
+        "attributed_to": "attributed to",
+        "target": "targeted"
       }
     }
   ]

@@ -1,13 +1,13 @@
 import json
 from importlib import resources
 
-from colander_data_converter.base.models import Repository
+from colander_data_converter.base.models import ColanderRepository
 from colander_data_converter.formats.stix2 import Stix2MappingLoader, Stix2ToColanderMapper
 
 
 class TestStix2ToColanderMapping:
     def test_actor_mapping(self):
-        Repository().clear()
+        ColanderRepository().clear()
         loader = Stix2MappingLoader()
         mapper = Stix2ToColanderMapper()
         _type, _candidates = loader.get_entity_type_for_stix2("threat-actor")
@@ -20,7 +20,7 @@ class TestStix2ToColanderMapping:
         assert _subtype == "generic"
 
     def test_observable_mapping(self):
-        Repository().clear()
+        ColanderRepository().clear()
         loader = Stix2MappingLoader()
         mapper = Stix2ToColanderMapper()
         _type, _candidates = loader.get_entity_type_for_stix2("indicator")
@@ -35,7 +35,7 @@ class TestStix2ToColanderMapping:
         assert _subtype == "generic"
 
     def test_stix2_converter(self):
-        Repository().clear()
+        ColanderRepository().clear()
         mapper = Stix2ToColanderMapper()
         f = mapper.convert(
             {
@@ -54,7 +54,7 @@ class TestStix2ToColanderMapping:
         assert f is not None
 
     def test_stix2_bundle(self):
-        Repository().clear()
+        ColanderRepository().clear()
         mapper = Stix2ToColanderMapper()
         resource_package = __name__
         json_file = resources.files(resource_package).joinpath("data").joinpath("stix2_bundle.json")

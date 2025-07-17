@@ -13,7 +13,7 @@ from colander_data_converter.base.models import (
     DataFragment,
     EntityRelation,
     ColanderFeed,
-    Repository,
+    ColanderRepository,
     DeviceTypes,
     ArtifactTypes,
     ObservableTypes,
@@ -58,7 +58,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         Returns:
             ColanderFeed: The converted Colander data.
         """
-        repository = Repository()
+        repository = ColanderRepository()
 
         # Keep track of processed STIX2 object IDs to handle duplicates
         processed_ids: Dict[str, str] = {}
@@ -813,7 +813,7 @@ class ColanderToStix2Mapper(Stix2Mapper):
                     relationship_type = self._determine_relationship_type(field_name)
 
                     # Get the target entity type
-                    target_entity = Repository() >> ref_value
+                    target_entity = ColanderRepository() >> ref_value
                     if target_entity and not isinstance(target_entity, UUID):
                         target_type = self._get_entity_stix2_type(target_entity)
                         if target_type:
@@ -840,7 +840,7 @@ class ColanderToStix2Mapper(Stix2Mapper):
                     for ref_value in ref_values:
                         if isinstance(ref_value, UUID):
                             # Get the target entity type
-                            target_entity = Repository() >> ref_value
+                            target_entity = ColanderRepository() >> ref_value
                             if target_entity and not isinstance(target_entity, UUID):
                                 target_type = self._get_entity_stix2_type(target_entity)
                                 if target_type:

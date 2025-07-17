@@ -10,7 +10,7 @@ from colander_data_converter.base.common import (
     ObjectReference,
     Singleton,
 )
-from colander_data_converter.base.models import CommonEntityType, CommonEntitySuperType
+from colander_data_converter.base.models import CommonEntityType, CommonEntitySuperType, CommonEntitySuperTypes
 
 
 class ThreatrRepository(object, metaclass=Singleton):
@@ -32,6 +32,11 @@ class ThreatrRepository(object, metaclass=Singleton):
         self.events = {}
         self.entities = {}
         self.relations = {}
+
+    def clear(self):
+        self.events.clear()
+        self.relations.clear()
+        self.entities.clear()
 
     def __lshift__(self, other: Union["Entity", "Event", "EntityRelation"]) -> None:
         """
@@ -201,10 +206,10 @@ class Entity(ThreatrType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the entity."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the entity was created."""
 
-    updated_at: datetime | None = Field(default=None, frozen=True)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the entity was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -229,7 +234,7 @@ class Entity(ThreatrType):
     """The TLP (Traffic Light Protocol) level for the entity."""
 
     attributes: Optional[Dict[str, str | None]] = None
-    """Optional dictionary of additional attributes."""
+    """Dictionary of additional attributes."""
 
 
 class EntityRelation(ThreatrType):
@@ -240,10 +245,10 @@ class EntityRelation(ThreatrType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the entity relation."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the entity relation was created."""
 
-    updated_at: datetime | None = Field(default=None)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the entity relation was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -253,7 +258,7 @@ class EntityRelation(ThreatrType):
     """A description of the entity."""
 
     attributes: Optional[Dict[str, str | None]] = None
-    """Optional dictionary of additional attributes for the relation."""
+    """Dictionary of additional attributes for the relation."""
 
     obj_from: Entity | ObjectReference = Field(...)
     """The source entity or reference in the relation."""
@@ -270,10 +275,10 @@ class Event(ThreatrType):
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
     """The unique identifier for the entity relation."""
 
-    created_at: datetime | None = Field(default=None, frozen=True)
+    created_at: datetime = Field(default=datetime.now(UTC), frozen=True)
     """The timestamp when the entity relation was created."""
 
-    updated_at: datetime | None = Field(default=None)
+    updated_at: datetime = Field(default=datetime.now(UTC))
     """The timestamp when the entity relation was last updated."""
 
     name: str = Field(..., min_length=1, max_length=512)
@@ -283,7 +288,7 @@ class Event(ThreatrType):
     """A description of the entity."""
 
     attributes: Optional[Dict[str, str | None]] = None
-    """Optional dictionary of additional attributes for the relation."""
+    """Dictionary of additional attributes for the relation."""
 
     first_seen: datetime = datetime.now(UTC)
     """The timestamp when the event was first observed."""
@@ -293,6 +298,11 @@ class Event(ThreatrType):
 
     count: PositiveInt = 1
     """The number of times this event was observed."""
+
+    type: CommonEntityType
+    """The type of the entity such as network communication."""
+
+    super_type: CommonEntitySuperType = CommonEntitySuperTypes.EVENT
 
     involved_entity: Optional[Entity] | Optional[ObjectReference] = None
     """List of entities or references involved in this event."""

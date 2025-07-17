@@ -7,7 +7,7 @@ import pytest
 from pydantic import ValidationError
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import CommonEntitySuperTypes, ObservableTypes
+from colander_data_converter.base.models import CommonEntitySuperTypes, ObservableTypes, EventTypes
 from colander_data_converter.formats.threatr.models import (
     Entity,
     EntityRelation,
@@ -102,6 +102,7 @@ class TestThreatrRepository:
             name="Test Event",
             first_seen=datetime.now(UTC),
             last_seen=datetime.now(UTC) + timedelta(hours=1),
+            type=EventTypes.enum.GENERIC.value,
         )
         clean_repository << event
         assert str(event.id) in clean_repository.events
@@ -201,7 +202,7 @@ class TestEntityRelation:
 class TestEvent:
     def test_event_creation_minimal(self):
         """Test creating event with minimal required fields"""
-        event = Event(name="Test Event")
+        event = Event(name="Test Event", type=EventTypes.enum.GENERIC.value)
         assert isinstance(event.id, UUID)
         assert event.name == "Test Event"
         assert event.count == 1
@@ -219,6 +220,7 @@ class TestEvent:
             count=5,
             involved_entity=sample_entity,
             attributes={"key": "value"},
+            type=EventTypes.enum.GENERIC.value,
         )
         assert event.description == "Test description"
         assert event.first_seen == now
@@ -231,7 +233,12 @@ class TestEvent:
         """Test event date validation"""
         now = datetime.now(UTC)
         with pytest.raises(ValueError, match="first_seen must be before last_seen"):
-            Event(name="Invalid Event", first_seen=now + timedelta(hours=1), last_seen=now)
+            Event(
+                name="Invalid Event",
+                first_seen=now + timedelta(hours=1),
+                last_seen=now,
+                type=EventTypes.enum.GENERIC.value,
+            )
 
 
 class TestThreatrFeed:
