@@ -13,16 +13,17 @@ class MergingStrategy(str, enum.Enum):
 
 class BaseModelMerger:
     """
-    A utility class for merging Pydantic BaseModel instances with configurable strategies.
+    A utility class for merging :py:class:`pydantic.BaseModel` instances with configurable strategies.
 
     This class provides functionality to merge fields from a source BaseModel into a
     destination BaseModel, handling both regular model fields and extra attributes.
-    Fields containing ObjectReference types are automatically excluded from merging
-    and reported as unprocessed.
+    Fields containing `ObjectReference` types are automatically
+    excluded from merging and reported as unprocessed.
 
     The merger supports two strategies:
-    - PRESERVE: Only merge fields if the destination field is empty/None
-    - OVERWRITE: Always merge fields from source to destination
+
+    - ``PRESERVE``: Only merge fields if the destination field is empty or `None`
+    - ``OVERWRITE``: Always merge fields from source to destination
 
     Fields are merged based on type compatibility and field constraints. Extra
     attributes are automatically converted to strings when stored in the attributes
@@ -51,7 +52,7 @@ class BaseModelMerger:
         Unknown
 
     Note:
-        - Fields with ObjectReference types are never merged and are reported as unprocessed
+        - Fields with ``ObjectReference`` types are never merged and are reported as unprocessed
         - Frozen fields cannot be modified and will be reported as unprocessed
         - Complex types (list, dict, tuple, set) in extra attributes are not supported
         - Extra attributes are converted to strings when stored
@@ -59,14 +60,14 @@ class BaseModelMerger:
 
     def __init__(self, strategy: MergingStrategy = MergingStrategy.OVERWRITE):
         """
-        Initialize the BaseModelMerger with a merging strategy.
+        Initialize the ``BaseModelMerger`` with a merging strategy.
 
         :param strategy: The strategy to use when merging fields.
         :type strategy: MergingStrategy
         """
         self.strategy = strategy
 
-    def _merge_field(
+    def merge_field(
         self, destination: BaseModel, field_name: str, field_value: Any, ignored_fields: List[str] = None
     ) -> bool:
         """
@@ -77,14 +78,16 @@ class BaseModelMerger:
         processes both regular model fields and extra attributes based on the
         destination model's capabilities and field constraints.
 
-        The method follows these rules:
-        - Skips fields listed in ignored_fields
-        - Skips empty/None field values
-        - For fields not in the destination model schema: stores as string in
-          attributes dict (if supported) unless the value is a complex type
-        - For schema fields: merges only if type-compatible, not frozen, not
-          containing ObjectReference, and destination is empty (PRESERVE) or
-          strategy is OVERWRITE
+        Note:
+            The method follows these rules:
+
+            - Skips fields listed in ignored_fields
+            - Skips empty/None field values
+            - For fields not in the destination model schema: stores as string in
+              attributes dict (if supported) unless the value is a complex type
+            - For schema fields: merges only if type-compatible, not frozen, not
+              containing ObjectReference, and destination is empty (``PRESERVE``) or
+              strategy is ``OVERWRITE``
 
         :param destination: The target model to merge into.
         :type destination: BaseModel
@@ -162,13 +165,13 @@ class BaseModelMerger:
             source_field_value = getattr(source, field_name, None)
             if ObjectReference in get_args(field_info.annotation):
                 unprocessed_fields.append(field_name)
-            elif not self._merge_field(destination, field_name, source_field_value, ignored_fields):
+            elif not self.merge_field(destination, field_name, source_field_value, ignored_fields):
                 unprocessed_fields.append(field_name)
 
         # Merge extra attributes
         if source_attributes:
             for name, value in source_attributes.items():
-                if not self._merge_field(destination, name, value):
+                if not self.merge_field(destination, name, value):
                     unprocessed_fields.append(f"attributes.{name}")
 
         return unprocessed_fields

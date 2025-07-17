@@ -38,6 +38,22 @@ html_logo = "_static/pts_logo.png"
 
 exclude_patterns = []
 
+apidoc_modules = [
+    {
+        "path": "colander_data_converter",
+        "destination": "docs/source/",
+        "exclude_patterns": ["**/test*", "**/docs/"],
+        "max_depth": 4,
+        "follow_links": False,
+        "separate_modules": True,
+        "include_private": False,
+        "no_headings": False,
+        "module_first": False,
+        "implicit_namespaces": False,
+        "automodule_options": {"members", "show-inheritance", "undoc-members"},
+    },
+]
+
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
 }

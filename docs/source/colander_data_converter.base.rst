@@ -1,26 +1,20 @@
 colander\_data\_converter.base package
 ======================================
 
-colander\_data\_converter.base.common module
---------------------------------------------
+Submodules
+----------
 
-.. automodule:: colander_data_converter.base.common
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-colander\_data\_converter.base.models module
---------------------------------------------
+   colander_data_converter.base.common
+   colander_data_converter.base.models
+   colander_data_converter.base.utils
 
-.. automodule:: colander_data_converter.base.models
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Module contents
+---------------
 
-colander\_data\_converter.base.utils module
---------------------------------------------
-
-.. automodule:: colander_data_converter.base.utils
+.. automodule:: colander_data_converter.base
    :members:
    :undoc-members:
    :show-inheritance:

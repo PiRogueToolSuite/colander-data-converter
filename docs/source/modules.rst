@@ -1,4 +1,7 @@
+colander_data_converter
+=======================
+
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 4
 
    colander_data_converter

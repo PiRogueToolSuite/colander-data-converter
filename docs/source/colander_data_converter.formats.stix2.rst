@@ -1,34 +1,21 @@
 colander\_data\_converter.formats.stix2 package
 ===============================================
 
-colander\_data\_converter.formats.stix2.models module
------------------------------------------------------
+Submodules
+----------
 
-.. automodule:: colander_data_converter.formats.stix2.models
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-colander\_data\_converter.formats.stix2.mapping module
-------------------------------------------------------
+   colander_data_converter.formats.stix2.converter
+   colander_data_converter.formats.stix2.mapping
+   colander_data_converter.formats.stix2.models
+   colander_data_converter.formats.stix2.utils
 
-.. automodule:: colander_data_converter.formats.stix2.mapping
-   :members:
-   :undoc-members:
-   :show-inheritance:
+Module contents
+---------------
 
-colander\_data\_converter.formats.stix2.converter module
---------------------------------------------------------
-
-.. automodule:: colander_data_converter.formats.stix2.converter
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-colander\_data\_converter.formats.stix2.utils module
-----------------------------------------------------
-
-.. automodule:: colander_data_converter.formats.stix2.utils
+.. automodule:: colander_data_converter.formats.stix2
    :members:
    :undoc-members:
    :show-inheritance:

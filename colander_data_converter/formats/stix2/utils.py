@@ -10,11 +10,18 @@ def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:
     """
     Extract a UUID from a STIX2 ID.
 
-    Args:
-        stix2_id (str): The STIX2 ID to extract the UUID from.
+    This function parses a STIX2 identifier string to extract the UUID portion.
+    STIX2 IDs follow the format ``{type}--{uuid}``, where the UUID is the part
+    after the double dash delimiter.
 
-    Returns:
-        UUID: The extracted UUID, or a new UUID if extraction fails.
+    :param stix2_id: The STIX2 ID to extract the UUID from
+    :type stix2_id: str
+    :return: The extracted UUID, or a new UUID if extraction fails
+    :rtype: UUID
+
+    .. important::
+        If the input format is invalid or UUID extraction fails, a new random
+        UUID is generated and returned instead of raising an exception.
 
     Examples:
         >>> # Valid STIX2 ID with UUID
@@ -50,13 +57,20 @@ def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:
 
 def extract_stix2_pattern_name(stix2_pattern: str) -> Optional[str]:
     """
-    Extracts the name from a STIX 2 pattern string.
+    Extract the name from a STIX 2 pattern string.
 
-    Parameters:
-        stix2_pattern (str): The STIX 2 pattern string to extract the name from (e.g. "[ipv4-addr:value = '{value}']").
+    This function parses STIX2 pattern expressions to extract the field name
+    portion before the equality operator. It removes brackets and extracts
+    the left side of the comparison.
 
-    Returns:
-        Optional[str]: The extracted name or None if no name is found (e.g. "ipv4-addr:value").
+    :param stix2_pattern: The STIX 2 pattern string to extract the name from
+    :type stix2_pattern: str
+    :return: The extracted name or None if no name is found
+    :rtype: Optional[str]
+
+    .. note::
+        The function handles various STIX2 pattern formats including nested
+        hash references like ``file:hashes.'SHA-256'``.
 
     Examples:
         >>> pattern = "[ipv4-addr:value = '192.168.1.1']"
@@ -83,12 +97,20 @@ def get_nested_value(obj: Dict[str, Any], path: str) -> Any:
     """
     Get a value from a nested dictionary using a dot-separated path.
 
-    Args:
-        obj (Dict[str, Any]): The dictionary to get the value from.
-        path (str): The dot-separated path to the value.
+    This function safely navigates through nested dictionaries using a
+    dot-separated path string. It returns the value at the specified path
+    or None if any part of the path is missing or invalid.
 
-    Returns:
-        Any: The value at the specified path, or None if not found.
+    :param obj: The dictionary to get the value from
+    :type obj: Dict[str, Any]
+    :param path: The dot-separated path to the value
+    :type path: str
+    :return: The value at the specified path, or None if not found
+    :rtype: Any
+
+    .. warning::
+        This function returns None for missing paths rather than raising
+        exceptions. Check for None return values when path existence is critical.
 
     Examples:
         >>> data = {
@@ -126,10 +148,20 @@ def set_nested_value(obj: Dict[str, Any], path: str, value: Any) -> None:
     """
     Set a value in a nested dictionary using a dot-separated path.
 
-    Args:
-        obj (Dict[str, Any]): The dictionary to set the value in.
-        path (str): The dot-separated path to the value.
-        value (Any): The value to set.
+    This function creates nested dictionaries as needed to set a value at
+    the specified dot-separated path. If intermediate dictionaries don't
+    exist, they are automatically created.
+
+    :param obj: The dictionary to set the value in
+    :type obj: Dict[str, Any]
+    :param path: The dot-separated path to the value
+    :type path: str
+    :param value: The value to set
+    :type value: Any
+
+    .. note::
+        The function modifies the input dictionary in-place and automatically
+        creates any missing intermediate dictionary levels.
 
     Examples:
         >>> data = {}
