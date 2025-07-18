@@ -17,15 +17,15 @@ author = "Esther Onfroy"
 autodoc_pydantic_model_show_json = True
 autodoc_pydantic_model_show_validator_summary = True
 autodoc_pydantic_settings_show_json = False
+autodoc_typehints = "description"
+autodoc_typehints_description_target = "documented_params"
+autoclass_content = "class"
 
 extensions = [
-    "autoclasstoc",
-    "autoapi.extension",
     "sphinx.ext.autodoc",
-    "sphinx-pydantic",
+    "sphinx.ext.autodoc.typehints",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
-    "sphinx.ext.coverage",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
@@ -37,13 +37,12 @@ extensions = [
 
 templates_path = ["_templates"]
 html_static_path = ["_static"]
-# html_theme = "furo"
 html_theme = "sphinx_rtd_theme"
 html_logo = "_static/pts_logo.png"
 html_theme_options = {
     "logo_only": False,
     "prev_next_buttons_location": "bottom",
-    "style_external_links": True,
+    "style_external_links": False,
     "vcs_pageview_mode": "",
     "flyout_display": "hidden",
     "collapse_navigation": True,
@@ -53,20 +52,8 @@ html_theme_options = {
 }
 
 exclude_patterns = []
-# autosummary_generate = True
 
-autoapi_dirs = ["../colander_data_converter"]
-autoapi_type = "python"
-autoapi_keep_files = True
-autoapi_options = [
-    "members",
-    "undoc-members",
-    "special-members",
-    "show-inheritance",
-    "show-module-summary",
-    "imported-members",
-]
-autoapi_member_order = "alphabetical"
+autosummary_generate = True
 
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),

@@ -18,7 +18,6 @@ The ``colander_data_converter`` Python package provides utilities for converting
 
 .. toctree::
    :maxdepth: 1
-   :caption: Modules:
+   :caption: API reference
 
-   ...
-   autoapi/index
+   source/modules
