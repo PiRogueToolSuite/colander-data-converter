@@ -6,7 +6,7 @@ Supported types
 .. collapse:: Details
 
     {% for item in data|sort(attribute='short_name') %}
-    ``{{item.short_name}}`` **{{item.name}}** - *{{item.description}}*
+    ``{{item.short_name}}`` **{{item.name}}** - {{item.description}}
     {% if item.default_attributes %}
     Suggested extra properties:
     ``{{ item.default_attributes.keys()|join(', ') }}``
@@ -23,7 +23,7 @@ Supported types
 .. list-table::
    {% for item in data|sort(attribute='short_name') %}
    * - ``{{item.short_name}}``
-     - *{{item.description}}*
+     - {{item.description}}
    {% endfor %}
 
 
