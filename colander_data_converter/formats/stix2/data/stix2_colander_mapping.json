@@ -516,40 +516,16 @@
           "exploit-kit"
         ]
       },
-      "ff_botnet": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "bot"
-        ]
-      },
-      "info_stealer": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "unknown"
-        ]
-      },
-      "loader": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "unknown"
-        ]
-      },
       "malvertising": {
         "stix2_type": "malware",
         "malware_types": [
           "adware"
         ]
       },
-      "mobile_trojan": {
+      "mobile_malware": {
         "stix2_type": "malware",
         "malware_types": [
           "trojan"
-        ]
-      },
-      "pos_malware": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "exploit-kit"
         ]
       },
       "ransomware": {
@@ -565,12 +541,6 @@
         ]
       },
       "stalkerware": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "spyware"
-        ]
-      },
-      "watchware": {
         "stix2_type": "malware",
         "malware_types": [
           "spyware"
@@ -594,24 +564,6 @@
           "rootkit"
         ]
       },
-      "scareware": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "virus"
-        ]
-      },
-      "sinkhole": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "unknown"
-        ]
-      },
-      "dialer": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "unknown"
-        ]
-      },
       "generic": {
         "stix2_type": "malware",
         "malware_types": [
@@ -628,12 +580,6 @@
         "stix2_type": "malware",
         "malware_types": [
           "trojan"
-        ]
-      },
-      "worm": {
-        "stix2_type": "malware",
-        "malware_types": [
-          "worm"
         ]
       }
     }

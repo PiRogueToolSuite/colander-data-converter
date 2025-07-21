@@ -56,13 +56,6 @@
     "nf_icon": "nf nf-fa-bug"
   },
   {
-    "short_name": "FF_BOTNET",
-    "name": "Fast Flux Botnet",
-    "description": "A botnet that rapidly changes DNS records to hide malicious activities.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
     "short_name": "INFO_STEALER",
     "name": "Information Stealer",
     "description": "Malware designed to steal sensitive information such as credentials or financial data.",
@@ -84,16 +77,9 @@
     "nf_icon": "nf nf-fa-bug"
   },
   {
-    "short_name": "MOBILE_TROJAN",
-    "name": "Mobile Trojan",
-    "description": "A trojan specifically targeting mobile devices to steal data or perform malicious actions.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
-    "short_name": "POS_MALWARE",
-    "name": "Point-of-sale Malware",
-    "description": "Malware targeting point-of-sale systems to steal payment card data.",
+    "short_name": "MOBILE_MALWARE",
+    "name": "Mobile Malware",
+    "description": "A malware specifically targeting mobile devices to steal data or perform malicious actions.",
     "svg_icon": "",
     "nf_icon": "nf nf-fa-bug"
   },
@@ -119,13 +105,6 @@
     "nf_icon": "nf nf-fa-bug"
   },
   {
-    "short_name": "WATCHWARE",
-    "name": "Watchware",
-    "description": "Malware designed to monitor user activity, similar to spyware or stalkerware.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
     "short_name": "MALWARE",
     "name": "Malware",
     "description": "A general term for any software intentionally designed to cause damage or unauthorized actions.",
@@ -147,39 +126,11 @@
     "nf_icon": "nf nf-fa-bug"
   },
   {
-    "short_name": "SCAREWARE",
-    "name": "Scareware",
-    "description": "Malware that tricks users into buying unnecessary or harmful software by scaring them.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
-    "short_name": "SINKHOLE",
-    "name": "Sinkhole",
-    "description": "A technique or system used to redirect malicious traffic for analysis or mitigation.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
     "short_name": "SPAM",
     "name": "Spam",
     "description": "Unsolicited or bulk messages, often used to deliver malware or phishing attempts.",
     "svg_icon": "",
     "nf_icon": "nf nf-fa-bug"
-  },
-  {
-    "short_name": "DIALER",
-    "name": "Dialer",
-    "description": "Malware that makes unauthorized calls or connections, often to premium-rate numbers.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-fa-bug"
-  },
-  {
-    "short_name": "CVE",
-    "name": "CVE",
-    "description": "A Common Vulnerabilities and Exposures identifier for a known security flaw.",
-    "svg_icon": "",
-    "nf_icon": "nf nf-cod-debug_console"
   },
   {
     "short_name": "GENERIC",
@@ -203,9 +154,37 @@
     "nf_icon": "nf nf-fa-bug"
   },
   {
-    "short_name": "WORM",
-    "name": "Worm",
-    "description": "Self-replicating malware that spreads across networks without user intervention.",
+    "short_name": "CYBERCRIME",
+    "name": "Cybercrime",
+    "description": "Criminal activities carried out using computers or the internet, including fraud, theft, and unauthorized access.",
+    "svg_icon": "",
+    "nf_icon": "nf nf-fa-bug"
+  },
+  {
+    "short_name": "CYBER_ATTACK",
+    "name": "Cyber Attack",
+    "description": "An attempt by hackers to damage, disrupt, or gain unauthorized access to computer systems, networks, or devices.",
+    "svg_icon": "",
+    "nf_icon": "nf nf-fa-bug"
+  },
+  {
+    "short_name": "PHYSICAL_ATTACK",
+    "name": "Physical Attack",
+    "description": "A threat involving physical actions intended to harm or compromise assets, infrastructure, or individuals.",
+    "svg_icon": "",
+    "nf_icon": "nf nf-fa-bug"
+  },
+  {
+    "short_name": "HARASSMENT",
+    "name": "Harassment",
+    "description": "Unwanted behavior intended to intimidate, threaten, or disturb an individual, often through digital means.",
+    "svg_icon": "",
+    "nf_icon": "nf nf-fa-bug"
+  },
+  {
+    "short_name": "DOXXING",
+    "name": "Doxxing",
+    "description": "The act of publicly revealing private or identifying information about an individual without their consent.",
     "svg_icon": "",
     "nf_icon": "nf nf-fa-bug"
   }
