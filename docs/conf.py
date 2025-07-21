@@ -79,4 +79,3 @@ intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
     "python": ("https://docs.python.org/3", None),
 }
-

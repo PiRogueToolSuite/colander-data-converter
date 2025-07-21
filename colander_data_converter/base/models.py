@@ -186,7 +186,7 @@ class ColanderType(BaseModel):
     def resolve_references(self, strict=False):
         """Resolves references for the fields in the object's model.
 
-        Fields annotated with `ObjectReference` or `List[ObjectReference]` are processed 
+        Fields annotated with `ObjectReference` or `List[ObjectReference]` are processed
         to fetch and replace their UUID references with respective entities using the `Repository`.
 
         This method updates the object in-place.
@@ -1294,10 +1294,10 @@ class ColanderFeed(ColanderType):
                 if relation_id != relation.get("id"):
                     raise ValueError(f"Relation {relation_id} does not match with the ID of {relation}")
                 if (
-                        "obj_from" not in relation
-                        and "obj_to" not in relation
-                        and "obj_from_id" in relation
-                        and "obj_to_id" in relation
+                    "obj_from" not in relation
+                    and "obj_to" not in relation
+                    and "obj_from_id" in relation
+                    and "obj_to_id" in relation
                 ):
                     relation["obj_from"] = relation["obj_from_id"]
                     relation["obj_to"] = relation["obj_to_id"]
