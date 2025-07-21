@@ -5,21 +5,14 @@ from pydantic import UUID4
 
 
 class TlpPapLevel(str, enum.Enum):
-    """
-    Traffic Light Protocol (TLP) and Permissible Actions Protocol (PAP) classification levels.
+    """Traffic Light Protocol (TLP) and Permissible Actions Protocol (PAP) classification levels.
 
     The TLP is a set of designations used to ensure that sensitive information is shared
     with the appropriate audience. PAP complements TLP by providing guidance on what
     actions can be taken with the information.
 
-    :Attributes:
-        - **RED**: Highly sensitive information, restricted to specific recipients
-        - **AMBER**: Sensitive information, limited to a defined group
-        - **GREEN**: Information that can be shared within the community
-        - **WHITE**: Information that can be shared publicly
-
-    .. seealso::
-        `FIRST TLP Standard <https://www.first.org/tlp/>`_ for complete specification.
+    Note:
+        See `FIRST TLP Standard <https://www.first.org/tlp/>`_ for complete specification.
 
     Example:
         >>> level = TlpPapLevel.RED
@@ -42,11 +35,10 @@ class TlpPapLevel(str, enum.Enum):
     """Information that can be shared publicly."""
 
     def __str__(self):
-        """
-        Return the string representation of the TLP level.
+        """Return the string representation of the TLP level.
 
-        :return: The TLP level value as a string
-        :rtype: str
+        Returns:
+            str: The TLP level value as a string
         """
         return self.value
 
@@ -56,14 +48,13 @@ type ObjectReference = UUID4
 
 
 class Singleton(type):
-    """
-    Metaclass implementation of the Singleton design pattern.
+    """Metaclass implementation of the Singleton design pattern.
 
     This metaclass ensures that only one instance of a class can exist at any time.
     Subsequent instantiation attempts will return the existing instance rather than
     creating a new one.
 
-    .. important::
+    Note:
         The singleton instance is created lazily on first instantiation and persists
         for the lifetime of the Python process.
 
@@ -88,17 +79,17 @@ class Singleton(type):
     _instances: Dict[type, type] = {}
 
     def __call__(cls, *args, **kwargs):
-        """
-        Control instance creation to ensure singleton behavior.
+        """Control instance creation to ensure singleton behavior.
 
-        :param cls: The class being instantiated
-        :type cls: type
-        :param args: Positional arguments for class initialization
-        :param kwargs: Keyword arguments for class initialization
-        :return: The singleton instance of the class
-        :rtype: type
+        Args:
+            cls (type): The class being instantiated
+            *args: Positional arguments for class initialization
+            **kwargs: Keyword arguments for class initialization
 
-        .. note::
+        Returns:
+            type: The singleton instance of the class
+
+        Note:
             If an instance already exists, ``__init__`` will still be called with
             the provided arguments, but no new instance is created.
         """

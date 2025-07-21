@@ -14,14 +14,13 @@ from colander_data_converter.base.models import CommonEntityType, CommonEntitySu
 
 
 class ThreatrRepository(object, metaclass=Singleton):
-    """
-    Singleton repository for managing and storing Entity, Event, and EntityRelation objects.
+    """Singleton repository for managing and storing Entity, Event, and EntityRelation objects.
 
     This class provides centralized storage and reference management for all model instances,
     supporting insertion, lookup, and reference resolution/unlinking. Uses the Singleton
     pattern to ensure a single global repository instance.
 
-    .. warning::
+    Warning:
         As a singleton, this repository persists for the entire application lifecycle.
         Use the ``clear()`` method to reset state when needed.
     """
@@ -36,10 +35,9 @@ class ThreatrRepository(object, metaclass=Singleton):
     """Dictionary storing EntityRelation objects by their string ID."""
 
     def __init__(self):
-        """
-        Initialize the repository with empty dictionaries for events, entities, and relations.
+        """Initializes the repository with empty dictionaries for events, entities, and relations.
 
-        .. note::
+        Note:
             Due to the Singleton pattern, this method is only called once per application run.
         """
         self.events = {}
@@ -47,10 +45,9 @@ class ThreatrRepository(object, metaclass=Singleton):
         self.relations = {}
 
     def clear(self):
-        """
-        Clear all stored entities, events, and relations from the repository.
+        """Clears all stored entities, events, and relations from the repository.
 
-        .. caution::
+        Caution:
             This operation cannot be undone and will remove all data from the repository.
         """
         self.events.clear()
@@ -58,15 +55,14 @@ class ThreatrRepository(object, metaclass=Singleton):
         self.entities.clear()
 
     def __lshift__(self, other: Union["Entity", "Event", "EntityRelation"]) -> None:
-        """
-        Insert an object into the appropriate repository dictionary using the left shift operator.
+        """Inserts an object into the appropriate repository dictionary using the left shift operator.
 
         This method overloads the ``<<`` operator to provide a convenient way to register
         Entity, Event, and EntityRelation objects in their respective dictionaries.
         The object's ID is used as the key, converted to string format for consistency.
 
-        :param other: The object to insert into the repository
-        :type other: Union[Entity, Event, EntityRelation]
+        Args:
+            other: The object to insert into the repository.
         """
         if isinstance(other, Entity):
             self.entities[str(other.id)] = other
@@ -76,19 +72,19 @@ class ThreatrRepository(object, metaclass=Singleton):
             self.events[str(other.id)] = other
 
     def __rshift__(self, other: str | UUID4) -> Union["Entity", "Event", "EntityRelation", str, UUID4]:
-        """
-        Retrieve an object by its string or UUID identifier using the right shift operator.
+        """Retrieves an object by its string or UUID identifier using the right shift operator.
 
         This method overloads the ``>>`` operator to provide a convenient way to lookup
         Entity, Event, and EntityRelation objects from their respective dictionaries.
         The method searches through entities, relations, and events in that order,
         returning the first match found.
 
-        :param other: The string or UUID identifier to look up in the repository
-        :type other: str | UUID4
-        :return: The found Entity, Event, or EntityRelation object, or the original
-                 identifier if no matching object is found
-        :rtype: Union[Entity, Event, EntityRelation, str, UUID4]
+        Args:
+            other: The string or UUID identifier to look up in the repository.
+
+        Returns:
+            The found Entity, Event, or EntityRelation object, or the original
+            identifier if no matching object is found.
         """
         _other = str(other)
         if _other in self.entities:
@@ -100,13 +96,12 @@ class ThreatrRepository(object, metaclass=Singleton):
         return other
 
     def unlink_references(self):
-        """
-        Unlink all object references in relations and events by replacing them with UUIDs.
+        """Unlinks all object references in relations and events by replacing them with UUIDs.
 
         This method calls ``unlink_references()`` on all stored relations and events to
         convert object references back to UUID references for serialization purposes.
 
-        .. note::
+        Note:
             This operation modifies the stored objects in-place.
         """
         for _, relation in self.relations.items():
@@ -115,21 +110,22 @@ class ThreatrRepository(object, metaclass=Singleton):
             event.unlink_references()
 
     def resolve_references(self, strict=False):
-        """
-        Resolve all UUID references in relations and events to their corresponding objects.
+        """Resolves all UUID references in relations and events to their corresponding objects.
 
         This method iterates through all stored relations and events in the repository,
         calling their respective ``resolve_references`` methods to convert UUID references
         back to actual object instances. This is typically used after deserialization
         to restore object relationships.
 
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
-        :raises ValueError: If strict is True and any UUID reference cannot be resolved
-                            to an existing object in the repository
+        Args:
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                If False, unresolved references remain as UUIDs. Defaults to False.
 
-        .. important::
+        Raises:
+            ValueError: If strict is True and any UUID reference cannot be resolved
+                to an existing object in the repository.
+
+        Important:
             Use ``strict=True`` to ensure data integrity when all references must be resolvable.
         """
         for _, relation in self.relations.items():
@@ -139,14 +135,13 @@ class ThreatrRepository(object, metaclass=Singleton):
 
 
 class ThreatrType(BaseModel):
-    """
-    Base model for Threatr objects, providing repository registration and reference management.
+    """Base model for Threatr objects, providing repository registration and reference management.
 
     This class ensures that all subclasses are automatically registered in the ThreatrRepository
     and provides methods to unlink and resolve object references for serialization and
     deserialization workflows.
 
-    .. important::
+    Important:
         All Threatr model classes must inherit from this base class to ensure proper
         repository integration and reference management.
     """
@@ -155,35 +150,33 @@ class ThreatrType(BaseModel):
         str_strip_whitespace=True,
         arbitrary_types_allowed=True,
     )
-    """Pydantic model configuration for string processing and type handling."""
 
     def model_post_init(self, __context):
-        """
-        Execute post-initialization logic for the model.
+        """Executes post-initialization logic for the model.
 
         Ensures the repository registers the current subclass instance automatically
         after object creation.
 
-        :param __context: Additional context provided for post-initialization handling
-        :type __context: Any
+        Args:
+            __context: Additional context provided for post-initialization handling.
 
-        .. note::
+        Note:
             This method is called automatically by Pydantic after model initialization.
         """
         _ = ThreatrRepository()
         _ << self
 
     def _process_reference_fields(self, operation, strict=False):
-        """
-        Helper method to process reference fields for both unlinking and resolving operations.
+        """Helper method to process reference fields for both unlinking and resolving operations.
 
-        :param operation: The operation to perform, either 'unlink' or 'resolve'
-        :type operation: str
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       Only used for 'resolve' operation.
-        :type strict: bool
-        :raises ValueError: If strict is True and a UUID reference cannot be resolved
-        :raises AttributeError: If the class instance does not have the expected field or attribute
+        Args:
+            operation: The operation to perform, either 'unlink' or 'resolve'.
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                Only used for 'resolve' operation. Defaults to False.
+
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
+            AttributeError: If the class instance does not have the expected field or attribute.
         """
         for field, info in self.__class__.model_fields.items():
             annotation_args = get_args(info.annotation)
@@ -214,40 +207,40 @@ class ThreatrType(BaseModel):
                     setattr(self, field, new_refs)
 
     def unlink_references(self):
-        """
-        Unlink object references by replacing them with their respective UUIDs.
+        """Unlinks object references by replacing them with their respective UUIDs.
 
         This method updates model fields annotated as ``ObjectReference`` or ``List[ObjectReference]``
         by replacing object references with their UUIDs for serialization purposes.
 
-        .. note::
+        Note:
             This operation modifies the object in-place and is typically used before serialization.
 
-        :raises AttributeError: If the class instance does not have the expected field or attribute
+        Raises:
+            AttributeError: If the class instance does not have the expected field or attribute.
         """
         self._process_reference_fields("unlink")
 
     def resolve_references(self, strict=False):
-        """
-        Resolve UUID references to their corresponding objects using the ThreatrRepository.
+        """Resolves UUID references to their corresponding objects using the ThreatrRepository.
 
         Fields annotated with ``ObjectReference`` or ``List[ObjectReference]`` are processed
         to fetch and replace their UUID references with actual object instances.
 
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
-        :raises ValueError: If strict is True and a UUID reference cannot be resolved
+        Args:
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                If False, unresolved references remain as UUIDs. Defaults to False.
 
-        .. important::
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
+
+        Important:
             Use ``strict=True`` to ensure all references are valid and resolvable.
         """
         self._process_reference_fields("resolve", strict)
 
 
 class Entity(ThreatrType):
-    """
-    Represent an entity in the Threatr data model.
+    """Represents an entity in the Threatr data model.
 
     Entities are the primary data objects in Threatr, representing observables,
     indicators, or other threat intelligence artifacts with associated metadata
@@ -289,8 +282,7 @@ class Entity(ThreatrType):
 
 
 class EntityRelation(ThreatrType):
-    """
-    Represent a relation between two entities in the Threatr data model.
+    """Represents a relation between two entities in the Threatr data model.
 
     EntityRelations define directed relationships between entities, supporting
     complex threat intelligence graphs and entity associations.
@@ -322,8 +314,7 @@ class EntityRelation(ThreatrType):
 
 
 class Event(ThreatrType):
-    """
-    Represent an event in the Threatr data model.
+    """Represents an event in the Threatr data model.
 
     Events capture temporal occurrences related to threat intelligence,
     tracking when specific activities or observations took place.
@@ -367,14 +358,15 @@ class Event(ThreatrType):
 
     @model_validator(mode="after")
     def _check_dates(self) -> Any:
-        """
-        Validate that the first_seen date is before the last_seen date.
+        """Validates that the first_seen date is before the last_seen date.
 
-        :return: The validated model instance
-        :rtype: Any
-        :raises ValueError: If first_seen is after last_seen
+        Returns:
+            The validated model instance.
 
-        .. important::
+        Raises:
+            ValueError: If first_seen is after last_seen.
+
+        Important:
             This validation ensures temporal consistency for event data.
         """
         if self.first_seen > self.last_seen:
@@ -383,8 +375,7 @@ class Event(ThreatrType):
 
 
 class ThreatrFeed(ThreatrType):
-    """
-    Represent a feed of Threatr data, including entities, relations, and events.
+    """Represents a feed of Threatr data, including entities, relations, and events.
 
     ThreatrFeed serves as a container for complete threat intelligence datasets,
     organizing related entities, their relationships, and associated events into
@@ -408,18 +399,17 @@ class ThreatrFeed(ThreatrType):
         raw_object: Dict[str, Union[Entity, Event, EntityRelation]],
         strict: bool = False,
     ) -> "ThreatrFeed":
-        """
-        Load a ThreatrFeed from a raw object dictionary, resolving references.
+        """Loads a ThreatrFeed from a raw object dictionary, resolving references.
 
-        :param raw_object: The raw data to validate and load
-        :type raw_object: Dict[str, Union[Entity, Event, EntityRelation]]
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
-        :return: The loaded and reference-resolved feed
-        :rtype: ThreatrFeed
+        Args:
+            raw_object: The raw data to validate and load.
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                If False, unresolved references remain as UUIDs.
 
-        .. important::
+        Returns:
+            The loaded and reference-resolved feed.
+
+        Important:
             Use ``strict=True`` to ensure all references in the feed are valid and resolvable.
         """
         feed = ThreatrFeed.model_validate(raw_object)
@@ -427,17 +417,16 @@ class ThreatrFeed(ThreatrType):
         return feed
 
     def resolve_references(self, strict=False):
-        """
-        Resolve references within entities, relations, and events.
+        """Resolves references within entities, relations, and events.
 
         Iterates over each entity, relation, and event within the respective collections,
         calling their ``resolve_references`` method to update them with any referenced data.
 
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
+        Args:
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                If False, unresolved references remain as UUIDs.
 
-        .. note::
+        Note:
             This method synchronizes internal state with external dependencies after loading.
         """
         for entity in self.entities:
@@ -448,13 +437,12 @@ class ThreatrFeed(ThreatrType):
             relation.resolve_references(strict=strict)
 
     def unlink_references(self) -> None:
-        """
-        Unlink references from all entities, relations, and events within the feed.
+        """Unlinks references from all entities, relations, and events within the feed.
 
         This method iterates through each entity, event, and relation, invoking their
         ``unlink_references()`` methods to replace object references with UUIDs.
 
-        .. note::
+        Note:
             This operation is useful for breaking dependencies or preparing data for serialization.
         """
         for entity in self.entities:

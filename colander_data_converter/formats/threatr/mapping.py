@@ -14,12 +14,12 @@ class ThreatrMappingLoader:
     their Colander equivalents. The mapping data includes field mappings, type
     conversions, and relationship definitions.
 
-    .. note::
+    Note:
         The mapping data is loaded once during initialization and cached for
         subsequent use.
 
-    :ivar mapping_data: The loaded mapping data
-    :type mapping_data: List[Dict[str, Any]]
+    Attributes:
+        mapping_data (List[Dict[str, Any]]): The loaded mapping data
 
     Example:
         >>> loader = ThreatrMappingLoader()
@@ -32,7 +32,8 @@ class ThreatrMappingLoader:
         """
         Initialize the mapping loader and load the mapping data.
 
-        :raises ValueError: If the mapping file cannot be found or parsed
+        Raises:
+            ValueError: If the mapping file cannot be found or parsed
         """
         self.mapping_data = self._load_mapping_data()
 
@@ -44,13 +45,15 @@ class ThreatrMappingLoader:
         This method reads the mapping configuration from the JSON file located at
         ``data/threatr_colander_mapping.json`` relative to this module's package.
 
-        :return: The mapping data loaded from the JSON file
-        :rtype: List[Dict[str, Any]]
-        :raises ValueError: If the file cannot be found or contains invalid JSON
-        :raises FileNotFoundError: If the mapping file does not exist
-        :raises json.JSONDecodeError: If the mapping file contains malformed JSON
+        Returns:
+            List[Dict[str, Any]]: The mapping data loaded from the JSON file
 
-        .. important::
+        Raises:
+            ValueError: If the file cannot be found or contains invalid JSON
+            FileNotFoundError: If the mapping file does not exist
+            json.JSONDecodeError: If the mapping file contains malformed JSON
+
+        Important:
             The JSON file must contain a root object with a "mapping" key that holds
             an array of mapping definitions.
         """
@@ -71,10 +74,10 @@ class ThreatrMapper:
     data that defines how different data formats should be converted between the
     two systems.
 
-    :ivar mapping_loader: Instance of :py:class:`ThreatrMappingLoader` for accessing mapping data
-    :type mapping_loader: ThreatrMappingLoader
+    Attributes:
+        mapping_loader (ThreatrMappingLoader): Instance of ThreatrMappingLoader for accessing mapping data
 
-    .. note::
+    Note:
         This is a base class that should be subclassed by specific mapper
         implementations. The mapping data is loaded once and shared across
         all mapper instances.
@@ -93,7 +96,7 @@ class ThreatrMapper:
         """
         Initialize the mapper with the mapping loader.
 
-        Creates an instance of :py:class:`ThreatrMappingLoader` to provide access to the
+        Creates an instance of ThreatrMappingLoader to provide access to the
         mapping configuration data. This data will be used by subclasses to
         perform the actual conversion between Threatr and Colander formats.
         """

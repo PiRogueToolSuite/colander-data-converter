@@ -36,7 +36,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
     to their corresponding Threatr equivalents. It processes reference fields and creates
     appropriate relationship mappings between entities.
 
-    .. note::
+    Note:
         The mapper uses the mapping configuration loaded from the parent ThreatrMapper
         class to determine appropriate field and relation name mappings.
     """
@@ -45,16 +45,15 @@ class ColanderToThreatrMapper(ThreatrMapper):
         """
         Get the relation name for a field based on the mapping configuration.
 
-        :param source_type: The source entity type name
-        :type source_type: str
-        :param target_type: The target entity type name
-        :type target_type: str
-        :param field_name: The field name to map
-        :type field_name: str
-        :return: The mapped relation name or a default based on the field name
-        :rtype: str
+        Args:
+            source_type (str): The source entity type name
+            target_type (str): The target entity type name
+            field_name (str): The field name to map
 
-        .. note::
+        Returns:
+            str: The mapped relation name or a default based on the field name
+
+        Note:
             If no mapping is found in the configuration, returns a normalized
             version of the field name with underscores replaced by spaces.
         """
@@ -81,15 +80,17 @@ class ColanderToThreatrMapper(ThreatrMapper):
         and events into the equivalent Threatr representation. It handles reference field
         extraction and conversion to explicit relations.
 
-        :param colander_feed: The Colander feed to convert
-        :type colander_feed: ColanderFeed
-        :param root_entity: The root entity ID, UUID, or entity object to use as the root
-        :type root_entity: Union[str, UUID, EntityTypes]
-        :return: A ThreatrFeed object containing the converted data
-        :rtype: ThreatrFeed
-        :raises ValueError: If the root entity cannot be found or is invalid
+        Args:
+            colander_feed (ColanderFeed): The Colander feed to convert
+            root_entity (Union[str, UUID, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
 
-        .. important::
+        Returns:
+            ThreatrFeed: A ThreatrFeed object containing the converted data
+
+        Raises:
+            ValueError: If the root entity cannot be found or is invalid
+
+        Important:
             The root entity must exist in the provided Colander feed. If a string ID
             is provided, it must be a valid UUID format.
         """
@@ -145,12 +146,13 @@ class ColanderToThreatrMapper(ThreatrMapper):
         """
         Convert a Colander entity to a Threatr entity or event.
 
-        :param entity: The Colander entity to convert
-        :type entity: ColanderEntity
-        :return: A Threatr entity or event based on the input type
-        :rtype: Union[ThreatrEntity, ThreatrEvent]
+        Args:
+            entity (ColanderEntity): The Colander entity to convert
 
-        .. note::
+        Returns:
+            Union[ThreatrEntity, ThreatrEvent]: A Threatr entity or event based on the input type
+
+        Note:
             Events are detected by checking if the entity is an instance of the Event class
             and are converted to ThreatrEvent objects accordingly.
         """
@@ -177,12 +179,13 @@ class ColanderToThreatrMapper(ThreatrMapper):
         """
         Convert a Colander entity relation to a Threatr entity relation.
 
-        :param relation: The Colander entity relation to convert
-        :type relation: ColanderEntityRelation
-        :return: A Threatr entity relation
-        :rtype: ThreatrEntityRelation
+        Args:
+            relation (ColanderEntityRelation): The Colander entity relation to convert
 
-        .. note::
+        Returns:
+            ThreatrEntityRelation: A Threatr entity relation
+
+        Note:
             Object references are normalized to UUIDs during conversion to maintain
             consistency in the Threatr model.
         """
@@ -210,12 +213,13 @@ class ColanderToThreatrMapper(ThreatrMapper):
         This method processes all entities in the feed to identify ObjectReference fields
         and converts them into explicit EntityRelation objects in the Threatr model.
 
-        :param colander_feed: The Colander feed containing entities
-        :type colander_feed: ColanderFeed
-        :return: A list of Threatr entity relations extracted from reference fields
-        :rtype: List[ThreatrEntityRelation]
+        Args:
+            colander_feed (ColanderFeed): The Colander feed containing entities
 
-        .. note::
+        Returns:
+            List[ThreatrEntityRelation]: A list of Threatr entity relations extracted from reference fields
+
+        Note:
             Both single ObjectReference fields and List[ObjectReference] fields are processed
             to create appropriate relationship mappings.
         """
@@ -256,18 +260,16 @@ class ColanderToThreatrMapper(ThreatrMapper):
         """
         Helper method to create a relation from a reference field.
 
-        :param entity: The source entity containing the reference
-        :param field_name: The name of the reference field
-        :type field_name: str
-        :param reference_value: The reference value (UUID or object)
-        :param entity_type_name: The source entity type name
-        :type entity_type_name: str
-        :param colander_feed: The feed containing target entities
-        :type colander_feed: ColanderFeed
-        :param is_list: Whether the reference comes from a list field
-        :type is_list: bool
-        :return: A new ThreatrEntityRelation or None if target not found
-        :rtype: ThreatrEntityRelation | None
+        Args:
+            entity: The source entity containing the reference
+            field_name (str): The name of the reference field
+            reference_value: The reference value (UUID or object)
+            entity_type_name (str): The source entity type name
+            colander_feed (ColanderFeed): The feed containing target entities
+            is_list (bool, optional): Whether the reference comes from a list field. Defaults to False.
+
+        Returns:
+            ThreatrEntityRelation | None: A new ThreatrEntityRelation or None if target not found
         """
         target_id = reference_value if isinstance(reference_value, UUID) else reference_value.id
         target_entity = colander_feed.entities.get(str(target_id))
@@ -303,21 +305,20 @@ class ThreatrToColanderMapper(ThreatrMapper):
     to their corresponding Colander equivalents. It processes explicit relations and
     attempts to convert them back to reference fields where appropriate.
 
-    .. important::
+    Important:
         This mapper maintains state during conversion, storing the input ThreatrFeed
         and building the output ColanderFeed incrementally.
 
-    :ivar threatr_feed: The input Threatr feed being converted
-    :type threatr_feed: Optional[ThreatrFeed]
-    :ivar colander_feed: The output Colander feed being built
-    :type colander_feed: ColanderFeed
+    Attributes:
+        threatr_feed (Optional[ThreatrFeed]): The input Threatr feed being converted
+        colander_feed (ColanderFeed): The output Colander feed being built
     """
 
     def __init__(self):
         """
         Initialize the mapper with empty feed containers.
 
-        .. note::
+        Note:
             The mapper creates a new ColanderFeed instance for each conversion process.
         """
         super().__init__()
@@ -328,16 +329,15 @@ class ThreatrToColanderMapper(ThreatrMapper):
         """
         Get the field name for a relation based on the mapping configuration.
 
-        :param source_type: The source entity type name
-        :type source_type: str
-        :param target_type: The target entity type name
-        :type target_type: str
-        :param relation_name: The relation name to reverse-map
-        :type relation_name: str
-        :return: The corresponding field name or None if no mapping found
-        :rtype: Optional[str]
+        Args:
+            source_type (str): The source entity type name
+            target_type (str): The target entity type name
+            relation_name (str): The relation name to reverse-map
 
-        .. note::
+        Returns:
+            Optional[str]: The corresponding field name or None if no mapping found
+
+        Note:
             This method performs reverse lookup in the mapping configuration
             to find field names that correspond to relation names.
         """
@@ -359,12 +359,13 @@ class ThreatrToColanderMapper(ThreatrMapper):
         This method tries to convert explicit relations back into reference fields
         on the source entity, which is the preferred representation in the Colander model.
 
-        :param threatr_relation: The Threatr relation to convert
-        :type threatr_relation: ThreatrEntityRelation
-        :return: True if the relation was successfully converted to a reference field
-        :rtype: bool
+        Args:
+            threatr_relation (ThreatrEntityRelation): The Threatr relation to convert
 
-        .. important::
+        Returns:
+            bool: True if the relation was successfully converted to a reference field
+
+        Important:
             Only relations that map to known reference fields can be converted.
             Other relations remain as explicit EntityRelation objects.
         """
@@ -397,13 +398,16 @@ class ThreatrToColanderMapper(ThreatrMapper):
         """
         Convert a Threatr entity relation to a Colander entity relation.
 
-        :param relation: The Threatr entity relation to convert
-        :type relation: ThreatrEntityRelation
-        :return: A Colander entity relation or None if conversion fails
-        :rtype: Optional[ColanderEntityRelation]
-        :raises AssertionError: If relation or its object references are None
+        Args:
+            relation (ThreatrEntityRelation): The Threatr entity relation to convert
 
-        .. note::
+        Returns:
+            Optional[ColanderEntityRelation]: A Colander entity relation or None if conversion fails
+
+        Raises:
+            AssertionError: If relation or its object references are None
+
+        Note:
             This method checks if the relation has already been converted to avoid
             duplicate processing.
         """
@@ -439,13 +443,16 @@ class ThreatrToColanderMapper(ThreatrMapper):
         This method determines the appropriate Colander entity type based on the
         Threatr entity's super_type and type, then creates the corresponding instance.
 
-        :param entity: The Threatr entity to convert
-        :type entity: ThreatrEntity
-        :return: A Colander entity or None if conversion is not supported
-        :rtype: Optional[EntityTypes]
-        :raises AssertionError: If entity is None or not a ThreatrEntity instance
+        Args:
+            entity (ThreatrEntity): The Threatr entity to convert
 
-        .. note::
+        Returns:
+            Optional[EntityTypes]: A Colander entity or None if conversion is not supported
+
+        Raises:
+            AssertionError: If entity is None or not a ThreatrEntity instance
+
+        Note:
             Entities that have already been processed are returned from the repository
             without re-conversion to maintain object identity.
         """
@@ -481,13 +488,16 @@ class ThreatrToColanderMapper(ThreatrMapper):
         """
         Convert a Threatr event to a Colander event.
 
-        :param event: The Threatr event to convert
-        :type event: ThreatrEvent
-        :return: A Colander event
-        :rtype: Event
-        :raises AssertionError: If event is None or not a ThreatrEvent instance
+        Args:
+            event (ThreatrEvent): The Threatr event to convert
 
-        .. note::
+        Returns:
+            Event: A Colander event
+
+        Raises:
+            AssertionError: If event is None or not a ThreatrEvent instance
+
+        Note:
             Events that have already been processed are returned from the repository
             without re-conversion. Involved entities are automatically linked if they
             are Observable instances.
@@ -529,13 +539,16 @@ class ThreatrToColanderMapper(ThreatrMapper):
         handling entities, events, and relations. It attempts to convert explicit
         relations back to reference fields where possible.
 
-        :param threatr_feed: The Threatr feed to convert
-        :type threatr_feed: ThreatrFeed
-        :return: A ColanderFeed object containing the converted data
-        :rtype: ColanderFeed
-        :raises AssertionError: If threatr_feed is None or not a ThreatrFeed instance
+        Args:
+            threatr_feed (ThreatrFeed): The Threatr feed to convert
 
-        .. important::
+        Returns:
+            ColanderFeed: A ColanderFeed object containing the converted data
+
+        Raises:
+            AssertionError: If threatr_feed is None or not a ThreatrFeed instance
+
+        Important:
             The method resolves all references in the input feed before processing
             to ensure consistent object relationships.
         """

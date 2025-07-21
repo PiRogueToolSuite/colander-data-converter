@@ -59,19 +59,17 @@ class BaseModelMerger:
     """
 
     def __init__(self, strategy: MergingStrategy = MergingStrategy.OVERWRITE):
-        """
-        Initialize the ``BaseModelMerger`` with a merging strategy.
+        """Initialize the ``BaseModelMerger`` with a merging strategy.
 
-        :param strategy: The strategy to use when merging fields.
-        :type strategy: MergingStrategy
+        Args:
+            strategy: The strategy to use when merging fields.
         """
         self.strategy = strategy
 
     def merge_field(
         self, destination: BaseModel, field_name: str, field_value: Any, ignored_fields: List[str] = None
     ) -> bool:
-        """
-        Merge a single field from source to destination model.
+        """Merge a single field from source to destination model.
 
         This method handles the logic for merging individual fields, including
         type checking, field existence validation, and attribute handling. It
@@ -89,17 +87,15 @@ class BaseModelMerger:
               containing ObjectReference, and destination is empty (``PRESERVE``) or
               strategy is ``OVERWRITE``
 
-        :param destination: The target model to merge into.
-        :type destination: BaseModel
-        :param field_name: The name of the field to merge.
-        :type field_name: str
-        :param field_value: The value to merge from the source.
-        :type field_value: Any
-        :param ignored_fields: List of field names to skip during merging.
-        :type ignored_fields: List[str], optional
-        :return: True if the field was processed (successfully merged or handled),
-                 False if the field could not be processed
-        :rtype: bool
+        Args:
+            destination: The target model to merge into.
+            field_name: The name of the field to merge.
+            field_value: The value to merge from the source.
+            ignored_fields: List of field names to skip during merging.
+
+        Returns:
+            True if the field was processed (successfully merged or handled),
+            False if the field could not be processed
         """
         field_processed = False
         if not field_value:
@@ -135,23 +131,21 @@ class BaseModelMerger:
         return field_processed
 
     def merge(self, source: BaseModel, destination: BaseModel, ignored_fields: List[str] = None) -> List[str]:
-        """
-        Merge all compatible fields from the source object into the destination object.
+        """Merge all compatible fields from the source object into the destination object.
 
         This method iterates through all fields in the source object and attempts
         to merge them into the destination object. It handles both regular object
         fields and extra attributes dictionary if supported.
 
-        :param source: The source model to merge from
-        :type source: BaseModel
-        :param destination: The destination model to merge to
-        :type destination: BaseModel
-        :param ignored_fields: List of field names to skip during merging
-        :type ignored_fields: List[str], optional
-        :return: A list of field names that could not be processed during
-                 the merge operation. Fields containing ObjectReference types
-                 are automatically added to this list.
-        :rtype: List[str]
+        Args:
+            source: The source model to merge from
+            destination: The destination model to merge to
+            ignored_fields: List of field names to skip during merging
+
+        Returns:
+            A list of field names that could not be processed during
+            the merge operation. Fields containing ObjectReference types
+            are automatically added to this list.
         """
         unprocessed_fields = []
         source_attributes = getattr(source, "attributes", None)

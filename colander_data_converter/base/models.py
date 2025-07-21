@@ -54,8 +54,7 @@ EntityTypes = Annotated[
 
 
 class CommonEntityType(BaseModel, abc.ABC):
-    """
-    CommonEntityType is an abstract base class for defining shared attributes across various entity data types.
+    """CommonEntityType is an abstract base class for defining shared attributes across various entity data types.
 
     This class provides fields for identifiers, names, descriptions, and other metadata.
     """
@@ -98,13 +97,14 @@ class CommonEntityType(BaseModel, abc.ABC):
 
 
 class ColanderType(BaseModel):
-    """
-    Base class for all Colander model data_types, providing common functionality for
-    post-initialization, reference management, and type resolution.
+    """Base class for all Colander model data_types, providing common functionality.
 
     This class extends Pydantic's BaseModel and is intended to be subclassed by
     all model entities. It includes methods for linking and unlinking object references,
     resolving type hints, and extracting subclass information.
+
+    Attributes:
+        model_config: Configuration for the Pydantic model.
     """
 
     model_config = ConfigDict(
@@ -113,28 +113,27 @@ class ColanderType(BaseModel):
     )
 
     def model_post_init(self, __context):
-        """
-        Executes post-initialization logic for the model, ensuring the repository
+        """Executes post-initialization logic for the model, ensuring the repository
         registers the current subclass instance.
 
-        :param __context: Additional context provided for post-initialization
-                          handling.
-        :type __context: Any
+        Args:
+            __context (Any): Additional context provided for post-initialization
+                handling.
         """
         _ = ColanderRepository()
         _ << self
 
     def _process_reference_fields(self, operation, strict=False):
-        """
-        Helper method to process reference fields for both unlinking and resolving operations.
+        """Helper method to process reference fields for both unlinking and resolving operations.
 
-        :param operation: The operation to perform, either 'unlink' or 'resolve'.
-        :type operation: str
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       Only used for 'resolve' operation.
-        :type strict: bool
-        :raises ValueError: If strict is True and a UUID reference cannot be resolved.
-        :raises AttributeError: If the class instance does not have the expected field or attribute.
+        Args:
+            operation (str): The operation to perform, either 'unlink' or 'resolve'.
+            strict (bool, optional): If True, raises a ValueError when a UUID reference cannot be resolved.
+                Only used for 'resolve' operation. Defaults to False.
+
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
+            AttributeError: If the class instance does not have the expected field or attribute.
         """
         for field, info in self.__class__.model_fields.items():
             annotation_args = get_args(info.annotation)
@@ -165,8 +164,7 @@ class ColanderType(BaseModel):
                     setattr(self, field, new_refs)
 
     def unlink_references(self):
-        """
-        Unlinks object references by replacing them with their respective UUIDs.
+        """Unlinks object references by replacing them with their respective UUIDs.
 
         This method updates the model fields of the class instance where
         fields annotated as `ObjectReference` or `List[ObjectReference]` exist. It replaces the
@@ -180,38 +178,39 @@ class ColanderType(BaseModel):
         not already a UUID. The field value is updated only if at least one
         replacement occurs.
 
-        :raises AttributeError: If the class instance does not have the expected field or attribute.
+        Raises:
+            AttributeError: If the class instance does not have the expected field or attribute.
         """
         self._process_reference_fields("unlink")
 
     def resolve_references(self, strict=False):
-        """
-        Resolves references for the fields in the object's model. Fields annotated with `ObjectReference` or
-        `List[ObjectReference]` are processed to fetch and replace their UUID references with respective
-        entities using the `Repository`.
+        """Resolves references for the fields in the object's model.
+
+        Fields annotated with `ObjectReference` or `List[ObjectReference]` are processed 
+        to fetch and replace their UUID references with respective entities using the `Repository`.
 
         This method updates the object in-place.
 
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
+        Args:
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                   If False, unresolved references remain as UUIDs.
 
-        :raises ValueError: If strict is True and a UUID reference cannot be resolved.
+        Raises:
+            ValueError: If strict is True and a UUID reference cannot be resolved.
         """
         self._process_reference_fields("resolve", strict)
 
     @classmethod
     def subclasses(cls) -> Dict[str, type["EntityTypes"]]:
-        """
-        Generates a dictionary containing all subclasses of the current class.
+        """Generates a dictionary containing all subclasses of the current class.
 
         This method collects all the direct subclasses of the current class and maps their
         names (converted to lowercase) to the class itself. It is primarily useful for
         organizing and accessing class hierarchies dynamically.
 
-        :return: A dictionary where the keys are the lowercase names of the subclasses,
-                 and the values are the subclass data_types themselves.
-        :rtype: Dict[str, type['EntityTypes']]
+        Returns:
+            Dict[str, type['EntityTypes']]: A dictionary where the keys are the lowercase names of the subclasses, and
+            the values are the subclass data_types themselves.
         """
         subclasses = {}
         for subclass in cls.__subclasses__():
@@ -220,17 +219,16 @@ class ColanderType(BaseModel):
 
     @classmethod
     def resolve_type(cls, content_type: str) -> type["EntityTypes"]:
-        """
-        Resolves a specific type of entity definition based on the provided content type by
+        """Resolves a specific type of entity definition based on the provided content type by
         matching it against the available subclasses of the class. This utility ensures that
         the given content type is valid and matches one of the registered subclasses.
 
-        :param content_type: A string representing the type of content to be resolved.
-            Must match the name of a subclass (in lowercase) of the current class.
-        :type content_type: str
+        Args:
+            content_type (str): A string representing the type of content to be resolved.
+                Must match the name of a subclass (in lowercase) of the current class.
 
-        :return: The resolved class type corresponding to the provided content type.
-        :rtype: type['EntityTypes']
+        Returns:
+            type['EntityTypes']: The resolved class type corresponding to the provided content type.
         """
         _content_type = content_type.lower()
         _subclasses = cls.subclasses()
@@ -239,21 +237,21 @@ class ColanderType(BaseModel):
 
     @classmethod
     def extract_type_hints(cls, obj: dict) -> str:
-        """
-        Extracts type hints from a given dictionary based on specific keys.
+        """Extracts type hints from a given dictionary based on specific keys.
 
         This class method attempts to retrieve type hints from a dictionary using a specific
         key ("colander_internal_type") or nested keys ("super_type" and its "short_name" value).
         If the dictionary does not match the expected structure or the keys are not available,
         a ValueError is raised.
 
-        :param obj: The dictionary from which type hints need to be extracted.
-        :type obj: dict
+        Args:
+            obj (dict): The dictionary from which type hints need to be extracted.
 
-        :return: A string representing the extracted type hint.
-        :rtype: str
+        Returns:
+            str: A string representing the extracted type hint.
 
-        :raises ValueError: If the type hint cannot be extracted from the provided dictionary.
+        Raises:
+            ValueError: If the type hint cannot be extracted from the provided dictionary.
         """
         try:
             if "colander_internal_type" in obj:
@@ -279,8 +277,7 @@ class ColanderType(BaseModel):
 
 
 class Case(ColanderType):
-    """
-    Case represents a collection or grouping of related entities, artifacts, or events.
+    """Case represents a collection or grouping of related entities, artifacts, or events.
 
     This class is used to organize and manage related data, such as incidents, investigations, or projects.
 
@@ -325,11 +322,10 @@ class Case(ColanderType):
 
 
 class Entity(ColanderType, abc.ABC):
-    """
-    Entity is an abstract base class representing a core object in the model, such as an actor, artifact, device, etc.
+    """Entity is an abstract base class representing a core object in the model.
 
     This class provides common fields for all entities, including identifiers, timestamps, descriptive fields,
-    and references to cases.
+    and references to cases. Examples include actors, artifacts, devices, etc.
     """
 
     id: UUID4 = Field(frozen=True, default_factory=lambda: uuid4())
@@ -361,8 +357,7 @@ class Entity(ColanderType, abc.ABC):
 
 
 class EntityRelation(ColanderType):
-    """
-    EntityRelation represents a relationship between two entities in the model.
+    """EntityRelation represents a relationship between two entities in the model.
 
     This class is used to define and manage relationships between objects, such as associations
     between observables, devices, or actors.
@@ -414,9 +409,9 @@ class EntityRelation(ColanderType):
 
 
 class ArtifactType(CommonEntityType):
-    """
-    ArtifactType represents metadata for artifacts in Colander. Check :ref:`the list of supported
-    types <artifact_types>`.
+    """ArtifactType represents metadata for artifacts in Colander.
+
+    Check :ref:`the list of supported types <artifact_types>`.
 
     Example:
         >>> artifact_type = ArtifactTypes.enum.REPORT.value
@@ -425,15 +420,35 @@ class ArtifactType(CommonEntityType):
     """
 
     type_hints: Dict[str, Any] = Field(default_factory=dict)
+    """Dictionary of additional type hints for the artifact type."""
 
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
+        """Validates that the short_name is a supported artifact type.
+
+        Args:
+            short_name: The short name to validate.
+
+        Returns:
+            str: The validated short name.
+
+        Raises:
+            ValueError: If the short name is not a supported artifact type.
+        """
         if short_name not in {t["short_name"] for t in _load_entity_supported_types("artifact")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
 
     def match_mime_type(self, mime_type) -> bool:
+        """Checks if the given MIME type matches this artifact type.
+
+        Args:
+            mime_type: The MIME type string to check.
+
+        Returns:
+            bool: True if the MIME type matches this artifact type, False otherwise.
+        """
         wildcard = "*"
         if not mime_type:
             return False
@@ -448,8 +463,7 @@ class ArtifactType(CommonEntityType):
 
 
 class ArtifactTypes:
-    """
-    ArtifactTypes provides access to all supported artifact types.
+    """ArtifactTypes provides access to all supported artifact types.
 
     This class loads artifact type definitions from the artifact types JSON file and exposes them as an enum.
     It also provides a method to look up an artifact type by its short name.
@@ -484,9 +498,9 @@ class ArtifactTypes:
 
 
 class ObservableType(CommonEntityType):
-    """
-    ObservableType represents metadata for observables in Colander. Check :ref:`the list of supported
-    types <observable_types>`.
+    """ObservableType represents metadata for observables in Colander.
+
+    Check :ref:`the list of supported types <observable_types>`.
 
     Example:
         >>> observable_type = ObservableType(
@@ -508,8 +522,7 @@ class ObservableType(CommonEntityType):
 
 
 class ObservableTypes:
-    """
-    ObservableTypes provides access to all supported observable types.
+    """ObservableTypes provides access to all supported observable types.
 
     This class loads observable type definitions from the observable types JSON file and exposes them as an enum.
     It also provides a method to look up an observable type by its short name.
@@ -1144,8 +1157,7 @@ class Event(Entity):
 
 
 class ColanderRepository(object, metaclass=Singleton):
-    """
-    Singleton repository for managing and storing Case, Entity, and EntityRelation objects.
+    """Singleton repository for managing and storing Case, Entity, and EntityRelation objects.
 
     This class provides centralized storage and reference management for all model instances,
     supporting insertion, lookup, and reference resolution/unlinking.
@@ -1156,9 +1168,7 @@ class ColanderRepository(object, metaclass=Singleton):
     relations: Dict[str, EntityRelation]
 
     def __init__(self):
-        """
-        Initializes the repository with empty dictionaries for cases, entities, and relations.
-        """
+        """Initializes the repository with empty dictionaries for cases, entities, and relations."""
         self.cases = {}
         self.entities = {}
         self.relations = {}
@@ -1169,11 +1179,10 @@ class ColanderRepository(object, metaclass=Singleton):
         self.relations.clear()
 
     def __lshift__(self, other: EntityTypes | Case) -> None:
-        """
-        Inserts an object (Entity, EntityRelation, or Case) into the appropriate repository dictionary.
+        """Inserts an object into the appropriate repository dictionary.
 
-        :param other: The object to insert.
-        :type other: EntityTypes | Case
+        Args:
+            other: The object (Entity, EntityRelation, or Case) to insert.
         """
         if isinstance(other, Entity):
             self.entities[str(other.id)] = other
@@ -1183,14 +1192,13 @@ class ColanderRepository(object, metaclass=Singleton):
             self.cases[str(other.id)] = other
 
     def __rshift__(self, other: str | UUID4) -> EntityTypes | EntityRelation | Case | str | UUID4:
-        """
-        Retrieves an object by its string or UUID identifier from entities, relations, or cases.
+        """Retrieves an object by its identifier from entities, relations, or cases.
 
-        :param other: The identifier to look up.
-        :type other: str | UUID4
+        Args:
+            other: The string or UUID identifier to look up.
 
-        :return: The found object or the identifier if not found.
-        :rtype: EntityTypes | EntityRelation | Case | str | UUID4
+        Returns:
+            The found object or the identifier if not found.
         """
         _other = str(other)
         if _other in self.entities:
@@ -1202,9 +1210,7 @@ class ColanderRepository(object, metaclass=Singleton):
         return other
 
     def unlink_references(self):
-        """
-        Unlinks all object references in entities, relations, and cases by replacing them with UUIDs.
-        """
+        """Unlinks all object references in entities, relations, and cases by replacing them with UUIDs."""
         for _, entity in self.entities.items():
             entity.unlink_references()
         for _, relation in self.relations.items():
@@ -1213,9 +1219,7 @@ class ColanderRepository(object, metaclass=Singleton):
             case.unlink_references()
 
     def resolve_references(self):
-        """
-        Resolves all UUID references in entities, relations, and cases to their corresponding objects.
-        """
+        """Resolves all UUID references in entities, relations, and cases to their corresponding objects."""
         for _, entity in self.entities.items():
             entity.resolve_references()
         for _, relation in self.relations.items():
@@ -1225,8 +1229,7 @@ class ColanderRepository(object, metaclass=Singleton):
 
 
 class ColanderFeed(ColanderType):
-    """
-    ColanderFeed aggregates entities, relations, and cases for bulk operations or data exchange.
+    """ColanderFeed aggregates entities, relations, and cases for bulk operations or data exchange.
 
     This class is used to load, manage, and resolve references for collections of model objects.
 
@@ -1269,17 +1272,17 @@ class ColanderFeed(ColanderType):
 
     @staticmethod
     def load(raw_object: dict | list) -> "ColanderFeed":
-        """
-        Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
+        """Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
 
-        :param raw_object: The raw data representing the entities and relations to be loaded into
-            the EntityFeed.
-        :type raw_object: dict | list
+        Args:
+            raw_object: The raw data representing the entities and relations to be loaded into
+                the EntityFeed.
 
-        :return: The EntityFeed loaded from a raw object.
-        :rtype: ColanderFeed
+        Returns:
+            The EntityFeed loaded from a raw object.
 
-        :raises ValueError: If there are inconsistencies in entity IDs or relations.
+        Raises:
+            ValueError: If there are inconsistencies in entity IDs or relations.
         """
         if "entities" in raw_object:
             for entity_id, entity in raw_object["entities"].items():
@@ -1291,10 +1294,10 @@ class ColanderFeed(ColanderType):
                 if relation_id != relation.get("id"):
                     raise ValueError(f"Relation {relation_id} does not match with the ID of {relation}")
                 if (
-                    "obj_from" not in relation
-                    and "obj_to" not in relation
-                    and "obj_from_id" in relation
-                    and "obj_to_id" in relation
+                        "obj_from" not in relation
+                        and "obj_to" not in relation
+                        and "obj_from_id" in relation
+                        and "obj_to_id" in relation
                 ):
                     relation["obj_from"] = relation["obj_from_id"]
                     relation["obj_to"] = relation["obj_to_id"]
@@ -1309,16 +1312,15 @@ class ColanderFeed(ColanderType):
         return entity_feed
 
     def resolve_references(self, strict=False):
-        """
-        Resolves references within entities, relations, and cases.
+        """Resolves references within entities, relations, and cases.
 
         Iterates over each entity, relation, and case within the respective collections, calling their
         `resolve_references` method to update them with any referenced data. This helps in synchronizing
         internal state with external dependencies or updates.
 
-        :param strict: If True, raises a ValueError when a UUID reference cannot be resolved.
-                       If False, unresolved references remain as UUIDs.
-        :type strict: bool
+        Args:
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
+                   If False, unresolved references remain as UUIDs.
         """
         for _, entity in self.entities.items():
             entity.resolve_references(strict=strict)
@@ -1328,8 +1330,7 @@ class ColanderFeed(ColanderType):
             case.resolve_references(strict=strict)
 
     def unlink_references(self) -> None:
-        """
-        Unlinks references from all entities, relations, and cases within the current context.
+        """Unlinks references from all entities, relations, and cases within the current context.
 
         This method iterates through each entity, relation, and case stored in the `entities`, `relations`,
         and `cases` dictionaries respectively, invoking their `unlink_references()` methods to clear any references
