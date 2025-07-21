@@ -12,6 +12,7 @@ An actor represents an individual or group involved in an event, activity, or sy
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Actor
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -32,6 +33,7 @@ An artifact represents a file or data object, such as a document, image, or bina
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Artifact
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -52,6 +54,7 @@ A data fragment represents a fragment of data, such as a code snippet, text, or 
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.DataFragment
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -72,6 +75,7 @@ A detection rule represents a rule used for detecting specific content or logic 
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.DetectionRule
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -92,6 +96,7 @@ A device represents a physical or virtual device in a system.
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Device
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -112,6 +117,7 @@ An event represents an occurrence or activity observed within a system, such as 
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Event
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -132,6 +138,7 @@ Observable represents an entity such as an IP address that can be observed or de
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Observable
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
@@ -152,6 +159,7 @@ A threat represents a potentially malicious entity, such as a malware family, ca
 Data model
 ``````````
 .. autopydantic_model:: colander_data_converter.base.models.Threat
+   :no-index:
    :model-show-json: False
    :model-show-config-summary: False
    :model-show-field-summary: False
