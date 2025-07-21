@@ -29,6 +29,8 @@ autodoc_pydantic_field_show_required = True
 autodoc_pydantic_model_member_order = "bysource"
 
 extensions = [
+    "sphinx_toolbox.collapse",
+    "sphinx_toolbox.formatting",
     "sphinx.ext.autodoc",
     "sphinx.ext.autodoc.typehints",
     "sphinx_copybutton",

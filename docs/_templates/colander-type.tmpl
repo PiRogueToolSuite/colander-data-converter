@@ -1,19 +1,29 @@
 .. -*- mode: rst -*-
 
-Supported types:
+Supported types
+----------------
 
-{% for item in data|sort(attribute='short_name') %}
-``{{item.short_name}}``
-````````````````````````````````````````````````
-**{{item.name}}** *{{item.description}}*
-{% if item.default_attributes %}
-Suggested extra properties:
-``{{ item.default_attributes.keys()|join(', ') }}``
-{% endif %}
-{% if item.type_hints and item.type_hints.suggested_by_mime_types %}
-Suggested MIME types:
-{% for m in item.type_hints.suggested_by_mime_types.types|sort %}
-* ``{{m}}``
-{% endfor %}
-{% endif %}
-{% endfor %}
+.. collapse:: Details
+
+    {% for item in data|sort(attribute='short_name') %}
+    ``{{item.short_name}}`` **{{item.name}}** - *{{item.description}}*
+    {% if item.default_attributes %}
+    Suggested extra properties:
+    ``{{ item.default_attributes.keys()|join(', ') }}``
+    {% endif %}
+    {% if item.type_hints and item.type_hints.suggested_by_mime_types %}
+    Suggested MIME types:
+    {% for m in item.type_hints.suggested_by_mime_types.types|sort %}
+    * ``{{m}}``
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+
+
+.. list-table::
+   {% for item in data|sort(attribute='short_name') %}
+   * - ``{{item.short_name}}``
+     - *{{item.description}}*
+   {% endfor %}
+
+
