@@ -51,11 +51,25 @@ html_theme_options = {
     "titles_only": False,
 }
 
+viewcode_line_numbers = True
+
+napoleon_include_init_with_doc = True
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_references = True
+napoleon_preprocess_types = True
+napoleon_type_aliases = {
+    "ObjectReference": "pydantic.types.UUID4",
+}
+
 exclude_patterns = []
 
 autosummary_generate = True
 
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
-    "python": ("https://docs.python.org/", None),
+    "python": ("https://docs.python.org/3", None),
 }
+
