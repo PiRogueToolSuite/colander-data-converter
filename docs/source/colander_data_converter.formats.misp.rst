@@ -8,11 +8,3 @@ Submodules
    :maxdepth: 4
 
    colander_data_converter.formats.misp.models
-
-Module contents
----------------
-
-.. automodule:: colander_data_converter.formats.misp
-   :members:
-   :undoc-members:
-   :show-inheritance:

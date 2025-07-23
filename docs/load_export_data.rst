@@ -26,7 +26,7 @@ To load a Colander feed from a JSON file, call the method
 
 Exporting to JSON file
 ``````````````````````
-To export a Colander feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump` to convert the feed to
+To export a Colander feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
 a Python :py:class:`dict` and save it into the destination file in JSON format:
 
 .. code-block:: python
@@ -36,7 +36,7 @@ a Python :py:class:`dict` and save it into the destination file in JSON format:
    # 'feed' is a ColanderFeed object
    feed.unlink_references()
    with open("path/to/output_colander_feed.json", "w") as f:
-       json.dump(feed.model_dump(), f, indent=2)
+       f.write(feed.model_dump_json(indent=2))
 
 
 Threatr
@@ -60,7 +60,7 @@ To load a Threatr feed from a JSON file, call the method
 
 Exporting to JSON file
 ``````````````````````
-To export a Threatr feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump` to convert the feed to
+To export a Threatr feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
 a Python :py:class:`dict` and save it into the destination file in JSON format:
 
 .. code-block:: python
