@@ -576,3 +576,38 @@ class ThreatrToColanderMapper(ThreatrMapper):
                     self.colander_feed.relations[str(relation.id)] = colander_relation
 
         return self.colander_feed
+
+
+class ThreatrConverter:
+    """
+    Converter for Threatr data to Colander data and vice versa.
+    Uses the mapping file to convert between formats.
+    """
+
+    @staticmethod
+    def threatr_to_colander(threatr_feed: ThreatrFeed) -> ColanderFeed:
+        """
+        Converts Threatr data to Colander data using the mapping file.
+
+        Args:
+            threatr_feed (ThreatrFeed): The Threatr data to convert.
+
+        Returns:
+            ColanderFeed: The converted Colander data.
+        """
+        mapper = ThreatrToColanderMapper()
+        return mapper.convert(threatr_feed)
+
+    @staticmethod
+    def colander_to_threatr(colander_feed: ColanderFeed) -> ThreatrFeed:
+        """
+        Converts Colander data to Threatr data using the mapping file.
+
+        Args:
+            colander_feed (ColanderFeed): The Colander data to convert.
+
+        Returns:
+            ThreatrFeed: The converted Threatr data.
+        """
+        mapper = ColanderToThreatrMapper()
+        return mapper.convert(colander_feed)
