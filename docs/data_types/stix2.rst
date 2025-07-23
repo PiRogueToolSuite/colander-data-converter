@@ -1,7 +1,9 @@
+.. _stix2_data_model:
+
 STIX2
 =====
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
 
 
