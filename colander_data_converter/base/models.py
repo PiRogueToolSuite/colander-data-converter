@@ -1563,8 +1563,6 @@ class ColanderFeed(ColanderType):
         )
 
         for entity_id, entity in self.entities.items():
-            t = type(entity)
-            e = type(entity) in excluded_types
             if entity.tlp.value < maximum_tlp_level.value and type(entity) not in excluded_types:
                 filtered.entities[entity_id] = entity
 
