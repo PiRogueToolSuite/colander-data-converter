@@ -91,34 +91,37 @@ class CommonEntityType(BaseModel, abc.ABC):
     name: str = Field(frozen=True, max_length=512)
     """The name of the model type."""
 
-    description: str | None = None
+    description: str | None = Field(default=None, exclude=True)
     """An optional description of the model type."""
 
-    svg_icon: str | None = None
+    svg_icon: str | None = Field(default=None, exclude=True)
     """Optional SVG icon for the model type."""
 
-    nf_icon: str | None = None
+    nf_icon: str | None = Field(default=None, exclude=True)
     """Optional NF icon for the model type."""
 
-    stix2_type: str | None = None
+    stix2_type: str | None = Field(default=None, exclude=True)
     """Optional STIX 2.0 type for the model type."""
 
-    stix2_value_field_name: str | None = None
+    stix2_value_field_name: str | None = Field(default=None, exclude=True)
     """Optional STIX 2.0 value field name."""
 
-    stix2_pattern: str | None = None
+    stix2_pattern: str | None = Field(default=None, exclude=True)
     """Optional STIX 2.0 pattern."""
 
-    stix2_pattern_type: str | None = None
+    stix2_pattern_type: str | None = Field(default=None, exclude=True)
     """Optional STIX 2.0 pattern type."""
 
-    default_attributes: Optional[Dict[str, str]] = None
+    default_attributes: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     """Optional dictionary of default attributes."""
 
-    type_hints: Dict[Any, Any] | None = None
+    type_hints: Dict[Any, Any] | None = Field(default=None, exclude=True)
     """Optional dictionary of type hints."""
 
     def __str__(self):
+        return self.short_name
+
+    def __repr__(self):
         return self.short_name
 
 
@@ -1612,6 +1615,12 @@ class CommonEntitySuperType(BaseModel):
             if hasattr(t, short_name.upper()):
                 return getattr(t, short_name.upper()).value
         return self.default_type
+
+    def __str__(self):
+        return self.short_name
+
+    def __repr__(self):
+        return self.short_name
 
 
 class CommonEntitySuperTypes(enum.Enum):
