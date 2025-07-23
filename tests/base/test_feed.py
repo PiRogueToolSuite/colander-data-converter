@@ -259,11 +259,9 @@ class TestFeed:
             },
         )
         filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
-        # Only obs_green and obs_white should remain
         assert str(obs_red.id) not in filtered.entities
         assert str(obs_green.id) in filtered.entities
         assert str(obs_white.id) in filtered.entities
-        # Only rel2 should remain, since rel1 references obs_red
         assert str(rel2.id) in filtered.relations
         assert str(rel1.id) not in filtered.relations
 
@@ -310,7 +308,6 @@ class TestFeed:
             },
         )
         filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
-        # obs_red should be removed, so rel2 should be removed
         assert str(rel1.id) in filtered.relations
         assert str(rel2.id) not in filtered.relations
         assert str(obs_green.id) in filtered.entities
