@@ -256,7 +256,7 @@ class TestFeed:
             relations={
                 str(rel1.id): rel1,
                 str(rel2.id): rel2,
-            }
+            },
         )
         filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
         # Only obs_green and obs_white should remain
@@ -282,7 +282,7 @@ class TestFeed:
             },
             relations={
                 str(rel.id): rel,
-            }
+            },
         )
         filtered = feed.filter(maximum_tlp_level=TlpPapLevel.GREEN)
         assert filtered.entities == {}
@@ -307,7 +307,7 @@ class TestFeed:
             relations={
                 str(rel1.id): rel1,
                 str(rel2.id): rel2,
-            }
+            },
         )
         filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
         # obs_red should be removed, so rel2 should be removed
