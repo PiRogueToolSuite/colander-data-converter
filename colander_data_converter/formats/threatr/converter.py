@@ -72,7 +72,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
 
         return relation_name
 
-    def convert(self, colander_feed: ColanderFeed, root_entity: Union[str, UUID, EntityTypes]) -> ThreatrFeed:
+    def convert(self, colander_feed: ColanderFeed, root_entity: Union[str, UUID4, EntityTypes]) -> ThreatrFeed:
         """
         Convert a Colander data model to a Threatr data model.
 
@@ -82,7 +82,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
 
         Args:
             colander_feed (ColanderFeed): The Colander feed to convert
-            root_entity (Union[str, UUID, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
+            root_entity (Union[str, UUID4, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
 
         Returns:
             ThreatrFeed: A ThreatrFeed object containing the converted data
@@ -98,7 +98,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
         root_entity_obj = None
         if isinstance(root_entity, str):
             try:
-                root_entity = UUID(root_entity)
+                root_entity = UUID(root_entity, version=4)
             except Exception:
                 raise ValueError(f"Invalid UUID {root_entity}")
         if isinstance(root_entity, UUID):
