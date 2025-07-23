@@ -14,7 +14,7 @@ project = "Colander data converter"
 copyright = "2025, Defensive Lab Agency - Esther Onfroy"
 author = "Esther Onfroy"
 
-autodoc_pydantic_model_show_json = True
+autodoc_pydantic_model_show_json = False
 autodoc_pydantic_model_show_validator_summary = True
 autodoc_pydantic_settings_show_json = False
 autodoc_typehints = "description"
