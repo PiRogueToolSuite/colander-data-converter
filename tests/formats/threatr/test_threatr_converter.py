@@ -221,8 +221,9 @@ class TestThreatrToColanderConverter(unittest.TestCase):
             obj_from=observable,
             obj_to=actor,
         )
-        threatr_feed = ThreatrFeed(root_entity=observable, entities=[actor, observable], relations=[relation],
-                                   events=[])
+        threatr_feed = ThreatrFeed(
+            root_entity=observable, entities=[actor, observable], relations=[relation], events=[]
+        )
         colander_mapper = ThreatrToColanderMapper()
         colander_feed = colander_mapper.convert(threatr_feed)
         colander_actor: Actor = cast(Actor, colander_feed.entities.get(str(actor.id), None))
@@ -249,8 +250,9 @@ class TestThreatrToColanderConverter(unittest.TestCase):
             obj_from=observable,
             obj_to=actor,
         )
-        threatr_feed = ThreatrFeed(root_entity=observable, entities=[actor, observable], relations=[relation],
-                                   events=[])
+        threatr_feed = ThreatrFeed(
+            root_entity=observable, entities=[actor, observable], relations=[relation], events=[]
+        )
         colander_mapper = ThreatrToColanderMapper()
         colander_feed = colander_mapper.convert(threatr_feed)
         self.assertEqual(len(colander_feed.relations), 1)
@@ -304,8 +306,9 @@ class TestThreatrToColanderConverter(unittest.TestCase):
             obj_from=entity_b,
             obj_to=entity_a,
         )
-        threatr_feed = ThreatrFeed(root_entity=entity_a, entities=[entity_a, entity_b],
-                                   relations=[relation_ab, relation_ba], events=[])
+        threatr_feed = ThreatrFeed(
+            root_entity=entity_a, entities=[entity_a, entity_b], relations=[relation_ab, relation_ba], events=[]
+        )
         colander_mapper = ThreatrToColanderMapper()
         colander_feed = colander_mapper.convert(threatr_feed)
         self.assertEqual(len(colander_feed.entities), 2)
