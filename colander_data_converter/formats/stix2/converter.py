@@ -925,3 +925,38 @@ class ColanderToStix2Mapper(Stix2Mapper):
                 stix2_object[key] = value
 
         return stix2_object
+
+
+class Stix2Converter:
+    """
+    Converter for STIX2 data to Colander data and vice versa.
+    Uses the mapping file to convert between formats.
+    """
+
+    @staticmethod
+    def stix2_to_colander(stix2_data: Dict[str, Any]) -> ColanderFeed:
+        """
+        Converts STIX2 data to Colander data using the mapping file.
+
+        Args:
+            stix2_data (Dict[str, Any]): The STIX2 data to convert.
+
+        Returns:
+            ColanderFeed: The converted Colander data.
+        """
+        mapper = Stix2ToColanderMapper()
+        return mapper.convert(stix2_data)
+
+    @staticmethod
+    def colander_to_stix2(colander_feed: ColanderFeed) -> Dict[str, Any]:
+        """
+        Converts Colander data to STIX2 data using the mapping file.
+
+        Args:
+            colander_feed (ColanderFeed): The Colander data to convert.
+
+        Returns:
+            Dict[str, Any]: The converted STIX2 data.
+        """
+        mapper = ColanderToStix2Mapper()
+        return mapper.convert(colander_feed)
