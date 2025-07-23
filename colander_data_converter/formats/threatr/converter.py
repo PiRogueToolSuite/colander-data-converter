@@ -599,15 +599,16 @@ class ThreatrConverter:
         return mapper.convert(threatr_feed)
 
     @staticmethod
-    def colander_to_threatr(colander_feed: ColanderFeed) -> ThreatrFeed:
+    def colander_to_threatr(colander_feed: ColanderFeed, root_entity: Union[str, UUID4, EntityTypes]) -> ThreatrFeed:
         """
         Converts Colander data to Threatr data using the mapping file.
 
         Args:
             colander_feed (ColanderFeed): The Colander data to convert.
+            root_entity (Union[str, UUID4, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
 
         Returns:
             ThreatrFeed: The converted Threatr data.
         """
         mapper = ColanderToThreatrMapper()
-        return mapper.convert(colander_feed)
+        return mapper.convert(colander_feed, root_entity)
