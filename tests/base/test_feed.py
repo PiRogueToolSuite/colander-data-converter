@@ -4,6 +4,7 @@ from uuid import UUID
 
 import pytest
 
+from colander_data_converter.base.common import TlpPapLevel
 from colander_data_converter.base.models import (
     ColanderFeed,
     Observable,
@@ -66,6 +67,7 @@ class TestFeed:
                 "81afaa00-d67c-4805-b66e-53371a6ce7cc": {
                     "id": "81afaa00-d67c-4805-b66e-53371a6ce7cc",
                     "name": "obs",
+                    "tlp": "RED",
                     "type": {"name": "IP v4 address", "short_name": "IPV4"},
                     "super_type": {"short_name": "observable"},
                 }
@@ -81,6 +83,9 @@ class TestFeed:
             "cases": {},
         }
         feed = ColanderFeed.load(raw)
+        d = feed.model_dump()
+        assert d["entities"]["81afaa00-d67c-4805-b66e-53371a6ce7cc"]["tlp"] == "RED"
+        assert feed.entities["81afaa00-d67c-4805-b66e-53371a6ce7cc"].tlp == TlpPapLevel.RED
         assert "81afaa00-d67c-4805-b66e-53371a6ce7cc" in feed.entities
         assert "5f35ceeb-52c9-4244-88fb-043b3e4c8aae" in feed.relations
         assert (
