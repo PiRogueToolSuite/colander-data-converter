@@ -61,5 +61,19 @@
     "description": "An event that does not fit into any of the predefined categories.",
     "svg_icon": "",
     "nf_icon": "nf-mdi-white_balance_sunny"
+  },
+  {
+    "short_name": "ATTACK",
+    "name": "Attack",
+    "description": "An event indicating a deliberate attempt to breach, disrupt, or damage a system or network.",
+    "svg_icon": "",
+    "nf_icon": "nf-mdi-bomb"
+  },
+  {
+    "short_name": "TARGETED_ATTACK",
+    "name": "Targeted Attack",
+    "description": "An event representing a focused and intentional attack against a specific entity or asset.",
+    "svg_icon": "",
+    "nf_icon": "nf-mdi-crosshairs"
   }
 ]
