@@ -478,7 +478,7 @@ class ArtifactTypes:
     """
 
     _types: List[ArtifactType] = [ArtifactType(**t) for t in _load_entity_supported_types("artifact")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("ArtifactType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -537,7 +537,7 @@ class ObservableTypes:
     """
 
     _types: List[ObservableType] = [ObservableType(**t) for t in _load_entity_supported_types("observable")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("ObservableType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -583,7 +583,7 @@ class ThreatTypes:
     """
 
     _types: List[ThreatType] = [ThreatType(**t) for t in _load_entity_supported_types("threat")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("ThreatType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -629,7 +629,7 @@ class ActorTypes:
     """
 
     _types: List[ActorType] = [ActorType(**t) for t in _load_entity_supported_types("actor")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("ActorType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -675,7 +675,7 @@ class DeviceTypes:
     """
 
     _types: List[DeviceType] = [DeviceType(**t) for t in _load_entity_supported_types("device")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("DeviceType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -721,7 +721,7 @@ class EventTypes:
     """
 
     _types: List[EventType] = [EventType(**t) for t in _load_entity_supported_types("event")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("EventType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -768,7 +768,7 @@ class DetectionRuleTypes:
     """
 
     _types: List[DetectionRuleType] = [DetectionRuleType(**t) for t in _load_entity_supported_types("detection_rule")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("DetectionRuleType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
@@ -815,7 +815,7 @@ class DataFragmentTypes:
     """
 
     _types: List[DataFragmentType] = [DataFragmentType(**t) for t in _load_entity_supported_types("data_fragment")]
-    enum = Enum("EntityTypes", [(t.short_name, t) for t in _types])  # type: ignore[misc]
+    enum = Enum("DataFragmentType", [(t.short_name, t) for t in _types])  # type: ignore[misc]
     default = enum.GENERIC.value  # type: ignore[attr-defined]
 
     @classmethod
