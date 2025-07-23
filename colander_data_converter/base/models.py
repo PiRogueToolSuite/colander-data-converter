@@ -1525,7 +1525,13 @@ class ColanderFeed(ColanderType):
 
         return relations
 
-    def filter(self, maximum_tlp_level: TlpPapLevel, include_relations=True, include_cases=True) -> "ColanderFeed":
+    def filter(
+        self,
+        maximum_tlp_level: TlpPapLevel,
+        include_relations=True,
+        include_cases=True,
+        exclude_entity_types: Optional[List[EntityTypes]] = None,
+    ) -> "ColanderFeed":
         """Filter the feed based on TLP (Traffic Light Protocol) level and optionally include relations and cases.
 
         This method creates a new ColanderFeed containing only entities whose TLP level is below
@@ -1539,12 +1545,16 @@ class ColanderFeed(ColanderType):
                 source and target entities are present in the filtered feed. Defaults to True.
             include_cases (bool, optional): If True, includes cases associated with the
                 filtered entities. Defaults to True.
+            exclude_entity_types (Optional[List[EntityTypes]], optional): If provided, entities of these types
+                are excluded.
 
         Returns:
             ColanderFeed: A new filtered feed containing entities, relations, and cases that meet the
             specified criteria.
         """
         assert isinstance(maximum_tlp_level, TlpPapLevel)
+
+        excluded_types = exclude_entity_types or []
 
         self.resolve_references()
         filtered = ColanderFeed(
@@ -1553,7 +1563,9 @@ class ColanderFeed(ColanderType):
         )
 
         for entity_id, entity in self.entities.items():
-            if entity.tlp.value < maximum_tlp_level.value:
+            t = type(entity)
+            e = type(entity) in excluded_types
+            if entity.tlp.value < maximum_tlp_level.value and type(entity) not in excluded_types:
                 filtered.entities[entity_id] = entity
 
         for entity_id, entity in filtered.entities.items():
