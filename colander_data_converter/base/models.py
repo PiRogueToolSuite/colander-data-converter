@@ -35,6 +35,32 @@ def _load_entity_supported_types(name: str) -> List[Dict]:
         return json.load(f)
 
 
+def get_id(obj: Any) -> Optional[UUID4]:
+    """
+    Extracts a UUID4 identifier from the given object.
+
+    Args:
+        obj: The object to extract the UUID from. Can be a string, UUID, or an object with an 'id' attribute.
+
+    Returns:
+        Optional[UUID4]: The extracted UUID4 if available, otherwise None.
+    """
+    if not obj:
+        return None
+
+    if isinstance(obj, str):
+        try:
+            return UUID(obj, version=4)
+        except Exception:
+            return None
+    elif isinstance(obj, UUID):
+        return obj
+    elif (obj_id := getattr(obj, "id", None)) is not None:
+        return get_id(obj_id)
+
+    return None
+
+
 # Annotated union type representing all possible entity definitions in the model.
 # This type is used for fields that can accept any of the defined entity classes.
 # The Field discriminator 'colander_internal_type' is used for type resolution during (de)serialization.
@@ -199,6 +225,23 @@ class ColanderType(BaseModel):
             ValueError: If strict is True and a UUID reference cannot be resolved.
         """
         self._process_reference_fields("resolve", strict)
+
+    def is_fully_resolved(self) -> bool:
+        self.resolve_references()
+
+        for field, info in self.__class__.model_fields.items():
+            annotation_args = get_args(info.annotation)
+            if ObjectReference in annotation_args:
+                ref = getattr(self, field)
+                if isinstance(ref, UUID):
+                    return False
+            elif List[ObjectReference] in annotation_args:
+                refs = getattr(self, field)
+                for ref in refs:
+                    if isinstance(ref, UUID):
+                        return False
+
+        return True
 
     @classmethod
     def subclasses(cls) -> Dict[str, type["EntityTypes"]]:
@@ -1343,6 +1386,189 @@ class ColanderFeed(ColanderType):
             relation.unlink_references()
         for _, case in self.cases.items():  # type: ignore[union-attr]
             case.unlink_references()
+
+    def contains(self, obj: Any) -> bool:
+        """Check if an object exists in the current feed by its identifier.
+
+        This method determines whether a given object (or its identifier) exists
+        within any of the feed's collections: entities, relations, or cases.
+        It extracts the object's ID and searches across all three collections.
+
+        Args:
+            obj (Any): The object to check for existence. Can be:
+                - An entity, relation, or case object with an 'id' attribute
+                - A string or UUID representing an object ID
+                - Any object that can be processed by get_id()
+
+        Returns:
+            bool: True if the object exists in entities, relations, or cases;
+            False otherwise
+
+        Example:
+            >>> feed = ColanderFeed()
+            >>> obs = Observable(name="test", type=ObservableTypes.enum.IPV4.value)
+            >>> feed.entities[str(obs.id)] = obs
+            >>> feed.contains(obs)
+            True
+            >>> feed.contains("nonexistent-id")
+            False
+        """
+        object_id = str(get_id(obj))
+        if not object_id:
+            return False
+
+        if object_id in self.entities:
+            return True
+        if object_id in self.relations:
+            return True
+        if object_id in self.cases:
+            return True
+
+        return False
+
+    def get(self, obj: Any) -> Optional[Union[Case, EntityTypes, EntityRelation]]:
+        """Retrieve an object from the feed by its identifier.
+
+        This method searches for an object across all feed collections (entities, relations, cases)
+        using the object's ID. It first checks if the object exists using the contains() method,
+        then attempts to retrieve it from the appropriate collection.
+
+        Args:
+            obj (Any): The object to retrieve. Can be:
+                - An entity, relation, or case object with an 'id' attribute
+                - A string or UUID representing an object ID
+                - Any object that can be processed by get_id()
+
+        Returns:
+            Optional[Union[Case, EntityTypes, EntityRelation]]: The found object if it exists
+            in any of the collections (entities, relations, or cases), otherwise None.
+        """
+        if not self.contains(obj):
+            return None
+
+        object_id = str(get_id(obj))
+
+        if object_id in self.entities:
+            return self.entities.get(object_id)
+        if object_id in self.relations:
+            return self.relations.get(object_id)
+        if object_id in self.cases:
+            return self.cases.get(object_id)
+
+        return None
+
+    def get_incoming_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
+        """Retrieve all relations where the specified entity is the target (obj_to).
+
+        This method finds all entity relations in the feed where the given entity
+        is the destination or target of the relationship. Only fully resolved
+        relations are considered to ensure data consistency.
+
+        Args:
+            entity (EntityTypes): The entity to find incoming relations for. Must be an instance of Entity.
+
+        Returns:
+            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
+            is the target (obj_to).
+        """
+        assert isinstance(entity, Entity)
+        relations = {}
+        for relation_id, relation in self.relations.items():
+            if not relation.is_fully_resolved():
+                continue
+            if relation.obj_to == entity:
+                relations[relation_id] = relation
+        return relations
+
+    def get_outgoing_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
+        """Retrieve all relations where the specified entity is the source (obj_from).
+
+        This method finds all entity relations in the feed where the given entity
+        is the source or origin of the relationship. Only fully resolved
+        relations are considered to ensure data consistency.
+
+        Args:
+            entity (EntityTypes): The entity to find outgoing relations for. Must be an instance of Entity.
+
+        Returns:
+            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
+            is the source (obj_from).
+        """
+        assert isinstance(entity, Entity)
+        relations = {}
+        for relation_id, relation in self.relations.items():
+            if not relation.is_fully_resolved():
+                continue
+            if relation.obj_from == entity:
+                relations[relation_id] = relation
+        return relations
+
+    def get_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
+        """Retrieve all relations (both incoming and outgoing) for the specified entity.
+
+        This method combines the results of get_incoming_relations() and
+        get_outgoing_relations() to provide a complete view of all relationships
+        involving the specified entity, regardless of direction.
+
+        Args:
+            entity (EntityTypes): The entity to find all relations for. Must be an instance of Entity.
+
+        Returns:
+            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
+            is either the source (obj_from) or target (obj_to).
+        """
+        assert isinstance(entity, Entity)
+
+        relations = {}
+        relations.update(self.get_incoming_relations(entity))
+        relations.update(self.get_outgoing_relations(entity))
+
+        return relations
+
+    def filter(self, maximum_tlp_level: TlpPapLevel, include_relations=True, include_cases=True) -> "ColanderFeed":
+        """Filter the feed based on TLP (Traffic Light Protocol) level and optionally include relations and cases.
+
+        This method creates a new ColanderFeed containing only entities whose TLP level is below
+        the specified maximum threshold. It can optionally include relations between filtered
+        entities and cases associated with the filtered entities.
+
+        Args:
+            maximum_tlp_level (TlpPapLevel): The maximum TLP level threshold. Only entities
+                with TLP levels strictly below this value will be included.
+            include_relations (bool, optional): If True, includes relations where both
+                source and target entities are present in the filtered feed. Defaults to True.
+            include_cases (bool, optional): If True, includes cases associated with the
+                filtered entities. Defaults to True.
+
+        Returns:
+            ColanderFeed: A new filtered feed containing entities, relations, and cases that meet the
+            specified criteria.
+        """
+        assert isinstance(maximum_tlp_level, TlpPapLevel)
+
+        self.resolve_references()
+        filtered = ColanderFeed(
+            name=self.name,
+            description=self.description,
+        )
+
+        for entity_id, entity in self.entities.items():
+            if entity.tlp.value < maximum_tlp_level.value:
+                filtered.entities[entity_id] = entity
+
+        for entity_id, entity in filtered.entities.items():
+            # Only include relations of the entity
+            if include_relations:
+                for relation_id, relation in self.get_relations(entity).items():
+                    if filtered.contains(relation.obj_from) and filtered.contains(relation.obj_to):
+                        filtered.relations[relation_id] = relation
+            # Only include the case associated with the entity
+            if include_cases:
+                if (case := self.get(entity.case)) is not None and case.tlp.value < maximum_tlp_level.value:
+                    filtered.cases[str(case.id)] = case
+
+        filtered.resolve_references()
+        return filtered
 
 
 class CommonEntitySuperType(BaseModel):

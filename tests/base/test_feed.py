@@ -178,3 +178,141 @@ class TestFeed:
         assert feed.entities == {}
         assert feed.relations == {}
         assert feed.cases == {}
+
+    def test_filter_by_maximum_tlp_level_includes_lower_or_equal(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
+        obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
+        obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
+        obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
+        feed = ColanderFeed(
+            entities={
+                str(obs_red.id): obs_red,
+                str(obs_amber.id): obs_amber,
+                str(obs_green.id): obs_green,
+                str(obs_white.id): obs_white,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
+        tlps = [e.tlp for e in filtered.entities.values()]
+        assert TlpPapLevel.RED not in tlps
+        assert TlpPapLevel.AMBER not in tlps
+        assert TlpPapLevel.GREEN in tlps
+        assert TlpPapLevel.WHITE in tlps
+        assert len(filtered.entities) == 2
+
+    def test_filter_by_maximum_tlp_level_includes_exact_match(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
+        obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
+        feed = ColanderFeed(
+            entities={
+                str(obs_green.id): obs_green,
+                str(obs_white.id): obs_white,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
+        assert len(filtered.entities) == 2
+        assert all(e.tlp.value <= TlpPapLevel.GREEN.value for e in filtered.entities.values())
+
+    def test_filter_by_maximum_tlp_level_returns_empty_if_none_match(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
+        obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
+        feed = ColanderFeed(
+            entities={
+                str(obs_red.id): obs_red,
+                str(obs_amber.id): obs_amber,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.GREEN)
+        assert filtered.entities == {}
+
+    def test_filter_with_relations_by_maximum_tlp_level(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
+        obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
+        obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
+        rel1 = EntityRelation(name="rel1", obj_from=obs_red, obj_to=obs_green)
+        rel2 = EntityRelation(name="rel2", obj_from=obs_green, obj_to=obs_white)
+        feed = ColanderFeed(
+            entities={
+                str(obs_red.id): obs_red,
+                str(obs_green.id): obs_green,
+                str(obs_white.id): obs_white,
+            },
+            relations={
+                str(rel1.id): rel1,
+                str(rel2.id): rel2,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
+        # Only obs_green and obs_white should remain
+        assert str(obs_red.id) not in filtered.entities
+        assert str(obs_green.id) in filtered.entities
+        assert str(obs_white.id) in filtered.entities
+        # Only rel2 should remain, since rel1 references obs_red
+        assert str(rel2.id) in filtered.relations
+        assert str(rel1.id) not in filtered.relations
+
+    def test_filter_with_relations_all_entities_removed(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
+        obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
+        rel = EntityRelation(name="rel", obj_from=obs_red, obj_to=obs_amber)
+        feed = ColanderFeed(
+            entities={
+                str(obs_red.id): obs_red,
+                str(obs_amber.id): obs_amber,
+            },
+            relations={
+                str(rel.id): rel,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.GREEN)
+        assert filtered.entities == {}
+        assert filtered.relations == {}
+
+    def test_filter_with_relations_partial_entity_removal(self):
+        from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
+        from colander_data_converter.base.common import TlpPapLevel
+
+        ot = ObservableTypes.enum.IPV4.value
+        obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
+        obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
+        obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
+        rel1 = EntityRelation(name="rel1", obj_from=obs_green, obj_to=obs_white)
+        rel2 = EntityRelation(name="rel2", obj_from=obs_green, obj_to=obs_red)
+        feed = ColanderFeed(
+            entities={
+                str(obs_green.id): obs_green,
+                str(obs_white.id): obs_white,
+                str(obs_red.id): obs_red,
+            },
+            relations={
+                str(rel1.id): rel1,
+                str(rel2.id): rel2,
+            }
+        )
+        filtered = feed.filter(maximum_tlp_level=TlpPapLevel.AMBER)
+        # obs_red should be removed, so rel2 should be removed
+        assert str(rel1.id) in filtered.relations
+        assert str(rel2.id) not in filtered.relations
+        assert str(obs_green.id) in filtered.entities
+        assert str(obs_white.id) in filtered.entities
+        assert str(obs_red.id) not in filtered.entities

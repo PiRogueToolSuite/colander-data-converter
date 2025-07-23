@@ -201,3 +201,30 @@ class TestMerger:
         assert destination.name == "Alice"
         assert destination.age == 30
         assert unprocessed == ["city"]
+
+
+def test_level_comparisons():
+    from colander_data_converter.base.common import Level
+
+    low = Level(code="LOW", name="Low", ordering_value=10)
+    high = Level(code="HIGH", name="High", ordering_value=20)
+    another_low = Level(code="LOW", name="Low", ordering_value=10)
+
+    assert low < high
+    assert high > low
+    assert low <= another_low
+    assert low >= another_low
+    assert low == another_low
+    assert low != high
+    assert str(low) == "Low"
+
+
+def test_tlp_pap_level_comparisons():
+    from colander_data_converter.base.common import TlpPapLevel
+
+    assert TlpPapLevel.RED.value > TlpPapLevel.AMBER.value
+    assert TlpPapLevel.AMBER.value > TlpPapLevel.GREEN.value
+    assert TlpPapLevel.GREEN.value > TlpPapLevel.WHITE.value
+    assert TlpPapLevel.WHITE.value < TlpPapLevel.RED.value
+    assert TlpPapLevel.RED == TlpPapLevel.by_name("RED")
+    assert str(TlpPapLevel.RED) == "RED"
