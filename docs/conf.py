@@ -79,5 +79,6 @@ autosummary_generate = True
 
 intersphinx_mapping = {
     "pydantic": ("https://docs.pydantic.dev/latest", None),
+    "jinja2": ("https://jinja.palletsprojects.com/en/stable", None),
     "python": ("https://docs.python.org/3", None),
 }

@@ -23,7 +23,7 @@ class BaseExporter(abc.ABC):
 
         Args:
             output (IO[AnyStr]): The output stream where data will be written.
-                Can be a file object, StringIO, BytesIO, or any
+                Can be a file object, :py:class:`~io.StringIO`, :py:class:`~io.BytesIO`, or any
                 object that implements the IO interface for either
                 text or binary data.
             **kwargs: Variable keyword arguments that allow subclasses to accept
@@ -33,10 +33,6 @@ class BaseExporter(abc.ABC):
                  - indent: Indentation level for structured formats like JSON
                  - delimiter: Field separator for delimited formats like CSV
                  - compression: Compression settings for binary formats
-
-        Returns:
-            None: This method performs its operation by writing to the output
-                  stream and does not return any value.
 
         Raises:
             NotImplementedError: Always raised by this abstract method to enforce implementation in subclasses.

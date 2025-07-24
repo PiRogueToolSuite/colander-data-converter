@@ -14,12 +14,6 @@ class CsvExporter(BaseExporter):
 
     This exporter filters entities by type and exports their fields to a CSV file,
     excluding certain internal fields and object references.
-
-    Attributes:
-        feed (ColanderFeed): The feed containing entities to export
-        entity_type (type[BaseModel]): The type of entities to filter and export
-        entities (List[entity_type]): Filtered entities of the specified type
-        fields (Set[str]): Set of field names to include in the CSV
     """
 
     excluded_fields: List[str] = ["colander_internal_type", "attributes"]
@@ -30,11 +24,12 @@ class CsvExporter(BaseExporter):
         Initialize the CSV exporter.
 
         Args:
-            feed (ColanderFeed): The feed containing entities to export
+            feed (~colander_data_converter.base.models.ColanderFeed): The feed containing entities to export
             entity_type (type[BaseModel]): The Pydantic model type to filter entities by
 
         Raises:
-            AssertionError: If entity_type is not a subclass of BaseModel or feed is not a ColanderFeed
+            AssertionError: If :py:obj:`entity_type` is not a subclass of :py:class:`pydantic.BaseModel` or
+                :py:obj:`feed` is not a :py:class:`~colander_data_converter.base.models.ColanderFeed`.
         """
         assert issubclass(entity_type, BaseModel)
         assert isinstance(feed, ColanderFeed)
@@ -70,7 +65,7 @@ class CsvExporter(BaseExporter):
             exclude_none (bool, optional): Whether to exclude fields that are None for all entities. Defaults to True.
 
         Returns:
-            None: Updates self.fields in-place with the computed field list
+            None: Updates :py:obj:`self.fields` in-place with the computed field list
 
         Side effects:
             - Modifies self.fields by adding qualifying field names
