@@ -23,14 +23,14 @@ class TestTemplate:
             }
         )
         template = Template(source="{{ feed.id }}")
-        te = TemplateExporter(
+        template_exporter = TemplateExporter(
             feed=feed,
             template_name="",
             template_search_path="",
             template=template,
         )
         io = StringIO()
-        te.export(io)
+        template_exporter.export(io)
         io.seek(0)
         output = io.read()
         assert output == str(feed.id)
