@@ -1,10 +1,8 @@
-colander\_data\_converter.exporters package
-============================================
-
-Submodules
-----------
+colander_data_converter.exporters
+=================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    colander_data_converter.exporters.csv
+   colander_data_converter.exporters.exporter

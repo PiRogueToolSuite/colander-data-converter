@@ -5,9 +5,10 @@ from pydantic import BaseModel
 
 from colander_data_converter.base.common import ObjectReference
 from colander_data_converter.base.models import ColanderFeed
+from colander_data_converter.exporters.exporter import BaseExporter
 
 
-class CsvExporter:
+class CsvExporter(BaseExporter):
     """
     A class to export entities from a ColanderFeed to CSV format.
 
