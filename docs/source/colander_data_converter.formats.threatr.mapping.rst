@@ -1,5 +1,5 @@
-colander\_data\_converter.formats.threatr.mapping module
-========================================================
+colander\_data\_converter.formats.threatr.mapping
+=================================================
 
 .. automodule:: colander_data_converter.formats.threatr.mapping
    :members:

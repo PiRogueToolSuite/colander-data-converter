@@ -1,5 +1,5 @@
-Loading and exporting data
-==========================
+Load and save data
+==================
 .. toctree::
    :maxdepth: 1
 
@@ -7,8 +7,8 @@ Loading and exporting data
 Colander
 --------
 
-Loading from JSON file
-``````````````````````
+Load from JSON file
+```````````````````
 
 To load a Colander feed from a JSON file, call the method
 :py:meth:`~colander_data_converter.base.models.ColanderFeed.load` of
@@ -24,9 +24,9 @@ To load a Colander feed from a JSON file, call the method
    feed = ColanderFeed.load(raw)
    # 'feed' is now a ColanderFeed object
 
-Exporting to JSON file
-``````````````````````
-To export a Colander feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
+Save to JSON file
+`````````````````
+To save a Colander feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
 a Python :py:class:`dict` and save it into the destination file in JSON format:
 
 .. code-block:: python
@@ -42,8 +42,8 @@ a Python :py:class:`dict` and save it into the destination file in JSON format:
 Threatr
 --------
 
-Loading from JSON file
-``````````````````````
+Load from JSON file
+```````````````````
 To load a Threatr feed from a JSON file, call the method
 :py:meth:`~colander_data_converter.formats.threatr.models.ThreatrFeed.load` of
 :py:class:`~colander_data_converter.formats.threatr.models.ThreatrFeed`:
@@ -58,9 +58,9 @@ To load a Threatr feed from a JSON file, call the method
    feed = ThreatrFeed.load(raw)
    # 'feed' is now a ThreatrFeed object
 
-Exporting to JSON file
-``````````````````````
-To export a Threatr feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
+Save to JSON file
+`````````````````
+To save a Threatr feed to a JSON file, use :py:meth:`~pydantic.BaseModel.main.model_dump_json` to convert the feed to
 a Python :py:class:`dict` and save it into the destination file in JSON format:
 
 .. code-block:: python

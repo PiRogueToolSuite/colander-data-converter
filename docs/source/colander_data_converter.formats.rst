@@ -1,11 +1,8 @@
-colander\_data\_converter.formats package
-=========================================
-
-Subpackages
------------
+colander\_data\_converter.formats
+=================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    colander_data_converter.formats.misp
    colander_data_converter.formats.stix2

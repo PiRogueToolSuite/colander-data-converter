@@ -1,5 +1,5 @@
-colander\_data\_converter.base.models module
-============================================
+colander_data_converter.base.models
+===================================
 
 .. automodule:: colander_data_converter.base.models
    :members:

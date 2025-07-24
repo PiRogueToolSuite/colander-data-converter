@@ -1,5 +1,5 @@
-colander\_data\_converter.exporters package
-============================================
+colander_data_converter.exporters.csv
+=====================================
 
 .. automodule:: colander_data_converter.exporters.csv
    :members:

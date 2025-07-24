@@ -1,8 +1,5 @@
-colander\_data\_converter.formats.misp package
-==============================================
-
-Submodules
-----------
+colander\_data\_converter.formats.misp
+======================================
 
 .. toctree::
    :maxdepth: 4

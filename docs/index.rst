@@ -40,4 +40,6 @@ events, with explicit references between objects.
    :maxdepth: 1
    :caption: API reference
 
-   source/modules
+   source/colander_data_converter.base
+   source/colander_data_converter.exporters
+   source/colander_data_converter.formats

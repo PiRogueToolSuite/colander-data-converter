@@ -1,11 +1,8 @@
-colander\_data\_converter.base package
-======================================
-
-Submodules
-----------
+colander_data_converter.base
+============================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    colander_data_converter.base.common
    colander_data_converter.base.models

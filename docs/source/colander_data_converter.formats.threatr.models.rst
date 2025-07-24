@@ -1,5 +1,5 @@
-colander\_data\_converter.formats.threatr.models module
-=======================================================
+colander\_data\_converter.formats.threatr.models
+================================================
 
 .. automodule:: colander_data_converter.formats.threatr.models
    :members:
