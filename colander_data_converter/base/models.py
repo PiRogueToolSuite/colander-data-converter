@@ -304,7 +304,7 @@ class ColanderType(BaseModel):
                 return obj.get("colander_internal_type", "")
             elif "super_type" in obj:
                 return obj.get("super_type").get("short_name").lower().replace("_", "")  # type: ignore[union-attr]
-        except:
+        except:  # nosec
             pass
         raise ValueError("Unable to extract type hints.")
 

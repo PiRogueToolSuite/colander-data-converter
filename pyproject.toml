@@ -84,6 +84,11 @@ disable_error_code = [
   "call-overload",
 ]
 
+[tool.bandit]
+targets = [ "colander_data_converter" ]
+exclude_dirs = [ "tests", "doc" ]
+skips = [ "B101" ]
+
 [tool.uv]
 concurrent-builds = 4
 trusted-publishing = "always"

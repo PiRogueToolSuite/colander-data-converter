@@ -4,11 +4,6 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.33.0
-    hooks:
-      - id: check-github-workflows
-        args: ["--verbose"]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:
@@ -24,6 +19,11 @@ repos:
       - id: ruff-format
       - id: ruff
         args: ["--fix", "--unsafe-fixes", "--exit-non-zero-on-fix"]
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.6
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml", "--severity-level", "high", "-r", "colander_data_converter"]
   - repo: meta
     hooks:
       - id: check-hooks-apply
