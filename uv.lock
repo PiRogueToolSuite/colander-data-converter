@@ -94,7 +94,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jinja2" },
+    { name = "jinja2", specifier = "==3.1.6" },
     { name = "pydantic", specifier = "==2.11.7" },
 ]
 
