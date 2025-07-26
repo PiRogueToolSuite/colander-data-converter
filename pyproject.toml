@@ -8,17 +8,13 @@ version = "1.0.0"
 description = "A set of helpers to manipulate Colander data."
 readme = "README.md"
 license = { text = "GPL-3.0+ AND MIT" }
-
 maintainers = [
   { name = "U+039b", email = "hello@pts-project.org" },
 ]
-
 authors = [
   { name = "U+039b", email = "hello@pts-project.org" },
 ]
-
 requires-python = ">=3.12"
-# Ruff ----
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.12",
@@ -31,6 +27,39 @@ dependencies = [
 
 urls.issues = "https://github.com/PiRogueToolSuite/colander-data-converter/issues"
 urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
+
+[dependency-groups]
+dev = [
+  "ruff",
+  "tox",
+  "tox-uv",
+  "hatchling",
+]
+test = [
+  "coverage",
+  "hatchling",
+  "mypy",
+  "pre-commit-uv",
+  "pytest",
+  "pytest-cov",
+  "pytest-md-report",
+]
+
+docs = [
+  "autoclasstoc>=1.7",
+  "autodoc-pydantic>=2.2",
+  "sphinx>=8.1.3",
+  "sphinx-autobuild",
+  "sphinx-copybutton",
+  "sphinx-hoverxref>=1.4.2",
+  "sphinx-jsonschema",
+  "sphinx-needs",
+  "sphinx-notfound-page>=1.0.4",
+  "sphinx-pydantic>=0.1.1",
+  "sphinx-rtd-theme",
+  "sphinx-toolbox",
+  "sphinxcontrib-datatemplates>=0.11",
+]
 
 [tool.ruff]
 target-version = "py312"
@@ -92,11 +121,3 @@ skips = [ "B101" ]
 [tool.uv]
 concurrent-builds = 4
 trusted-publishing = "always"
-dev-dependencies = [
-  "hatchling>=1.27.0",
-  "pytest>=8.4.1",
-  "pytest-md-report>=0.7.0",
-  "ruff>=0.12.1",
-  "sphinx-pydantic>=0.1.1",
-  "tox>=4.27.0",
-]
