@@ -20,9 +20,14 @@ actors, and events) and their relationships. Threatr feeds typically consist of 
 events, with explicit references between objects.
 
 
+.. toctree::
+   :maxdepth: 1
+
+   knowledge_graph
 
 .. toctree::
    :maxdepth: 1
+   :caption: Data manipulation
 
    load_save_data
    convert_data
@@ -31,7 +36,7 @@ events, with explicit references between objects.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Supported data formats
+   :caption: Supported formats
 
    data_types/colander
    data_types/threatr

@@ -30,10 +30,10 @@ urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
 
 [dependency-groups]
 dev = [
+  "hatchling",
   "ruff",
   "tox",
   "tox-uv",
-  "hatchling",
 ]
 test = [
   "coverage",
