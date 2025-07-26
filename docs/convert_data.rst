@@ -27,7 +27,6 @@ Convert from Threatr feed to Colander feed
        raw = json.load(f)
    threatr_feed = ThreatrFeed.load(raw)
    colander_feed = ThreatrConverter.threatr_to_colander(threatr_feed)
-   # 'colander_feed' is now a ColanderFeed object
 
 
 Convert from Colander feed to Threatr feed
@@ -44,4 +43,3 @@ Convert from Colander feed to Threatr feed
    colander_feed = ColanderFeed.load(raw)
    root_entity = colander_feed.entities.get("...uuid4...")
    threatr_feed = ThreatrConverter.colander_to_threatr(colander_feed, root_entity)
-   # 'threatr_feed' is now a ThreatrFeed object

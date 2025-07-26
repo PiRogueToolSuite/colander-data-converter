@@ -23,12 +23,6 @@ class GraphvizExporter(BaseExporter):
 
     .. _Graphviz: https://graphviz.org/
     .. _Jinja2: https://jinja.palletsprojects.com/
-
-    Example:
-        >>> feed = ColanderFeed(entities={...})
-        >>> exporter = GraphvizExporter(feed)
-        >>> with open("graph.dot", "w") as f:
-        ...     exporter.export(f)
     """
 
     def __init__(self, feed: ColanderFeed, theme: dict = None):
@@ -62,8 +56,13 @@ class GraphvizExporter(BaseExporter):
         and loads it into the theme attribute. This method is automatically called
         during initialization if no custom theme is provided.
         """
-        theme_file = resources.files(resource_package).joinpath("..").joinpath("data").joinpath("themes").joinpath(
-            "default.json")
+        theme_file = (
+            resources.files(resource_package)
+            .joinpath("..")
+            .joinpath("data")
+            .joinpath("themes")
+            .joinpath("default.json")
+        )
         with theme_file.open() as f:
             self.theme = json.load(f)
 

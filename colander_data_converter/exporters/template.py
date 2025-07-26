@@ -10,15 +10,18 @@ from colander_data_converter.exporters.exporter import BaseExporter
 
 class TemplateExporter(BaseExporter):
     """
-    Template-based exporter using Jinja2 templating engine.
+    Template-based exporter using Jinja2_ templating engine.
 
-    This exporter allows for flexible data export by using Jinja2 templates to format
+    This exporter allows for flexible data export by using Jinja2_ templates to format
     the output. It supports both file-based templates loaded from the filesystem and
     pre-compiled :py:obj:`~jinja2.Template` object. The implementation uses a sandboxed environment
     for security when processing templates.
 
     The exporter streams the template output, making it memory-efficient for large
     datasets by processing data in chunks rather than loading everything into memory.
+
+    .. _Jinja2: https://jinja.palletsprojects.com/
+
     """
 
     def __init__(

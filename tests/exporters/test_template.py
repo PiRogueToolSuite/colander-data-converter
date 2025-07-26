@@ -10,10 +10,10 @@ class TestTemplate:
         from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
 
         ot = ObservableTypes.enum.IPV4.value
-        obs_red = Observable(name="1.1.1.1", type=ot)
-        obs_amber = Observable(name="2.2.2.2", type=ot)
-        obs_green = Observable(name="3.3.3.3", type=ot)
-        obs_white = Observable(name="4.4.4.4", type=ot)
+        obs_red = Observable(name="1.1.1.1", type=ot, description="looks legit")
+        obs_amber = Observable(name="2.2.2.2", type=ot, description="looks weird")
+        obs_green = Observable(name="3.3.3.3", type=ot, description="looks shady")
+        obs_white = Observable(name="4.4.4.4", type=ot, description="looks great")
         feed = ColanderFeed(
             entities={
                 str(obs_red.id): obs_red,

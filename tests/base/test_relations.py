@@ -1,3 +1,4 @@
+from datetime import datetime, UTC, timedelta
 from uuid import uuid4
 
 import pytest
@@ -8,6 +9,15 @@ from colander_data_converter.base.models import (
     Observable,
     ObservableType,
     Case,
+    EventTypes,
+    ObservableTypes,
+    Artifact,
+    ArtifactTypes,
+    DetectionRule,
+    DetectionRuleTypes,
+    Device,
+    DeviceTypes,
+    Event,
 )
 
 
@@ -56,3 +66,35 @@ class TestEntityRelation:
         obs1 = Observable(name="1.1.1.1", type=obs_type)
         with pytest.raises(ValidationError):
             EntityRelation(name="rel", obj_from=obs1)
+
+    def test_event_immutable_relations(self):
+        event_type = EventTypes.enum.HIT.value
+        obs_type = ObservableTypes.enum.IPV4.value
+        obs = Observable(name="8.8.8.8", type=obs_type)
+        artifact = Artifact(
+            name="file.txt",
+            type=ArtifactTypes.enum.BINARY.value,
+        )
+        detection_rule = DetectionRule(
+            name="Rule",
+            type=DetectionRuleTypes.enum.YARA.value,
+            content="rule",
+        )
+        device = Device(
+            name="Device",
+            type=DeviceTypes.enum.LAPTOP.value,
+        )
+        now = datetime.now(UTC)
+        event = Event(
+            name="Event 2",
+            type=event_type,
+            first_seen=now,
+            last_seen=now + timedelta(minutes=5),
+            count=3,
+            extracted_from=artifact,
+            observed_on=device,
+            detected_by=detection_rule,
+            involved_observables=[obs],
+        )
+        immutable_relations = event.get_immutable_relations()
+        assert len(immutable_relations) == 4

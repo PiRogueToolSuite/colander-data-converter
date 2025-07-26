@@ -1,3 +1,14 @@
+.. |actor| image:: ../_static/icons/actor.svg
+.. |artifact| image:: ../_static/icons/artifact.svg
+.. |datafragment| image:: ../_static/icons/datafragment.svg
+.. |detectionrule| image:: ../_static/icons/detectionrule.svg
+.. |device| image:: ../_static/icons/device.svg
+.. |event| image:: ../_static/icons/event.svg
+.. |observable| image:: ../_static/icons/observable.svg
+.. |threat| image:: ../_static/icons/threat.svg
+
+
+
 .. _colander_data_model:
 
 Colander
@@ -61,8 +72,9 @@ Top-level structure:
 
 .. _actor_types:
 
-Actors
-------
+|actor| Actors
+--------------
+
 An actor (:py:class:`~colander_data_converter.base.models.Actor`) represents an individual or group involved in an
 event, activity, or system.
 
@@ -80,13 +92,13 @@ Top-level structure:
 - ``tlp``: TLP level
 - ``attributes``: Dictionary of additional attributes
 
-.. datatemplate:json:: ../../colander_data_converter/data/actor_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/actor_types.json
    :template: colander-type.tmpl
 
 .. _artifact_types:
 
-Artifacts
----------
+|artifact| Artifacts
+--------------------
 An artifact (:py:class:`~colander_data_converter.base.models.Artifact`) represents a file or data object, such as a
 document, image, or binary, within a system.
 
@@ -113,13 +125,13 @@ Top-level structure:
 - ``sha256``: SHA256 hash
 - ``size_in_bytes``: Size in bytes
 
-.. datatemplate:json:: ../../colander_data_converter/data/artifact_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/artifact_types.json
    :template: colander-type.tmpl
 
 .. _data_fragment_types:
 
-Data Fragments
---------------
+|datafragment| Data Fragments
+-----------------------------
 A data fragment (:py:class:`~colander_data_converter.base.models.DataFragment`) represents a fragment of data, such
 as a code snippet, text, or other content.
 
@@ -138,13 +150,13 @@ Top-level structure:
 - ``content``: Content of the fragment
 - ``extracted_from``: Reference to the artifact
 
-.. datatemplate:json:: ../../colander_data_converter/data/data_fragment_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/data_fragment_types.json
    :template: colander-type.tmpl
 
 .. _detection_rule_types:
 
-Detection Rules
----------------
+|detectionrule| Detection Rules
+-------------------------------
 A detection rule (:py:class:`~colander_data_converter.base.models.DetectionRule`) represents a rule used for detecting
 specific content or logic related to observables.
 
@@ -163,13 +175,13 @@ Top-level structure:
 - ``content``: Rule content
 - ``targeted_observables``: List of observables or references
 
-.. datatemplate:json:: ../../colander_data_converter/data/detection_rule_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/detection_rule_types.json
    :template: colander-type.tmpl
 
 .. _device_types:
 
-Devices
--------
+|device| Devices
+----------------
 A device (:py:class:`~colander_data_converter.base.models.Device`) represents a physical or virtual device in a system.
 
 Top-level structure:
@@ -187,13 +199,13 @@ Top-level structure:
 - ``attributes``: Dictionary of additional attributes
 - ``operated_by``: Reference to the actor
 
-.. datatemplate:json:: ../../colander_data_converter/data/device_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/device_types.json
    :template: colander-type.tmpl
 
 .. _event_types:
 
-Events
-------
+|event| Events
+--------------
 An event (:py:class:`~colander_data_converter.base.models.Event`) represents an occurrence or activity observed
 within a system, such as a detection, alert, or log entry.
 
@@ -220,13 +232,13 @@ Top-level structure:
 - ``target``: Reference to the actor targeted during the event
 - ``involved_observables``: List of observables or references
 
-.. datatemplate:json:: ../../colander_data_converter/data/event_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/event_types.json
    :template: colander-type.tmpl
 
 .. _observable_types:
 
-Observables
------------
+|observable| Observables
+------------------------
 An observable (:py:class:`~colander_data_converter.base.models.Observable`) represents an entity such as an IP address
 that can be observed or detected within a system.
 
@@ -249,13 +261,13 @@ Top-level structure:
 - ``associated_threat``: Reference to a threat
 - ``operated_by``: Reference to the actor
 
-.. datatemplate:json:: ../../colander_data_converter/data/observable_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/observable_types.json
    :template: colander-type.tmpl
 
 .. _threat_types:
 
-Threats
--------
+|threat| Threats
+----------------
 A threat (:py:class:`~colander_data_converter.base.models.Threat`) represents a potentially malicious entity, such
 as a malware family, campaign, or adversary.
 
@@ -272,5 +284,5 @@ Top-level structure:
 - ``source_url``: Optional source URL
 - ``tlp``: TLP level
 
-.. datatemplate:json:: ../../colander_data_converter/data/threat_types.json
+.. datatemplate:json:: ../../colander_data_converter/data/types/threat_types.json
    :template: colander-type.tmpl

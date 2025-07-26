@@ -25,3 +25,4 @@ class TestCSVExporter:
         ce.export(tio)
         tio.seek(0)
         a = tio.read()
+        assert len(a) > 0

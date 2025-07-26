@@ -30,7 +30,13 @@ resource_package = __name__
 
 
 def _load_entity_supported_types(name: str) -> List[Dict]:
-    json_file = resources.files(resource_package).joinpath("..").joinpath("data").joinpath(f"{name}_types.json")
+    json_file = (
+        resources.files(resource_package)
+        .joinpath("..")
+        .joinpath("data")
+        .joinpath("types")
+        .joinpath(f"{name}_types.json")
+    )
     with json_file.open() as f:
         return json.load(f)
 
@@ -96,21 +102,6 @@ class CommonEntityType(BaseModel, abc.ABC):
 
     svg_icon: str | None = Field(default=None, exclude=True)
     """Optional SVG icon for the model type."""
-
-    nf_icon: str | None = Field(default=None, exclude=True)
-    """Optional NF icon for the model type."""
-
-    stix2_type: str | None = Field(default=None, exclude=True)
-    """Optional STIX 2.0 type for the model type."""
-
-    stix2_value_field_name: str | None = Field(default=None, exclude=True)
-    """Optional STIX 2.0 value field name."""
-
-    stix2_pattern: str | None = Field(default=None, exclude=True)
-    """Optional STIX 2.0 pattern."""
-
-    stix2_pattern_type: str | None = Field(default=None, exclude=True)
-    """Optional STIX 2.0 pattern type."""
 
     default_attributes: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     """Optional dictionary of default attributes."""
@@ -400,6 +391,48 @@ class Entity(ColanderType, abc.ABC):
 
     tlp: TlpPapLevel = TlpPapLevel.WHITE
     """The TLP (Traffic Light Protocol) level for the entity."""
+
+    def get_immutable_relations(self) -> Dict[str, "EntityRelation"]:
+        """
+        Returns a list of immutable relations for the entity.
+
+        This method inspects the entity's fields and collects all relations
+        where the field is annotated as an ObjectReference or a List[ObjectReference].
+        The resulting list contains EntityRelation objects representing these links.
+
+        Returns:
+            Dict[str, "EntityRelation"]: A dictionary of relations for the entity.
+        """
+        relations: Dict[str, "EntityRelation"] = {}
+        for field_name, field_info in self.__class__.model_fields.items():
+            if field_name == "case":
+                continue
+            field_annotation = get_args(field_info.annotation)
+            field_value = getattr(self, field_name, None)
+
+            if not field_value or not field_annotation:
+                continue
+
+            # Handle single ObjectReference
+            if ObjectReference in field_annotation:
+                relation = EntityRelation(
+                    name=field_name.replace("_", " "),
+                    obj_from=self,
+                    obj_to=field_value,
+                )
+                relations[str(relation.id)] = relation
+
+            # Handle List[ObjectReference]
+            elif List[ObjectReference] in field_annotation:
+                for object_reference in field_value:
+                    relation = EntityRelation(
+                        name=field_name.replace("_", " "),
+                        obj_from=self,
+                        obj_to=object_reference,
+                    )
+                    relations[str(relation.id)] = relation
+
+        return relations
 
 
 class EntityRelation(ColanderType):
@@ -1483,7 +1516,7 @@ class ColanderFeed(ColanderType):
                 relations[relation_id] = relation
         return relations
 
-    def get_outgoing_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
+    def get_outgoing_relations(self, entity: EntityTypes, exclude_immutables=True) -> Dict[str, EntityRelation]:
         """Retrieve all relations where the specified entity is the source (obj_from).
 
         This method finds all entity relations in the feed where the given entity
@@ -1492,6 +1525,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             entity (EntityTypes): The entity to find outgoing relations for. Must be an instance of Entity.
+            exclude_immutables (bool): If True, exclude immutable relations.
 
         Returns:
             Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
@@ -1499,6 +1533,9 @@ class ColanderFeed(ColanderType):
         """
         assert isinstance(entity, Entity)
         relations = {}
+        if not exclude_immutables:
+            for _, entity in self.entities.items():
+                relations.update(entity.get_immutable_relations())
         for relation_id, relation in self.relations.items():
             if not relation.is_fully_resolved():
                 continue
@@ -1506,7 +1543,7 @@ class ColanderFeed(ColanderType):
                 relations[relation_id] = relation
         return relations
 
-    def get_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
+    def get_relations(self, entity: EntityTypes, exclude_immutables=True) -> Dict[str, EntityRelation]:
         """Retrieve all relations (both incoming and outgoing) for the specified entity.
 
         This method combines the results of get_incoming_relations() and
@@ -1515,6 +1552,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             entity (EntityTypes): The entity to find all relations for. Must be an instance of Entity.
+            exclude_immutables (bool): If True, exclude immutable relations.
 
         Returns:
             Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
@@ -1524,7 +1562,7 @@ class ColanderFeed(ColanderType):
 
         relations = {}
         relations.update(self.get_incoming_relations(entity))
-        relations.update(self.get_outgoing_relations(entity))
+        relations.update(self.get_outgoing_relations(entity, exclude_immutables=exclude_immutables))
 
         return relations
 
