@@ -1,0 +1,99 @@
+import enum
+
+from typing import Dict, Any
+
+from pydantic import field_validator, Field
+
+from .base import CommonEntityType, load_entity_supported_types
+
+__all__ = ["ArtifactType", "ArtifactTypes"]
+
+
+class ArtifactType(CommonEntityType):
+    """ArtifactType represents metadata for artifacts in Colander.
+
+    Check :ref:`the list of supported types <artifact_types>`.
+
+    Example:
+        >>> artifact_type = ArtifactTypes.REPORT.value
+        >>> print(artifact_type.short_name)
+        REPORT
+    """
+
+    type_hints: Dict[str, Any] = Field(default_factory=dict)
+    """Dictionary of additional type hints for the artifact type."""
+
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        """Validates that the short_name is a supported artifact type.
+
+        Args:
+            short_name: The short name to validate.
+
+        Returns:
+            str: The validated short name.
+
+        Raises:
+            ValueError: If the short name is not a supported artifact type.
+        """
+        if short_name not in {t["short_name"] for t in load_entity_supported_types("artifact")}:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+    def match_mime_type(self, mime_type) -> bool:
+        """Checks if the given MIME type matches this artifact type.
+
+        Args:
+            mime_type: The MIME type string to check.
+
+        Returns:
+            bool: True if the MIME type matches this artifact type, False otherwise.
+        """
+        wildcard = "*"
+        if not mime_type:
+            return False
+        striped_mime_type = mime_type.lower().strip()
+        if self.type_hints and "suggested_by_mime_types" in self.type_hints:
+            for _mime_type in self.type_hints["suggested_by_mime_types"].get("types", []):
+                _prefix = _mime_type.replace("*", "")
+                if wildcard in _mime_type and striped_mime_type.startswith(_prefix):
+                    return True
+            return striped_mime_type in self.type_hints["suggested_by_mime_types"].get("types", [])
+        return False
+
+
+class ArtifactTypes(enum.Enum):
+    """ArtifactTypes provides access to all supported artifact types.
+
+    This class loads artifact type definitions from the artifact types JSON file and exposes them as an enum.
+    It also provides a method to look up an artifact type by its short name.
+
+    Example:
+        >>> artifact_type = ArtifactTypes.REPORT.value
+        >>> print(artifact_type.name)
+        Report
+        >>> default_type = ArtifactTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Generic
+    """
+
+{% for t in types %}
+    {{ t.short_name }} = ArtifactType(**{{ t }})
+{% endfor %}
+    default = GENERIC  # type: ignore[attr-defined]
+
+    @classmethod
+    def by_short_name(cls, short_name: str):
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls._member_names_:
+            return cls[sn].value
+        return cls.default.value
+
+    @classmethod
+    def by_mime_type(cls, mime_type: str) -> ArtifactType:
+        for _artifact_type in cls:
+            if _artifact_type.value.match_mime_type(mime_type):
+                return _artifact_type.value
+        else:
+            return cls.default.value

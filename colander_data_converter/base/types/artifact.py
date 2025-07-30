@@ -1,0 +1,438 @@
+import enum
+
+from typing import Dict, Any
+
+from pydantic import field_validator, Field
+
+from .base import CommonEntityType, load_entity_supported_types
+
+__all__ = ["ArtifactType", "ArtifactTypes"]
+
+
+class ArtifactType(CommonEntityType):
+    """ArtifactType represents metadata for artifacts in Colander.
+
+    Check :ref:`the list of supported types <artifact_types>`.
+
+    Example:
+        >>> artifact_type = ArtifactTypes.REPORT.value
+        >>> print(artifact_type.short_name)
+        REPORT
+    """
+
+    type_hints: Dict[str, Any] = Field(default_factory=dict)
+    """Dictionary of additional type hints for the artifact type."""
+
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        """Validates that the short_name is a supported artifact type.
+
+        Args:
+            short_name: The short name to validate.
+
+        Returns:
+            str: The validated short name.
+
+        Raises:
+            ValueError: If the short name is not a supported artifact type.
+        """
+        if short_name not in {t["short_name"] for t in load_entity_supported_types("artifact")}:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+    def match_mime_type(self, mime_type) -> bool:
+        """Checks if the given MIME type matches this artifact type.
+
+        Args:
+            mime_type: The MIME type string to check.
+
+        Returns:
+            bool: True if the MIME type matches this artifact type, False otherwise.
+        """
+        wildcard = "*"
+        if not mime_type:
+            return False
+        striped_mime_type = mime_type.lower().strip()
+        if self.type_hints and "suggested_by_mime_types" in self.type_hints:
+            for _mime_type in self.type_hints["suggested_by_mime_types"].get("types", []):
+                _prefix = _mime_type.replace("*", "")
+                if wildcard in _mime_type and striped_mime_type.startswith(_prefix):
+                    return True
+            return striped_mime_type in self.type_hints["suggested_by_mime_types"].get("types", [])
+        return False
+
+
+class ArtifactTypes(enum.Enum):
+    """ArtifactTypes provides access to all supported artifact types.
+
+    This class loads artifact type definitions from the artifact types JSON file and exposes them as an enum.
+    It also provides a method to look up an artifact type by its short name.
+
+    Example:
+        >>> artifact_type = ArtifactTypes.REPORT.value
+        >>> print(artifact_type.name)
+        Report
+        >>> default_type = ArtifactTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Generic
+    """
+
+    ARCHIVE = ArtifactType(
+        **{
+            "short_name": "ARCHIVE",
+            "name": "Archive",
+            "description": "A compressed file or collection of files, such as ZIP or TAR.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-file_zip_o",
+            "type_hints": {
+                "suggested_by_mime_types": {
+                    "types": [
+                        "application/x-zip-compressed",
+                        "application/zip",
+                        "application/x-tar",
+                        "application/gzip",
+                        "application/x-compressed-tar",
+                        "application/x-gzip",
+                        "application/x-bzip2",
+                        "application/x-bzip-compressed-tar",
+                        "application/x-xz",
+                        "application/x-xz-compressed-tar",
+                        "application/x-7z-compressed",
+                        "application/vnd.rar",
+                        "application/x-iso9660-image",
+                        "application/x-apple-diskimage",
+                        "application/java-archive",
+                        "application/vnd.debian.binary-package",
+                        "application/x-rpm",
+                        "application/vnd.ms-cab-compressed",
+                        "application/x-compress",
+                    ]
+                }
+            },
+        }
+    )
+
+    EMAIL = ArtifactType(
+        **{
+            "short_name": "EMAIL",
+            "name": "Email file",
+            "description": "A file containing email messages, such as EML or MSG format.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-email_outline",
+            "type_hints": {
+                "suggested_by_mime_types": {
+                    "types": [
+                        "message/rfc822",
+                        "application/vnd.ms-outlook",
+                        "application/x-msmessage",
+                        "application/mbox",
+                    ]
+                }
+            },
+        }
+    )
+
+    BACKUP = ArtifactType(
+        **{
+            "short_name": "BACKUP",
+            "name": "Backup image",
+            "description": "A file containing a backup copy of data or a system image.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-backup_restore",
+        }
+    )
+
+    ANDROID_BACKUP = ArtifactType(
+        **{
+            "short_name": "ANDROID_BACKUP",
+            "name": "Android backup image",
+            "description": "A backup image created from an Android device.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-backup_restore",
+        }
+    )
+
+    IOS_BACKUP = ArtifactType(
+        **{
+            "short_name": "IOS_BACKUP",
+            "name": "iOS backup image",
+            "description": "A backup image created from an iOS device.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-backup_restore",
+        }
+    )
+
+    SAMPLE = ArtifactType(
+        **{
+            "short_name": "SAMPLE",
+            "name": "Sample",
+            "description": "A generic sample file, often used for malware or suspicious files.",
+            "svg_icon": "",
+            "nf_icon": "nf-oct-package",
+        }
+    )
+
+    ANDROID_SAMPLE = ArtifactType(
+        **{
+            "short_name": "ANDROID_SAMPLE",
+            "name": "Android sample",
+            "description": "A sample file specific to the Android platform.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-android",
+            "type_hints": {
+                "suggested_by_mime_types": {"types": ["application/vnd.android.package-archive", "application/x-dex"]}
+            },
+        }
+    )
+
+    IOS_SAMPLE = ArtifactType(
+        **{
+            "short_name": "IOS_SAMPLE",
+            "name": "iOS sample",
+            "description": "A sample file specific to the iOS platform.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-apple_ios",
+        }
+    )
+
+    F_DUMP = ArtifactType(
+        **{
+            "short_name": "F_DUMP",
+            "name": "Forensic dump",
+            "description": "A file containing a forensic image or memory dump.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-harddisk",
+        }
+    )
+
+    PCAP = ArtifactType(
+        **{
+            "short_name": "PCAP",
+            "name": "PCAP file",
+            "description": "A file capturing network traffic, typically in PCAP format.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-download_network",
+            "type_hints": {
+                "suggested_by_mime_types": {
+                    "types": [
+                        "application/vnd.tcpdump.pcap",
+                        "application/x-pcap",
+                        "application/pcap",
+                        "application/cap",
+                        "application/x-cap",
+                        "application/vnd.tcpdump.pcapng",
+                    ]
+                }
+            },
+        }
+    )
+
+    HAR = ArtifactType(
+        **{
+            "short_name": "HAR",
+            "name": "HAR file",
+            "description": "A file containing HTTP Archive (HAR) data for web traffic analysis.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-download_network",
+        }
+    )
+
+    SOCKET_T = ArtifactType(
+        **{
+            "short_name": "SOCKET_T",
+            "name": "Socket activity trace",
+            "description": "A file recording socket or network connection activity.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-plus_network",
+        }
+    )
+
+    CRYPTO_T = ArtifactType(
+        **{
+            "short_name": "CRYPTO_T",
+            "name": "Cryptographic activity trace",
+            "description": "A file logging cryptographic operations or key usage.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-key",
+        }
+    )
+
+    SSLKEYLOG = ArtifactType(
+        **{
+            "short_name": "SSLKEYLOG",
+            "name": "SSL keylog file",
+            "description": "A file containing SSL/TLS session keys for decrypting network traffic.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-key",
+        }
+    )
+
+    DOCUMENT = ArtifactType(
+        **{
+            "short_name": "DOCUMENT",
+            "name": "Document",
+            "description": "A generic document file, such as PDF, DOCX, or ODT.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-file_document",
+            "default_attributes": {"content_warning": ""},
+            "type_hints": {
+                "suggested_by_mime_types": {
+                    "types": [
+                        "application/pdf",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/msword",
+                        "application/vnd.oasis.opendocument.text",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "application/vnd.ms-excel",
+                        "application/vnd.oasis.opendocument.spreadsheet",
+                        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                        "application/vnd.ms-powerpoint",
+                        "application/vnd.oasis.opendocument.presentation",
+                        "application/rtf",
+                        "text/csv",
+                    ]
+                }
+            },
+        }
+    )
+
+    IMAGE = ArtifactType(
+        **{
+            "short_name": "IMAGE",
+            "name": "Image",
+            "description": "A file containing a still image, such as JPG, PNG, or GIF.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-file_image_o",
+            "default_attributes": {"content_warning": ""},
+            "type_hints": {"suggested_by_mime_types": {"types": ["image/*"]}},
+        }
+    )
+
+    VIDEO = ArtifactType(
+        **{
+            "short_name": "VIDEO",
+            "name": "Video",
+            "description": "A file containing video content, such as MP4, AVI, or MOV.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-file_video_o",
+            "default_attributes": {"content_warning": ""},
+            "type_hints": {"suggested_by_mime_types": {"types": ["video/*"]}},
+        }
+    )
+
+    AUDIO = ArtifactType(
+        **{
+            "short_name": "AUDIO",
+            "name": "Audio",
+            "description": "A file containing audio content, such as MP3, WAV, or AAC.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-file_audio_o",
+            "default_attributes": {"content_warning": ""},
+            "type_hints": {"suggested_by_mime_types": {"types": ["audio/*"]}},
+        }
+    )
+
+    WEBPAGE = ArtifactType(
+        **{
+            "short_name": "WEBPAGE",
+            "name": "Web page",
+            "description": "A file containing web page content, such as HTML or XHTML.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-file_code",
+            "default_attributes": {"content_warning": ""},
+            "type_hints": {"suggested_by_mime_types": {"types": ["text/html", "application/xhtml+xml"]}},
+        }
+    )
+
+    SOCIAL_POST = ArtifactType(
+        **{
+            "short_name": "SOCIAL_POST",
+            "name": "Social media post",
+            "description": "A file or record representing a post from a social media platform.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-comment_o",
+            "default_attributes": {"content_warning": ""},
+        }
+    )
+
+    REPORT = ArtifactType(
+        **{
+            "short_name": "REPORT",
+            "name": "Report",
+            "description": "A file containing an analytical or investigative report.",
+            "svg_icon": "",
+            "nf_icon": "nf-mdi-file_document",
+        }
+    )
+
+    JSON = ArtifactType(
+        **{
+            "short_name": "JSON",
+            "name": "JSON file",
+            "description": "A file in JavaScript Object Notation (JSON) format.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-json",
+            "type_hints": {"suggested_by_mime_types": {"types": ["application/json"]}},
+        }
+    )
+
+    TEXT = ArtifactType(
+        **{
+            "short_name": "TEXT",
+            "name": "Text file",
+            "description": "A plain text file, such as TXT or LOG.",
+            "svg_icon": "",
+            "nf_icon": "nf-fa-file_text",
+            "type_hints": {"suggested_by_mime_types": {"types": ["text/plain"]}},
+        }
+    )
+
+    BINARY = ArtifactType(
+        **{
+            "short_name": "BINARY",
+            "name": "Binary file",
+            "description": "A file containing binary data, not intended to be read as text.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-file_binary",
+            "type_hints": {
+                "suggested_by_mime_types": {
+                    "types": [
+                        "application/octet-stream",
+                        "application/x-binary",
+                        "application/x-executable",
+                        "application/x-sharedlib",
+                        "application/x-object",
+                        "application/x-coredump",
+                    ]
+                }
+            },
+        }
+    )
+
+    GENERIC = ArtifactType(
+        **{
+            "short_name": "GENERIC",
+            "name": "Generic",
+            "description": "A file that does not fit into any of other predefined categories.",
+            "svg_icon": "",
+            "nf_icon": "nf-cod-file_binary",
+        }
+    )
+
+    default = GENERIC  # type: ignore[attr-defined]
+
+    @classmethod
+    def by_short_name(cls, short_name: str):
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls._member_names_:
+            return cls[sn].value
+        return cls.default.value
+
+    @classmethod
+    def by_mime_type(cls, mime_type: str) -> ArtifactType:
+        for _artifact_type in cls:
+            if _artifact_type.value.match_mime_type(mime_type):
+                return _artifact_type.value
+        else:
+            return cls.default.value

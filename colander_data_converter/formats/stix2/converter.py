@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, Union, List, Type
+from typing import Dict, Optional, Union, List, Type, Any
 from uuid import uuid4
 
 from colander_data_converter.base.models import (
@@ -13,16 +13,16 @@ from colander_data_converter.base.models import (
     EntityRelation,
     ColanderFeed,
     ColanderRepository,
-    DeviceTypes,
-    ArtifactTypes,
-    ObservableTypes,
-    ThreatTypes,
     CommonEntitySuperType,
     CommonEntitySuperTypes,
-    ActorTypes,
     EntityTypes,
     Entity,
 )
+from colander_data_converter.base.types.actor import *
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.device import *
+from colander_data_converter.base.types.observable import *
+from colander_data_converter.base.types.threat import *
 from colander_data_converter.formats.stix2.mapping import Stix2MappingLoader
 from colander_data_converter.formats.stix2.models import (
     Stix2ObjectBase,
@@ -186,7 +186,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
             raise e
 
     def _get_actor_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        default_type = ArtifactTypes.default.short_name.lower()
+        default_type = ArtifactTypes.default.value.short_name.lower()
         if not subtype_candidates:
             return default_type
 
@@ -216,7 +216,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_device_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        default_type = DeviceTypes.default.short_name.lower()
+        default_type = DeviceTypes.default.value.short_name.lower()
         if not subtype_candidates:
             return default_type
 
@@ -242,7 +242,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_artifact_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        default_type = ArtifactTypes.default.short_name.lower()
+        default_type = ArtifactTypes.default.value.short_name.lower()
         if not subtype_candidates:
             return default_type
 
@@ -260,7 +260,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_observable_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        default_type = ObservableTypes.default.short_name.lower()
+        default_type = ObservableTypes.default.value.short_name.lower()
         if not subtype_candidates:
             return default_type
 
@@ -285,7 +285,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_threat_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        default_type = ThreatTypes.default.short_name.lower()
+        default_type = ThreatTypes.default.value.short_name.lower()
         if not subtype_candidates:
             return default_type
 

@@ -33,6 +33,7 @@ urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
 dev = [
   "hatchling",
   "mypy",
+  "pre-commit-uv",
   "pytest",
   "ruff",
   "tox",
@@ -42,7 +43,6 @@ test = [
   "coverage",
   "hatchling",
   "mypy",
-  "pre-commit-uv",
   "pytest",
   "pytest-cov",
   "pytest-md-report",
@@ -100,7 +100,7 @@ format.skip-magic-trailing-comma = false
 format.docstring-code-line-length = "dynamic"
 format.docstring-code-format = false
 lint.select = [ "E4", "E7", "E9", "F" ]
-lint.ignore = [ "E722", "F841" ]
+lint.ignore = [ "E722", "F403", "F405", "F841" ]
 lint.fixable = [ "ALL" ]
 lint.unfixable = [  ]
 lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"

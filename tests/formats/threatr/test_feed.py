@@ -7,7 +7,9 @@ import pytest
 from pydantic import ValidationError
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import CommonEntitySuperTypes, ObservableTypes, EventTypes
+from colander_data_converter.base.models import CommonEntitySuperTypes
+from colander_data_converter.base.types.event import EventTypes
+from colander_data_converter.base.types.observable import ObservableTypes
 from colander_data_converter.formats.threatr.models import (
     Entity,
     EntityRelation,
@@ -32,7 +34,7 @@ def sample_entity():
     """Creates a sample entity for testing"""
     return Entity(
         name="Test Entity",
-        type=ObservableTypes.enum.DOMAIN.value,
+        type=ObservableTypes.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Test description",
     )
@@ -43,13 +45,13 @@ def sample_entities():
     """Creates two related entities for testing"""
     entity1 = Entity(
         name="Source Entity",
-        type=ObservableTypes.enum.DOMAIN.value,
+        type=ObservableTypes.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Source entity for testing",
     )
     entity2 = Entity(
         name="Target Entity",
-        type=ObservableTypes.enum.DOMAIN.value,
+        type=ObservableTypes.DOMAIN.value,
         super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         description="Target entity for testing",
     )
@@ -102,7 +104,7 @@ class TestThreatrRepository:
             name="Test Event",
             first_seen=datetime.now(UTC),
             last_seen=datetime.now(UTC) + timedelta(hours=1),
-            type=EventTypes.enum.GENERIC.value,
+            type=EventTypes.GENERIC.value,
         )
         clean_repository << event
         assert str(event.id) in clean_repository.events
@@ -127,12 +129,12 @@ class TestEntity:
         """Test creating entity with minimal required fields"""
         entity = Entity(
             name="Test Entity",
-            type=ObservableTypes.enum.DOMAIN.value,
+            type=ObservableTypes.DOMAIN.value,
             super_type=CommonEntitySuperTypes.OBSERVABLE.value,
         )
         assert isinstance(entity.id, UUID)
         assert entity.name == "Test Entity"
-        assert entity.type == ObservableTypes.enum.DOMAIN.value
+        assert entity.type == ObservableTypes.DOMAIN.value
         assert entity.super_type == CommonEntitySuperTypes.OBSERVABLE.value
         assert entity.tlp == TlpPapLevel.WHITE  # default value
         assert entity.pap == TlpPapLevel.WHITE  # default value
@@ -141,7 +143,7 @@ class TestEntity:
         """Test creating entity with all fields"""
         entity = Entity(
             name="Full Test Entity",
-            type=ObservableTypes.enum.DOMAIN.value,
+            type=ObservableTypes.DOMAIN.value,
             super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             description="Test description",
             pap=TlpPapLevel.RED,
@@ -160,14 +162,14 @@ class TestEntity:
         with pytest.raises(ValidationError):
             Entity(
                 name="",  # Empty name should fail
-                type=ObservableTypes.enum.DOMAIN.value,
+                type=ObservableTypes.DOMAIN.value,
                 super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             )
 
         with pytest.raises(ValidationError):
             Entity(
                 name="a" * 513,  # Name too long
-                type=ObservableTypes.enum.DOMAIN.value,
+                type=ObservableTypes.DOMAIN.value,
                 super_type=CommonEntitySuperTypes.OBSERVABLE.value,
             )
 
@@ -202,7 +204,7 @@ class TestEntityRelation:
 class TestEvent:
     def test_event_creation_minimal(self):
         """Test creating event with minimal required fields"""
-        event = Event(name="Test Event", type=EventTypes.enum.GENERIC.value)
+        event = Event(name="Test Event", type=EventTypes.GENERIC.value)
         assert isinstance(event.id, UUID)
         assert event.name == "Test Event"
         assert event.count == 1
@@ -220,7 +222,7 @@ class TestEvent:
             count=5,
             involved_entity=sample_entity,
             attributes={"key": "value"},
-            type=EventTypes.enum.GENERIC.value,
+            type=EventTypes.GENERIC.value,
         )
         assert event.description == "Test description"
         assert event.first_seen == now
@@ -237,7 +239,7 @@ class TestEvent:
                 name="Invalid Event",
                 first_seen=now + timedelta(hours=1),
                 last_seen=now,
-                type=EventTypes.enum.GENERIC.value,
+                type=EventTypes.GENERIC.value,
             )
 
 

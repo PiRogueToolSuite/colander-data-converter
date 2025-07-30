@@ -4,22 +4,22 @@ from pydantic import ValidationError
 from colander_data_converter.base.models import (
     Artifact,
     Device,
-    ArtifactTypes,
-    DeviceTypes,
 )
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.device import *
 
 
 class TestArtifact:
     def test_creates_artifact_with_minimal_fields(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         artifact = Artifact(name="sample.pdf", type=artifact_type)
         assert artifact.name == "sample.pdf"
         assert artifact.type == artifact_type
         assert artifact.size_in_bytes == 0
 
     def test_creates_artifact_with_all_fields(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
-        device_type = DeviceTypes.enum.LAPTOP.value
+        artifact_type = ArtifactTypes.REPORT.value
+        device_type = DeviceTypes.LAPTOP.value
         device = Device(name="Analyst Laptop", type=device_type)
         artifact = Artifact(
             name="malware_sample.pdf",
@@ -40,7 +40,7 @@ class TestArtifact:
         assert artifact.attributes["source"] == "email"
 
     def test_fails_when_name_is_missing(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         with pytest.raises(ValidationError):
             Artifact(type=artifact_type)
 
@@ -49,12 +49,12 @@ class TestArtifact:
             Artifact(name="sample.pdf")
 
     def test_fails_when_size_is_negative(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         with pytest.raises(ValidationError):
             Artifact(name="sample.pdf", type=artifact_type, size_in_bytes=-1)
 
     def test_allows_optional_fields_to_be_none(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         artifact = Artifact(name="sample.pdf", type=artifact_type)
         assert artifact.extracted_from is None
         assert artifact.extension is None
@@ -66,22 +66,22 @@ class TestArtifact:
 
     def test_mime_types(self):
         mimetypes = {
-            "application/pdf": ArtifactTypes.enum.DOCUMENT.value,
-            "audio/ogg": ArtifactTypes.enum.AUDIO.value,
-            "application/zip": ArtifactTypes.enum.ARCHIVE.value,
-            "application/x-tar": ArtifactTypes.enum.ARCHIVE.value,
-            "application/gzip": ArtifactTypes.enum.ARCHIVE.value,
-            "application/x-7z-compressed": ArtifactTypes.enum.ARCHIVE.value,
-            "application/vnd.rar": ArtifactTypes.enum.ARCHIVE.value,
-            "message/rfc822": ArtifactTypes.enum.EMAIL.value,
-            "application/vnd.ms-outlook": ArtifactTypes.enum.EMAIL.value,
-            "application/vnd.android.package-archive": ArtifactTypes.enum.ANDROID_SAMPLE.value,
-            "image/jpeg": ArtifactTypes.enum.IMAGE.value,
-            "image/png": ArtifactTypes.enum.IMAGE.value,
-            "video/mp4": ArtifactTypes.enum.VIDEO.value,
-            "text/html": ArtifactTypes.enum.WEBPAGE.value,
-            "application/json": ArtifactTypes.enum.JSON.value,
-            "text/plain": ArtifactTypes.enum.TEXT.value,
+            "application/pdf": ArtifactTypes.DOCUMENT.value,
+            "audio/ogg": ArtifactTypes.AUDIO.value,
+            "application/zip": ArtifactTypes.ARCHIVE.value,
+            "application/x-tar": ArtifactTypes.ARCHIVE.value,
+            "application/gzip": ArtifactTypes.ARCHIVE.value,
+            "application/x-7z-compressed": ArtifactTypes.ARCHIVE.value,
+            "application/vnd.rar": ArtifactTypes.ARCHIVE.value,
+            "message/rfc822": ArtifactTypes.EMAIL.value,
+            "application/vnd.ms-outlook": ArtifactTypes.EMAIL.value,
+            "application/vnd.android.package-archive": ArtifactTypes.ANDROID_SAMPLE.value,
+            "image/jpeg": ArtifactTypes.IMAGE.value,
+            "image/png": ArtifactTypes.IMAGE.value,
+            "video/mp4": ArtifactTypes.VIDEO.value,
+            "text/html": ArtifactTypes.WEBPAGE.value,
+            "application/json": ArtifactTypes.JSON.value,
+            "text/plain": ArtifactTypes.TEXT.value,
         }
         for mimetype, expected in mimetypes.items():
             computed = ArtifactTypes.by_mime_type(mimetype)
@@ -104,4 +104,4 @@ class TestArtifact:
 
         for mimetype in unsupported_mimetypes:
             computed = ArtifactTypes.by_mime_type(mimetype)
-            assert computed is ArtifactTypes.enum.GENERIC.value
+            assert computed is ArtifactTypes.GENERIC.value

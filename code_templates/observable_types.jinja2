@@ -1,0 +1,58 @@
+import enum
+
+from pydantic import field_validator
+
+from .base import CommonEntityType, load_entity_supported_types
+
+__all__ = ["ObservableType", "ObservableTypes"]
+
+
+class ObservableType(CommonEntityType):
+    """ObservableType represents metadata for observables in Colander.
+
+    Check :ref:`the list of supported types <observable_types>`.
+
+    Example:
+        >>> observable_type = ObservableType(
+        ...     short_name='IPV4',
+        ...     name='IPv4',
+        ...     description='An IPv4 address type'
+        ... )
+        >>> print(observable_type.name)
+        IPv4
+    """
+
+    @field_validator("short_name", mode="before")
+    @classmethod
+    def is_supported_type(cls, short_name: str):
+        if short_name not in {t["short_name"] for t in load_entity_supported_types("observable")}:
+            raise ValueError(f"{short_name} is not supported")
+        return short_name
+
+
+class ObservableTypes(enum.Enum):
+    """ObservableTypes provides access to all supported observable types.
+
+    This class loads observable type definitions from the observable types JSON file and exposes them as an enum.
+    It also provides a method to look up an observable type by its short name.
+
+    Example:
+        >>> observable_type = ObservableTypes.IPV4.value
+        >>> print(observable_type.name)
+        IPv4
+        >>> default_type = ObservableTypes.by_short_name("nonexistent")
+        >>> print(default_type.name)
+        Generic
+    """
+
+{% for t in types %}
+    {{ t.short_name }} = ObservableType(**{{ t }})
+{% endfor %}
+    default = GENERIC  # type: ignore[attr-defined]
+
+    @classmethod
+    def by_short_name(cls, short_name: str):
+        sn = short_name.replace(" ", "_").upper()
+        if sn in cls._member_names_:
+            return cls[sn].value
+        return cls.default.value

@@ -10,7 +10,8 @@ from colander_data_converter.base.common import (
     ObjectReference,
     Singleton,
 )
-from colander_data_converter.base.models import CommonEntityType, CommonEntitySuperType, CommonEntitySuperTypes
+from colander_data_converter.base.models import CommonEntitySuperType, CommonEntitySuperTypes
+from colander_data_converter.base.types.base import CommonEntityType
 
 
 class ThreatrRepository(object, metaclass=Singleton):

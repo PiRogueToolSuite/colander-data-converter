@@ -8,17 +8,17 @@ from colander_data_converter.base.models import (
     Artifact,
     DetectionRule,
     Device,
-    EventTypes,
-    ObservableTypes,
-    ArtifactTypes,
-    DetectionRuleTypes,
-    DeviceTypes,
 )
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.detection_rule import *
+from colander_data_converter.base.types.device import *
+from colander_data_converter.base.types.event import *
+from colander_data_converter.base.types.observable import *
 
 
 class TestEvent:
     def test_creates_event_with_minimal_fields(self):
-        event_type = EventTypes.enum.HIT.value
+        event_type = EventTypes.HIT.value
         event = Event(name="Event 1", type=event_type)
         assert event.name == "Event 1"
         assert event.type == event_type
@@ -26,21 +26,21 @@ class TestEvent:
         assert event.first_seen <= event.last_seen
 
     def test_creates_event_with_all_fields(self):
-        event_type = EventTypes.enum.HIT.value
-        obs_type = ObservableTypes.enum.IPV4.value
+        event_type = EventTypes.HIT.value
+        obs_type = ObservableTypes.IPV4.value
         obs = Observable(name="8.8.8.8", type=obs_type)
         artifact = Artifact(
             name="file.txt",
-            type=ArtifactTypes.enum.BINARY.value,
+            type=ArtifactTypes.BINARY.value,
         )
         detection_rule = DetectionRule(
             name="Rule",
-            type=DetectionRuleTypes.enum.YARA.value,
+            type=DetectionRuleTypes.YARA.value,
             content="rule",
         )
         device = Device(
             name="Device",
-            type=DeviceTypes.enum.LAPTOP.value,
+            type=DeviceTypes.LAPTOP.value,
         )
         now = datetime.now(UTC)
         event = Event(
@@ -63,7 +63,7 @@ class TestEvent:
         assert event.involved_observables[0] == obs
 
     def test_fails_when_first_seen_after_last_seen(self):
-        event_type = EventTypes.enum.HIT.value
+        event_type = EventTypes.HIT.value
         now = datetime.now(UTC)
         with pytest.raises(ValueError):
             Event(
@@ -74,7 +74,7 @@ class TestEvent:
             )
 
     def test_allows_optional_fields_to_be_none(self):
-        event_type = EventTypes.enum.HIT.value
+        event_type = EventTypes.HIT.value
         event = Event(name="Event 3", type=event_type)
         assert event.extracted_from is None
         assert event.observed_on is None

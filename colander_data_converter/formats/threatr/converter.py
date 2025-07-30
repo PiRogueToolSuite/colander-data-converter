@@ -12,12 +12,12 @@ from colander_data_converter.base.models import (
     Entity as ColanderEntity,
     Event,
     CommonEntitySuperType,
-    CommonEntityType,
     ColanderRepository,
     CommonEntitySuperTypes,
     Observable,
-    EventTypes,
 )
+from colander_data_converter.base.types.base import CommonEntityType
+from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.utils import BaseModelMerger
 from colander_data_converter.formats.threatr.mapping import ThreatrMapper
 from colander_data_converter.formats.threatr.models import (

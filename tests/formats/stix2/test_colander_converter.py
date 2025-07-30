@@ -5,23 +5,23 @@ from importlib import resources
 from colander_data_converter.base.models import (
     ColanderFeed,
     Artifact,
-    ArtifactTypes,
-    ActorTypes,
     Actor,
-    DeviceTypes,
     Device,
-    ObservableTypes,
     Observable,
-    ThreatTypes,
     Threat,
 )
+from colander_data_converter.base.types.actor import *
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.device import *
+from colander_data_converter.base.types.observable import *
+from colander_data_converter.base.types.threat import *
 from colander_data_converter.formats.stix2.converter import ColanderToStix2Mapper
 
 
 class TestColanderConverter(unittest.TestCase):
     def test_convert_artifact(self):
         feed = ColanderFeed()
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         artifact = Artifact(
             name="malware_sample.pdf",
             type=artifact_type,
@@ -49,7 +49,7 @@ class TestColanderConverter(unittest.TestCase):
 
     def test_convert_identity(self):
         feed = ColanderFeed()
-        actor_type = ActorTypes.enum.COMPANY.value
+        actor_type = ActorTypes.COMPANY.value
         actor = Actor(
             name="Dolpador",
             type=actor_type,
@@ -64,7 +64,7 @@ class TestColanderConverter(unittest.TestCase):
 
     def test_convert_threat_actor(self):
         feed = ColanderFeed()
-        actor_type = ActorTypes.enum.THREAT_ACTOR.value
+        actor_type = ActorTypes.THREAT_ACTOR.value
         actor = Actor(
             name="Dolpador",
             type=actor_type,
@@ -78,7 +78,7 @@ class TestColanderConverter(unittest.TestCase):
 
     def test_convert_threat(self):
         feed = ColanderFeed()
-        threat_type = ThreatTypes.enum.SPYWARE.value
+        threat_type = ThreatTypes.SPYWARE.value
         threat = Threat(
             name="Dolpador",
             type=threat_type,
@@ -93,7 +93,7 @@ class TestColanderConverter(unittest.TestCase):
 
     def test_convert_device(self):
         feed = ColanderFeed()
-        device_type = DeviceTypes.enum.SERVER.value
+        device_type = DeviceTypes.SERVER.value
         device = Device(
             name="Dolpador",
             type=device_type,
@@ -108,7 +108,7 @@ class TestColanderConverter(unittest.TestCase):
 
     def test_convert_observable(self):
         feed = ColanderFeed()
-        observable_type = ObservableTypes.enum.DOMAIN.value
+        observable_type = ObservableTypes.DOMAIN.value
         observable = Observable(
             name="google.com",
             type=observable_type,
@@ -150,7 +150,7 @@ class TestColanderConverter(unittest.TestCase):
         self.assertEqual(len(bundle.objects), 0)
 
     def test_convert_missing_fields(self):
-        artifact_type = ArtifactTypes.enum.REPORT.value
+        artifact_type = ArtifactTypes.REPORT.value
         artifact = Artifact(
             name="foo.txt",
             type=artifact_type,
@@ -176,9 +176,9 @@ class TestColanderConverter(unittest.TestCase):
 
         feed = ColanderFeed()
         # Create two entities
-        actor_type = ActorTypes.enum.COMPANY.value
+        actor_type = ActorTypes.COMPANY.value
         actor = Actor(name="A", type=actor_type)
-        device_type = DeviceTypes.enum.SERVER.value
+        device_type = DeviceTypes.SERVER.value
         device = Device(name="B", type=device_type)
         feed.entities[str(actor.id)] = actor
         feed.entities[str(device.id)] = device

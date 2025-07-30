@@ -10,20 +10,20 @@ from colander_data_converter.base.models import (
     Observable,
     EntityRelation,
     Case,
-    ObservableTypes,
 )
+from colander_data_converter.base.types.observable import ObservableTypes
 
 
 class TestFeed:
     def test_loads_entity_feed_with_minimal_entities(self):
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs = Observable(name="1.2.3.4", type=ot)
         feed = ColanderFeed(entities={str(obs.id): obs})
         assert str(obs.id) in feed.entities
         assert feed.entities[str(obs.id)].name == "1.2.3.4"
 
     def test_loads_entity_feed_with_relations_and_cases(self):
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs1 = Observable(name="1.1.1.1", type=ot)
         obs2 = Observable(name="8.8.8.8", type=ot)
         case = Case(name="Case X", description="desc")
@@ -161,7 +161,7 @@ class TestFeed:
             feed.resolve_references()
 
     def test_unlink_references_replaces_objects_with_ids(self):
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs1 = Observable(name="1.1.1.1", type=ot)
         obs2 = Observable(name="8.8.8.8", type=ot)
         rel = EntityRelation(name="rel", obj_from=obs1, obj_to=obs2)
@@ -183,7 +183,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
         obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
         obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
@@ -208,7 +208,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
         obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
         feed = ColanderFeed(
@@ -225,7 +225,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
         obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
         feed = ColanderFeed(
@@ -241,7 +241,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
         obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
         obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
@@ -269,7 +269,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)
         obs_amber = Observable(name="2.2.2.2", type=ot, tlp=TlpPapLevel.AMBER)
         rel = EntityRelation(name="rel", obj_from=obs_red, obj_to=obs_amber)
@@ -290,7 +290,7 @@ class TestFeed:
         from colander_data_converter.base.models import ColanderFeed, Observable, EntityRelation, ObservableTypes
         from colander_data_converter.base.common import TlpPapLevel
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_green = Observable(name="3.3.3.3", type=ot, tlp=TlpPapLevel.GREEN)
         obs_white = Observable(name="4.4.4.4", type=ot, tlp=TlpPapLevel.WHITE)
         obs_red = Observable(name="1.1.1.1", type=ot, tlp=TlpPapLevel.RED)

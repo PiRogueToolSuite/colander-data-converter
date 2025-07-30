@@ -1,24 +1,14 @@
 import pytest
 from pydantic import ValidationError
 
-from colander_data_converter.base.models import (
-    ArtifactType,
-    ArtifactTypes,
-    ObservableType,
-    ObservableTypes,
-    ThreatType,
-    ThreatTypes,
-    ActorType,
-    ActorTypes,
-    DeviceType,
-    DeviceTypes,
-    EventType,
-    EventTypes,
-    DetectionRuleType,
-    DetectionRuleTypes,
-    DataFragmentType,
-    DataFragmentTypes,
-)
+from colander_data_converter.base.types.actor import *
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.data_fragment import *
+from colander_data_converter.base.types.detection_rule import *
+from colander_data_converter.base.types.device import *
+from colander_data_converter.base.types.event import *
+from colander_data_converter.base.types.observable import *
+from colander_data_converter.base.types.threat import *
 
 
 class TestArtifactTypes:
@@ -36,7 +26,7 @@ class TestArtifactTypes:
     def test_artifact_types_enum_contains_expected_types(self):
         # Test that common artifact types are present in the enum
         expected_types = {"REPORT", "BINARY", "PCAP", "GENERIC"}
-        enum_types = set(ArtifactTypes.enum._member_names_)
+        enum_types = set(ArtifactTypes._member_names_)
         assert expected_types.issubset(enum_types)
 
     def test_artifact_types_by_short_name(self):
@@ -49,7 +39,7 @@ class TestArtifactTypes:
     def test_artifact_types_by_short_name_invalid(self):
         # Test that invalid short name returns None
         artifact_type = ArtifactTypes.by_short_name("NONEXISTENT")
-        assert artifact_type is ArtifactTypes.default
+        assert artifact_type is ArtifactTypes.default.value
 
     def test_artifact_types_case_insensitive(self):
         # Test that case is properly handled
@@ -77,7 +67,7 @@ class TestObservableTypes:
 
     def test_observable_types_enum_contains_expected_types(self):
         expected_types = {"IPV4", "DOMAIN", "URL", "EMAIL"}
-        enum_types = set(ObservableTypes.enum._member_names_)
+        enum_types = set(ObservableTypes._member_names_)
         assert expected_types.issubset(enum_types)
 
 
@@ -95,7 +85,7 @@ class TestThreatTypes:
 
     def test_threat_types_enum_contains_expected_types(self):
         expected_types = {"MALWARE", "TROJAN", "STALKERWARE", "GENERIC"}
-        enum_types = set(ThreatTypes.enum._member_names_)
+        enum_types = set(ThreatTypes._member_names_)
         assert expected_types.issubset(enum_types)
 
 
@@ -134,7 +124,7 @@ def test_all_type_classes_have_default():
         assert hasattr(type_class, "default"), f"{type_class.__name__} missing default value"
         assert type_class.default is not None
         assert isinstance(
-            type_class.default,
+            type_class.default.value,
             (
                 ArtifactType,
                 ObservableType,
@@ -162,7 +152,7 @@ def test_type_enums_unique_values():
     ]
 
     for type_class in type_classes:
-        enum_values = list(type_class.enum._member_names_)
+        enum_values = list(type_class._member_names_)
         unique_values = set(enum_values)
         assert len(enum_values) == len(unique_values), f"Duplicate values found in {type_class.__name__}"
 
@@ -187,7 +177,7 @@ def test_by_short_name_consistency():
         assert result.short_name == valid_type
 
         # Test invalid type
-        assert type_class.by_short_name("NONEXISTENT") is type_class.default
+        assert type_class.by_short_name("NONEXISTENT") is type_class.default.value
 
         # Test case insensitivity
         assert type_class.by_short_name(valid_type.lower()) is not None

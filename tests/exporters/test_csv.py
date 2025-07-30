@@ -5,9 +5,10 @@ from colander_data_converter.exporters.csv import CsvExporter
 
 class TestCSVExporter:
     def test_export(self):
-        from colander_data_converter.base.models import ColanderFeed, Observable, ObservableTypes
+        from colander_data_converter.base.models import ColanderFeed, Observable
+        from colander_data_converter.base.types.observable import ObservableTypes
 
-        ot = ObservableTypes.enum.IPV4.value
+        ot = ObservableTypes.IPV4.value
         obs_red = Observable(name="1.1.1.1", type=ot)
         obs_amber = Observable(name="2.2.2.2", type=ot)
         obs_green = Observable(name="3.3.3.3", type=ot)

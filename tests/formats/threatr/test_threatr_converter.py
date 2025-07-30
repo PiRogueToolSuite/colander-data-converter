@@ -8,14 +8,14 @@ from pydantic import BaseModel, ValidationError
 
 from colander_data_converter.base.models import (
     ColanderRepository,
-    ObservableTypes,
     CommonEntitySuperTypes,
-    EventTypes,
-    ActorTypes,
     Observable,
     Actor,
     Event,
 )
+from colander_data_converter.base.types.actor import *
+from colander_data_converter.base.types.event import *
+from colander_data_converter.base.types.observable import *
 from colander_data_converter.formats.threatr.converter import ThreatrToColanderMapper
 from colander_data_converter.formats.threatr.models import (
     Entity as ThreatrEntity,

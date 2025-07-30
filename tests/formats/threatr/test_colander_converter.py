@@ -7,17 +7,17 @@ from colander_data_converter.base.models import (
     Actor,
     Observable,
     EntityRelation,
-    ActorTypes,
-    ObservableTypes,
     Device,
-    DeviceTypes,
-    EventTypes,
     Artifact,
-    ArtifactTypes,
     DetectionRule,
-    DetectionRuleTypes,
     Event,
 )
+from colander_data_converter.base.types.actor import *
+from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.detection_rule import *
+from colander_data_converter.base.types.device import *
+from colander_data_converter.base.types.event import *
+from colander_data_converter.base.types.observable import *
 from colander_data_converter.formats.threatr.converter import ColanderToThreatrMapper
 from colander_data_converter.formats.threatr.models import ThreatrFeed
 
@@ -128,22 +128,22 @@ class TestColanderToThreatrConverter(unittest.TestCase):
         self.assertEqual(relation.obj_to, actor.id)
 
     def test_convert_event(self):
-        event_type = EventTypes.enum.HIT.value
-        obs_type = ObservableTypes.enum.IPV4.value
+        event_type = EventTypes.HIT.value
+        obs_type = ObservableTypes.IPV4.value
         obs_1 = Observable(name="8.8.8.8", type=obs_type)
         obs_2 = Observable(name="1.1.1.1", type=obs_type)
         artifact = Artifact(
             name="file.txt",
-            type=ArtifactTypes.enum.BINARY.value,
+            type=ArtifactTypes.BINARY.value,
         )
         detection_rule = DetectionRule(
             name="Rule",
-            type=DetectionRuleTypes.enum.YARA.value,
+            type=DetectionRuleTypes.YARA.value,
             content="rule",
         )
         device = Device(
             name="Device",
-            type=DeviceTypes.enum.LAPTOP.value,
+            type=DeviceTypes.LAPTOP.value,
         )
         now = datetime.now(UTC)
         event = Event(
