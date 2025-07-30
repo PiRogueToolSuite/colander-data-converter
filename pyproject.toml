@@ -1,13 +1,13 @@
 [build-system]
 build-backend = "hatchling.build"
-requires = [ "hatchling" ]
+
+requires = [ "hatchling", "uv-dynamic-versioning" ]
 
 [project]
 name = "colander-data-converter"
-version = "1.0.0"
-description = "A set of helpers to manipulate Colander data."
+description = "A set of helpers to convert Colander data."
 readme = "README.md"
-license = { text = "GPL-3.0+ AND MIT" }
+license = "GPL-3.0-or-later"
 maintainers = [
   { name = "U+039b", email = "hello@pts-project.org" },
 ]
@@ -20,6 +20,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "jinja2==3.1.6",
   "pydantic==2.11.7",
@@ -31,6 +32,8 @@ urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
 [dependency-groups]
 dev = [
   "hatchling",
+  "mypy",
+  "pytest",
   "ruff",
   "tox",
   "tox-uv",
@@ -60,6 +63,17 @@ docs = [
   "sphinx-toolbox",
   "sphinxcontrib-datatemplates>=0.11",
 ]
+
+[tool.hatch.build.targets.sdist]
+ignore-vcs = true
+only-include = [
+  "colander_data_converter",
+  "LICENSE",
+  "README.md",
+]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
 
 [tool.ruff]
 target-version = "py312"
@@ -111,7 +125,11 @@ warn_return_any = false
 ignore_missing_imports = true
 disable_error_code = [
   "call-overload",
+  "index",
 ]
+
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.0"
 
 [tool.bandit]
 targets = [ "colander_data_converter" ]

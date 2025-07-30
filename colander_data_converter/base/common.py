@@ -119,7 +119,7 @@ class Level(BaseModel):
     code: str
     name: str
     ordering_value: int
-    description: str = None
+    description: str | None = None
 
     @model_serializer
     def ser_model(self) -> str:

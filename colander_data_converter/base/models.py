@@ -4,7 +4,7 @@ import json
 from datetime import datetime, UTC
 from enum import Enum
 from importlib import resources
-from typing import List, Dict, Any, Optional, Union, Annotated, Literal, get_args
+from typing import List, Dict, Any, Optional, Union, Annotated, Literal, get_args, TypeVar
 from uuid import uuid4, UUID
 
 from pydantic import (
@@ -84,6 +84,8 @@ EntityTypes = Annotated[
     Field(discriminator="colander_internal_type"),
 ]
 
+EntityType_T = TypeVar("EntityType_T", bound="CommonEntityType")
+
 
 class CommonEntityType(BaseModel, abc.ABC):
     """CommonEntityType is an abstract base class for defining shared attributes across various entity data types.
@@ -122,9 +124,6 @@ class ColanderType(BaseModel):
     This class extends Pydantic's BaseModel and is intended to be subclassed by
     all model entities. It includes methods for linking and unlinking object references,
     resolving type hints, and extracting subclass information.
-
-    Attributes:
-        model_config: Configuration for the Pydantic model.
     """
 
     model_config = ConfigDict(
@@ -137,8 +136,7 @@ class ColanderType(BaseModel):
         registers the current subclass instance.
 
         Args:
-            __context (Any): Additional context provided for post-initialization
-                handling.
+            __context (Any): Additional context provided for post-initialization handling.
         """
         _ = ColanderRepository()
         _ << self
@@ -392,17 +390,56 @@ class Entity(ColanderType, abc.ABC):
     tlp: TlpPapLevel = TlpPapLevel.WHITE
     """The TLP (Traffic Light Protocol) level for the entity."""
 
-    def get_immutable_relations(self) -> Dict[str, "EntityRelation"]:
+    def get_type(self) -> Optional[EntityType_T]:
         """
-        Returns a list of immutable relations for the entity.
+        Returns the type definition for this entity instance.
 
-        This method inspects the entity's fields and collects all relations
-        where the field is annotated as an ObjectReference or a List[ObjectReference].
-        The resulting list contains EntityRelation objects representing these links.
+        This method returns the type definition object (e.g., ObservableType, ActorType, DeviceType).
 
         Returns:
-            Dict[str, "EntityRelation"]: A dictionary of relations for the entity.
+            Optional[_EntityType]: The type definition object for this entity. The specific type depends
+                on the entity subclass (e.g., Observable returns ObservableType, Actor returns ActorType, etc.).
         """
+        if hasattr(self, "type"):
+            return getattr(self, "type")
+        return None
+
+    def get_immutable_relations(
+        self, mapping: Optional[Dict[str, str]] = None, default_name: Optional[str] = None
+    ) -> Dict[str, "EntityRelation"]:
+        """
+        Returns a dictionary of immutable relations derived from the entity's reference fields.
+
+        This method automatically creates EntityRelation objects by inspecting the entity's fields
+        and identifying those annotated as ObjectReference or List[ObjectReference]. These represent
+        the entity's connections to other entities in the knowledge graph, forming the basis for
+        graph traversal and relationship analysis.
+
+        Immutable relations are derived from the entity's structure and cannot be modified directly.
+        They represent inherent relationships defined by the entity's reference fields, such as
+        'extracted_from', 'operated_by', 'associated_threat', etc.
+
+        Args:
+            mapping (Dict[str, str], optional): A dictionary to customize relation names. Keys should
+                be field names, and values should be the desired relation names. If not provided,
+                field names are converted to human-readable format by replacing underscores with spaces.
+                Defaults to None.
+            default_name (str): If a mapping is provided but no field mapping was found, the relation
+                will be named 'default_new_name'.
+
+        Returns:
+            Dict[str, "EntityRelation"]: A dictionary of EntityRelation objects keyed by their string
+            representation of relation IDs. Each relation represents a connection from this entity
+            to another entity referenced in its fields.
+
+        Note:
+            - The 'case' field is explicitly excluded from relation generation as it represents
+              a grouping mechanism rather than a semantic relationship.
+            - Only fields with actual values (not None or empty) are processed.
+            - Each EntityRelation created has this entity as the source (obj_from) and the
+              referenced entity as the target (obj_to).
+        """
+        name_mapping = mapping or {}
         relations: Dict[str, "EntityRelation"] = {}
         for field_name, field_info in self.__class__.model_fields.items():
             if field_name == "case":
@@ -415,8 +452,9 @@ class Entity(ColanderType, abc.ABC):
 
             # Handle single ObjectReference
             if ObjectReference in field_annotation:
+                relation_name = name_mapping.get(field_name, default_name or field_name.replace("_", " "))
                 relation = EntityRelation(
-                    name=field_name.replace("_", " "),
+                    name=relation_name,
                     obj_from=self,
                     obj_to=field_value,
                 )
@@ -425,8 +463,9 @@ class Entity(ColanderType, abc.ABC):
             # Handle List[ObjectReference]
             elif List[ObjectReference] in field_annotation:
                 for object_reference in field_value:
+                    relation_name = name_mapping.get(field_name, default_name or field_name.replace("_", " "))
                     relation = EntityRelation(
-                        name=field_name.replace("_", " "),
+                        name=relation_name,
                         obj_from=self,
                         obj_to=object_reference,
                     )

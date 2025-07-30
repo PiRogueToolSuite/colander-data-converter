@@ -1,5 +1,5 @@
 import enum
-from typing import get_args, List, Any
+from typing import get_args, List, Any, Optional
 
 from pydantic import BaseModel
 
@@ -67,7 +67,7 @@ class BaseModelMerger:
         self.strategy = strategy
 
     def merge_field(
-        self, destination: BaseModel, field_name: str, field_value: Any, ignored_fields: List[str] = None
+        self, destination: BaseModel, field_name: str, field_value: Any, ignored_fields: Optional[List[str]] = None
     ) -> bool:
         """Merge a single field from source to destination model.
 
@@ -118,7 +118,7 @@ class BaseModelMerger:
             field_processed = True
         elif field_name in destination.__class__.model_fields:
             field_info = destination.__class__.model_fields[field_name]
-            annotation_args = get_args(field_info.annotation) or []
+            annotation_args = get_args(field_info.annotation) or []  # type: ignore[var-annotated]
             if (
                 ObjectReference not in annotation_args
                 and List[ObjectReference] not in annotation_args
@@ -130,7 +130,7 @@ class BaseModelMerger:
                 field_processed = True
         return field_processed
 
-    def merge(self, source: BaseModel, destination: BaseModel, ignored_fields: List[str] = None) -> List[str]:
+    def merge(self, source: BaseModel, destination: BaseModel, ignored_fields: Optional[List[str]] = None) -> List[str]:
         """Merge all compatible fields from the source object into the destination object.
 
         This method iterates through all fields in the source object and attempts

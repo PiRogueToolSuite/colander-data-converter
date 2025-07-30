@@ -1,5 +1,4 @@
-from datetime import datetime, UTC
-from typing import Dict, Any, Optional, Union, List
+from typing import Dict, Any, Optional, Union, List, Type
 from uuid import uuid4
 
 from colander_data_converter.base.models import (
@@ -21,8 +20,17 @@ from colander_data_converter.base.models import (
     CommonEntitySuperType,
     CommonEntitySuperTypes,
     ActorTypes,
+    EntityTypes,
+    Entity,
 )
 from colander_data_converter.formats.stix2.mapping import Stix2MappingLoader
+from colander_data_converter.formats.stix2.models import (
+    Stix2ObjectBase,
+    Stix2ObjectTypes,
+    Stix2Bundle,
+    Stix2Repository,
+    Relationship,
+)
 from colander_data_converter.formats.stix2.utils import (
     extract_uuid_from_stix2_id,
     get_nested_value,
@@ -133,34 +141,10 @@ class Stix2ToColanderMapper(Stix2Mapper):
     def _convert_to_entity(
         self,
         stix2_object: Dict[str, Any],
-        model_class: type,
+        model_class: Type["EntityTypes"],
         colander_entity_type,
         default_name: str = "Unknown Entity",
     ) -> Any:
-        """
-        Converts a STIX2-compliant dictionary object to a specific entity model representation
-        using the provided mapping and model class. This function extracts relevant fields,
-        maps them to the target entity structure, and validates the final structure using the
-        `model_class`.
-
-        Parameters:
-            stix2_object (Dict[str, Any]): The input dictionary adhering to the STIX2 format.
-                It contains raw data that will be converted into the specific entity model.
-            model_class (type): The target model class to which the STIX2 object will be
-                converted. The model class must support a `model_validate` method for validation.
-            colander_entity_type: The specific entity type that the converted object should
-                adhere to. This is used for determining the final type of the entity.
-            default_name (str): A default name to assign to the entity if the "name" field
-                is not present in the provided STIX2 object. Default is "Unknown Entity".
-
-        Returns:
-            Any: The validated and converted entity object as specified by the `model_class`.
-
-        Raises:
-            ValueError: If the `colander_entity_type` parameter is invalid.
-            Exception: If the `model_class.model_validate` method raises an error during
-                validation of the final converted entity structure.
-        """
         # Get the field mapping for the entity type
         colander_entity_super_type: CommonEntitySuperType = CommonEntitySuperTypes.by_short_name(model_class.__name__)
         field_mapping = self.mapping_loader.get_stix2_to_colander_field_mapping(model_class.__name__)
@@ -202,22 +186,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
             raise e
 
     def _get_actor_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        """
-        Determines the actor type based on a given STIX 2.0 object and a list of subtype candidates.
-
-        This method analyzes the type of a STIX 2.0 object and checks for matches within
-        its "threat_actor_types" field against a provided list of subtype candidates. If a subtype
-        candidate matches, it returns the matching candidate. If no match is found, the method
-        assigns a default type depending on the object's type and other conditions.
-
-        Parameters:
-            stix2_object (Dict[str, Any]): The STIX 2.0 object to evaluate.
-            subtype_candidates (Optional[List[str]]): A list containing possible subtype options
-                                                      for the STIX 2.0 object.
-
-        Returns:
-            str: The determined actor type based on the input object and subtype candidates.
-        """
         default_type = ArtifactTypes.default.short_name.lower()
         if not subtype_candidates:
             return default_type
@@ -235,19 +203,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         return default_type
 
     def _convert_to_actor(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> Actor:
-        """
-        Convert a STIX2 object to a Colander Actor entity.
-
-        Args:
-            stix2_object (Dict[str, Any]): The STIX2 object to convert.
-            subtype_candidates (Optional[List[str]]): A list providing
-                potential subtype candidates to aid in subtype resolution during the
-                conversion process.
-
-        Returns:
-            Actor: The converted Colander Actor entity.
-        """
-
         _stix2_object = stix2_object.copy()
         if "threat_actor_types" in _stix2_object and _stix2_object["threat_actor_types"] is not None:
             _stix2_object["threat_actor_types"] = ",".join(_stix2_object["threat_actor_types"])
@@ -261,23 +216,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_device_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        """
-        Determines the device type from the provided STIX object and subtype candidates.
-
-        This method analyzes a given STIX 2.0 object and a list of subtype candidates to determine
-        the most appropriate device type. If there is exactly one subtype candidate, it is returned directly.
-        Otherwise, the method checks if each candidate matches an infrastructure type in the STIX object.
-        If no matching subtype is found, a default type of "generic" is returned.
-        The method assumes that the `infrastructure_types` field in the STIX object contains the relevant
-        information for matching.
-
-        Args:
-            stix2_object (Dict[str, Any]): A dictionary representing a STIX 2.0 object.
-            subtype_candidates (Optional[List[str]]): A list of strings representing potential device subtypes.
-
-        Returns:
-            str: The determined device type, or "generic" if no suitable subtype is found.
-        """
         default_type = DeviceTypes.default.short_name.lower()
         if not subtype_candidates:
             return default_type
@@ -292,18 +230,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         return default_type
 
     def _convert_to_device(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> Device:
-        """
-        Convert a STIX2 object to a Colander Device entity.
-
-        Args:
-            stix2_object (Dict[str, Any]): The STIX2 object to convert.
-            subtype_candidates (Optional[List[str]]): A list providing
-                potential subtype candidates to aid in subtype resolution during the
-                conversion process.
-
-        Returns:
-            Device: The converted Colander Device entity.
-        """
         _stix2_object = stix2_object.copy()
         if "infrastructure_types" in _stix2_object and _stix2_object["infrastructure_types"] is not None:
             _stix2_object["infrastructure_types"] = ",".join(_stix2_object["infrastructure_types"])
@@ -316,25 +242,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _get_artifact_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
-        """
-        Determines the artifact type for a given STIX 2 object based on its MIME type.
-
-        This method evaluates the MIME type of a provided STIX 2 object and attempts to
-        map it to a corresponding artifact type using a predefined mapping. If no
-        specific artifact type mapping is found, a default type is returned.
-
-        Args:
-            stix2_object (Dict[str, Any]): A dictionary representing a STIX 2 object.
-                It is expected to contain a "mime_type" key indicating the MIME type
-                of the object. If "mime_type" is not present, "unspecified" is used
-                as a default value.
-            subtype_candidates (Optional[List[str]]): A list of possible subtype candidates
-                for classification. This parameter is not currently utilized by the method.
-
-        Returns:
-            str: The resolved artifact type based on the MIME type of the STIX 2 object,
-                or a default artifact type ("generic") if no specific mapping is available.
-        """
         default_type = ArtifactTypes.default.short_name.lower()
         if not subtype_candidates:
             return default_type
@@ -344,23 +251,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         return artifact_type or default_type
 
     def _convert_to_artifact(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> Artifact:
-        """
-        Converts a given STIX 2.0 object into an Artifact entity.
-
-        This function transforms a STIX 2.0 object into an internal Artifact entity
-        representation. It uses the provided subtype candidates to assist with resolving
-        the proper subtype for the Artifact entity when converting it.
-
-        Args:
-            stix2_object (Dict[str, Any]): The input STIX 2.0 object containing the data
-                to transform into an Artifact.
-            subtype_candidates (Optional[List[str]]): A list providing
-                potential subtype candidates to aid in subtype resolution during the
-                conversion process.
-
-        Returns:
-            Artifact: The resulting Artifact entity converted from the STIX 2.0 object.
-        """
         _artifact_type = self._get_artifact_type(stix2_object, subtype_candidates)
 
         return self._convert_to_entity(
@@ -386,18 +276,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
     def _convert_to_observable(
         self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]
     ) -> Observable:
-        """
-        Convert a STIX2 object to a Colander Observable entity.
-
-        Args:
-            stix2_object (Dict[str, Any]): The STIX2 object to convert.
-            subtype_candidates (Optional[List[str]]): A list providing
-                potential subtype candidates to aid in subtype resolution during the
-                conversion process.
-
-        Returns:
-            Observable: The converted Colander Observable entity.
-        """
         _observable_type = self._get_observable_type(stix2_object, subtype_candidates)
         # Use the generic conversion method
         return self._convert_to_entity(
@@ -419,18 +297,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         return default_type
 
     def _convert_to_threat(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> Threat:
-        """
-        Convert a STIX2 object to a Colander Threat entity.
-
-        Args:
-            stix2_object (Dict[str, Any]): The STIX2 object to convert.
-            subtype_candidates (Optional[List[str]]): A list providing
-                potential subtype candidates to aid in subtype resolution during the
-                conversion process.
-
-        Returns:
-            Threat: The converted Colander Threat entity.
-        """
         _threat_type = self._get_threat_type(stix2_object, subtype_candidates)
         # Use the generic conversion method
         return self._convert_to_entity(
@@ -440,15 +306,6 @@ class Stix2ToColanderMapper(Stix2Mapper):
         )
 
     def _convert_to_relation(self, stix2_object: Dict[str, Any]) -> Optional[EntityRelation]:
-        """
-        Convert a STIX2 relationship object to a Colander EntityRelation.
-
-        Args:
-            stix2_object (Dict[str, Any]): The STIX2 relationship object to convert.
-
-        Returns:
-            Optional[EntityRelation]: The converted Colander EntityRelation, or None if the relationship is not valid.
-        """
         relationship_type = stix2_object.get("relationship_type", "")
         source_ref = stix2_object.get("source_ref", "")
         target_ref = stix2_object.get("target_ref", "")
@@ -497,42 +354,50 @@ class ColanderToStix2Mapper(Stix2Mapper):
     Maps Colander data to STIX2 data using the mapping file.
     """
 
-    def convert(self, colander_feed: ColanderFeed) -> Dict[str, Any]:
-        """
-        Convert Colander data to STIX2 data.
-
-        Args:
-            colander_feed (ColanderFeed): The Colander data to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 data.
-        """
-        stix2_data = {"type": "bundle", "id": f"bundle--{uuid4()}", "spec_version": "2.1", "objects": []}
+    def convert(self, colander_feed: ColanderFeed) -> Stix2Bundle:
+        stix2_data = {
+            "type": "bundle",
+            "id": f"bundle--{colander_feed.id or uuid4()}",
+            "spec_version": "2.1",
+            "objects": [],
+        }
 
         # Convert entities
-        if hasattr(colander_feed, "entities"):
-            for entity_id, entity in colander_feed.entities.items():
-                stix2_object = self.convert_colander_entity(entity)
-                if stix2_object:
-                    stix2_data["objects"].append(stix2_object)
+        for _, entity in colander_feed.entities.items():
+            if not issubclass(entity.__class__, Entity):
+                continue
+            if entity.super_type.short_name.lower() not in self.mapping_loader.get_supported_colander_types():
+                continue
+            stix2_object = self.convert_colander_entity(entity)
+            if stix2_object:
+                stix2_data["objects"].append(stix2_object)
 
-                # Extract and convert ObjectReference relationships
-                ref_relationships = self._extract_object_reference_relationships(entity)
-                for rel in ref_relationships:
-                    stix2_data["objects"].append(rel)
+        bundle = Stix2Bundle(**stix2_data)
+
+        # Extract and convert immutable relations
+        for _, entity in colander_feed.entities.items():
+            if not issubclass(entity.__class__, Entity):
+                continue
+            if entity.super_type.short_name.lower() not in self.mapping_loader.get_supported_colander_types():
+                continue
+            for _, relation in entity.get_immutable_relations(
+                mapping=self.mapping_loader.get_field_relationship_mapping(), default_name="related-to"
+            ).items():
+                stix2_object = self.convert_colander_relation(relation)
+                if stix2_object:
+                    bundle.objects.append(Relationship(**stix2_object))
 
         # Convert relations
-        if hasattr(colander_feed, "relations"):
-            for relation_id, relation in colander_feed.relations.items():
-                if isinstance(relation, EntityRelation):
-                    stix2_object = self.convert_colander_relation(relation)
-                    if stix2_object:
-                        stix2_data["objects"].append(stix2_object)
+        for relation_id, relation in colander_feed.relations.items():
+            if isinstance(relation, EntityRelation):
+                stix2_object = self.convert_colander_relation(relation)
+                if stix2_object:
+                    bundle.objects.append(Relationship(**stix2_object))
 
-        return stix2_data
+        return bundle
 
     def convert_colander_entity(
-        self, entity: Union[Actor, Device, Artifact, Observable, Threat, DetectionRule, DataFragment]
+        self, entity: Union[Actor, Device, Artifact, Observable, Threat]
     ) -> Optional[Dict[str, Any]]:
         """
         Convert a Colander entity to a STIX2 object.
@@ -561,44 +426,36 @@ class ColanderToStix2Mapper(Stix2Mapper):
         Convert a Colander EntityRelation to a STIX2 relationship object.
 
         Args:
-            relation (EntityRelation): The Colander EntityRelation to convert.
+            relation (~colander_data_converter.base.models.EntityRelation): The Colander EntityRelation to convert.
 
         Returns:
-            Optional[Dict[str, Any]]: The converted STIX2 relationship object, or None if the relation cannot be converted.
+            Optional[Dict[str, Any]]: The converted STIX2 relationship object, or None if the relation cannot be
+                converted.
         """
         return self._convert_from_relation(relation)
 
     def _convert_from_entity(
-        self, entity: Any, entity_type: str, additional_fields: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
-        """
-        Generic method to convert a Colander entity to a STIX2 object.
-
-        Args:
-            entity (Any): The Colander entity to convert.
-            entity_type (str): The type of entity being converted (e.g., "actor", "device").
-            additional_fields (Optional[Dict[str, Any]], optional): Additional fields to add to the STIX2 object.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
+        self, entity: Any, additional_fields: Optional[Dict[str, Any]] = None
+    ) -> Optional[Stix2ObjectTypes]:
         # Get the STIX2 type for the entity
-        stix2_type = self.mapping_loader.get_stix2_type_for_entity(entity_type)
+        stix2_type = self.mapping_loader.get_stix2_type_for_entity(entity)
+        if not stix2_type or (model_class := Stix2ObjectBase.get_model_class(stix2_type)) is None:
+            return None
 
         # Get the field mapping for the entity type
+        entity_type = entity.get_super_type().short_name
         field_mapping = self.mapping_loader.get_colander_to_stix2_field_mapping(entity_type)
 
         # Create the base STIX2 object
         stix2_object = {
             "type": stix2_type,
             "id": f"{stix2_type}--{entity.id}",
-            "created": entity.created_at.isoformat()
-            if hasattr(entity, "created_at") and entity.created_at
-            else datetime.now(UTC).isoformat(),
-            "modified": entity.updated_at.isoformat()
-            if hasattr(entity, "updated_at") and entity.updated_at
-            else datetime.now(UTC).isoformat(),
+            "created": entity.created_at.isoformat(),
+            "modified": entity.updated_at.isoformat(),
         }
+
+        if "name" in model_class.model_fields:
+            stix2_object["name"] = entity.name
 
         # Add any additional fields
         if additional_fields:
@@ -620,303 +477,107 @@ class ColanderToStix2Mapper(Stix2Mapper):
                 if key not in [field.split(".")[-1] for field in field_mapping.keys() if "." in field]:
                     stix2_object[key] = value
 
-        return stix2_object
+        return model_class(**stix2_object)
 
-    def _convert_from_entity_by_type(
-        self, entity: Any, entity_type: str, additional_fields: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
-        """
-        Generic method to convert a specific Colander entity type to a STIX2 object.
+    def _convert_from_actor(self, actor: Actor) -> Optional[Dict[str, Any]]:
+        mapping = self.mapping_loader.get_actor_mapping(actor.type.short_name)
+        if not mapping:
+            return None
+        extra_attributes = self.mapping_loader.get_entity_extra_values("actor", actor.type.short_name)
 
-        Args:
-            entity (Any): The Colander entity to convert.
-            entity_type (str): The type of entity being converted (e.g., "actor", "device").
-            additional_fields (Optional[Dict[str, Any]], optional): Additional fields to add to the STIX2 object.
+        return self._convert_from_entity(actor, extra_attributes)
 
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
-        return self._convert_from_entity(entity, entity_type, additional_fields)
-
-    def _convert_from_actor(self, actor: Actor) -> Dict[str, Any]:
-        """
-        Convert a Colander Actor entity to a STIX2 object.
-
-        Args:
-            actor (Actor): The Colander Actor entity to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
-        return self._convert_from_entity_by_type(actor, "actor")
-
-    def _convert_from_device(self, device: Device) -> Dict[str, Any]:
-        """
-        Convert a Colander Device entity to a STIX2 object.
-
-        Args:
-            device (Device): The Colander Device entity to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
-        return self._convert_from_entity_by_type(device, "device")
+    def _convert_from_device(self, device: Device) -> Optional[Dict[str, Any]]:
+        mapping = self.mapping_loader.get_device_mapping(device.type.short_name)
+        if not mapping:
+            return None
+        extra_attributes = self.mapping_loader.get_entity_extra_values("device", device.type.short_name)
+        return self._convert_from_entity(device, extra_attributes)
 
     def _convert_from_artifact(self, artifact: Artifact) -> Dict[str, Any]:
-        """
-        Convert a Colander Artifact entity to a STIX2 object.
-
-        Args:
-            artifact (Artifact): The Colander Artifact entity to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
-        return self._convert_from_entity_by_type(artifact, "artifact")
+        return self._convert_from_entity(artifact)
 
     def _generate_observable_pattern(self, observable: Observable) -> Dict[str, Any]:
-        """
-        Generate a pattern for an observable based on its type and value.
-
-        Args:
-            observable (Observable): The observable to generate a pattern for.
-
-        Returns:
-            Dict[str, Any]: A dictionary containing pattern and pattern_type.
-        """
         pattern_fields = {}
 
-        if hasattr(observable, "type") and observable.type:
-            observable_type_short_name = observable.type.short_name.lower()
-            try:
-                pattern_template = self.mapping_loader.get_pattern_template(observable_type_short_name)
-                pattern_type = self.mapping_loader.get_pattern_type(observable_type_short_name)
-
-                if pattern_template and observable.name:
-                    pattern_fields["pattern"] = pattern_template.format(value=observable.name)
-                    pattern_fields["pattern_type"] = pattern_type
-            except ValueError:
-                # If the observable type is not found in the mapping, use a generic pattern
-                pattern_fields["pattern"] = f"[unknown:value = '{observable.name}']"
-                pattern_fields["pattern_type"] = "stix"
+        observable_type_short_name = observable.type.short_name.lower()
+        pattern_template = self.mapping_loader.get_observable_pattern(observable_type_short_name)
+        pattern_fields["pattern_type"] = "stix"
+        if pattern_template:
+            pattern_fields["pattern"] = pattern_template.format(value=observable.name)
+        # If the observable type is not found in the mapping, use a generic pattern
+        else:
+            pattern_fields["pattern"] = f"[unknown:value = '{observable.name}']"
 
         return pattern_fields
 
     def _convert_from_observable(self, observable: Observable) -> Dict[str, Any]:
-        """
-        Convert a Colander Observable entity to a STIX2 object.
-
-        Args:
-            observable (Observable): The Colander Observable entity to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
         # Generate pattern fields for the observable
         pattern_fields = self._generate_observable_pattern(observable)
-
-        # Add indicator_types to the additional fields
-        additional_fields = {"indicator_types": ["malicious-activity"]}
+        additional_fields = {}
         additional_fields.update(pattern_fields)
 
-        return self._convert_from_entity_by_type(observable, "observable", additional_fields)
+        # Add indicator_types to the additional fields
+        if observable.associated_threat is not None:
+            additional_fields.update({"indicator_types": ["malicious-activity"]})
+
+        return self._convert_from_entity(observable, additional_fields)
 
     def _get_threat_malware_types(self, threat: Threat) -> Dict[str, Any]:
-        """
-        Get the malware types for a threat based on its type.
-
-        Args:
-            threat (Threat): The threat to get malware types for.
-
-        Returns:
-            Dict[str, Any]: A dictionary containing malware_types.
-        """
         additional_fields = {}
 
         # Get the STIX2 type for threats
-        stix2_type = self.mapping_loader.get_stix2_type_for_entity("threat")
+        stix2_type = self.mapping_loader.get_stix2_type_for_entity(threat)
 
         # Add malware_types if the type is malware
-        if stix2_type == "malware" and hasattr(threat, "type") and threat.type:
+        if stix2_type == "malware":
             threat_type_short_name = threat.type.short_name.lower()
-            try:
-                malware_types = self.mapping_loader.get_malware_types_for_threat(threat_type_short_name)
-                if malware_types:
-                    additional_fields["malware_types"] = malware_types
-                else:
-                    additional_fields["malware_types"] = "unknown"
-            except ValueError:
-                additional_fields["malware_types"] = "unknown"
+            malware_types = self.mapping_loader.get_malware_types_for_threat(threat_type_short_name)
+            if malware_types:
+                additional_fields["malware_types"] = malware_types
+            else:
+                additional_fields["malware_types"] = ["unknown", threat_type_short_name]
 
         return additional_fields
 
     def _convert_from_threat(self, threat: Threat) -> Dict[str, Any]:
-        """
-        Convert a Colander Threat entity to a STIX2 object.
-
-        Args:
-            threat (Threat): The Colander Threat entity to convert.
-
-        Returns:
-            Dict[str, Any]: The converted STIX2 object.
-        """
-        # Get additional fields for the threat
         additional_fields = self._get_threat_malware_types(threat)
-
-        return self._convert_from_entity_by_type(threat, "threat", additional_fields)
-
-    def _extract_object_reference_relationships(self, entity: Any) -> list:
-        """
-        Extract and create STIX2 relationship objects from ObjectReference attributes in a Colander entity.
-
-        Args:
-            entity (Any): The Colander entity to extract relationships from.
-
-        Returns:
-            list: A list of STIX2 relationship objects.
-        """
-        from typing import get_args
-        from colander_data_converter.base.common import ObjectReference
-        from uuid import UUID
-
-        relationships = []
-
-        # Get the entity's STIX2 type
-        entity_type = None
-        if isinstance(entity, Actor):
-            entity_type = "actor"
-        elif isinstance(entity, Device):
-            entity_type = "device"
-        elif isinstance(entity, Artifact):
-            entity_type = "artifact"
-        elif isinstance(entity, Observable):
-            entity_type = "observable"
-        elif isinstance(entity, Threat):
-            entity_type = "threat"
-
-        if not entity_type:
-            return relationships
-
-        stix2_type = self.mapping_loader.get_stix2_type_for_entity(entity_type)
-        if not stix2_type:
-            return relationships
-
-        # Inspect the entity's fields for ObjectReference attributes
-        for field_name, field_info in entity.__class__.model_fields.items():
-            annotation_args = get_args(field_info.annotation)
-
-            # Check if this field is an ObjectReference
-            if ObjectReference in annotation_args:
-                ref_value = getattr(entity, field_name, None)
-                if ref_value and isinstance(ref_value, UUID):
-                    # Create a relationship based on the field name
-                    relationship_type = self._determine_relationship_type(field_name)
-
-                    # Get the target entity type
-                    target_entity = ColanderRepository() >> ref_value
-                    if target_entity and not isinstance(target_entity, UUID):
-                        target_type = self._get_entity_stix2_type(target_entity)
-                        if target_type:
-                            relationship = {
-                                "type": "relationship",
-                                "id": f"relationship--{uuid4()}",
-                                "created": datetime.now(UTC).isoformat(),
-                                "modified": datetime.now(UTC).isoformat(),
-                                "relationship_type": relationship_type,
-                                "source_ref": f"{stix2_type}--{entity.id}",
-                                "target_ref": f"{target_type}--{ref_value}",
-                            }
-                            relationships.append(relationship)
-
-            # Check if this field is a List[ObjectReference]
-            elif any(
-                hasattr(arg, "__origin__") and arg.__origin__ is list and ObjectReference in get_args(arg)
-                for arg in annotation_args
-            ):
-                ref_values = getattr(entity, field_name, [])
-                if ref_values and isinstance(ref_values, list):
-                    relationship_type = self._determine_relationship_type(field_name)
-
-                    for ref_value in ref_values:
-                        if isinstance(ref_value, UUID):
-                            # Get the target entity type
-                            target_entity = ColanderRepository() >> ref_value
-                            if target_entity and not isinstance(target_entity, UUID):
-                                target_type = self._get_entity_stix2_type(target_entity)
-                                if target_type:
-                                    relationship = {
-                                        "type": "relationship",
-                                        "id": f"relationship--{uuid4()}",
-                                        "created": datetime.now(UTC).isoformat(),
-                                        "modified": datetime.now(UTC).isoformat(),
-                                        "relationship_type": relationship_type,
-                                        "source_ref": f"{stix2_type}--{entity.id}",
-                                        "target_ref": f"{target_type}--{ref_value}",
-                                    }
-                                    relationships.append(relationship)
-
-        return relationships
-
-    def _determine_relationship_type(self, field_name: str) -> str:
-        """
-        Determine the STIX2 relationship type based on the field name.
-
-        Args:
-            field_name (str): The name of the field.
-
-        Returns:
-            str: The STIX2 relationship type.
-        """
-        return self.mapping_loader.get_field_relationship_type(field_name)
-
-    def _get_entity_stix2_type(self, entity: Any) -> Optional[str]:
-        """
-        Get the STIX2 type for a Colander entity.
-
-        Args:
-            entity (Any): The Colander entity.
-
-        Returns:
-            Optional[str]: The STIX2 type, or None if not found.
-        """
-        if isinstance(entity, Actor):
-            return self.mapping_loader.get_stix2_type_for_entity("actor")
-        elif isinstance(entity, Device):
-            return self.mapping_loader.get_stix2_type_for_entity("device")
-        elif isinstance(entity, Artifact):
-            return self.mapping_loader.get_stix2_type_for_entity("artifact")
-        elif isinstance(entity, Observable):
-            return self.mapping_loader.get_stix2_type_for_entity("observable")
-        elif isinstance(entity, Threat):
-            return self.mapping_loader.get_stix2_type_for_entity("threat")
-
-        return None
+        return self._convert_from_entity(threat, additional_fields)
 
     def _convert_from_relation(self, relation: EntityRelation) -> Optional[Dict[str, Any]]:
-        """
-        Convert a Colander EntityRelation to a STIX2 relationship object.
-
-        Args:
-            relation (EntityRelation): The Colander EntityRelation to convert.
-
-        Returns:
-            Optional[Dict[str, Any]]: The converted STIX2 relationship object, or None if the relation cannot be converted.
-        """
         if not relation.obj_from or not relation.obj_to:
+            return None
+
+        if not relation.is_fully_resolved():
+            return None
+
+        supported_types = self.mapping_loader.get_supported_colander_types()
+        if (
+            relation.obj_from.super_type.short_name.lower() not in supported_types
+            or relation.obj_to.super_type.short_name.lower() not in supported_types
+        ):
+            return None
+
+        source_prefix = self.mapping_loader.get_stix2_type_for_entity(relation.obj_from) or "unknown"
+        target_prefix = self.mapping_loader.get_stix2_type_for_entity(relation.obj_to) or "unknown"
+        source_ref = f"{source_prefix}--{relation.obj_from.id}"
+        target_ref = f"{target_prefix}--{relation.obj_to.id}"
+        repository = Stix2Repository()
+        source = repository >> source_ref
+        target = repository >> target_ref
+
+        if not source or not target:
             return None
 
         # Create the base STIX2 relationship object
         stix2_object = {
             "type": "relationship",
             "id": f"relationship--{relation.id}",
-            "created": relation.created_at.isoformat()
-            if hasattr(relation, "created_at") and relation.created_at
-            else datetime.now(UTC).isoformat(),
-            "modified": relation.updated_at.isoformat()
-            if hasattr(relation, "updated_at") and relation.updated_at
-            else datetime.now(UTC).isoformat(),
-            "source_ref": f"unknown--{relation.source_id}",  # ToDo: placeholder, will be updated if source entity is found
-            "target_ref": f"unknown--{relation.target_id}",  # ToDo: placeholder, will be updated if target entity is found
+            "relationship_type": relation.name.replace(" ", "-"),
+            "created": relation.created_at.isoformat(),
+            "modified": relation.updated_at.isoformat(),
+            "source_ref": f"{source_prefix}--{relation.obj_from.id}",
+            "target_ref": f"{target_prefix}--{relation.obj_to.id}",
         }
 
         # Add any additional attributes
@@ -948,7 +609,7 @@ class Stix2Converter:
         return mapper.convert(stix2_data)
 
     @staticmethod
-    def colander_to_stix2(colander_feed: ColanderFeed) -> Dict[str, Any]:
+    def colander_to_stix2(colander_feed: ColanderFeed) -> Stix2Bundle:
         """
         Converts Colander data to STIX2 data using the mapping file.
 
@@ -956,7 +617,7 @@ class Stix2Converter:
             colander_feed (ColanderFeed): The Colander data to convert.
 
         Returns:
-            Dict[str, Any]: The converted STIX2 data.
+            Stix2Bundle: The converted STIX2 bundle.
         """
         mapper = ColanderToStix2Mapper()
         return mapper.convert(colander_feed)

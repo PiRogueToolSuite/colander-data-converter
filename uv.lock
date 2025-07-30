@@ -239,7 +239,6 @@ wheels = [
 
 [[package]]
 name = "colander-data-converter"
-version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "jinja2" },
@@ -249,6 +248,8 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "hatchling" },
+    { name = "mypy" },
+    { name = "pytest" },
     { name = "ruff" },
     { name = "tox" },
     { name = "tox-uv" },
@@ -287,6 +288,8 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "hatchling" },
+    { name = "mypy" },
+    { name = "pytest" },
     { name = "ruff" },
     { name = "tox" },
     { name = "tox-uv" },

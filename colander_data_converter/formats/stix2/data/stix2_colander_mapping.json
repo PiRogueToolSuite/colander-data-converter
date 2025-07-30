@@ -82,8 +82,6 @@
       "pattern": "attributes.pattern"
     },
     "colander_to_stix2": {
-      "created_at": "created",
-      "updated_at": "modified",
       "name": "name",
       "description": "description"
     },
@@ -174,8 +172,6 @@
       "identity_class": "attributes.identity_class"
     },
     "colander_to_stix2": {
-      "created_at": "created",
-      "updated_at": "modified",
       "name": "name",
       "description": "description",
       "attributes.identity_class": "identity_class"
@@ -244,8 +240,6 @@
       "infrastructure_types": "attributes.infrastructure_types"
     },
     "colander_to_stix2": {
-      "created_at": "created",
-      "updated_at": "modified",
       "name": "name",
       "description": "description",
       "attributes.infrastructure_types": "infrastructure_types"
@@ -295,70 +289,6 @@
       }
     }
   },
-  "event": {
-    "stix2_to_colander": {
-      "created": "created_at",
-      "modified": "updated_at",
-      "name": "name",
-      "description": "description",
-      "first_observed": "first_seen",
-      "last_observed": "last_seen",
-      "number_observed": "count",
-      "object_refs": [
-        "involved_observables"
-      ]
-    },
-    "colander_to_stix2": {
-      "created_at": "created",
-      "updated_at": "modified",
-      "name": "name",
-      "description": "description",
-      "first_seen": "first_observed",
-      "last_seen": "last_observed",
-      "count": "number_observed",
-      "involved_observables": [
-        "object_refs"
-      ]
-    },
-    "types": {
-      "communication": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "resolve": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "compromise": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "infection": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "alert": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "av_detection": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "hit": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "passive_dns": {
-        "stix2_type": "observed-data",
-        "count": 1
-      },
-      "generic": {
-        "stix2_type": "observed-data",
-        "count": 1
-      }
-    }
-  },
   "artifact": {
     "stix2_to_colander": {
       "created": "created_at",
@@ -372,8 +302,6 @@
       "size": "size_in_bytes"
     },
     "colander_to_stix2": {
-      "created_at": "created",
-      "updated_at": "modified",
       "name": "name",
       "description": "description",
       "md5": "hashes.MD5",
@@ -469,8 +397,6 @@
     },
     "colander_to_stix2": {
       "name": "name",
-      "created_at": "created",
-      "updated_at": "modified",
       "description": "description"
     },
     "types": {
@@ -541,6 +467,12 @@
         ]
       },
       "stalkerware": {
+        "stix2_type": "malware",
+        "malware_types": [
+          "spyware"
+        ]
+      },
+      "info_stealer": {
         "stix2_type": "malware",
         "malware_types": [
           "spyware"

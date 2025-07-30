@@ -3,6 +3,7 @@
 /_data/
 /.venv/
 /.idea/*
+/dist/*
 __pycache__
 .DS_Store
 # Unit test / coverage reports
