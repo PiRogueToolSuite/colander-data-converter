@@ -44,6 +44,7 @@ class DetectionRuleTypes(enum.Enum):
 
 {% for t in types %}
     {{ t.short_name }} = DetectionRuleType(**{{ t }})
+    """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 

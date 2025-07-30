@@ -22,6 +22,8 @@ class ObservableType(CommonEntityType):
         IPv4
     """
 
+    regex: str = ""
+
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
@@ -47,6 +49,7 @@ class ObservableTypes(enum.Enum):
 
 {% for t in types %}
     {{ t.short_name }} = ObservableType(**{{ t }})
+    """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 

@@ -80,6 +80,7 @@ class ArtifactTypes(enum.Enum):
 
 {% for t in types %}
     {{ t.short_name }} = ArtifactType(**{{ t }})
+    """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 

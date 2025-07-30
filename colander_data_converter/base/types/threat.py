@@ -50,6 +50,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Adware - Software that automatically displays or downloads advertising material, often unwanted."""
 
     APT = ThreatType(
         **{
@@ -60,6 +61,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """APT - Advanced Persistent Threat; a prolonged and targeted cyberattack by a well-resourced adversary."""
 
     BACKDOOR = ThreatType(
         **{
@@ -70,6 +72,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Backdoor - Malware that allows unauthorized remote access to a compromised system."""
 
     BOTNET = ThreatType(
         **{
@@ -80,6 +83,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Botnet - A network of compromised computers controlled by an attacker to perform coordinated tasks."""
 
     BROWSER_HIJACKER = ThreatType(
         **{
@@ -90,6 +94,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Browser Hijacker - Malware that alters browser settings, redirects traffic, or injects unwanted ads."""
 
     CRYPTOJACKING = ThreatType(
         **{
@@ -100,6 +105,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Cryptojacking - Unauthorized use of a device to mine cryptocurrency."""
 
     DROPPER = ThreatType(
         **{
@@ -110,6 +116,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Dropper - A type of malware designed to deliver and install other malicious software."""
 
     EXPLOIT_KIT = ThreatType(
         **{
@@ -120,6 +127,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Exploit Kit - A toolkit used to exploit vulnerabilities in software to deliver malware."""
 
     INFO_STEALER = ThreatType(
         **{
@@ -130,6 +138,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Information Stealer - Malware designed to steal sensitive information such as credentials or financial data."""
 
     LOADER = ThreatType(
         **{
@@ -140,6 +149,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Loader - Malware that loads and executes other malicious payloads on a system."""
 
     MALVERTISING = ThreatType(
         **{
@@ -150,6 +160,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Malvertising - The use of online advertising to spread malware."""
 
     MOBILE_MALWARE = ThreatType(
         **{
@@ -160,6 +171,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Mobile Malware - A malware specifically targeting mobile devices to steal data or perform malicious actions."""
 
     RANSOMWARE = ThreatType(
         **{
@@ -170,6 +182,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Ransomware - Malware that encrypts data and demands payment for decryption."""
 
     PHISHING = ThreatType(
         **{
@@ -180,6 +193,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Phishing - A technique to trick users into revealing sensitive information, often via fake emails or websites."""
 
     STALKERWARE = ThreatType(
         **{
@@ -190,6 +204,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Stalkerware - Software used to secretly monitor and track user activity, often for surveillance."""
 
     MALWARE = ThreatType(
         **{
@@ -200,6 +215,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Malware - A general term for any software intentionally designed to cause damage or unauthorized actions."""
 
     RAT = ThreatType(
         **{
@@ -210,6 +226,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Remote Access Trojan (RAT) - Malware that provides remote control over an infected system."""
 
     ROOTKIT = ThreatType(
         **{
@@ -220,6 +237,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Rootkit - Malware designed to hide its presence and provide privileged access to a system."""
 
     SPAM = ThreatType(
         **{
@@ -230,6 +248,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Spam - Unsolicited or bulk messages, often used to deliver malware or phishing attempts."""
 
     GENERIC = ThreatType(
         **{
@@ -240,6 +259,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Generic - A general or unspecified threat type that does not fit other categories."""
 
     SPYWARE = ThreatType(
         **{
@@ -250,6 +270,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Spyware - Malware that secretly gathers user information without consent."""
 
     TROJAN = ThreatType(
         **{
@@ -260,6 +281,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Trojan - Malware disguised as legitimate software to trick users into installing it."""
 
     CYBERCRIME = ThreatType(
         **{
@@ -270,6 +292,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Cybercrime - Criminal activities carried out using computers or the internet, including fraud, theft, and unauthorized access."""
 
     CYBER_ATTACK = ThreatType(
         **{
@@ -280,6 +303,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Cyber Attack - An attempt by hackers to damage, disrupt, or gain unauthorized access to computer systems, networks, or devices."""
 
     PHYSICAL_ATTACK = ThreatType(
         **{
@@ -290,6 +314,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Physical Attack - A threat involving physical actions intended to harm or compromise assets, infrastructure, or individuals."""
 
     HARASSMENT = ThreatType(
         **{
@@ -300,6 +325,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Harassment - Unwanted behavior intended to intimidate, threaten, or disturb an individual, often through digital means."""
 
     DOXXING = ThreatType(
         **{
@@ -310,6 +336,7 @@ class ThreatTypes(enum.Enum):
             "nf_icon": "nf nf-fa-bug",
         }
     )
+    """Doxxing - The act of publicly revealing private or identifying information about an individual without their consent."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

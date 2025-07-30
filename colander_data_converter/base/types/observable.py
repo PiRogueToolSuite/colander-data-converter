@@ -22,6 +22,8 @@ class ObservableType(CommonEntityType):
         IPv4
     """
 
+    regex: str = ""
+
     @field_validator("short_name", mode="before")
     @classmethod
     def is_supported_type(cls, short_name: str):
@@ -53,8 +55,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"address_block": "", "subnet": "", "routable": "", "ASN": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
+            "regex": "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$",
         }
     )
+    """IPv4 - An IPv4 address, a 32-bit numeric address used for identifying devices on a network."""
 
     IPV6 = ObservableType(
         **{
@@ -64,8 +68,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"address_block": "", "subnet": "", "routable": "", "ASN": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
+            "regex": "^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::ffff:(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))$",
         }
     )
+    """IPv6 - An IPv6 address, a 128-bit alphanumeric address for identifying devices on a network."""
 
     MAC = ObservableType(
         **{
@@ -75,8 +81,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"manufacturer": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
+            "regex": "^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$",
         }
     )
+    """MAC address - A unique hardware identifier assigned to a network interface card (NIC)."""
 
     DOMAIN = ObservableType(
         **{
@@ -86,8 +94,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"root_domain": "", "registration_date": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*\\.[a-zA-Z]{2,}$",
         }
     )
+    """Domain name - A human-readable address used to identify resources on the internet."""
 
     DOMAIN_REGISTRAR = ObservableType(
         **{
@@ -108,8 +118,10 @@ class ObservableTypes(enum.Enum):
             },
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "",
         }
     )
+    """Domain registrar - The organization or entity responsible for registering domain names."""
 
     DOMAIN_REGISTRANT = ObservableType(
         **{
@@ -130,8 +142,10 @@ class ObservableTypes(enum.Enum):
             },
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "",
         }
     )
+    """Domain registrant - The individual or organization that owns or controls a domain name."""
 
     HOSTNAME = ObservableType(
         **{
@@ -141,8 +155,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*$",
         }
     )
+    """Hostname - A label assigned to a device on a network, used to identify it in various forms."""
 
     EMAIL = ObservableType(
         **{
@@ -152,8 +168,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-email_outline",
+            "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
         }
     )
+    """Email address - An address used to send and receive electronic mail."""
 
     PHONE = ObservableType(
         **{
@@ -163,8 +181,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"prefix": "", "country_code": "", "country_name": ""},
             "svg_icon": "",
             "nf_icon": "nf-fa-phone",
+            "regex": "^(\\+\\d{1,3}[-.\\s]?)?(\\(?\\d{1,4}\\)?[-.\\s]?)*\\d{1,4}$",
         }
     )
+    """Phone number - A numeric identifier used to reach a telephone endpoint."""
 
     SOCIAL_ACCOUNT = ObservableType(
         **{
@@ -174,8 +194,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"platform": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-account_card_details",
+            "regex": "",
         }
     )
+    """Social account identifier - A unique identifier for a user account on a social media platform."""
 
     URL = ObservableType(
         **{
@@ -185,8 +207,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[^\\s]*)?$",
         }
     )
+    """URL - A Uniform Resource Locator, specifying the address of a resource on the internet."""
 
     URI = ObservableType(
         **{
@@ -196,8 +220,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$",
         }
     )
+    """URI - A Uniform Resource Identifier, a string used to identify a resource."""
 
     MD5 = ObservableType(
         **{
@@ -207,8 +233,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "^[a-fA-F0-9]{32}$",
         }
     )
+    """MD5 - A 128-bit hash value, commonly used to verify file integrity."""
 
     COMMUNITY_ID = ObservableType(
         **{
@@ -218,8 +246,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "",
         }
     )
+    """Community id - A hash value used to uniquely identify network flows across tools."""
 
     SHA1 = ObservableType(
         **{
@@ -229,8 +259,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "^[a-fA-F0-9]{40}$",
         }
     )
+    """SHA1 - A 160-bit hash value, used for data integrity and file identification."""
 
     SHA256 = ObservableType(
         **{
@@ -240,8 +272,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "^[a-fA-F0-9]{64}$",
         }
     )
+    """SHA256 - A 256-bit hash value, widely used for file and data integrity verification."""
 
     PEHASH = ObservableType(
         **{
@@ -251,8 +285,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "",
         }
     )
+    """PE hash - A hash value calculated from the structure of a Portable Executable (PE) file."""
 
     IMPHASH = ObservableType(
         **{
@@ -262,8 +298,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "",
         }
     )
+    """Import hash - A hash of the import table of a PE file, used to identify similar binaries."""
 
     DEXOFUZZY = ObservableType(
         **{
@@ -273,8 +311,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
+            "regex": "",
         }
     )
+    """Dexofuzzy hash - A fuzzy hash value used to compare Android DEX files for similarity."""
 
     CIDR = ObservableType(
         **{
@@ -284,8 +324,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
+            "regex": "^((?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))\\/(3[0-2]|[12]?\\d)$",
         }
     )
+    """CIDR - A Classless Inter-Domain Routing block, representing a range of IP addresses."""
 
     PATH = ObservableType(
         **{
@@ -295,8 +337,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-file_tree",
+            "regex": "^([a-zA-Z]:[\\\\]|[\\\\]{2}[^\\\\]+[\\\\]|[\\/])?([\\w\\-. ]+[\\/\\\\])*[\\w\\-. ]+$",
         }
     )
+    """File path - A string specifying the location of a file or directory in a filesystem."""
 
     MUTEX = ObservableType(
         **{
@@ -306,8 +350,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-mdi-pencil_lock",
+            "regex": "",
         }
     )
+    """Mutex - A mutual exclusion object used for process synchronization."""
 
     CVE = ObservableType(
         **{
@@ -317,8 +363,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-cod-debug_console",
+            "regex": "^CVE-\\d{4}-\\d{4,}$",
         }
     )
+    """CVE - A Common Vulnerabilities and Exposures identifier for publicly known security flaws."""
 
     OS_QUERY = ObservableType(
         **{
@@ -328,8 +376,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {},
             "svg_icon": "",
             "nf_icon": "nf-cod-inspect",
+            "regex": "",
         }
     )
+    """Os query - A query or result from an operating system instrumentation framework."""
 
     SSL_CERT_F = ObservableType(
         **{
@@ -348,8 +398,10 @@ class ObservableTypes(enum.Enum):
             },
             "svg_icon": "",
             "nf_icon": "nf-mdi-certificate",
+            "regex": "",
         }
     )
+    """SSL certificate fingerprint - A hash value uniquely identifying an SSL/TLS certificate."""
 
     DNS_RECORD = ObservableType(
         **{
@@ -359,8 +411,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"resolver": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "",
         }
     )
+    """DNS record - A record containing information about a domain name in the DNS system."""
 
     ASN = ObservableType(
         **{
@@ -370,8 +424,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"organization": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "^AS[0-9]+$",
         }
     )
+    """Autonomous system number - A unique number assigned to a group of IP networks operated by one or more network operators."""
 
     PROCESS = ObservableType(
         **{
@@ -381,8 +437,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"executable": "", "path": ""},
             "svg_icon": "",
             "nf_icon": "nf-cod-debug_console",
+            "regex": "",
         }
     )
+    """Process name - The name of a running process on a computer system."""
 
     SERVICE = ObservableType(
         **{
@@ -392,8 +450,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"ip_address": "", "technology": "", "port": ""},
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
+            "regex": "",
         }
     )
+    """Running service - A network or system service that is currently active or listening."""
 
     NAMESPACE = ObservableType(
         **{
@@ -403,8 +463,10 @@ class ObservableTypes(enum.Enum):
             "default_attributes": {"fully_qualified_name": ""},
             "svg_icon": "",
             "nf_icon": "nf-md-code_tags",
+            "regex": "",
         }
     )
+    """Namespace - A container that holds a set of identifiers, such as classes or functions, to avoid naming conflicts."""
 
     LOCATION = ObservableType(
         **{
@@ -422,8 +484,10 @@ class ObservableTypes(enum.Enum):
             },
             "svg_icon": "",
             "nf_icon": "nf-fa-globe",
+            "regex": "",
         }
     )
+    """Location - A physical or geographical place, specified by coordinates or address."""
 
     GENERIC = ObservableType(
         **{
@@ -432,8 +496,10 @@ class ObservableTypes(enum.Enum):
             "description": "A general or unspecified observable type that does not fit other categories.",
             "svg_icon": "",
             "nf_icon": "nf nf-fa-bug",
+            "regex": "",
         }
     )
+    """Generic - A general or unspecified observable type that does not fit other categories."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

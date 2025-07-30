@@ -51,6 +51,7 @@ class DetectionRuleTypes(enum.Enum):
             "nf_icon": "nf-cod-server_process",
         }
     )
+    """Yara rule - A rule used to identify and classify malware or files based on patterns."""
 
     SURICATA = DetectionRuleType(
         **{
@@ -61,6 +62,7 @@ class DetectionRuleTypes(enum.Enum):
             "nf_icon": "nf-cod-server_process",
         }
     )
+    """Suricata rule - A rule for the Suricata engine to detect network threats and suspicious traffic."""
 
     GENERIC = DetectionRuleType(
         **{
@@ -71,6 +73,7 @@ class DetectionRuleTypes(enum.Enum):
             "nf_icon": "nf-cod-server_process",
         }
     )
+    """Generic - A general or unspecified detection rule type that does not fit other categories."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

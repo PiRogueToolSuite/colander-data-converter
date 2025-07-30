@@ -50,6 +50,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fae-cc_nc",
         }
     )
+    """NGO - A non-governmental organization."""
 
     COMPANY = ActorType(
         **{
@@ -60,6 +61,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fa-dollar",
         }
     )
+    """Private company - A privately owned business entity, often a target or participant in cyber activities."""
 
     APT = ActorType(
         **{
@@ -70,6 +72,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fae-virus",
         }
     )
+    """APT - An advanced persistent threat group, typically well-resourced and highly skilled."""
 
     THREAT_ACTOR = ActorType(
         **{
@@ -80,6 +83,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fae-virus",
         }
     )
+    """Threat actor - An individual or group responsible for malicious cyber activities."""
 
     INDIVIDUAL = ActorType(
         **{
@@ -90,6 +94,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-cod-person",
         }
     )
+    """Individual - A single person involved in threat activity or as a target."""
 
     PUB_INST = ActorType(
         **{
@@ -100,6 +105,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fa-bank",
         }
     )
+    """Public institution - A government or public sector organization."""
 
     GENERIC = ActorType(
         **{
@@ -110,6 +116,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-cod-person",
         }
     )
+    """Generic - A generic or unspecified actor type."""
 
     HACKTIVIST = ActorType(
         **{
@@ -120,6 +127,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-mdi-hammer_sickle",
         }
     )
+    """Hacktivist - An individual or group using hacking to promote political or social agendas."""
 
     CYBER_CRIMINAL = ActorType(
         **{
@@ -130,6 +138,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fa-user_secret",
         }
     )
+    """Cyber criminal - An individual or group engaging in illegal activities for financial gain."""
 
     INSIDER = ActorType(
         **{
@@ -140,6 +149,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-fa-user",
         }
     )
+    """Insider threat - An individual within an organization posing a security risk."""
 
     NATION_STATE = ActorType(
         **{
@@ -150,6 +160,7 @@ class ActorTypes(enum.Enum):
             "nf_icon": "nf-mdi-flag",
         }
     )
+    """Nation-state actor - A government-sponsored group conducting cyber operations."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

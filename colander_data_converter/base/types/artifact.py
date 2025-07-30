@@ -112,6 +112,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """Archive - A compressed file or collection of files, such as ZIP or TAR."""
 
     EMAIL = ArtifactType(
         **{
@@ -132,6 +133,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """Email file - A file containing email messages, such as EML or MSG format."""
 
     BACKUP = ArtifactType(
         **{
@@ -142,6 +144,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
+    """Backup image - A file containing a backup copy of data or a system image."""
 
     ANDROID_BACKUP = ArtifactType(
         **{
@@ -152,6 +155,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
+    """Android backup image - A backup image created from an Android device."""
 
     IOS_BACKUP = ArtifactType(
         **{
@@ -162,6 +166,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
+    """iOS backup image - A backup image created from an iOS device."""
 
     SAMPLE = ArtifactType(
         **{
@@ -172,6 +177,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-oct-package",
         }
     )
+    """Sample - A generic sample file, often used for malware or suspicious files."""
 
     ANDROID_SAMPLE = ArtifactType(
         **{
@@ -185,6 +191,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """Android sample - A sample file specific to the Android platform."""
 
     IOS_SAMPLE = ArtifactType(
         **{
@@ -195,6 +202,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-apple_ios",
         }
     )
+    """iOS sample - A sample file specific to the iOS platform."""
 
     F_DUMP = ArtifactType(
         **{
@@ -205,6 +213,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-harddisk",
         }
     )
+    """Forensic dump - A file containing a forensic image or memory dump."""
 
     PCAP = ArtifactType(
         **{
@@ -227,6 +236,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """PCAP file - A file capturing network traffic, typically in PCAP format."""
 
     HAR = ArtifactType(
         **{
@@ -237,6 +247,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-download_network",
         }
     )
+    """HAR file - A file containing HTTP Archive (HAR) data for web traffic analysis."""
 
     SOCKET_T = ArtifactType(
         **{
@@ -247,6 +258,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-plus_network",
         }
     )
+    """Socket activity trace - A file recording socket or network connection activity."""
 
     CRYPTO_T = ArtifactType(
         **{
@@ -257,6 +269,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-cod-key",
         }
     )
+    """Cryptographic activity trace - A file logging cryptographic operations or key usage."""
 
     SSLKEYLOG = ArtifactType(
         **{
@@ -267,6 +280,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-cod-key",
         }
     )
+    """SSL keylog file - A file containing SSL/TLS session keys for decrypting network traffic."""
 
     DOCUMENT = ArtifactType(
         **{
@@ -296,6 +310,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """Document - A generic document file, such as PDF, DOCX, or ODT."""
 
     IMAGE = ArtifactType(
         **{
@@ -308,6 +323,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["image/*"]}},
         }
     )
+    """Image - A file containing a still image, such as JPG, PNG, or GIF."""
 
     VIDEO = ArtifactType(
         **{
@@ -320,6 +336,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["video/*"]}},
         }
     )
+    """Video - A file containing video content, such as MP4, AVI, or MOV."""
 
     AUDIO = ArtifactType(
         **{
@@ -332,6 +349,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["audio/*"]}},
         }
     )
+    """Audio - A file containing audio content, such as MP3, WAV, or AAC."""
 
     WEBPAGE = ArtifactType(
         **{
@@ -344,6 +362,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["text/html", "application/xhtml+xml"]}},
         }
     )
+    """Web page - A file containing web page content, such as HTML or XHTML."""
 
     SOCIAL_POST = ArtifactType(
         **{
@@ -355,6 +374,7 @@ class ArtifactTypes(enum.Enum):
             "default_attributes": {"content_warning": ""},
         }
     )
+    """Social media post - A file or record representing a post from a social media platform."""
 
     REPORT = ArtifactType(
         **{
@@ -365,6 +385,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-mdi-file_document",
         }
     )
+    """Report - A file containing an analytical or investigative report."""
 
     JSON = ArtifactType(
         **{
@@ -376,6 +397,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["application/json"]}},
         }
     )
+    """JSON file - A file in JavaScript Object Notation (JSON) format."""
 
     TEXT = ArtifactType(
         **{
@@ -387,6 +409,7 @@ class ArtifactTypes(enum.Enum):
             "type_hints": {"suggested_by_mime_types": {"types": ["text/plain"]}},
         }
     )
+    """Text file - A plain text file, such as TXT or LOG."""
 
     BINARY = ArtifactType(
         **{
@@ -409,6 +432,7 @@ class ArtifactTypes(enum.Enum):
             },
         }
     )
+    """Binary file - A file containing binary data, not intended to be read as text."""
 
     GENERIC = ArtifactType(
         **{
@@ -419,6 +443,7 @@ class ArtifactTypes(enum.Enum):
             "nf_icon": "nf-cod-file_binary",
         }
     )
+    """Generic - A file that does not fit into any of other predefined categories."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

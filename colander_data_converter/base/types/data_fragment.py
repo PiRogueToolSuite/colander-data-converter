@@ -51,6 +51,7 @@ class DataFragmentTypes(enum.Enum):
             "nf_icon": "nf-md-code_braces",
         }
     )
+    """Piece of code - A snippet or segment of source code from any programming language."""
 
     PATTERN = DataFragmentType(
         **{
@@ -61,6 +62,7 @@ class DataFragmentTypes(enum.Enum):
             "nf_icon": "nf-fa-puzzle_piece",
         }
     )
+    """Pattern - A recognizable sequence or structure, such as a regular expression or YARA rule."""
 
     TEXT = DataFragmentType(
         **{
@@ -71,6 +73,7 @@ class DataFragmentTypes(enum.Enum):
             "nf_icon": "nf-fa-file_text",
         }
     )
+    """Piece of text - A fragment of unstructured or plain text."""
 
     PAYLOAD = DataFragmentType(
         **{
@@ -81,6 +84,7 @@ class DataFragmentTypes(enum.Enum):
             "nf_icon": "nf-oct-file_binary",
         }
     )
+    """Raw payload - A block of raw binary or encoded data."""
 
     GENERIC = DataFragmentType(
         **{
@@ -91,6 +95,7 @@ class DataFragmentTypes(enum.Enum):
             "nf_icon": "nf-oct-file_binary",
         }
     )
+    """Generic - A general or unspecified data fragment type that does not fit other categories."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

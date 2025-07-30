@@ -43,6 +43,7 @@ class DeviceTypes(enum.Enum):
 
 {% for t in types %}
     {{ t.short_name }} = DeviceType(**{{ t }})
+    """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 

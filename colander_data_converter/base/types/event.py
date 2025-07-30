@@ -50,6 +50,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-lan_connect",
         }
     )
+    """Communication - An event involving the exchange of information between entities, such as emails or messages."""
 
     RESOLVE = EventType(
         **{
@@ -60,6 +61,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-search_web",
         }
     )
+    """Resolution - An event where a domain or hostname is resolved to an IP address."""
 
     COMPROMISE = EventType(
         **{
@@ -70,6 +72,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-disk_alert",
         }
     )
+    """Compromise - An event indicating that a system, account, or data has been breached or compromised."""
 
     INFECTION = EventType(
         **{
@@ -80,6 +83,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-disk_alert",
         }
     )
+    """Infection - An event where a system or device is infected by malware or a similar threat."""
 
     ALERT = EventType(
         **{
@@ -90,6 +94,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-oct-alert",
         }
     )
+    """Alert - A notification or warning about a detected security event or anomaly."""
 
     AV_DETECTION = EventType(
         **{
@@ -100,6 +105,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-oct-alert",
         }
     )
+    """AntiVirus detection - An event where antivirus software detects malicious or suspicious activity."""
 
     HIT = EventType(
         **{
@@ -110,6 +116,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
+    """Hit - An event indicating a match or detection by a rule, signature, or indicator."""
 
     PASSIVE_DNS = EventType(
         **{
@@ -120,6 +127,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
+    """Passive DNS - An event recording historical DNS resolution data observed passively."""
 
     GENERIC = EventType(
         **{
@@ -130,6 +138,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
+    """Generic - An event that does not fit into any of the predefined categories."""
 
     ATTACK = EventType(
         **{
@@ -140,6 +149,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-bomb",
         }
     )
+    """Attack - An event indicating a deliberate attempt to breach, disrupt, or damage a system or network."""
 
     TARGETED_ATTACK = EventType(
         **{
@@ -150,6 +160,7 @@ class EventTypes(enum.Enum):
             "nf_icon": "nf-mdi-crosshairs",
         }
     )
+    """Targeted Attack - An event representing a focused and intentional attack against a specific entity or asset."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

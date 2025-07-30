@@ -43,6 +43,7 @@ class ActorTypes(enum.Enum):
 
 {% for t in types %}
     {{ t.short_name }} = ActorType(**{{ t }})
+    """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 

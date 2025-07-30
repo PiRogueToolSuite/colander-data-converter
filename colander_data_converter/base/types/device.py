@@ -50,6 +50,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-mdi-server_network",
         }
     )
+    """Server - A computer or system that provides resources, data, or services to other computers over a network."""
 
     LAPTOP = DeviceType(
         **{
@@ -60,6 +61,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-fa-laptop",
         }
     )
+    """Laptop - A portable personal computer designed for mobile use."""
 
     DESKTOP = DeviceType(
         **{
@@ -70,6 +72,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-fa-desktop",
         }
     )
+    """Desktop - A personal computer intended for regular use at a single location."""
 
     MOBILE = DeviceType(
         **{
@@ -80,6 +83,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-fa-mobile_phone",
         }
     )
+    """Mobile device - A handheld device such as a smartphone or tablet."""
 
     IOT = DeviceType(
         **{
@@ -90,6 +94,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-fa-plug",
         }
     )
+    """Internet of Things - A device connected to the internet, often embedded and used for specific functions (e.g., smart home devices)."""
 
     ROUTER = DeviceType(
         **{
@@ -100,6 +105,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-mdi-router_wireless",
         }
     )
+    """Router - A network device that forwards data packets between computer networks."""
 
     GENERIC = DeviceType(
         **{
@@ -110,6 +116,7 @@ class DeviceTypes(enum.Enum):
             "nf_icon": "nf-fa-desktop",
         }
     )
+    """Generic - A general or unspecified device type that does not fit other categories."""
 
     default = GENERIC  # type: ignore[attr-defined]
 
