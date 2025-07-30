@@ -1,6 +1,6 @@
 import enum
 
-from pydantic import field_validator
+from pydantic import field_validator, Field
 
 from .base import CommonEntityType, load_entity_supported_types
 
@@ -22,7 +22,7 @@ class ObservableType(CommonEntityType):
         IPv4
     """
 
-    regex: str = ""
+    regex: str = Field(default="", exclude=True)
 
     @field_validator("short_name", mode="before")
     @classmethod

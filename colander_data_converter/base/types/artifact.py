@@ -1,8 +1,7 @@
 import enum
 
-from typing import Dict, Any
 
-from pydantic import field_validator, Field
+from pydantic import field_validator
 
 from .base import CommonEntityType, load_entity_supported_types
 
@@ -19,9 +18,6 @@ class ArtifactType(CommonEntityType):
         >>> print(artifact_type.short_name)
         REPORT
     """
-
-    type_hints: Dict[str, Any] = Field(default_factory=dict)
-    """Dictionary of additional type hints for the artifact type."""
 
     @field_validator("short_name", mode="before")
     @classmethod

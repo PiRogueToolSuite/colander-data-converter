@@ -36,7 +36,7 @@ class CommonEntityType(BaseModel, abc.ABC):
     name: str = Field(frozen=True, max_length=512)
     """The name of the model type."""
 
-    description: str | None = Field(default=None, exclude=True)
+    description: str | None = Field(default=None, exclude=False)
     """An optional description of the model type."""
 
     svg_icon: str | None = Field(default=None, exclude=True)
