@@ -6,7 +6,7 @@
 .. |event| image:: ../_static/icons/event.svg
 .. |observable| image:: ../_static/icons/observable.svg
 .. |threat| image:: ../_static/icons/threat.svg
-
+.. |colander| image:: ../_static/img/colander_entities.svg
 
 
 .. _colander_data_model:
@@ -33,6 +33,8 @@ Colander supports the following entity types:
 * :ref:`Events <event_types>` - Temporal occurrences, alerts, detections, and log entries
 * :ref:`Observables <observable_types>` - Detectable entities like IP addresses, domains, file hashes, and URLs
 * :ref:`Threats <threat_types>` - Malicious entities such as malware families, campaigns, and attack techniques
+
+|colander|
 
 
 .. _colander_feed_structure:
