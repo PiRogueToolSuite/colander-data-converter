@@ -41,7 +41,7 @@ class DeviceTypes(enum.Enum):
         Generic
     """
 
-{% for t in types %}
+{% for t in types|sort(attribute='short_name') %}
     {{ t.short_name }} = DeviceType(**{{ t }})
     """{{ t.name }} - {{ t.description }}"""
 {% endfor %}

@@ -34,7 +34,6 @@ def test_regex_valid(type_obj):
         ],
         "MAC": ["00:1A:2B:3C:4D:5E", "00-1A-2B-3C-4D-5E", "aa:bb:cc:dd:ee:ff", "FF:FF:FF:FF:FF:FF"],
         "DOMAIN": ["example.com", "sub.example.com", "xn--d1acufc.xd", "test-domain.co.uk", "a.com"],
-        "HOSTNAME": ["host", "host1", "host-name", "host.name", "host-name1.domain.com", "localhost"],
         "EMAIL": ["user@example.com", "user.name+tag@sub.domain.co.uk", "USER@EXAMPLE.COM", "test123@test-domain.com"],
         "PHONE": ["+1-800-555-1234", "+44 20 7946 0958", "(800) 555-1234", "800.555.1234", "+1 800 555 1234"],
         "URL": [
@@ -93,7 +92,6 @@ def test_regex_invalid(type_obj):
         ],
         "MAC": ["00:1A:2B:3C:4D", "00:1A:2B:3C:4D:5E:6F", "001A:2B:3C:4D:5E", "gg:1A:2B:3C:4D:5E"],
         "DOMAIN": ["-example.com", "example-.com", "example", "ex..com", "example.c", ".example.com", "example.com."],
-        "HOSTNAME": ["-host", "host-", "host..name", "host..", ".hostname", "hostname."],
         "EMAIL": ["userexample.com", "user@.com", "@example.com", "user@com", "user@", "user@example."],
         "PHONE": ["abc-def-ghij", "++1-800-555-1234", "+", "()"],
         "URL": ["htp://example.com", "http:/example.com", "http://", "://example.com"],
@@ -134,7 +132,6 @@ def test_regex_edge_cases(type_obj):
         "IPV6": ["::", "fe80::"],
         "MAC": ["ff:ff:ff:ff:ff:ff", "FF:FF:FF:FF:FF:FF"],
         "DOMAIN": ["a.com", "abc-def.com"],
-        "HOSTNAME": ["a", "a.b.c.d.e.f.g.h.i.j.k"],
         "EMAIL": ["a@b.co", "a.b+c@d.com"],
         "PHONE": ["+123", "123"],
         "URL": ["https://sub.domain.com", "ftp://host"],

@@ -97,7 +97,7 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*$"
+    "regex": ""
   },
   {
     "short_name": "EMAIL",

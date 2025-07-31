@@ -1,4 +1,6 @@
 import enum
+import re
+from typing import Optional
 
 from pydantic import field_validator, Field
 
@@ -23,6 +25,11 @@ class ObservableType(CommonEntityType):
     """
 
     regex: str = Field(default="", exclude=True)
+    _compiled_regex: Optional[re.Pattern] = None
+
+    def model_post_init(self, __context):
+        if self.regex:
+            self._compiled_regex = re.compile(self.regex, re.IGNORECASE)
 
     @field_validator("short_name", mode="before")
     @classmethod
@@ -30,6 +37,31 @@ class ObservableType(CommonEntityType):
         if short_name not in {t["short_name"] for t in load_entity_supported_types("observable")}:
             raise ValueError(f"{short_name} is not supported")
         return short_name
+
+    def match_regex(self, value: str) -> bool:
+        """Check if a value matches the compiled regex pattern for this observable type.
+
+        This method validates whether a given string value conforms to the regex pattern
+        defined for this observable type. If no regex pattern is configured, it returns False.
+
+        Args:
+            value (str): The string value to test against the regex pattern.
+
+        Returns:
+            bool: True if the value matches the regex pattern, False otherwise.
+            Returns False if no regex pattern is configured for this type.
+
+        Example:
+            >>> ipv4_type = ObservableTypes.IPV4.value
+            >>> ipv4_type.match_regex("192.168.1.1")
+            True
+            >>> ipv4_type.match_regex("invalid-ip")
+            False
+        """
+        if self._compiled_regex:
+            return bool(self._compiled_regex.match(value))
+        else:
+            return False
 
 
 class ObservableTypes(enum.Enum):
@@ -47,15 +79,43 @@ class ObservableTypes(enum.Enum):
         Generic
     """
 
-{% for t in types %}
+{% for t in types|sort(attribute='short_name') %}
     {{ t.short_name }} = ObservableType(**{{ t }})
     """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
     default = GENERIC  # type: ignore[attr-defined]
 
     @classmethod
-    def by_short_name(cls, short_name: str):
+    def by_short_name(cls, short_name: str) -> ObservableType:
         sn = short_name.replace(" ", "_").upper()
         if sn in cls._member_names_:
             return cls[sn].value
+        return cls.default.value
+
+    @classmethod
+    def suggest(cls, observable_value) -> ObservableType:
+        """Suggest an appropriate observable type based on pattern matching.
+
+        This method attempts to find a suitable observable type by testing the given
+        observable name against the regex patterns of all defined observable types.
+        It returns the first matching type found, or the default generic type if no
+        pattern matches.
+
+        Args:
+            observable_value (str): The observable value to analyze and match against
+                known patterns (e.g., IP addresses, domains, hashes).
+
+        Returns:
+            ObservableType: The first observable type whose regex pattern matches
+            the input, or the default GENERIC type if no match is found.
+
+        Example:
+            >>> ObservableTypes.suggest("192.168.1.1")
+            IPV4
+            >>> ObservableTypes.suggest("example.com")
+            DOMAIN
+        """
+        for _observable_type in cls:
+            if _observable_type.value.match_regex(observable_value):
+                return _observable_type.value
         return cls.default.value

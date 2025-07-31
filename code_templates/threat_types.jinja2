@@ -41,7 +41,7 @@ class ThreatTypes(enum.Enum):
         Generic
     """
 
-{% for t in types %}
+{% for t in types|sort(attribute='short_name') %}
     {{ t.short_name }} = ThreatType(**{{ t }})
     """{{ t.name }} - {{ t.description }}"""
 {% endfor %}
