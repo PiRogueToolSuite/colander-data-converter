@@ -6,7 +6,34 @@ Export data
 This Python module supports multiple export formats. However, once exported, data cannot be loaded with :py:mod:`colander_data_converter`.
 
 .. _Graphviz: https://graphviz.org/
+.. _Mermaid: https://www.mermaidchart.com
 .. _Jinja2: https://jinja.palletsprojects.com/
+
+Mermaid
+--------
+The Mermaid_ exporter generates text files that can be used to create visual representations of entity relationships and hierarchies.
+
+For more details, check the documentation of :py:class:`~colander_data_converter.exporters.mermaid.MermaidExporter`.
+
+.. image:: _static/img/mermaid.png
+
+.. code-block:: python
+
+    import json
+
+    from colander_data_converter.base.models import ColanderFeed
+    from colander_data_converter.exporters.mermaid import MermaidExporter
+
+    # Load the feed
+    with open("path/to/colander_feed.json", "r") as f:
+        raw = json.load(f)
+    colander_feed = ColanderFeed.load(raw)
+
+    # Export the feed as a graph
+    exporter = MermaidExporter(colander_feed)
+    with open("path/to/colander_feed.txt", "w") as f:
+        exporter.export(f)
+
 
 Graphviz
 --------
