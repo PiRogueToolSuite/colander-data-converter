@@ -21,15 +21,15 @@ from colander_data_converter.base.common import (
     TlpPapLevel,
     Singleton,
 )
-from colander_data_converter.base.types.actor import *
-from colander_data_converter.base.types.artifact import *
+from colander_data_converter.base.types.actor import ActorType, ActorTypes
+from colander_data_converter.base.types.artifact import ArtifactType, ArtifactTypes
 from colander_data_converter.base.types.base import EntityType_T
-from colander_data_converter.base.types.data_fragment import *
-from colander_data_converter.base.types.detection_rule import *
-from colander_data_converter.base.types.device import *
-from colander_data_converter.base.types.event import *
-from colander_data_converter.base.types.observable import *
-from colander_data_converter.base.types.threat import *
+from colander_data_converter.base.types.data_fragment import DataFragmentType, DataFragmentTypes
+from colander_data_converter.base.types.detection_rule import DetectionRuleType, DetectionRuleTypes
+from colander_data_converter.base.types.device import DeviceType, DeviceTypes
+from colander_data_converter.base.types.event import EventType, EventTypes
+from colander_data_converter.base.types.observable import ObservableType, ObservableTypes
+from colander_data_converter.base.types.threat import ThreatType, ThreatTypes
 
 resource_package = __name__
 
