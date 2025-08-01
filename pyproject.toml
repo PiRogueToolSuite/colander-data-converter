@@ -56,6 +56,7 @@ test = [
 docs = [
   "autoclasstoc>=1.7",
   "autodoc-pydantic>=2.2",
+  "myst-parser",
   "sphinx>=8.1.3",
   "sphinx-autobuild",
   "sphinx-copybutton",
