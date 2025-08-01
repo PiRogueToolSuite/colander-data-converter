@@ -18,7 +18,7 @@ License: GPLv3
 
 The `colander_data_converter` Python package provides tools for converting between different cyber threat intelligence data formats, with a focus on the Colander, MISP and STIX2 schemas. Its main purpose is to facilitate interoperability and data exchange between systems that use different standards for representing entities such as observables, actors, events, and relationships in threat intelligence feeds.
 
-![](docs/_static/img/conversions.png)
+![](https://github.com/PiRogueToolSuite/colander-data-converter/raw/main/docs/_static/img/conversions.png)
 
 Colander data format is an opinionated data format focused on usability and interoperability. It uses strict type definitions and internal type discriminators for serialization and deserialization.
 
