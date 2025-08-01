@@ -87,6 +87,18 @@ class Stix2ToColanderMapper(Stix2Mapper):
                 repository << colander_entity
                 processed_ids[stix2_id] = stix2_type
 
+        # Handle object references
+        for stix2_object in stix2_data.get("objects", []):
+            stix2_id = stix2_object.get("id", "")
+            if stix2_id not in processed_ids:
+                continue
+            for attr, value in stix2_object.items():
+                if attr.endswith("_ref"):
+                    self._convert_reference(attr, stix2_id, value)
+                elif attr.endswith("_refs"):
+                    for ref in stix2_object.get("refs", []):
+                        self._convert_reference(attr, stix2_id, ref)
+
         bundle_id = extract_uuid_from_stix2_id(stix2_data.get("id", ""))
 
         feed_data = {
@@ -98,6 +110,24 @@ class Stix2ToColanderMapper(Stix2Mapper):
         }
 
         return ColanderFeed.model_validate(feed_data)
+
+    def _convert_reference(self, name: str, source_id: str, target_id: str) -> Optional[EntityRelation]:
+        if not name or not source_id or not target_id:
+            return None
+        relation_name = name.replace("_refs", "").replace("_ref", "").replace("_", " ")
+        source_object_id = extract_uuid_from_stix2_id(source_id)
+        target_object_id = extract_uuid_from_stix2_id(target_id)
+        source = ColanderRepository() >> source_object_id
+        target = ColanderRepository() >> target_object_id
+        if not source or not target:
+            return None
+        relation = EntityRelation(
+            name=relation_name,
+            obj_from=source,
+            obj_to=target,
+        )
+        ColanderRepository() << relation
+        return relation
 
     def convert_stix2_object(
         self, stix2_object: Dict[str, Any]
@@ -620,4 +650,5 @@ class Stix2Converter:
             Stix2Bundle: The converted STIX2 bundle.
         """
         mapper = ColanderToStix2Mapper()
+        colander_feed.resolve_references()
         return mapper.convert(colander_feed)
