@@ -62,3 +62,4 @@ class TestStix2ToColanderMapping:
         with json_file.open() as f:
             raw = json.load(f)
         f = mapper.convert(raw)
+        assert f is not None
