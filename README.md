@@ -48,6 +48,5 @@ uv sync
 
 Before submitting a PR, execute run the test suite and the pre-commit checks:
 ```
-tox run
-tox run -e docs
+tox run -e fix,3.12,docs
 ```
