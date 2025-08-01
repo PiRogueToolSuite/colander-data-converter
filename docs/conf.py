@@ -60,6 +60,10 @@ html_theme_options = {
     "navigation_depth": 4,
     "titles_only": False,
 }
+html_css_files = [
+    "css/table-fix.css",
+    "css/theme-extra.css",
+]
 
 viewcode_line_numbers = True
 
