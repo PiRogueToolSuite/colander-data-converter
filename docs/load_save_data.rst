@@ -45,13 +45,13 @@ Threatr
 Load from JSON file
 ```````````````````
 To load a Threatr feed from a JSON file, call the method
-:py:meth:`~colander_data_converter.formats.threatr.models.ThreatrFeed.load` of
-:py:class:`~colander_data_converter.formats.threatr.models.ThreatrFeed`:
+:py:meth:`~colander_data_converter.converters.threatr.models.ThreatrFeed.load` of
+:py:class:`~colander_data_converter.converters.threatr.models.ThreatrFeed`:
 
 .. code-block:: python
 
    import json
-   from colander_data_converter.formats.threatr.models import ThreatrFeed
+   from colander_data_converter.converters.threatr.models import ThreatrFeed
 
    with open("path/to/threatr_feed.json", "r") as f:
        raw = json.load(f)

@@ -23,15 +23,15 @@ from colander_data_converter.base.types.artifact import *
 from colander_data_converter.base.types.device import *
 from colander_data_converter.base.types.observable import *
 from colander_data_converter.base.types.threat import *
-from colander_data_converter.formats.stix2.mapping import Stix2MappingLoader
-from colander_data_converter.formats.stix2.models import (
+from colander_data_converter.converters.stix2.mapping import Stix2MappingLoader
+from colander_data_converter.converters.stix2.models import (
     Stix2ObjectBase,
     Stix2ObjectTypes,
     Stix2Bundle,
     Stix2Repository,
     Relationship,
 )
-from colander_data_converter.formats.stix2.utils import (
+from colander_data_converter.converters.stix2.utils import (
     extract_uuid_from_stix2_id,
     get_nested_value,
     set_nested_value,

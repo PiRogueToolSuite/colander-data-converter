@@ -16,8 +16,8 @@ from colander_data_converter.base.models import (
 from colander_data_converter.base.types.actor import *
 from colander_data_converter.base.types.event import *
 from colander_data_converter.base.types.observable import *
-from colander_data_converter.formats.threatr.converter import ThreatrToColanderMapper
-from colander_data_converter.formats.threatr.models import (
+from colander_data_converter.converters.threatr.converter import ThreatrToColanderMapper
+from colander_data_converter.converters.threatr.models import (
     Entity as ThreatrEntity,
     Event as ThreatrEvent,
     EntityRelation as ThreatrEntityRelation,

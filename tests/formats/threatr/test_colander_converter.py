@@ -18,8 +18,8 @@ from colander_data_converter.base.types.detection_rule import *
 from colander_data_converter.base.types.device import *
 from colander_data_converter.base.types.event import *
 from colander_data_converter.base.types.observable import *
-from colander_data_converter.formats.threatr.converter import ColanderToThreatrMapper
-from colander_data_converter.formats.threatr.models import ThreatrFeed
+from colander_data_converter.converters.threatr.converter import ColanderToThreatrMapper
+from colander_data_converter.converters.threatr.models import ThreatrFeed
 
 
 class TestColanderToThreatrConverter(unittest.TestCase):

@@ -19,8 +19,8 @@ from colander_data_converter.base.models import (
 from colander_data_converter.base.types.base import CommonEntityType
 from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.utils import BaseModelMerger
-from colander_data_converter.formats.threatr.mapping import ThreatrMapper
-from colander_data_converter.formats.threatr.models import (
+from colander_data_converter.converters.threatr.mapping import ThreatrMapper
+from colander_data_converter.converters.threatr.models import (
     ThreatrFeed,
     Entity as ThreatrEntity,
     Event as ThreatrEvent,

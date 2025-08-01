@@ -2,8 +2,8 @@ import json
 from importlib import resources
 
 from colander_data_converter.base.models import ColanderRepository
-from colander_data_converter.formats.stix2.converter import Stix2ToColanderMapper
-from colander_data_converter.formats.stix2.mapping import Stix2MappingLoader
+from colander_data_converter.converters.stix2.converter import Stix2ToColanderMapper
+from colander_data_converter.converters.stix2.mapping import Stix2MappingLoader
 
 
 class TestStix2ToColanderMapping:

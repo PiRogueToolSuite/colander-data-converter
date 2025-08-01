@@ -2,7 +2,7 @@ import json
 import unittest
 from importlib import resources
 
-from colander_data_converter.formats.stix2.models import Stix2Bundle
+from colander_data_converter.converters.stix2.models import Stix2Bundle
 
 
 class TestBundle(unittest.TestCase):

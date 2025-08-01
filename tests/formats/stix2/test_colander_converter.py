@@ -15,7 +15,7 @@ from colander_data_converter.base.types.artifact import *
 from colander_data_converter.base.types.device import *
 from colander_data_converter.base.types.observable import *
 from colander_data_converter.base.types.threat import *
-from colander_data_converter.formats.stix2.converter import ColanderToStix2Mapper
+from colander_data_converter.converters.stix2.converter import ColanderToStix2Mapper
 
 
 class TestColanderConverter(unittest.TestCase):

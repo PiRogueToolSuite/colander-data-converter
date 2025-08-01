@@ -69,8 +69,18 @@ napoleon_use_admonition_for_examples = False
 napoleon_use_admonition_for_notes = True
 napoleon_use_admonition_for_references = True
 napoleon_preprocess_types = True
+napoleon_use_param = True
 napoleon_type_aliases = {
-    "ObjectReference": "pydantic.types.UUID4",
+    "ObjectReference": "colander_data_converter.base.common.ObjectReference",
+    "Actor": "colander_data_converter.base.models.Actor",
+    "Artifact": "colander_data_converter.base.models.Artifact",
+    "DataFragment": "colander_data_converter.base.models.DataFragment",
+    "DetectionRule": "colander_data_converter.base.models.DetectionRule",
+    "Device": "colander_data_converter.base.models.Device",
+    "Event": "colander_data_converter.base.models.Event",
+    "Observable": "colander_data_converter.base.models.Observable",
+    "Threat": "colander_data_converter.base.models.Threat",
+    "ColanderFeed": "colander_data_converter.base.models.ColanderFeed",
 }
 
 exclude_patterns = []

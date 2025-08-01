@@ -10,7 +10,7 @@ from colander_data_converter.base.common import TlpPapLevel
 from colander_data_converter.base.models import CommonEntitySuperTypes
 from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
-from colander_data_converter.formats.threatr.models import (
+from colander_data_converter.converters.threatr.models import (
     Entity,
     EntityRelation,
     Event,

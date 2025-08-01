@@ -26,7 +26,12 @@ dependencies = [
   "pydantic==2.11.7",
 ]
 
+urls.discord = "https://discord.gg/qGX73GYNdp"
+urls.documentation = "https://pts-project.org/colander-data-converter/"
+urls.donate = "https://opencollective.com/pts"
+urls.homepage = "https://pts-project.org"
 urls.issues = "https://github.com/PiRogueToolSuite/colander-data-converter/issues"
+urls.mastodon = "https://infosec.exchange/@pts"
 urls.repository = "https://github.com/PiRogueToolSuite/colander-data-converter"
 
 [dependency-groups]

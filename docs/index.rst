@@ -48,4 +48,4 @@ events, with explicit references between objects.
 
    source/colander_data_converter.base
    source/colander_data_converter.exporters
-   source/colander_data_converter.formats
+   source/colander_data_converter.converters

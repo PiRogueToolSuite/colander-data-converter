@@ -16,7 +16,7 @@ Threatr feed structure
 ----------------------
 
 A Threatr feed
-(:py:class:`~colander_data_converter.formats.threatr.models.ThreatrFeed`)
+(:py:class:`~colander_data_converter.converters.threatr.models.ThreatrFeed`)
 is a collection of entities, events, and relations with the following top-level structure:
 
 - ``root_entity``: The main entity of interest in the feed.
@@ -30,7 +30,7 @@ Entities
 --------
 
 Entities
-(:py:class:`~colander_data_converter.formats.threatr.models.Entity`)
+(:py:class:`~colander_data_converter.converters.threatr.models.Entity`)
 in Threatr are modeled as objects with the following typical attributes:
 
 - ``id``: A unique identifier (often a UUID).
@@ -43,7 +43,7 @@ Events
 ------
 
 Events
-(:py:class:`~colander_data_converter.formats.threatr.models.Event`)
+(:py:class:`~colander_data_converter.converters.threatr.models.Event`)
 represent actions or occurrences and typically include:
 
 - ``id``: A unique identifier (often a UUID).
@@ -56,7 +56,7 @@ Relations
 ---------
 
 Relations
-(:py:class:`~colander_data_converter.formats.threatr.models.EntityRelation`)
+(:py:class:`~colander_data_converter.converters.threatr.models.EntityRelation`)
 describe directed links between entities and have these attributes:
 
 - ``id``: A unique identifier (often a UUID).

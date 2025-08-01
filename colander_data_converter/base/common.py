@@ -4,6 +4,9 @@ from typing import Dict, Any
 from pydantic import UUID4, BaseModel, model_serializer, GetCoreSchemaHandler, ValidationError
 from pydantic_core import core_schema
 
+type ObjectReference = UUID4
+"""ObjectReference is an alias for UUID4, representing a unique object identifier."""
+
 
 class BasePydanticEnum(Enum):
     """Base class for creating Pydantic-compatible enums with flexible member resolution.
@@ -222,10 +225,6 @@ class TlpPapLevel(BasePydanticEnum):
 
     def __repr__(self):
         return self.name
-
-
-# ObjectReference is an alias for UUID4, representing a unique object identifier.
-type ObjectReference = UUID4
 
 
 class Singleton(type):
