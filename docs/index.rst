@@ -32,6 +32,7 @@ events, with explicit references between objects.
    load_save_data
    convert_data
    export_data
+   tips_and_tricks
 
 
 .. toctree::
