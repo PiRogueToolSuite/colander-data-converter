@@ -92,6 +92,9 @@ class Stix2ToColanderMapper(Stix2Mapper):
             stix2_id = stix2_object.get("id", "")
             if stix2_id not in processed_ids:
                 continue
+            stix2_type = stix2_object.get("type", "")
+            if stix2_type == "relationship":
+                continue
             for attr, value in stix2_object.items():
                 if attr.endswith("_ref"):
                     self._convert_reference(attr, stix2_id, value)
