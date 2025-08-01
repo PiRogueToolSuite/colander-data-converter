@@ -5,6 +5,8 @@ Utility functions for STIX2 to Colander conversion and vice versa.
 from typing import Dict, Any, Optional
 from uuid import uuid4, UUID
 
+from pydantic import UUID4
+
 
 def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:
     """
@@ -47,7 +49,7 @@ def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:
             # Extract the part after the "--" delimiter
             uuid_part = stix2_id.split("--", 1)[1]
             # Try to create a UUID from the extracted part
-            return UUID(uuid_part)
+            return UUID4(uuid_part, version=4)
     except (ValueError, IndexError):
         # If anything goes wrong, return a new UUID
         pass
