@@ -33,6 +33,7 @@ class MermaidExporter(BaseExporter):
         template_name = "mermaid.jinja2"
         template_source_dir = resources.files(resource_package).joinpath("..").joinpath("data").joinpath("templates")
         self.template_exporter = TemplateExporter(feed, str(template_source_dir), template_name)
+        self.feed.resolve_references()
 
     def load_default_theme(self):
         """

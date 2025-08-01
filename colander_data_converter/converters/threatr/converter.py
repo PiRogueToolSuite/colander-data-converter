@@ -611,4 +611,5 @@ class ThreatrConverter:
             ThreatrFeed: The converted Threatr data.
         """
         mapper = ColanderToThreatrMapper()
+        colander_feed.resolve_references()
         return mapper.convert(colander_feed, root_entity)

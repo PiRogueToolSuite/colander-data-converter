@@ -38,6 +38,7 @@ class CsvExporter(BaseExporter):
         self.entity_type = entity_type
         self.entities: List[entity_type] = []
         self.fields: Set[str] = {"super_type"}
+        self.feed.resolve_references()
         self._filter_entities()
         self._compute_field_list()
 
