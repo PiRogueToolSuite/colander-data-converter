@@ -3,14 +3,8 @@
 .. include:: ../README.md
    :parser: myst_parser.sphinx_
 
-
 .. toctree::
-   :maxdepth: 1
-
-..   knowledge_graph
-
-.. toctree::
-   :maxdepth: 1
+   :hidden:
    :caption: Data manipulation
 
    load_save_data
@@ -20,7 +14,7 @@
 
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
    :caption: Supported formats
 
    data_types/colander
@@ -28,7 +22,7 @@
    data_types/stix2
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
    :caption: API reference
 
    source/colander_data_converter.base
