@@ -1,0 +1,34 @@
+[
+  {
+    "colander_type": "YARA",
+    "misp_object": "yara",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/yara/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "yara"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "yara-rule-name",
+      "content": "yara",
+      "additional_attributes": {}
+    }
+  },
+  {
+    "colander_type": "SURICATA",
+    "misp_object": "suricata",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/suricata/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "suricata"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "comment",
+      "content": "suricata",
+      "additional_attributes": {}
+    }
+  }
+]
