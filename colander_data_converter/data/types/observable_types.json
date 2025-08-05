@@ -136,7 +136,12 @@
     "short_name": "URL",
     "name": "URL",
     "description": "A Uniform Resource Locator, specifying the address of a resource on the internet.",
-    "default_attributes": {},
+    "default_attributes": {
+      "query_string": "",
+      "resource_path": "",
+      "scheme": "",
+      "domain": ""
+    },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
     "regex": "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[^\\s]*)?$"
@@ -199,7 +204,10 @@
     "short_name": "IMPHASH",
     "name": "Import hash",
     "description": "A hash of the import table of a PE file, used to identify similar binaries.",
-    "default_attributes": {},
+    "default_attributes": {
+      "pehash": "pehash",
+      "impfuzzy": "impfuzzy"
+    },
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
     "regex": ""

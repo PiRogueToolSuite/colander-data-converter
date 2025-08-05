@@ -1,0 +1,373 @@
+[
+  {
+    "colander_type": "IPV4",
+    "misp_object": "domain-ip",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "regex",
+        "field": "ip"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "ip",
+      "raw_value": "ip",
+      "description": "text",
+      "additional_attributes": {}
+    }
+  },
+  {
+    "colander_type": "IPV6",
+    "misp_object": "domain-ip",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "regex",
+        "field": "ip"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "ip",
+      "raw_value": "ip",
+      "description": "text",
+      "additional_attributes": {}
+    }
+  },
+  {
+    "colander_type": "MAC",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "DOMAIN",
+    "misp_object": "domain-ip",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "domain"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "domain",
+      "raw_value": "domain",
+      "description": "comment",
+      "additional_attributes": {
+        "registration_date": "registration-date"
+      }
+    }
+  },
+  {
+    "colander_type": "DOMAIN_REGISTRAR",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "EMAIL",
+    "misp_object": "email",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/email/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "value",
+      "description": "comment"
+    }
+  },
+  {
+    "colander_type": "PHONE",
+    "misp_object": "phone-number",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/phone-number/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "phone-number",
+      "description": "text",
+      "additional_attributes": {
+        "country_code": "country-code"
+      }
+    }
+  },
+  {
+    "colander_type": "URL",
+    "misp_object": "url",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/url/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "url",
+      "description": "text",
+      "additional_attributes": {
+        "query_string": "query_string",
+        "resource_path": "resource_path",
+        "scheme": "scheme",
+        "domain": "domain"
+      }
+    }
+  },
+  {
+    "colander_type": "MD5",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "SHA1",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "SHA256",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "PEHASH",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "IMPHASH",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/pe/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "imphash": "name",
+      "description": "text",
+      "additional_attributes": {
+        "pehash": "pehash",
+        "impfuzzy": "impfuzzy"
+      }
+    }
+  },
+  {
+    "colander_type": "CIDR",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "PATH",
+    "misp_object": "directory",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/directory/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "path"
+    }
+  },
+  {
+    "colander_type": "MUTEX",
+    "misp_object": "mutex",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/mutex/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description"
+    }
+  },
+  {
+    "colander_type": "CVE",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "SSL_CERT_F",
+    "misp_object": "x509",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/x509/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field_one_of",
+        "field": "",
+        "field_one_of": [
+          "dns_names",
+          "ip"
+        ]
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "serial-number",
+      "additional_attributes": {
+        "subject": "subject",
+        "issuer": "issuer",
+        "not_before": "validity-not-before",
+        "not_after": "validity-not-after",
+        "md5": "x509-fingerprint-md5",
+        "sha1": "x509-fingerprint-sha1",
+        "sha256": "x509-fingerprint-sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "DNS_RECORD",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "ASN",
+    "misp_object": "asn",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/asn/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "asn",
+      "description": "description",
+      "additional_attributes": {
+        "organization": "organization"
+      }
+    }
+  },
+  {
+    "colander_type": "PROCESS",
+    "misp_object": "process",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/process/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "comment",
+      "additional_attributes": {
+        "executable" : "image"
+      }
+    }
+  },
+  {
+    "colander_type": "SERVICE",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  },
+  {
+    "colander_type": "LOCATION",
+    "misp_object": "geolocation",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/geolocation/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "text",
+      "attributes.address": "address",
+      "attributes.latitude": "latitude",
+      "attributes.longitude": "longitude",
+      "attributes.altitude": "altitude",
+      "attributes.country": "country",
+      "attributes.region": "state",
+      "attributes.city": "city"
+    }
+  },
+  {
+    "colander_type": "GENERIC",
+    "misp_object": "",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {}
+  }
+]
