@@ -37,3 +37,12 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     border: 1px solid #d8d1e3;
     filter: drop-shadow(2px 4px 4px #d8d1e3);
 }
+
+.rst-content .guilabel {
+    border: 1px solid #a88dce;
+}
+
+.rst-content code, code {
+    border: 1px solid #d8d1e3;
+    border-radius: 4px;
+}
