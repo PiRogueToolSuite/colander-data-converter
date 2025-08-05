@@ -19,6 +19,7 @@
 
    data_types/colander
    data_types/threatr
+   data_types/misp
    data_types/stix2
 
 .. toctree::

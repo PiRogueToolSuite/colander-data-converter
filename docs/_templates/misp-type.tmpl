@@ -1,0 +1,20 @@
+.. -*- mode: rst -*-
+
+
+{% for definition in data %}
+* ``{{definition.colander_type|upper}}`` - **MISP type**: :guilabel:`{{definition.misp_object}}`
+  {% for key, value in definition.colander_misp_mapping.items() %}
+  {% if key == "literals" %}
+    {% for src, dst in value.items() %}
+  * *{{src}}* = "*{{dst}}*"
+    {% endfor %}
+  {% elif key == "misp_attributes" %}
+  * MISP object attributes:
+    {% for src, dst in value.items() %}
+    * *{{src}}* ↦ *{{dst}}*
+    {% endfor %}
+  {% else %}
+  * *{{key}}* ↦ *{{value}}*
+  {% endif %}
+  {% endfor %}
+{% endfor %}
