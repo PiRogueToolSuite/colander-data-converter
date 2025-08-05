@@ -1,225 +1,208 @@
 [
   {
     "colander_type": "IPV4",
-    "misp_object": "domain-ip",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
+    "misp_object": "misp-attribute",
+    "misp_type": "ip-dst",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
     "misp_colander_mapping": {
       "discriminator": {
         "type": "regex",
-        "field": "ip"
+        "field": "value"
       }
     },
     "colander_misp_mapping": {
-      "name": "ip",
-      "raw_value": "ip",
-      "description": "text",
-      "additional_attributes": {}
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
+      }
     }
   },
   {
     "colander_type": "IPV6",
-    "misp_object": "domain-ip",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
+    "misp_object": "misp-attribute",
+    "misp_type": "ip-dst",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
     "misp_colander_mapping": {
       "discriminator": {
         "type": "regex",
-        "field": "ip"
+        "field": "value"
       }
     },
     "colander_misp_mapping": {
-      "name": "ip",
-      "raw_value": "ip",
-      "description": "text",
-      "additional_attributes": {}
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
+      }
     }
   },
   {
     "colander_type": "MAC",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
+    "misp_object": "misp-attribute",
+    "misp_type": "mac-address",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
       }
-    },
-    "colander_misp_mapping": {}
+    }
   },
   {
     "colander_type": "DOMAIN",
-    "misp_object": "domain-ip",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/domain-ip/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "domain"
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "domain",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "domain",
-      "raw_value": "domain",
+      "name": "value",
       "description": "comment",
-      "additional_attributes": {
-        "registration_date": "registration-date"
+      "literals": {
+        "category": "Network activity"
       }
     }
   },
   {
     "colander_type": "EMAIL",
-    "misp_object": "email",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/email/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "email",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "name": "value",
-      "description": "comment"
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
+      }
     }
   },
   {
     "colander_type": "PHONE",
-    "misp_object": "phone-number",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/phone-number/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "phone-number",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "phone-number",
-      "description": "text",
-      "additional_attributes": {
-        "country_code": "country-code"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
       }
     }
   },
   {
     "colander_type": "URL",
-    "misp_object": "url",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/url/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "url",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "url",
-      "description": "text",
-      "additional_attributes": {
-        "query_string": "query_string",
-        "resource_path": "resource_path",
-        "scheme": "scheme",
-        "domain": "domain"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
       }
     }
   },
   {
     "colander_type": "MD5",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
+    "misp_object": "misp-attribute",
+    "misp_type": "md5",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
       }
-    },
-    "colander_misp_mapping": {}
+    }
   },
   {
     "colander_type": "COMMUNITY_ID",
-    "misp_object": "netflow",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/netflow/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "community-id",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "community-id",
-      "additional_attributes": {
-        "src_ip": "ip-src",
-        "src_port": "src-port",
-        "dst_ip": "ip-dst",
-        "dst_port": "dst-port"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
       }
     }
   },
   {
     "colander_type": "SHA1",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
+    "misp_object": "misp-attribute",
+    "misp_type": "sha1",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
       }
-    },
-    "colander_misp_mapping": {}
+    }
   },
   {
     "colander_type": "SHA256",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
+    "misp_object": "misp-attribute",
+    "misp_type": "sha256",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
       }
-    },
-    "colander_misp_mapping": {}
+    }
   },
   {
     "colander_type": "IMPHASH",
-    "misp_object": "file",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/pe/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "imphash",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "imphash": "name",
-      "description": "text",
-      "additional_attributes": {
-        "pehash": "pehash",
-        "impfuzzy": "impfuzzy"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
       }
     }
   },
   {
     "colander_type": "PATH",
-    "misp_object": "directory",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/directory/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "filename",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "path"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
+      }
     }
   },
   {
     "colander_type": "MUTEX",
-    "misp_object": "mutex",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/mutex/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "mutex",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "name",
-      "description": "description"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Other"
+      }
     }
   },
   {
@@ -238,32 +221,29 @@
     },
     "colander_misp_mapping": {
       "name": "serial-number",
-      "additional_attributes": {
-        "subject": "subject",
-        "issuer": "issuer",
-        "not_before": "validity-not-before",
-        "not_after": "validity-not-after",
-        "md5": "x509-fingerprint-md5",
-        "sha1": "x509-fingerprint-sha1",
-        "sha256": "x509-fingerprint-sha256"
+      "description": "text",
+      "subject": "subject",
+      "issuer": "issuer",
+      "attributes.not_before": "validity-not-before",
+      "attributes.not_after": "validity-not-after",
+      "misp_attributes": {
+        "attributes.md5": "x509-fingerprint-md5",
+        "attributes.sha1": "x509-fingerprint-sha1",
+        "attributes.sha256": "x509-fingerprint-sha256"
       }
     }
   },
   {
     "colander_type": "ASN",
-    "misp_object": "asn",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/asn/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_object": "misp-attribute",
+    "misp_type": "AS",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "asn",
-      "description": "description",
-      "additional_attributes": {
-        "organization": "organization"
+      "name": "value",
+      "description": "comment",
+      "literals": {
+        "category": "Network activity"
       }
     }
   },
@@ -272,40 +252,18 @@
     "misp_object": "process",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/process/definition.json",
     "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
+      "discriminator": {}
     },
     "colander_misp_mapping": {
-      "name": "name",
-      "description": "comment",
-      "additional_attributes": {
-        "executable" : "image"
-      }
+      "name": "name"
     }
-  },
-  {
-    "colander_type": "SERVICE",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
   },
   {
     "colander_type": "LOCATION",
     "misp_object": "geolocation",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/geolocation/definition.json",
     "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
+      "discriminator": {}
     },
     "colander_misp_mapping": {
       "name": "text",

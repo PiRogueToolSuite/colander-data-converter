@@ -15,10 +15,10 @@
       "literals": {
         "device-type": "Server"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -38,10 +38,10 @@
       "literals": {
         "device-type": "Laptop"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -61,10 +61,10 @@
       "literals": {
         "device-type": "PC"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -84,10 +84,10 @@
       "literals": {
         "device-type": "Mobile"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -107,10 +107,10 @@
       "literals": {
         "device-type": "IoT"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -130,10 +130,10 @@
       "literals": {
         "device-type": "Router"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   },
@@ -153,10 +153,10 @@
       "literals": {
         "device-type": "Other"
       },
-      "additional_attributes": {
-        "ip": "ip-address",
-        "os": "OS",
-        "mac_address": "mac-address"
+      "misp_attributes": {
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
       }
     }
   }

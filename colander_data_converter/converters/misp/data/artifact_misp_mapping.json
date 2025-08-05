@@ -1,0 +1,195 @@
+[
+  {
+    "colander_type": "ARCHIVE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "EMAIL",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "DOCUMENT",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "IMAGE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "VIDEO",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "AUDIO",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "PCAP",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "GENERIC",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "text",
+      "misp_attributes": {
+        "name": "filename",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "REPORT",
+    "misp_object": "report",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/report/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "title",
+      "misp_attributes": {
+        "source_url": "link"
+      }
+    }
+  }
+]
