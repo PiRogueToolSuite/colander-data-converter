@@ -1,0 +1,163 @@
+[
+  {
+    "colander_type": "SERVER",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "Server"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "LAPTOP",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "Laptop"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "DESKTOP",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "PC"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "MOBILE",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "Mobile"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "IOT",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "IoT"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "ROUTER",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "Router"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "GENERIC",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "name",
+      "description": "description",
+      "literals": {
+        "device-type": "Other"
+      },
+      "additional_attributes": {
+        "ip": "ip-address",
+        "os": "OS",
+        "mac_address": "mac-address"
+      }
+    }
+  }
+]
