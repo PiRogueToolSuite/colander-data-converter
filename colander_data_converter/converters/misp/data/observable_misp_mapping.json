@@ -65,18 +65,6 @@
     }
   },
   {
-    "colander_type": "DOMAIN_REGISTRAR",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
-  },
-  {
     "colander_type": "EMAIL",
     "misp_object": "email",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/email/definition.json",
@@ -143,6 +131,26 @@
     "colander_misp_mapping": {}
   },
   {
+    "colander_type": "COMMUNITY_ID",
+    "misp_object": "netflow",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/netflow/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "",
+        "field": ""
+      }
+    },
+    "colander_misp_mapping": {
+      "name": "community-id",
+      "additional_attributes": {
+        "src_ip": "ip-src",
+        "src_port": "src-port",
+        "dst_ip": "ip-dst",
+        "dst_port": "dst-port"
+      }
+    }
+  },
+  {
     "colander_type": "SHA1",
     "misp_object": "",
     "misp_definition": "",
@@ -156,18 +164,6 @@
   },
   {
     "colander_type": "SHA256",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
-  },
-  {
-    "colander_type": "PEHASH",
     "misp_object": "",
     "misp_definition": "",
     "misp_colander_mapping": {
@@ -196,18 +192,6 @@
         "impfuzzy": "impfuzzy"
       }
     }
-  },
-  {
-    "colander_type": "CIDR",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
   },
   {
     "colander_type": "PATH",
@@ -239,18 +223,6 @@
     }
   },
   {
-    "colander_type": "CVE",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
-  },
-  {
     "colander_type": "SSL_CERT_F",
     "misp_object": "x509",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/x509/definition.json",
@@ -276,18 +248,6 @@
         "sha256": "x509-fingerprint-sha256"
       }
     }
-  },
-  {
-    "colander_type": "DNS_RECORD",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
   },
   {
     "colander_type": "ASN",
@@ -357,17 +317,5 @@
       "attributes.region": "state",
       "attributes.city": "city"
     }
-  },
-  {
-    "colander_type": "GENERIC",
-    "misp_object": "",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
-    "colander_misp_mapping": {}
   }
 ]

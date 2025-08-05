@@ -168,7 +168,12 @@
     "short_name": "COMMUNITY_ID",
     "name": "Community id",
     "description": "A hash value used to uniquely identify network flows across tools.",
-    "default_attributes": {},
+    "default_attributes": {
+      "src_ip": "",
+      "src_port": "",
+      "dst_ip": "",
+      "dst_port": ""
+    },
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
     "regex": ""
@@ -289,7 +294,18 @@
     "name": "DNS record",
     "description": "A record containing information about a domain name in the DNS system.",
     "default_attributes": {
-      "resolver": ""
+      "resolver": "",
+      "domain": "",
+      "a": "",
+      "aaaa": "",
+      "cname": "",
+      "mx": "",
+      "ns": "",
+      "ptr": "",
+      "soa": "",
+      "spf": "",
+      "srv": "",
+      "txt": ""
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
