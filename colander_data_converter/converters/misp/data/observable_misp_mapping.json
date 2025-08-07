@@ -206,34 +206,6 @@
     }
   },
   {
-    "colander_type": "SSL_CERT_F",
-    "misp_object": "x509",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/x509/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field_one_of",
-        "field": "",
-        "field_one_of": [
-          "dns_names",
-          "ip"
-        ]
-      }
-    },
-    "colander_misp_mapping": {
-      "name": "serial-number",
-      "description": "text",
-      "subject": "subject",
-      "issuer": "issuer",
-      "attributes.not_before": "validity-not-before",
-      "attributes.not_after": "validity-not-after",
-      "misp_attributes": {
-        "attributes.md5": "x509-fingerprint-md5",
-        "attributes.sha1": "x509-fingerprint-sha1",
-        "attributes.sha256": "x509-fingerprint-sha256"
-      }
-    }
-  },
-  {
     "colander_type": "ASN",
     "misp_object": "misp-attribute",
     "misp_type": "AS",
@@ -245,35 +217,6 @@
       "literals": {
         "category": "Network activity"
       }
-    }
-  },
-  {
-    "colander_type": "PROCESS",
-    "misp_object": "process",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/process/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {}
-    },
-    "colander_misp_mapping": {
-      "name": "name"
-    }
-  },
-  {
-    "colander_type": "LOCATION",
-    "misp_object": "geolocation",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/geolocation/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {}
-    },
-    "colander_misp_mapping": {
-      "name": "text",
-      "attributes.address": "address",
-      "attributes.latitude": "latitude",
-      "attributes.longitude": "longitude",
-      "attributes.altitude": "altitude",
-      "attributes.country": "country",
-      "attributes.region": "state",
-      "attributes.city": "city"
     }
   }
 ]

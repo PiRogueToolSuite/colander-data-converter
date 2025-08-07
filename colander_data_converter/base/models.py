@@ -1275,7 +1275,7 @@ class CommonEntitySuperTypes(enum.Enum):
         types=[t for t in ArtifactTypes],
     )
     DATA_FRAGMENT = CommonEntitySuperType(
-        short_name="DATA_FRAGMENT",
+        short_name="DATAFRAGMENT",
         name="Data fragment",
         model_class=DataFragment,
         type_class=DataFragmentType,
@@ -1283,7 +1283,7 @@ class CommonEntitySuperTypes(enum.Enum):
         types=[t for t in DataFragmentTypes],
     )
     DETECTION_RULE = CommonEntitySuperType(
-        short_name="DETECTION_RULE",
+        short_name="DETECTIONRULE",
         name="Detection rule",
         model_class=DetectionRule,
         type_class=DetectionRuleType,

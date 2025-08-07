@@ -57,6 +57,7 @@ class Mapping(object):
     TYPES = [
         (CommonEntitySuperTypes.ARTIFACT.value, "artifact"),
         (CommonEntitySuperTypes.DEVICE.value, "device"),
+        (CommonEntitySuperTypes.DETECTION_RULE.value, "detection_rule"),
         (CommonEntitySuperTypes.OBSERVABLE.value, "observable"),
     ]
 

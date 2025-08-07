@@ -186,8 +186,8 @@
       }
     },
     "colander_misp_mapping": {
-      "name": "title",
       "misp_attributes": {
+        "name": "title",
         "source_url": "link"
       }
     }
