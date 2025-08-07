@@ -57,7 +57,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     color: #5e596c;
     font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
     font-size: 70%;
-    padding: 2px 3px 2px 3px;
+    padding: 2px 4px 2px 4px;
     border: 1px solid #c9c6cc;
     border-radius: 4px;
     background-color: #ede7f7;
@@ -67,7 +67,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     color: #8c54d8;
     font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
     font-size: 75%;
-    padding: 2px 3px 2px 0;
+    padding: 2px 4px 2px 0;
     border: 1px solid #a88dce;
     border-radius: 4px;
     background-color: #ede7f7;
@@ -75,7 +75,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .colandertype .prefix {
     color: #d8d1e3;
-    padding: 2px 4px 2px 2px;
+    padding: 2px 4px 2px 4px;
     margin-right: 4px;
     background-color: #8c54d8;
 }
@@ -84,7 +84,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     color: #cf7f11;
     font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
     font-size: 75%;
-    padding: 2px 3px 2px 0;
+    padding: 2px 4px 2px 0;
     border: 1px solid #cf7f11;
     border-radius: 4px;
     background-color: #e3dbd1;
@@ -92,7 +92,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .othertype .prefix {
     color: #e3dbd1;
-    padding: 2px 4px 2px 2px;
+    padding: 2px 4px 2px 4px;
     margin-right: 4px;
     background-color: #cf7f11;
 }

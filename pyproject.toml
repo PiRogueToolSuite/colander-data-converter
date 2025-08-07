@@ -24,6 +24,7 @@ dynamic = [ "version" ]
 dependencies = [
   "jinja2==3.1.6",
   "pydantic==2.11.7",
+  "pymisp>=2.5.17",
 ]
 
 urls.discord = "https://discord.gg/qGX73GYNdp"
