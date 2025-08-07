@@ -16,6 +16,9 @@ Colander
 .. toctree::
    :maxdepth: 1
 
+Hi :colandertype:`Foobar: Top` top.
+Hi :othertype:`misp:file` top.
+
 This documentation page provides an overview of the different **Colander data types** - the core entity categories and
 their specifications within the Colander threat intelligence data model.
 
@@ -129,6 +132,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/artifact_types.json
    :template: colander-type.tmpl
+   :data_type: artifact
 
 .. _data_fragment_types:
 
@@ -154,6 +158,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/data_fragment_types.json
    :template: colander-type.tmpl
+   :data_type: data_fragment
 
 .. _detection_rule_types:
 
@@ -179,6 +184,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/detection_rule_types.json
    :template: colander-type.tmpl
+   :data_type: detection_rule
 
 .. _device_types:
 
@@ -203,6 +209,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/device_types.json
    :template: colander-type.tmpl
+   :data_type: device
 
 .. _event_types:
 
@@ -236,6 +243,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/event_types.json
    :template: colander-type.tmpl
+   :data_type: event
 
 .. _observable_types:
 
@@ -265,6 +273,7 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/observable_types.json
    :template: colander-type.tmpl
+   :data_type: observable
 
 .. _threat_types:
 
@@ -288,3 +297,4 @@ Top-level structure:
 
 .. datatemplate:json:: ../../colander_data_converter/data/types/threat_types.json
    :template: colander-type.tmpl
+   :data_type: threat

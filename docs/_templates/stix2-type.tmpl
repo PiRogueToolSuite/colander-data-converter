@@ -22,9 +22,7 @@ Types conversion
 
 {% with d=data.get(options.data_type) %}
     {% for type, definition in d.types.items() %}
-* ``{{type|upper}}``:
-
-  * STIX2 type: ``{{definition.stix2_type}}``
+* :colandertype:`colander:{{type|upper}}` mapped on :othertype:`stix2:{{definition.stix2_type}}`
   {% if definition.pattern %}
   * STIX2 pattern: ``{{definition.pattern}}``
   {% endif %}

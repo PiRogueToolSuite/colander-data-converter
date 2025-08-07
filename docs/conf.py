@@ -5,7 +5,8 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.append(str(Path("_ext").resolve()))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -29,6 +30,7 @@ autodoc_pydantic_field_show_required = True
 autodoc_pydantic_model_member_order = "bysource"
 
 extensions = [
+    "colander",
     "myst_parser",
     "sphinx_toolbox.collapse",
     "sphinx_toolbox.formatting",

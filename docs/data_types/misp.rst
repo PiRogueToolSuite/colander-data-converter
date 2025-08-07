@@ -14,6 +14,7 @@ We welcome contributions to expand MISP_ support! Don't hesitate to submit pull 
 
 Artifacts
 ---------
+Check :ref:`the list of supported types <artifact_types>`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/artifact_misp_mapping.json
    :template: misp-type.tmpl
@@ -21,6 +22,7 @@ Artifacts
 
 Devices
 -------
+Check :ref:`the list of supported types <device_types>`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/device_misp_mapping.json
    :template: misp-type.tmpl
@@ -28,6 +30,7 @@ Devices
 
 Observables
 -----------
+Check :ref:`the list of supported types <observable_types>`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/observable_misp_mapping.json
    :template: misp-type.tmpl

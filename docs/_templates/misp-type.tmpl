@@ -2,19 +2,25 @@
 
 
 {% for definition in data %}
-* ``{{definition.colander_type|upper}}`` - **MISP type**: :guilabel:`{{definition.misp_object}}{% if definition.misp_type %}: {{definition.misp_type}}{% endif %}`
+
+{% if definition.misp_type %}
+* :colandertype:`colander:{{definition.colander_type|upper}}` mapped on :othertype:`{{definition.misp_object}}:{{definition.misp_type}}:`
+{% else %}
+* :colandertype:`colander:{{definition.colander_type|upper}}` mapped on :othertype:`misp-object:{{definition.misp_object}}`
+{% endif %}
+
   {% for key, value in definition.colander_misp_mapping.items() %}
   {% if key == "literals" %}
     {% for src, dst in value.items() %}
-  * :py:obj:`{{src}}` = "*{{dst}}*"
+  * "*{{dst}}*" ↦ :textmono:`{{src}}`
     {% endfor %}
   {% elif key == "misp_attributes" %}
-  * MISP object attributes:
+  * Object attributes:
     {% for src, dst in value.items() %}
-    * :py:obj:`{{options.data_type}}.{{src}}` ↦ :py:obj:`{{dst}}`
+    * :textmono:`{{options.data_type}}.{{src}}` ↦ :textmono:`{{dst}}`
     {% endfor %}
   {% else %}
-  * :py:obj:`{{options.data_type}}.{{key}}` ↦ :py:obj:`{{value}}`
+  * :textmono:`{{options.data_type}}.{{key}}` ↦ :textmono:`{{value}}`
   {% endif %}
   {% endfor %}
 {% endfor %}
