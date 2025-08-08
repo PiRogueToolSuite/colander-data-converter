@@ -1,94 +1,50 @@
 [
   {
+    "colander_type": "ANDROID_BACKUP",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "ANDROID_SAMPLE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
     "colander_type": "ARCHIVE",
-    "misp_object": "file",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "mimetype"
-      }
-    },
-    "colander_misp_mapping": {
-      "misp_attributes": {
-        "name": "filename",
-        "description": "text",
-        "mime_type": "mimetype",
-        "size_in_bytes": "size-in-bytes",
-        "md5": "md5",
-        "sha1": "sha1",
-        "sha256": "sha256"
-      }
-    }
-  },
-  {
-    "colander_type": "EMAIL",
-    "misp_object": "file",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "mimetype"
-      }
-    },
-    "colander_misp_mapping": {
-      "misp_attributes": {
-        "name": "filename",
-        "description": "text",
-        "mime_type": "mimetype",
-        "size_in_bytes": "size-in-bytes",
-        "md5": "md5",
-        "sha1": "sha1",
-        "sha256": "sha256"
-      }
-    }
-  },
-  {
-    "colander_type": "DOCUMENT",
-    "misp_object": "file",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "mimetype"
-      }
-    },
-    "colander_misp_mapping": {
-      "misp_attributes": {
-        "name": "filename",
-        "description": "text",
-        "mime_type": "mimetype",
-        "size_in_bytes": "size-in-bytes",
-        "md5": "md5",
-        "sha1": "sha1",
-        "sha256": "sha256"
-      }
-    }
-  },
-  {
-    "colander_type": "IMAGE",
-    "misp_object": "file",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "mimetype"
-      }
-    },
-    "colander_misp_mapping": {
-      "misp_attributes": {
-        "name": "filename",
-        "description": "text",
-        "mime_type": "mimetype",
-        "size_in_bytes": "size-in-bytes",
-        "md5": "md5",
-        "sha1": "sha1",
-        "sha256": "sha256"
-      }
-    }
-  },
-  {
-    "colander_type": "VIDEO",
     "misp_object": "file",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
@@ -132,7 +88,117 @@
     }
   },
   {
-    "colander_type": "PCAP",
+    "colander_type": "BACKUP",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "BINARY",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "CRYPTO_T",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "DOCUMENT",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "EMAIL",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "F_DUMP",
     "misp_object": "file",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
@@ -176,6 +242,138 @@
     }
   },
   {
+    "colander_type": "HAR",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "IMAGE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "IOS_BACKUP",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "IOS_SAMPLE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "JSON",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "PCAP",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
     "colander_type": "REPORT",
     "misp_object": "report",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/report/definition.json",
@@ -189,6 +387,160 @@
       "misp_attributes": {
         "name": "title",
         "source_url": "link"
+      }
+    }
+  },
+  {
+    "colander_type": "SAMPLE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "SOCIAL_POST",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "SOCKET_T",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "SSLKEYLOG",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "TEXT",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "VIDEO",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
+      }
+    }
+  },
+  {
+    "colander_type": "WEBPAGE",
+    "misp_object": "file",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "mimetype"
+      }
+    },
+    "colander_misp_mapping": {
+      "misp_attributes": {
+        "name": "filename",
+        "description": "text",
+        "mime_type": "mimetype",
+        "size_in_bytes": "size-in-bytes",
+        "md5": "md5",
+        "sha1": "sha1",
+        "sha256": "sha256"
       }
     }
   }

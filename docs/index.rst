@@ -7,6 +7,7 @@
    :hidden:
    :caption: Data manipulation
 
+   data_types/conversion_matrix
    load_save_data
    convert_data
    export_data
@@ -21,7 +22,6 @@
    data_types/threatr
    data_types/misp
    data_types/stix2
-   data_types/conversion_matrix
 
 .. toctree::
    :hidden:

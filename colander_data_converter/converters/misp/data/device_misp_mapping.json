@@ -1,51 +1,5 @@
 [
   {
-    "colander_type": "SERVER",
-    "misp_object": "device",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "device-type"
-      }
-    },
-    "colander_misp_mapping": {
-      "literals": {
-        "device-type": "Server"
-      },
-      "misp_attributes": {
-        "name": "name",
-        "description": "description",
-        "attributes.ip": "ip-address",
-        "attributes.os": "OS",
-        "attributes.mac_address": "mac-address"
-      }
-    }
-  },
-  {
-    "colander_type": "LAPTOP",
-    "misp_object": "device",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "device-type"
-      }
-    },
-    "colander_misp_mapping": {
-      "literals": {
-        "device-type": "Laptop"
-      },
-      "misp_attributes": {
-        "name": "name",
-        "description": "description",
-        "attributes.ip": "ip-address",
-        "attributes.os": "OS",
-        "attributes.mac_address": "mac-address"
-      }
-    }
-  },
-  {
     "colander_type": "DESKTOP",
     "misp_object": "device",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
@@ -69,7 +23,7 @@
     }
   },
   {
-    "colander_type": "MOBILE",
+    "colander_type": "GENERIC",
     "misp_object": "device",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
     "misp_colander_mapping": {
@@ -80,7 +34,7 @@
     },
     "colander_misp_mapping": {
       "literals": {
-        "device-type": "Mobile"
+        "device-type": "Other"
       },
       "misp_attributes": {
         "name": "name",
@@ -115,6 +69,52 @@
     }
   },
   {
+    "colander_type": "LAPTOP",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "literals": {
+        "device-type": "Laptop"
+      },
+      "misp_attributes": {
+        "name": "name",
+        "description": "description",
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
+      }
+    }
+  },
+  {
+    "colander_type": "MOBILE",
+    "misp_object": "device",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "device-type"
+      }
+    },
+    "colander_misp_mapping": {
+      "literals": {
+        "device-type": "Mobile"
+      },
+      "misp_attributes": {
+        "name": "name",
+        "description": "description",
+        "attributes.ip": "ip-address",
+        "attributes.os": "OS",
+        "attributes.mac_address": "mac-address"
+      }
+    }
+  },
+  {
     "colander_type": "ROUTER",
     "misp_object": "device",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
@@ -138,7 +138,7 @@
     }
   },
   {
-    "colander_type": "GENERIC",
+    "colander_type": "SERVER",
     "misp_object": "device",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/device/definition.json",
     "misp_colander_mapping": {
@@ -149,7 +149,7 @@
     },
     "colander_misp_mapping": {
       "literals": {
-        "device-type": "Other"
+        "device-type": "Server"
       },
       "misp_attributes": {
         "name": "name",

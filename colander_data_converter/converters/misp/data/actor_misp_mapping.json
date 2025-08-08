@@ -1,26 +1,5 @@
 [
   {
-    "colander_type": "NGO",
-    "misp_object": "organization",
-    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/organization/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "sector"
-      }
-    },
-    "colander_misp_mapping": {
-      "description": "description",
-      "literals": {
-        "sector": "non-profit",
-        "type-of-organization": "non-governmental organization"
-      },
-      "misp_attributes": {
-        "name": "name"
-      }
-    }
-  },
-  {
     "colander_type": "APT",
     "misp_object": "organization",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/organization/definition.json",
@@ -63,7 +42,7 @@
     }
   },
   {
-    "colander_type": "INDIVIDUAL",
+    "colander_type": "CYBER_CRIMINAL",
     "misp_object": "person",
     "misp_definition": "",
     "misp_colander_mapping": {
@@ -74,11 +53,33 @@
     },
     "colander_misp_mapping": {
       "literals": {
-        "function": "individual"
+        "function": "cybercriminal",
+        "role": "Suspect"
       },
       "misp_attributes": {
         "name": "full-name",
-      "description": "text"
+        "description": "text"
+      }
+    }
+  },
+  {
+    "colander_type": "GENERIC",
+    "misp_object": "organization",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "sector"
+      }
+    },
+    "colander_misp_mapping": {
+      "literals": {
+        "sector": "other",
+        "type-of-organization": "unknown type of organization"
+      },
+      "misp_attributes": {
+        "name": "name",
+        "description": "description"
       }
     }
   },
@@ -98,12 +99,12 @@
       },
       "misp_attributes": {
         "name": "full-name",
-      "description": "text"
+        "description": "text"
       }
     }
   },
   {
-    "colander_type": "CYBER_CRIMINAL",
+    "colander_type": "INDIVIDUAL",
     "misp_object": "person",
     "misp_definition": "",
     "misp_colander_mapping": {
@@ -114,33 +115,11 @@
     },
     "colander_misp_mapping": {
       "literals": {
-        "function": "cybercriminal",
-        "role": "Suspect"
+        "function": "individual"
       },
       "misp_attributes": {
         "name": "full-name",
-      "description": "text"
-      }
-    }
-  },
-  {
-    "colander_type": "THREAT_ACTOR",
-    "misp_object": "person",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "function"
-      }
-    },
-    "colander_misp_mapping": {
-      "literals": {
-        "function": "unknown type of threat actor",
-        "role": "Suspect"
-      },
-      "misp_attributes": {
-        "name": "full-name",
-      "description": "text"
+        "description": "text"
       }
     }
   },
@@ -161,28 +140,7 @@
       },
       "misp_attributes": {
         "name": "full-name",
-      "description": "text"
-      }
-    }
-  },
-  {
-    "colander_type": "PUB_INST",
-    "misp_object": "organization",
-    "misp_definition": "",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "field",
-        "field": "sector"
-      }
-    },
-    "colander_misp_mapping": {
-      "literals": {
-        "sector": "government",
-        "type-of-organization": "public institution"
-      },
-      "misp_attributes": {
-        "description": "description",
-        "name": "name"
+        "description": "text"
       }
     }
   },
@@ -208,7 +166,28 @@
     }
   },
   {
-    "colander_type": "GENERIC",
+    "colander_type": "NGO",
+    "misp_object": "organization",
+    "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/organization/definition.json",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "sector"
+      }
+    },
+    "colander_misp_mapping": {
+      "description": "description",
+      "literals": {
+        "sector": "non-profit",
+        "type-of-organization": "non-governmental organization"
+      },
+      "misp_attributes": {
+        "name": "name"
+      }
+    }
+  },
+  {
+    "colander_type": "PUB_INST",
     "misp_object": "organization",
     "misp_definition": "",
     "misp_colander_mapping": {
@@ -219,12 +198,33 @@
     },
     "colander_misp_mapping": {
       "literals": {
-        "sector": "other",
-        "type-of-organization": "unknown type of organization"
+        "sector": "government",
+        "type-of-organization": "public institution"
       },
       "misp_attributes": {
-        "name": "name",
-        "description": "description"
+        "description": "description",
+        "name": "name"
+      }
+    }
+  },
+  {
+    "colander_type": "THREAT_ACTOR",
+    "misp_object": "person",
+    "misp_definition": "",
+    "misp_colander_mapping": {
+      "discriminator": {
+        "type": "field",
+        "field": "function"
+      }
+    },
+    "colander_misp_mapping": {
+      "literals": {
+        "function": "unknown type of threat actor",
+        "role": "Suspect"
+      },
+      "misp_attributes": {
+        "name": "full-name",
+        "description": "text"
       }
     }
   }
