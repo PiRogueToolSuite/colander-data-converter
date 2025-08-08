@@ -1,6 +1,10 @@
+import json
 import unittest
+from importlib import resources
 
-from colander_data_converter.base.models import Observable, Artifact, DetectionRule, Device, Actor
+from pymisp import MISPOrganisation
+
+from colander_data_converter.base.models import Observable, Artifact, DetectionRule, Device, Actor, ColanderFeed, Case
 from colander_data_converter.base.types.actor import ActorTypes
 from colander_data_converter.base.types.artifact import ArtifactTypes
 from colander_data_converter.base.types.detection_rule import DetectionRuleTypes
@@ -115,3 +119,25 @@ class TestColanderMapping(unittest.TestCase):
             self.assertIsNotNone(misp_obj)
             j = misp_obj.to_json()
             print(j)
+
+    def test_case_conversion(self):
+        mapper = ColanderToMISPMapper()
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+            feed = ColanderFeed.load(raw)
+        case = Case(name="Test case", description="Test case description")
+        misp_event = mapper.convert_case(case, feed)
+        org = MISPOrganisation()
+        org.from_dict(
+            **{
+                "name": "TestLab",
+                "uuid": "068d1297-444d-4f8c-a299-a496509920c8",
+            }
+        )
+        misp_event.orgc = org
+        j = misp_event.to_json()
+        misp_feed = misp_event.to_feed()
+        j = json.dumps(misp_feed)
+        print(j)

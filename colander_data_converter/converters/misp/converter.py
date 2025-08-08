@@ -1,9 +1,9 @@
 from typing import Optional
 
-from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute
+from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute, MISPEvent
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import Observable, EntityTypes
+from colander_data_converter.base.models import Observable, EntityTypes, Case, ColanderFeed
 from colander_data_converter.converters.misp.models import Mapping, EntityTypeMapping
 from colander_data_converter.converters.stix2.utils import get_nested_value
 
@@ -95,7 +95,7 @@ class ColanderToMISPMapper(MISPMapper):
 
         # Set constant/literal values on the MISP object
         for target_field, value in entity_type_mapping.get_colander_misp_literals_mapping():
-            if target_field in ["category"]:
+            if target_field in ["category", "comment"]:
                 setattr(misp_object, target_field, value)
             else:
                 misp_object.add_attribute(target_field, value=value)
@@ -129,3 +129,19 @@ class ColanderToMISPMapper(MISPMapper):
             Optional[AbstractMISP]: The converted MISP object, or None if conversion fails
         """
         return self.convert_colander_object(colander_object)
+
+    def convert_case(self, case: Case, feed: ColanderFeed) -> Optional[MISPEvent]:
+        misp_event = MISPEvent()
+        misp_event.uuid = str(case.id)
+        misp_event.info = case.description
+        misp_event.date = case.created_at
+        for entity in feed.entities.values():
+            misp_object = self.convert_observable(entity)
+            if not misp_object:
+                continue
+            if isinstance(misp_object, MISPAttribute):
+                misp_event.add_attribute(**misp_object.to_dict())
+            elif isinstance(misp_object, MISPObject):
+                misp_event.add_object(misp_object)
+
+        return misp_event
