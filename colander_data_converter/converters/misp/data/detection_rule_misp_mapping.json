@@ -5,9 +5,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/yara/definition.json",
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "yara-rule-name",
       "misp_attributes": {
-        "content": "yara"
+        "content": "yara",
+        "name": "yara-rule-name"
       }
     }
   },
@@ -17,9 +17,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/suricata/definition.json",
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
-      "name": "comment",
       "misp_attributes": {
-        "content": "suricata"
+        "content": "suricata",
+        "name": "comment"
       }
     }
   }

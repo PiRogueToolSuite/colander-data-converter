@@ -10,12 +10,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "Server"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -33,12 +33,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "Laptop"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -56,12 +56,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "PC"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -79,12 +79,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "Mobile"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -102,12 +102,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "IoT"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -125,12 +125,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "Router"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"
@@ -148,12 +148,12 @@
       }
     },
     "colander_misp_mapping": {
-      "description": "description",
       "literals": {
         "device-type": "Other"
       },
       "misp_attributes": {
         "name": "name",
+        "description": "description",
         "attributes.ip": "ip-address",
         "attributes.os": "OS",
         "attributes.mac_address": "mac-address"

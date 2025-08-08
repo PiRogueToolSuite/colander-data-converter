@@ -1,0 +1,23 @@
+.. -*- mode: rst -*-
+
+.. toctree::
+   :maxdepth: 1
+
+{% for _, estd in data.items() %}
+{{ estd.super_type.name }}
+---------------------------------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - ID
+     - MISP
+     - STIX2
+{% for _, etd in estd.types.items() %}
+   * - :colandertype:`colander:{{etd.type.short_name|upper}}`
+     - {% if etd.misp.supported %}{% if etd.misp.misp_type %}:othertype:`MISP:{{ etd.misp.misp_type}}`{% else %}:othertype:`MISP:{{ etd.misp.misp_object}}`{% endif %}{% else %}:textmonoborder:`unsupported`{% endif %}
+     - {% if etd.stix2.supported %}:othertype:`STIX2:{{ etd.stix2.stix2_type}}`{% else %}:textmonoborder:`unsupported`{% endif %}
+{% endfor %}
+
+
+{% endfor %}

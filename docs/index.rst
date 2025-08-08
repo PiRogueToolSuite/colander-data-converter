@@ -21,6 +21,7 @@
    data_types/threatr
    data_types/misp
    data_types/stix2
+   data_types/conversion_matrix
 
 .. toctree::
    :hidden:

@@ -81,12 +81,13 @@ class ColanderToMISPMapper(MISPMapper):
         # Set common MISP object properties
         # ToDo: add tag for TLP
         misp_object.uuid = str(colander_object.id)
-        misp_object.timestamp = colander_object.created_at.timestamp()
+        misp_object.first_seen = colander_object.created_at
+        misp_object.last_seen = colander_object.updated_at
 
         # Convert Colander object to dictionary for nested field access
         colander_object_dict = colander_object.model_dump(mode="json")
 
-        # Map direct field mappings from Colander to MISP properties
+        # Map direct field mappings from Colander to MISP object properties
         for source_field, target_field in entity_type_mapping.get_colander_misp_field_mapping():
             value = getattr(colander_object, source_field, None)
             if value is not None:
@@ -94,7 +95,10 @@ class ColanderToMISPMapper(MISPMapper):
 
         # Set constant/literal values on the MISP object
         for target_field, value in entity_type_mapping.get_colander_misp_literals_mapping():
-            setattr(misp_object, target_field, value)
+            if target_field in ["category"]:
+                setattr(misp_object, target_field, value)
+            else:
+                misp_object.add_attribute(target_field, value=value)
 
         # Map Colander fields to MISP object attributes
         for source_field, target_field in entity_type_mapping.get_colander_misp_attributes_mapping():

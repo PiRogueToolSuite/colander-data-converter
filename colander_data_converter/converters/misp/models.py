@@ -3,7 +3,6 @@ from importlib import resources
 from typing import Optional, Dict, Any, Type, List, Tuple
 
 from pydantic import BaseModel, ConfigDict
-from pydantic_core import Url
 from pymisp import MISPObject, AbstractMISP, MISPAttribute
 
 from colander_data_converter.base.models import CommonEntitySuperTypes, CommonEntitySuperType
@@ -17,7 +16,7 @@ class EntityTypeMapping(BaseModel):
     colander_type: str
     misp_object: str
     misp_type: Optional[str] = None
-    misp_definition: Optional[Url] = None
+    misp_definition: Optional[str] = None
     misp_colander_mapping: MispColanderMapping
     colander_misp_mapping: ColanderMispMapping
 
@@ -55,6 +54,7 @@ class EntitySuperTypeMapping(BaseModel):
 
 class Mapping(object):
     TYPES = [
+        (CommonEntitySuperTypes.ACTOR.value, "actor"),
         (CommonEntitySuperTypes.ARTIFACT.value, "artifact"),
         (CommonEntitySuperTypes.DEVICE.value, "device"),
         (CommonEntitySuperTypes.DETECTION_RULE.value, "detection_rule"),

@@ -12,6 +12,16 @@ MISP
 We welcome contributions to expand MISP_ support! Don't hesitate to submit pull requests on GitHub_ ❤️
 
 
+
+Actors
+------
+Actors are converted into MISP objects.
+
+.. datatemplate:json:: ../../colander_data_converter/converters/misp/data/actor_misp_mapping.json
+   :template: misp-type.tmpl
+   :data_type: actor
+
+
 Artifacts
 ---------
 Artifacts are converted into MISP objects of type :textmonoborder:`file`:
