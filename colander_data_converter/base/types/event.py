@@ -155,13 +155,13 @@ class EventTypes(enum.Enum):
     TARGETED_ATTACK = EventType(
         **{
             "short_name": "TARGETED_ATTACK",
-            "name": "Targeted Attack",
+            "name": "Targeted attack",
             "description": "An event representing a focused and intentional attack against a specific entity or asset.",
             "svg_icon": "",
             "nf_icon": "nf-mdi-crosshairs",
         }
     )
-    """Targeted Attack - An event representing a focused and intentional attack against a specific entity or asset."""
+    """Targeted attack - An event representing a focused and intentional attack against a specific entity or asset."""
 
     default = GENERIC  # type: ignore[attr-defined]
 

@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, Union, List, Tuple
 
 from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute, MISPEvent
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import Observable, EntityTypes, Case, ColanderFeed
-from colander_data_converter.converters.misp.models import Mapping, EntityTypeMapping
+from colander_data_converter.base.models import EntityTypes, Case, ColanderFeed, EntityRelation
+from colander_data_converter.converters.misp.models import Mapping, EntityTypeMapping, TagStub
 from colander_data_converter.converters.stix2.utils import get_nested_value
 
 
@@ -43,7 +43,7 @@ class ColanderToMISPMapper(MISPMapper):
     predefined mapping configurations.
     """
 
-    def convert_colander_object(self, colander_object: EntityTypes) -> Optional[AbstractMISP]:
+    def convert_colander_object(self, colander_object: EntityTypes) -> Optional[Union[AbstractMISP, TagStub]]:
         """
         Convert a Colander object to its corresponding MISP representation.
 
@@ -56,7 +56,7 @@ class ColanderToMISPMapper(MISPMapper):
             colander_object (EntityTypes): The Colander object to convert
 
         Returns:
-            Optional[AbstractMISP]: The converted MISP object, or None if no mapping exists
+            Optional[Union[AbstractMISP, TagStub]]: The converted MISP object, or None if no mapping exists
         """
         # Get the mapping configuration for this Colander object type
         entity_type_mapping: EntityTypeMapping = self.mapping.get_mapping(
@@ -75,6 +75,8 @@ class ColanderToMISPMapper(MISPMapper):
             misp_object.type = misp_type
         elif issubclass(misp_model, MISPObject):
             misp_object: MISPObject = misp_model(name=misp_type, strict=True)
+        elif issubclass(misp_model, MISPTag):
+            return TagStub(entity_type_mapping.colander_misp_mapping.get("literals", {}).get("name"))
         else:
             return None
 
@@ -115,33 +117,82 @@ class ColanderToMISPMapper(MISPMapper):
 
         return misp_object
 
-    def convert_observable(self, colander_object: Observable) -> Optional[AbstractMISP]:
-        """
-        Convert a Colander Observable to MISP format.
+    @staticmethod
+    def get_element_from_event(
+        event: MISPEvent, uuid: str, types: List[str]
+    ) -> Tuple[Optional[Union[MISPObject, MISPAttribute]], Optional[str]]:
+        if "object" in types:
+            for obj in event.objects:
+                if hasattr(obj, "uuid") and obj.uuid == uuid:
+                    return obj, "Object"
+        if "attribute" in types:
+            for obj in event.attributes:
+                if hasattr(obj, "uuid") and obj.uuid == uuid:
+                    return obj, "Attribute"
+        return None, None
 
-        This is a convenience method that delegates to convert_colander_object()
-        for Observable-specific conversions.
+    def convert_immutable_relations(self, event: MISPEvent, colander_object: EntityTypes):
+        super_type = colander_object.super_type
+        # Create relationships based on immutable relations
+        for _, relation in colander_object.get_immutable_relations().items():
+            reference_name = relation.name
+            relation_mapping = self.mapping.get_relation_mapping(super_type, reference_name)
 
-        Args:
-            colander_object (Observable): The Colander Observable to convert
+            if not relation_mapping:
+                continue
 
-        Returns:
-            Optional[AbstractMISP]: The converted MISP object, or None if conversion fails
-        """
-        return self.convert_colander_object(colander_object)
+            reverse = relation_mapping.get("reverse", False)
+            source_id = str(relation.obj_from.id) if not reverse else str(relation.obj_to.id)
+            target_id = str(relation.obj_to.id) if not reverse else str(relation.obj_from.id)
+            relation_name = relation_mapping.get("name", reference_name.replace("_", "-"))
 
-    def convert_case(self, case: Case, feed: ColanderFeed) -> Optional[MISPEvent]:
+            # Tags only on MISPAttribute or MISPEvent
+            if relation_mapping.get("use_tag", False):
+                source_object, _ = self.get_element_from_event(event, source_id, types=["attribute"])
+                if reverse:
+                    tag = self.convert_colander_object(relation.obj_from)
+                else:
+                    tag = self.convert_colander_object(relation.obj_to)
+                if source_object and isinstance(tag, TagStub):
+                    event.add_attribute_tag(tag, source_id)
+            # Regular immutable relation between a MISPObject and another MISPObject or MISPAttribute
+            else:
+                source_object, _ = self.get_element_from_event(event, source_id, types=["object"])
+                target_object, type_name = self.get_element_from_event(event, target_id, types=["object", "attribute"])
+                if source_object and target_object:
+                    source_object.add_relationship(type_name, target_id, relation_name)
+
+    def convert_relations(self, event: MISPEvent, colander_relations: List[EntityRelation]):
+        for relation in colander_relations:
+            source_id = str(relation.obj_from.id)
+            target_id = str(relation.obj_to.id)
+            source_object, _ = self.get_element_from_event(event, source_id, types=["object"])
+            target_object, type_name = self.get_element_from_event(event, target_id, types=["object", "attribute"])
+            if source_object and target_object:
+                source_object.add_relationship(type_name, target_id, relation.name)
+
+    def convert_case(self, case: Case, feed: ColanderFeed) -> Tuple[Optional[MISPEvent], List[EntityTypes]]:
+        skipped = []
         misp_event = MISPEvent()
         misp_event.uuid = str(case.id)
         misp_event.info = case.description
         misp_event.date = case.created_at
         for entity in feed.entities.values():
-            misp_object = self.convert_observable(entity)
+            misp_object = self.convert_colander_object(entity)
             if not misp_object:
+                skipped.append(entity)
                 continue
             if isinstance(misp_object, MISPAttribute):
                 misp_event.add_attribute(**misp_object.to_dict())
             elif isinstance(misp_object, MISPObject):
                 misp_event.add_object(misp_object)
 
-        return misp_event
+        # Immutable relations
+        for entity in feed.entities.values():
+            self.convert_immutable_relations(misp_event, entity)
+
+        # Regular relations
+        for entity in feed.entities.values():
+            self.convert_relations(misp_event, list(feed.get_outgoing_relations(entity).values()))
+
+        return misp_event, skipped

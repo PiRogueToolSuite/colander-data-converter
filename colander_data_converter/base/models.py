@@ -412,7 +412,7 @@ class Entity(ColanderType, abc.ABC):
 
             # Handle single ObjectReference
             if ObjectReference in field_annotation:
-                relation_name = name_mapping.get(field_name, default_name or field_name.replace("_", " "))
+                relation_name = name_mapping.get(field_name, default_name or field_name)
                 relation = EntityRelation(
                     name=relation_name,
                     obj_from=self,
@@ -423,7 +423,7 @@ class Entity(ColanderType, abc.ABC):
             # Handle List[ObjectReference]
             elif List[ObjectReference] in field_annotation:
                 for object_reference in field_value:
-                    relation_name = name_mapping.get(field_name, default_name or field_name.replace("_", " "))
+                    relation_name = name_mapping.get(field_name, default_name or field_name)
                     relation = EntityRelation(
                         name=relation_name,
                         obj_from=self,
@@ -1073,6 +1073,13 @@ class ColanderFeed(ColanderType):
             return self.cases.get(object_id)
 
         return None
+
+    def get_by_super_type(self, super_type: "CommonEntitySuperType") -> List[EntityTypes]:
+        entities = []
+        for _, entity in self.entities.items():
+            if isinstance(entity, super_type.model_class):
+                entities.append(entity)
+        return entities
 
     def get_incoming_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
         """Retrieve all relations where the specified entity is the target (obj_to).

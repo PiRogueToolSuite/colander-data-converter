@@ -16,7 +16,7 @@ class DataFragmentType(CommonEntityType):
     Example:
         >>> data_fragment_type = DataFragmentTypes.CODE.value
         >>> print(data_fragment_type.name)
-        Piece of code
+        Snippet of code
     """
 
     @field_validator("short_name", mode="before")
@@ -37,7 +37,7 @@ class DataFragmentTypes(enum.Enum):
     Example:
         >>> data_fragment_type = DataFragmentTypes.CODE.value
         >>> print(data_fragment_type.name)
-        Piece of code
+        Snippet of code
         >>> default_type = DataFragmentTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
         Generic
@@ -46,13 +46,13 @@ class DataFragmentTypes(enum.Enum):
     CODE = DataFragmentType(
         **{
             "short_name": "CODE",
-            "name": "Piece of code",
+            "name": "Snippet of code",
             "description": "A snippet or segment of source code from any programming language.",
             "svg_icon": "",
             "nf_icon": "nf-md-code_braces",
         }
     )
-    """Piece of code - A snippet or segment of source code from any programming language."""
+    """Snippet of code - A snippet or segment of source code from any programming language."""
 
     GENERIC = DataFragmentType(
         **{
@@ -68,24 +68,24 @@ class DataFragmentTypes(enum.Enum):
     PATTERN = DataFragmentType(
         **{
             "short_name": "PATTERN",
-            "name": "Pattern",
+            "name": "Matching pattern",
             "description": "A recognizable sequence or structure, such as a regular expression or YARA rule.",
             "svg_icon": "",
             "nf_icon": "nf-fa-puzzle_piece",
         }
     )
-    """Pattern - A recognizable sequence or structure, such as a regular expression or YARA rule."""
+    """Matching pattern - A recognizable sequence or structure, such as a regular expression or YARA rule."""
 
     PAYLOAD = DataFragmentType(
         **{
             "short_name": "PAYLOAD",
-            "name": "Raw payload",
-            "description": "A block of raw binary or encoded data.",
+            "name": "Encoded payload",
+            "description": "A block of encoded data.",
             "svg_icon": "",
             "nf_icon": "nf-oct-file_binary",
         }
     )
-    """Raw payload - A block of raw binary or encoded data."""
+    """Encoded payload - A block of encoded data."""
 
     TEXT = DataFragmentType(
         **{

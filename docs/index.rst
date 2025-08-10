@@ -28,5 +28,5 @@
    :caption: API reference
 
    source/colander_data_converter.base
-   source/colander_data_converter.exporters
    source/colander_data_converter.converters
+   source/colander_data_converter.exporters

@@ -71,7 +71,7 @@
   },
   {
     "short_name": "TARGETED_ATTACK",
-    "name": "Targeted Attack",
+    "name": "Targeted attack",
     "description": "An event representing a focused and intentional attack against a specific entity or asset.",
     "svg_icon": "",
     "nf_icon": "nf-mdi-crosshairs"

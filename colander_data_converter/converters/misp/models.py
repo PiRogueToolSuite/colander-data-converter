@@ -3,13 +3,18 @@ from importlib import resources
 from typing import Optional, Dict, Any, Type, List, Tuple
 
 from pydantic import BaseModel, ConfigDict
-from pymisp import MISPObject, AbstractMISP, MISPAttribute
+from pymisp import MISPObject, AbstractMISP, MISPAttribute, MISPTag
 
 from colander_data_converter.base.models import CommonEntitySuperTypes, CommonEntitySuperType
 from colander_data_converter.base.types.base import CommonEntityType
 
 type MispColanderMapping = Dict[str, Any]
 type ColanderMispMapping = Dict[str, Any]
+type RelationMapping = Dict[str, Any]
+
+
+class TagStub(str):
+    pass
 
 
 class EntityTypeMapping(BaseModel):
@@ -23,6 +28,8 @@ class EntityTypeMapping(BaseModel):
     def get_misp_model_class(self) -> (Type[AbstractMISP], str):
         if self.misp_object == "misp-attribute":
             return MISPAttribute, self.misp_type
+        elif self.misp_object == "misp-tag":
+            return MISPTag, self.misp_type
         return MISPObject, self.misp_object
 
     def get_colander_misp_field_mapping(self) -> List[Optional[Tuple[str, str]]]:
@@ -57,14 +64,25 @@ class Mapping(object):
         (CommonEntitySuperTypes.ACTOR.value, "actor"),
         (CommonEntitySuperTypes.ARTIFACT.value, "artifact"),
         (CommonEntitySuperTypes.DEVICE.value, "device"),
+        (CommonEntitySuperTypes.EVENT.value, "event"),
+        (CommonEntitySuperTypes.DATA_FRAGMENT.value, "data_fragment"),
         (CommonEntitySuperTypes.DETECTION_RULE.value, "detection_rule"),
         (CommonEntitySuperTypes.OBSERVABLE.value, "observable"),
+        (CommonEntitySuperTypes.THREAT.value, "threat"),
     ]
 
     def __init__(self):
         self.super_types_mapping: Dict[str, EntitySuperTypeMapping] = {}
+        self.relation_mapping = self._load_relation_mapping_definition()
         for type_class, prefix in self.TYPES:
             self.super_types_mapping[type_class.short_name] = self._load_mapping_definition(type_class, prefix)
+
+    @staticmethod
+    def _load_relation_mapping_definition() -> RelationMapping:
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("relation_misp_mapping.json")
+        with json_file.open() as f:
+            return json.load(f)
 
     @staticmethod
     def _load_mapping_definition(type_class, filename_prefix: str) -> EntitySuperTypeMapping:
@@ -77,6 +95,10 @@ class Mapping(object):
                 type_mapping = EntityTypeMapping.model_validate(definition)
                 super_type_mapping.types_mapping[type_mapping.colander_type] = type_mapping
         return super_type_mapping
+
+    def get_relation_mapping(self, super_type: CommonEntitySuperType, reference_name: str) -> Optional[RelationMapping]:
+        mapping = self.relation_mapping.get(super_type.short_name, {})
+        return mapping.get(reference_name, None)
 
     def get_mapping(
         self, entity_super_type: CommonEntitySuperType, entity_type: CommonEntityType

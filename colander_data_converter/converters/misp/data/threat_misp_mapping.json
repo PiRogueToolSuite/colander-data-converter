@@ -1,0 +1,272 @@
+[
+  {
+    "colander_type": "ADWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:adware"
+      }
+    }
+  },
+  {
+    "colander_type": "APT",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:advanced-persistent-threat"
+      }
+    }
+  },
+  {
+    "colander_type": "BACKDOOR",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:backdoor"
+      }
+    }
+  },
+  {
+    "colander_type": "BOTNET",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:botnet"
+      }
+    }
+  },
+  {
+    "colander_type": "BROWSER_HIJACKER",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:browser-hijacker"
+      }
+    }
+  },
+  {
+    "colander_type": "CRYPTOJACKING",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:cryptojacking"
+      }
+    }
+  },
+  {
+    "colander_type": "DROPPER",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:dropper"
+      }
+    }
+  },
+  {
+    "colander_type": "EXPLOIT_KIT",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:exploit-kit"
+      }
+    }
+  },
+  {
+    "colander_type": "INFO_STEALER",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:information-stealer"
+      }
+    }
+  },
+  {
+    "colander_type": "LOADER",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:loader"
+      }
+    }
+  },
+  {
+    "colander_type": "MALVERTISING",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:malvertising"
+      }
+    }
+  },
+  {
+    "colander_type": "MOBILE_MALWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:mobile-malware"
+      }
+    }
+  },
+  {
+    "colander_type": "RANSOMWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:ransomware"
+      }
+    }
+  },
+  {
+    "colander_type": "PHISHING",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:phishing"
+      }
+    }
+  },
+  {
+    "colander_type": "STALKERWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:stalkerware"
+      }
+    }
+  },
+  {
+    "colander_type": "MALWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:malware"
+      }
+    }
+  },
+  {
+    "colander_type": "RAT",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:remote-access-trojan"
+      }
+    }
+  },
+  {
+    "colander_type": "ROOTKIT",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:rootkit"
+      }
+    }
+  },
+  {
+    "colander_type": "SPAM",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:spam"
+      }
+    }
+  },
+  {
+    "colander_type": "SPYWARE",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:spyware"
+      }
+    }
+  },
+  {
+    "colander_type": "TROJAN",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:trojan"
+      }
+    }
+  },
+  {
+    "colander_type": "CYBERCRIME",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:cybercrime"
+      }
+    }
+  },
+  {
+    "colander_type": "CYBER_ATTACK",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:cyber-attack"
+      }
+    }
+  },
+  {
+    "colander_type": "PHYSICAL_ATTACK",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:physical-attack"
+      }
+    }
+  },
+  {
+    "colander_type": "HARASSMENT",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:harassment"
+      }
+    }
+  },
+  {
+    "colander_type": "DOXXING",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:doxxing"
+      }
+    }
+  },
+  {
+    "colander_type": "GENERIC",
+    "misp_object": "misp-tag",
+    "misp_colander_mapping": {},
+    "colander_misp_mapping": {
+      "literals": {
+        "name": "colander:threat:generic"
+      }
+    }
+  }
+]

@@ -4,11 +4,24 @@ from importlib import resources
 
 from pymisp import MISPOrganisation
 
-from colander_data_converter.base.models import Observable, Artifact, DetectionRule, Device, Actor, ColanderFeed, Case
+from colander_data_converter.base.models import (
+    Observable,
+    Artifact,
+    DetectionRule,
+    Device,
+    Actor,
+    ColanderFeed,
+    Case,
+    Event,
+    DataFragment,
+    CommonEntitySuperTypes,
+)
 from colander_data_converter.base.types.actor import ActorTypes
 from colander_data_converter.base.types.artifact import ArtifactTypes
+from colander_data_converter.base.types.data_fragment import DataFragmentTypes
 from colander_data_converter.base.types.detection_rule import DetectionRuleTypes
 from colander_data_converter.base.types.device import DeviceTypes
+from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
 from colander_data_converter.converters.misp.converter import ColanderToMISPMapper
 
@@ -118,7 +131,35 @@ class TestColanderMapping(unittest.TestCase):
             misp_obj = mapper.convert_colander_object(colander_obj)
             self.assertIsNotNone(misp_obj)
             j = misp_obj.to_json()
-            print(j)
+
+    def test_event_mappings(self):
+        mapper = ColanderToMISPMapper()
+        supported_types = mapper.mapping.super_types_mapping["EVENT"].get_supported_colander_types()
+        for colander_type in EventTypes:
+            if colander_type.value.short_name not in supported_types:
+                print(f"Skipping {colander_type.value.short_name}")
+                continue
+            colander_obj = Event(name="Test event", type=colander_type.value, description="Example of event")
+            misp_obj = mapper.convert_colander_object(colander_obj)
+            self.assertIsNotNone(misp_obj)
+            j = misp_obj.to_json()
+
+    def test_data_fragment_mappings(self):
+        mapper = ColanderToMISPMapper()
+        supported_types = mapper.mapping.super_types_mapping["DATAFRAGMENT"].get_supported_colander_types()
+        for colander_type in DataFragmentTypes:
+            if colander_type.value.short_name not in supported_types:
+                print(f"Skipping {colander_type.value.short_name}")
+                continue
+            colander_obj = DataFragment(
+                name="Test data fragment",
+                type=colander_type.value,
+                content="This is a random content",
+                description="Example of data fragment",
+            )
+            misp_obj = mapper.convert_colander_object(colander_obj)
+            self.assertIsNotNone(misp_obj)
+            j = misp_obj.to_json()
 
     def test_case_conversion(self):
         mapper = ColanderToMISPMapper()
@@ -128,7 +169,24 @@ class TestColanderMapping(unittest.TestCase):
             raw = json.load(f)
             feed = ColanderFeed.load(raw)
         case = Case(name="Test case", description="Test case description")
-        misp_event = mapper.convert_case(case, feed)
+
+        n_actor = len(feed.get_by_super_type(CommonEntitySuperTypes.ACTOR.value))
+        n_artifact = len(feed.get_by_super_type(CommonEntitySuperTypes.ARTIFACT.value))
+        n_device = len(feed.get_by_super_type(CommonEntitySuperTypes.DEVICE.value))
+        n_event = len(feed.get_by_super_type(CommonEntitySuperTypes.EVENT.value))
+        n_data_fragment = len(feed.get_by_super_type(CommonEntitySuperTypes.DATA_FRAGMENT.value))
+        n_detection_rule = len(feed.get_by_super_type(CommonEntitySuperTypes.DETECTION_RULE.value))
+        n_observable = len(feed.get_by_super_type(CommonEntitySuperTypes.OBSERVABLE.value))
+        n_threat = len(feed.get_by_super_type(CommonEntitySuperTypes.THREAT.value))
+
+        misp_event, skipped = mapper.convert_case(case, feed)
+
+        n_attributes = len(misp_event.attributes)
+        n_objects = len(misp_event.objects)
+
+        assert n_attributes == n_observable - len(skipped)
+        assert n_objects == sum([n_actor, n_artifact, n_device, n_event, n_data_fragment, n_detection_rule])
+
         org = MISPOrganisation()
         org.from_dict(
             **{
@@ -140,4 +198,3 @@ class TestColanderMapping(unittest.TestCase):
         j = misp_event.to_json()
         misp_feed = misp_event.to_feed()
         j = json.dumps(misp_feed)
-        print(j)
