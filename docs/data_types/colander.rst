@@ -16,9 +16,6 @@ Colander
 .. toctree::
    :maxdepth: 1
 
-Hi :colandertype:`Foobar: Top` top.
-Hi :othertype:`misp:file` top.
-
 This documentation page provides an overview of the different **Colander data types** - the core entity categories and
 their specifications within the Colander threat intelligence data model.
 

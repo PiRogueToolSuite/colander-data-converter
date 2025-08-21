@@ -15,7 +15,7 @@ class DataFragmentType(CommonEntityType):
     Example:
         >>> data_fragment_type = DataFragmentTypes.CODE.value
         >>> print(data_fragment_type.name)
-        Piece of code
+        Snippet of code
     """
 
     @field_validator("short_name", mode="before")
@@ -36,7 +36,7 @@ class DataFragmentTypes(enum.Enum):
     Example:
         >>> data_fragment_type = DataFragmentTypes.CODE.value
         >>> print(data_fragment_type.name)
-        Piece of code
+        Snippet of code
         >>> default_type = DataFragmentTypes.by_short_name("nonexistent")
         >>> print(default_type.name)
         Generic
