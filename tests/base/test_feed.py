@@ -1,6 +1,9 @@
 import json
+import unittest
+from datetime import datetime, UTC
 from importlib import resources
-from uuid import UUID
+from unittest.mock import MagicMock
+from uuid import UUID, uuid4
 
 import pytest
 
@@ -10,7 +13,11 @@ from colander_data_converter.base.models import (
     Observable,
     EntityRelation,
     Case,
+    Artifact,
+    Event,
 )
+from colander_data_converter.base.types.artifact import ArtifactTypes
+from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
 
 
@@ -313,3 +320,77 @@ class TestFeed:
         assert str(obs_green.id) in filtered.entities
         assert str(obs_white.id) in filtered.entities
         assert str(obs_red.id) not in filtered.entities
+
+
+class TestFeedMerger(unittest.TestCase):
+    def setUp(self):
+        # Set up mock entities
+        self.feed = ColanderFeed()
+        self.artifact1 = Artifact(
+            name="artifact1",
+            type=ArtifactTypes.DOCUMENT.value,
+            sha256="abc123",
+        )
+        self.artifact2 = Artifact(
+            name="artifact1",
+            type=ArtifactTypes.DOCUMENT.value,
+            sha256="abc123",
+        )
+        self.artifact3 = Artifact(
+            name="artifact2",
+            type=ArtifactTypes.DOCUMENT.value,
+            sha256="def456",
+        )
+        self.event1 = Event(
+            name="event1",
+            type=EventTypes.HIT.value,
+            first_seen=datetime(2024, 6, 1, 12, 0, tzinfo=UTC),
+            last_seen=datetime(2024, 6, 1, 12, 5, tzinfo=UTC),
+        )
+        self.event2 = Event(
+            name="event1",
+            type=EventTypes.HIT.value,
+            first_seen=datetime(2024, 6, 1, 12, 0, tzinfo=UTC),
+            last_seen=datetime(2024, 6, 1, 12, 5, tzinfo=UTC),
+        )
+        self.event3 = Event(
+            name="event1",
+            type=EventTypes.HIT.value,
+            first_seen=datetime(2024, 6, 1, 12, 0, tzinfo=UTC),
+            last_seen=datetime(2025, 6, 1, 12, 5, tzinfo=UTC),
+        )
+
+        # Add entities to the feed
+        self.feed.entities[str(self.artifact2.id)] = self.artifact2
+        self.feed.entities[str(self.artifact3.id)] = self.artifact3
+        self.feed.entities[str(self.event2.id)] = self.event2
+        self.feed.entities[str(self.event3.id)] = self.event3
+
+    def test_find_similar_artifacts(self):
+        # Test finding similar artifacts
+        similar_entities = self.feed.get_entities_similar_to(self.artifact1)
+        self.assertEqual(len(similar_entities), 1)
+        self.assertIn(str(self.artifact2.id), similar_entities)
+
+    def test_find_similar_events(self):
+        # Test finding similar events
+        similar_entities = self.feed.get_entities_similar_to(self.event1)
+        self.assertEqual(len(similar_entities), 1)
+        self.assertIn(str(self.event2.id), similar_entities)
+
+    def test_no_similar_entities(self):
+        # Test when no similar entities are found
+        unrelated_entity = Artifact(
+            id=uuid4(),
+            name="unrelated",
+            type=ArtifactTypes.PCAP.value,
+            sha256="xyz789",
+        )
+        similar_entities = self.feed.get_entities_similar_to(unrelated_entity)
+        self.assertEqual(len(similar_entities), 0)
+
+    def test_invalid_entity(self):
+        # Test with an invalid entity
+        invalid_entity = MagicMock()
+        similar_entities = self.feed.get_entities_similar_to(invalid_entity)
+        self.assertEqual(len(similar_entities), 0)

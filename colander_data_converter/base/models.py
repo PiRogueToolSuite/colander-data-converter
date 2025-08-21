@@ -1154,6 +1154,57 @@ class ColanderFeed(ColanderType):
 
         return relations
 
+    def get_entities_similar_to(self, entity: EntityTypes) -> Dict[str, EntityTypes]:
+        """Find entities in the feed that are similar to the given entity.
+
+        This method searches through all entities in the feed to find those that match
+        specific criteria based on the entity type. The similarity criteria include:
+
+        - Same entity type and name for all entities
+        - For Artifacts: matching SHA256 hash (if available)
+        - For DataFragments: matching content
+        - For DetectionRules: matching content
+        - For Events: matching first_seen and last_seen timestamps
+
+        Args:
+            entity (EntityTypes): The entity to find similar matches for. Must be an
+                instance of one of the supported entity types (Actor, Artifact,
+                DataFragment, DetectionRule, Device, Event, Observable, Threat).
+
+        Returns:
+            Dict[str, EntityTypes]: A dictionary mapping entity IDs to
+            EntityTypes objects that match the similarity criteria. Returns an empty
+            dictionary if no similar entities are found, or None if the input entity
+            is invalid.
+
+        Note:
+            - For Artifact entities, the SHA256 hash must be present in the input entity
+              for comparison to occur
+            - The method performs exact matches on all criteria - no fuzzy matching
+            - Entity type comparison uses the entity's type attribute for matching
+        """
+        candidates: Dict[str, EntityTypes] = {}
+
+        for feed_entity_id, feed_entity in self.entities.items():
+            match = feed_entity.type == entity.type
+            if not match:
+                continue
+            match &= feed_entity.name == entity.name
+            if isinstance(entity, CommonEntitySuperTypes.ARTIFACT.value.model_class):
+                match &= entity.sha256 is not None
+                match &= feed_entity.sha256 == entity.sha256
+            if isinstance(entity, CommonEntitySuperTypes.DATA_FRAGMENT.value.model_class):
+                match &= feed_entity.content == entity.content
+            if isinstance(entity, CommonEntitySuperTypes.DETECTION_RULE.value.model_class):
+                match &= feed_entity.content == entity.content
+            if isinstance(entity, CommonEntitySuperTypes.EVENT.value.model_class):
+                match &= feed_entity.first_seen == entity.first_seen
+                match &= feed_entity.last_seen == entity.last_seen
+            if match:
+                candidates[feed_entity_id] = feed_entity
+
+        return candidates
+
     def filter(
         self,
         maximum_tlp_level: TlpPapLevel,
