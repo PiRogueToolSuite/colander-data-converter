@@ -76,7 +76,8 @@ class ColanderToMISPMapper(MISPMapper):
         elif issubclass(misp_model, MISPObject):
             misp_object: MISPObject = misp_model(name=misp_type, strict=True)
         elif issubclass(misp_model, MISPTag):
-            return TagStub(entity_type_mapping.colander_misp_mapping.get("literals", {}).get("name"))
+            tag_pattern = entity_type_mapping.colander_misp_mapping.get("literals", {}).get("name")
+            return TagStub(tag_pattern.format(value=colander_object.name))
         else:
             return None
 

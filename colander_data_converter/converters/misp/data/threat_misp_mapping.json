@@ -5,7 +5,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:adware"
+        "name": "colander:threat:adware:{value}"
       }
     }
   },
@@ -15,7 +15,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:advanced-persistent-threat"
+        "name": "colander:threat:apt:{value}"
       }
     }
   },
@@ -25,7 +25,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:backdoor"
+        "name": "colander:threat:backdoor:{value}"
       }
     }
   },
@@ -35,7 +35,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:botnet"
+        "name": "colander:threat:botnet:{value}"
       }
     }
   },
@@ -45,7 +45,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:browser-hijacker"
+        "name": "colander:threat:browser-hijacker:{value}"
       }
     }
   },
@@ -55,7 +55,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:cryptojacking"
+        "name": "colander:threat:cryptojacking:{value}"
       }
     }
   },
@@ -65,7 +65,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:dropper"
+        "name": "colander:threat:dropper:{value}"
       }
     }
   },
@@ -75,7 +75,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:exploit-kit"
+        "name": "colander:threat:exploit-kit:{value}"
       }
     }
   },
@@ -85,7 +85,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:information-stealer"
+        "name": "colander:threat:information-stealer:{value}"
       }
     }
   },
@@ -95,7 +95,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:loader"
+        "name": "colander:threat:loader:{value}"
       }
     }
   },
@@ -105,7 +105,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:malvertising"
+        "name": "colander:threat:malvertising:{value}"
       }
     }
   },
@@ -115,7 +115,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:mobile-malware"
+        "name": "colander:threat:mobile-malware:{value}"
       }
     }
   },
@@ -125,7 +125,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:ransomware"
+        "name": "colander:threat:ransomware:{value}"
       }
     }
   },
@@ -135,7 +135,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:phishing"
+        "name": "colander:threat:phishing:{value}"
       }
     }
   },
@@ -145,7 +145,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:stalkerware"
+        "name": "colander:threat:stalkerware:{value}"
       }
     }
   },
@@ -155,7 +155,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:malware"
+        "name": "colander:threat:malware:{value}"
       }
     }
   },
@@ -165,7 +165,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:remote-access-trojan"
+        "name": "colander:threat:remote-access-trojan:{value}"
       }
     }
   },
@@ -175,7 +175,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:rootkit"
+        "name": "colander:threat:rootkit:{value}"
       }
     }
   },
@@ -185,7 +185,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:spam"
+        "name": "colander:threat:spam:{value}"
       }
     }
   },
@@ -195,7 +195,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:spyware"
+        "name": "colander:threat:spyware:{value}"
       }
     }
   },
@@ -205,7 +205,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:trojan"
+        "name": "colander:threat:trojan:{value}"
       }
     }
   },
@@ -215,7 +215,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:cybercrime"
+        "name": "colander:threat:cybercrime:{value}"
       }
     }
   },
@@ -225,7 +225,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:cyber-attack"
+        "name": "colander:threat:cyber-attack:{value}"
       }
     }
   },
@@ -235,7 +235,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:physical-attack"
+        "name": "colander:threat:physical-attack:{value}"
       }
     }
   },
@@ -245,7 +245,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:harassment"
+        "name": "colander:threat:harassment:{value}"
       }
     }
   },
@@ -255,7 +255,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:doxxing"
+        "name": "colander:threat:doxxing:{value}"
       }
     }
   },
@@ -265,7 +265,7 @@
     "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "literals": {
-        "name": "colander:threat:generic"
+        "name": "colander:threat:generic:{value}"
       }
     }
   }
