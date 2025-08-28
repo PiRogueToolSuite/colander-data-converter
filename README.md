@@ -1,5 +1,5 @@
 <div align="center">
-<img width="60px" src="https://pts-project.org/android-chrome-512x512.png">
+<img width="60px" src="https://pts-project.org/logos/colander/colander-xl-logo.png">
 <h1>Colander Data Converter</h1>
 <p>
 A set of helpers to manipulate Colander data.
