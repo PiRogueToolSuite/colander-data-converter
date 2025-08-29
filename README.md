@@ -8,6 +8,11 @@ A set of helpers to manipulate Colander data.
 License: GPLv3
 </p>
 <p>
+<img src="https://github.com/PiRogueToolSuite/colander-data-converter/actions/workflows/test.yml/badge.svg">
+<img src="https://img.shields.io/badge/Snyk_security-monitored-8A2BE2">
+<img src="https://img.shields.io/badge/License-GPL_v3-8A2BE2">
+</p>
+<p>
 <a href="https://pts-project.org">Website</a> |
 <a href="https://pts-project.org/colander-data-converter/">Documentation</a> |
 <a href="https://discord.gg/qGX73GYNdp">Support</a>
