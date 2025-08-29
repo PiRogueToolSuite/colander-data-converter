@@ -63,6 +63,7 @@ jobs:
       - name: Generate reports
         shell: bash
         run: |
+          coverage xml
           if [ -f "test-report.md" ]; then
             echo "### Test Report" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
@@ -77,6 +78,10 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             rm -f test-coverage.md
           fi
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
   doc:
     needs:
       - build
