@@ -1,3 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+kbd, pre, samp, code, .kbd, .pre, .samp, .code, .rst-content div[class^="highlight"] pre {
+    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
+}
+
+.sig, .sig-object {
+    /*font-size: 80% !important;*/
+}
+
+.sig-name, .descname {
+    color: #7122dc !important;
+}
+
+.wy-menu-vertical li code {
+    font-size: 90% !important;
+}
+
 p.caption {
     color: #a88dce !important;
 }
@@ -35,27 +53,33 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .rst-content div[class^="highlight"] {
     border: 1px solid #d8d1e3;
-    filter: drop-shadow(2px 4px 4px #d8d1e3);
+    border-radius: 12px;
+    /*filter: drop-shadow(2px 4px 4px #d8d1e3);*/
+}
+
+.wy-side-nav-search input[type="text"] {
+    border: 0;
 }
 
 .rst-content .guilabel {
     border: 1px solid #a88dce;
 }
 
-.rst-content code, code {
-    border: 1px solid #d8d1e3;
-    border-radius: 4px;
-}
+/*.rst-content code, code {*/
+/*    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;*/
+/*    border: 1px solid #d8d1e3;*/
+/*    border-radius: 4px;*/
+/*}*/
 
 .textmono {
     color: #4d4959;
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
+    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
     font-size: 75%;
 }
 
 .textmonoborder {
     color: #5e596c;
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
+    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
     font-size: 70%;
     padding: 2px 4px 2px 4px;
     border: 1px solid #c9c6cc;
@@ -65,7 +89,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .colandertype {
     color: #8c54d8;
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
+    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
     font-size: 75%;
     padding: 2px 4px 2px 0;
     border: 1px solid #a88dce;
@@ -82,7 +106,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .othertype {
     color: #cf7f11;
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,Courier,monospace;
+    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
     font-size: 75%;
     padding: 2px 4px 2px 0;
     border: 1px solid #cf7f11;
