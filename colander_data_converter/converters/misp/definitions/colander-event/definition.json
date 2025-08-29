@@ -53,7 +53,7 @@
   "description": "Event represents an occurrence or activity observed within a system, such as a detection, alert, or log entry.",
   "meta-category": "colander",
   "name": "colander-event",
-  "requiredOneOf": [
+  "required": [
     "name"
   ],
   "uuid": "31522ce3-9971-4bd8-aa35-7ac9bc9744fb",

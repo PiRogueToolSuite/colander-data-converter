@@ -3,14 +3,18 @@
 .. _MISP: https://www.misp-project.org/
 .. _GitHub: https://github.com/PiRogueToolSuite/colander-data-converter
 
+
 MISP
 ====
 .. toctree::
+   :hidden:
+
+   misp_definitions.rst
+
+.. toctree::
    :maxdepth: 1
 
-
 We welcome contributions to expand MISP_ support! Don't hesitate to submit pull requests on GitHub_ ❤️
-
 
 
 Entity relations
@@ -115,7 +119,7 @@ Artifacts are converted into MISP objects of type :textmonoborder:`file`:
 
 Data Fragments
 --------------
-Data Fragments are converted into MISP objects of type :textmonoborder:`colander-data-fragment`.
+Data Fragments are converted into MISP objects of type :textmonoborder:`colander-data-fragment`, :ref:`see the MISP Object definition <misp_object_data_fragment_definition>`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/data_fragment_misp_mapping.json
    :template: misp-type.tmpl
@@ -162,7 +166,7 @@ Artifacts are converted into MISP objects of type :textmonoborder:`device`.
 
 Events
 ------
-Events are converted into MISP objects of type :textmonoborder:`colander-event`.
+Events are converted into MISP objects of type :textmonoborder:`colander-event`, :ref:`see the MISP Object definition <misp_object_event_definition>`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/event_misp_mapping.json
    :template: misp-type.tmpl

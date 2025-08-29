@@ -35,7 +35,7 @@
   "description": "DataFragment represents a fragment of data, such as a code snippet, text, or other content.",
   "meta-category": "colander",
   "name": "colander-data-fragment",
-  "requiredOneOf": [
+  "required": [
     "name"
   ],
   "uuid": "439f9b58-144b-4019-bea4-eb23c7bbfd7f",
