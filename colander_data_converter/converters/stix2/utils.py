@@ -17,19 +17,20 @@ def extract_stix2_pattern_value(pattern: str) -> Optional[str]:
     Extract the value from a STIX2 pattern.
 
     Handles various STIX2 pattern formats like:
-    - [file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']
-    - [domain-name:value = 'example.com']
-    - [ipv4-addr:value = '192.168.1.1']
-    - [url:value = 'https://example.com/malicious']
-    - [process:pid = 1234]
-    - [network-traffic:src_port = 443]
+
+    - :textmonoborder:`[file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']`
+    - :textmonoborder:`[domain-name:value = 'example.com']`
+    - :textmonoborder:`[ipv4-addr:value = '192.168.1.1']`
+    - :textmonoborder:`[url:value = 'https://example.com/malicious']`
+    - :textmonoborder:`[process:pid = 1234]`
+    - :textmonoborder:`[network-traffic:src_port = 443]`
 
     Args:
         pattern (str): The STIX2 pattern string to parse.
 
     Returns:
         Optional[str]: The extracted value, or None if no value could be extracted
-                      or if the pattern contains multiple criteria.
+        or if the pattern contains multiple criteria.
     """
     if not pattern or not isinstance(pattern, str):
         return None
@@ -56,7 +57,7 @@ def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:
     Extract a UUID from a STIX2 ID.
 
     This function parses a STIX2 identifier string to extract the UUID portion.
-    STIX2 IDs follow the format ``{type}--{uuid}``, where the UUID is the part
+    STIX2 IDs follow the format :textmonoborder:`{type}--{uuid}`, where the UUID is the part
     after the double dash delimiter.
 
     :param stix2_id: The STIX2 ID to extract the UUID from
@@ -115,7 +116,7 @@ def extract_stix2_pattern_name(stix2_pattern: str) -> Optional[str]:
 
     .. note::
         The function handles various STIX2 pattern formats including nested
-        hash references like ``file:hashes.'SHA-256'``.
+        hash references like :textmonoborder:`file:hashes.'SHA-256'`.
 
     Examples:
         >>> pattern = "[ipv4-addr:value = '192.168.1.1']"
