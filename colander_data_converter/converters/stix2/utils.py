@@ -2,10 +2,53 @@
 Utility functions for STIX2 to Colander conversion and vice versa.
 """
 
+import re
 from typing import Dict, Any, Optional
 from uuid import uuid4, UUID
 
 from pydantic import UUID4
+
+# Precompile the regex for performance
+STIX2_PATTERN_REGEX = re.compile(r"[^=]+\s*=\s*(?:['\"]([^'\"]+)['\"]|([^\s]+))")
+
+
+def extract_stix2_pattern_value(pattern: str) -> Optional[str]:
+    """
+    Extract the value from a STIX2 pattern.
+
+    Handles various STIX2 pattern formats like:
+    - [file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']
+    - [domain-name:value = 'example.com']
+    - [ipv4-addr:value = '192.168.1.1']
+    - [url:value = 'https://example.com/malicious']
+    - [process:pid = 1234]
+    - [network-traffic:src_port = 443]
+
+    Args:
+        pattern (str): The STIX2 pattern string to parse.
+
+    Returns:
+        Optional[str]: The extracted value, or None if no value could be extracted
+                      or if the pattern contains multiple criteria.
+    """
+    if not pattern or not isinstance(pattern, str):
+        return None
+
+    # Remove outer brackets and whitespace
+    pattern = pattern.strip()
+    if pattern.startswith("[") and pattern.endswith("]"):
+        pattern = pattern[1:-1].strip()
+
+    # Check for multiple criteria (AND, OR operators)
+    if " AND " in pattern.upper() or " OR " in pattern.upper():
+        return None
+
+    # Match the pattern using the precompiled regex
+    match = STIX2_PATTERN_REGEX.search(pattern)
+    if match:
+        return match.group(1) or match.group(2)
+
+    return None
 
 
 def extract_uuid_from_stix2_id(stix2_id: str) -> UUID:

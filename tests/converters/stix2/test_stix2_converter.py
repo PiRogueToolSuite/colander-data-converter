@@ -1,9 +1,63 @@
 import json
+import unittest
 from importlib import resources
 
 from colander_data_converter.base.models import ColanderRepository
 from colander_data_converter.converters.stix2.converter import Stix2ToColanderMapper
 from colander_data_converter.converters.stix2.mapping import Stix2MappingLoader
+from colander_data_converter.converters.stix2.utils import extract_stix2_pattern_value
+
+
+class TestExtractStix2PatternValue(unittest.TestCase):
+    def test_valid_patterns(self):
+        # Test valid patterns with quoted values
+        self.assertEqual(
+            extract_stix2_pattern_value("[file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e']"),
+            "d41d8cd98f00b204e9800998ecf8427e",
+        )
+        self.assertEqual(
+            extract_stix2_pattern_value("[file:hashes.'MD5' = 'd41d8cd98f00b204e9800998ecf8427e']"),
+            "d41d8cd98f00b204e9800998ecf8427e",
+        )
+        self.assertEqual(extract_stix2_pattern_value("[domain-name:value = 'example.com']"), "example.com")
+        self.assertEqual(extract_stix2_pattern_value("[ipv4-addr:value = '192.168.1.1']"), "192.168.1.1")
+        self.assertEqual(
+            extract_stix2_pattern_value("[url:value = 'https://example.com/malicious']"),
+            "https://example.com/malicious",
+        )
+
+        # Test valid patterns with unquoted values
+        self.assertEqual(extract_stix2_pattern_value("[process:pid = 1234]"), "1234")
+        self.assertEqual(extract_stix2_pattern_value("[network-traffic:src_port = 443]"), "443")
+
+    def test_invalid_patterns(self):
+        # Test patterns with multiple criteria
+        self.assertIsNone(
+            extract_stix2_pattern_value(
+                "[file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e' AND domain-name:value = 'example.com']"
+            )
+        )
+        self.assertIsNone(
+            extract_stix2_pattern_value(
+                "[ipv4-addr:value = '192.168.1.1' OR url:value = 'https://example.com/malicious']"
+            )
+        )
+
+        # Test patterns with missing value
+        self.assertIsNone(extract_stix2_pattern_value("[file:hashes.MD5 = ]"))
+        self.assertIsNone(extract_stix2_pattern_value("[domain-name:value = ]"))
+
+    def test_edge_cases(self):
+        # Test empty or None input
+        self.assertIsNone(extract_stix2_pattern_value(""))
+        self.assertIsNone(extract_stix2_pattern_value(None))
+
+        # Test patterns with extra whitespace
+        self.assertEqual(
+            extract_stix2_pattern_value("  [ file:hashes.MD5 = 'd41d8cd98f00b204e9800998ecf8427e' ]  "),
+            "d41d8cd98f00b204e9800998ecf8427e",
+        )
+        self.assertEqual(extract_stix2_pattern_value("[  domain-name:value  =  'example.com'  ]"), "example.com")
 
 
 class TestStix2ToColanderMapping:

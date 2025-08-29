@@ -36,6 +36,7 @@ from colander_data_converter.converters.stix2.utils import (
     get_nested_value,
     set_nested_value,
     extract_stix2_pattern_name,
+    extract_stix2_pattern_value,
 )
 
 
@@ -311,11 +312,17 @@ class Stix2ToColanderMapper(Stix2Mapper):
     ) -> Observable:
         _observable_type = self._get_observable_type(stix2_object, subtype_candidates)
         # Use the generic conversion method
-        return self._convert_to_entity(
+        observable = self._convert_to_entity(
             stix2_object=stix2_object,
             model_class=Observable,
             colander_entity_type=ObservableTypes.by_short_name(_observable_type),
         )
+        # Extract value from pattern
+        pattern = stix2_object.get("pattern", "")
+        extracted_value = extract_stix2_pattern_value(pattern)
+        if extracted_value:
+            observable.name = extracted_value
+        return observable
 
     def _get_threat_type(self, stix2_object: Dict[str, Any], subtype_candidates: Optional[List[str]]) -> str:
         default_type = ThreatTypes.default.value.short_name.lower()
