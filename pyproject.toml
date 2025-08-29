@@ -120,12 +120,18 @@ ignore-words-list = "ot,master"
 [tool.coverage.run]
 omit = [
   "*test_*",
+  "export_theme_icons.py",
+  "generate_types.py",
+  "generate_conversion_matrix.py",
   "docs/*",
 ]
 
 [tool.coverage.report]
 omit = [
-  "tests/*",
+  "*test_*",
+  "export_theme_icons.py",
+  "generate_types.py",
+  "generate_conversion_matrix.py",
   "docs/*",
 ]
 

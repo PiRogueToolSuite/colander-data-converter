@@ -63,6 +63,7 @@ jobs:
       - name: Generate reports
         shell: bash
         run: |
+          echo "![](https://codecov.io/gh/PiRogueToolSuite/colander-data-converter/graphs/tree.svg?token=P1Y783DUDA)" >> $GITHUB_STEP_SUMMARY
           if [ -f "test-report.md" ]; then
             echo "### Test Report" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
