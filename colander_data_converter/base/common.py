@@ -33,7 +33,7 @@ class BasePydanticEnum(Enum):
 
         Returns:
             core_schema: A Pydantic core schema that handles JSON and Python validation
-                        with custom serialization to the member's code attribute
+            with custom serialization to the member's code attribute
         """
         # Get the member from the enum no matter what we have as input.
         # If we fail to find a matching member, it will fail.

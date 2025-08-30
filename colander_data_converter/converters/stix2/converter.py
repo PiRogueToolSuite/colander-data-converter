@@ -146,7 +146,7 @@ class Stix2ToColanderMapper(Stix2Mapper):
 
         Returns:
             Optional[Union[Actor, Device, Artifact, Observable, Threat, Event, DetectionRule, DataFragment, EntityRelation]]:
-                The converted Colander entity, or None if the object type is not supported.
+            The converted Colander entity, or None if the object type is not supported.
         """
         stix2_type = stix2_object.get("type", "")
 
@@ -470,7 +470,7 @@ class ColanderToStix2Mapper(Stix2Mapper):
 
         Returns:
             Optional[Dict[str, Any]]: The converted STIX2 relationship object, or None if the relation cannot be
-                converted.
+            converted.
         """
         return self._convert_from_relation(relation)
 

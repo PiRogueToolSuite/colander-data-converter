@@ -358,7 +358,7 @@ class Entity(ColanderType, abc.ABC):
 
         Returns:
             Optional[_EntityType]: The type definition object for this entity. The specific type depends
-                on the entity subclass (e.g., Observable returns ObservableType, Actor returns ActorType, etc.).
+            on the entity subclass (e.g., Observable returns ObservableType, Actor returns ActorType, etc.).
         """
         if hasattr(self, "type"):
             return getattr(self, "type")
@@ -1052,6 +1052,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             obj (Any): The object to retrieve. Can be:
+            
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
                 - Any object that can be processed by get_id()
