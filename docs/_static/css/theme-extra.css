@@ -16,6 +16,10 @@ kbd, pre, samp, code, .kbd, .pre, .samp, .code, .rst-content div[class^="highlig
     font-size: 90% !important;
 }
 
+.btn {
+    border-radius: 6px;
+}
+
 p.caption {
     color: #a88dce !important;
 }
@@ -40,6 +44,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     color: #8c54d8;
     background-color: #ede7f7;
     border-top: 3px solid #a88dce;
+    border-radius: 4px;
     width: 100%;
 }
 
@@ -53,7 +58,7 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
 
 .rst-content div[class^="highlight"] {
     border: 1px solid #d8d1e3;
-    border-radius: 12px;
+    border-radius: 6px;
     /*filter: drop-shadow(2px 4px 4px #d8d1e3);*/
 }
 
@@ -65,16 +70,41 @@ html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(
     border: 1px solid #a88dce;
 }
 
-/*.rst-content code, code {*/
-/*    font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;*/
-/*    border: 1px solid #d8d1e3;*/
-/*    border-radius: 4px;*/
-/*}*/
+.sig-param {
+    font-size: 90%;
+}
+
+dl.field-list > dt{
+    color: #7122dc;
+    padding-left: 0 !important;
+}
+
+.admonition {
+    border-radius: 6px;
+}
+
+.admonition-title {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.note {
+    background-color: #ede7f7 !important;
+}
+
+.note .admonition-title {
+    background-color: #7122dc !important;
+}
+
+code {
+    border-radius: 4px;
+    border: 1px solid #d8d1e3;
+}
 
 .textmono {
     color: #4d4959;
     font-family: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, Courier, monospace;
-    font-size: 75%;
+    font-size: 80%;
 }
 
 .textmonoborder {
