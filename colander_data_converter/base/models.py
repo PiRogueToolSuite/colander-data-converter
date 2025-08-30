@@ -1052,7 +1052,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             obj (Any): The object to retrieve. Can be:
-            
+
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
                 - Any object that can be processed by get_id()
