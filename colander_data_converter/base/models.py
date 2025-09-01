@@ -86,9 +86,10 @@ class ColanderType(BaseModel):
     resolving type hints, and extracting subclass information.
     """
 
-    model_config = ConfigDict(
+    model_config: ConfigDict = ConfigDict(
         str_strip_whitespace=True,
         arbitrary_types_allowed=True,
+        from_attributes=True
     )
 
     def model_post_init(self, __context):

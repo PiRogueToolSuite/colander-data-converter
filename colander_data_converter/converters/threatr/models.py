@@ -147,9 +147,10 @@ class ThreatrType(BaseModel):
         repository integration and reference management.
     """
 
-    model_config = ConfigDict(
+    model_config: ConfigDict = ConfigDict(
         str_strip_whitespace=True,
         arbitrary_types_allowed=True,
+        from_attributes=True
     )
 
     def model_post_init(self, __context):
