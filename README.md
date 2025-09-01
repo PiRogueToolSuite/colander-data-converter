@@ -10,6 +10,7 @@ A set of helpers to manipulate Colander data.
 <p>
 <a href="https://pts-project.org">Website</a> |
 <a href="https://pts-project.org/colander-data-converter/">Documentation</a> |
+<a href="https://github.com/PiRogueToolSuite/colander-data-converter">GitHub</a> |
 <a href="https://discord.gg/qGX73GYNdp">Support</a>
 </p>
 <p>
