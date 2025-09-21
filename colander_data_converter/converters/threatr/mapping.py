@@ -2,6 +2,9 @@ import json
 from importlib import resources
 from typing import Dict, Any, List
 
+from colander_data_converter.base.models import ColanderRepository
+from colander_data_converter.converters.threatr.models import ThreatrRepository
+
 resource_package = __name__
 
 
@@ -101,3 +104,5 @@ class ThreatrMapper:
         perform the actual conversion between Threatr and Colander formats.
         """
         self.mapping_loader = ThreatrMappingLoader()
+        ColanderRepository().clear()
+        ThreatrRepository().clear()

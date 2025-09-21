@@ -50,6 +50,7 @@ class Stix2Mapper:
         Initialize the mapper.
         """
         self.mapping_loader = Stix2MappingLoader()
+        ColanderRepository().clear()
 
 
 class Stix2ToColanderMapper(Stix2Mapper):

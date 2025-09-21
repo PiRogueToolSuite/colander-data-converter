@@ -3,7 +3,7 @@ from typing import Optional, Union, List, Tuple
 from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute, MISPEvent
 
 from colander_data_converter.base.common import TlpPapLevel
-from colander_data_converter.base.models import EntityTypes, Case, ColanderFeed, EntityRelation
+from colander_data_converter.base.models import EntityTypes, Case, ColanderFeed, EntityRelation, ColanderRepository
 from colander_data_converter.converters.misp.models import Mapping, EntityTypeMapping, TagStub
 from colander_data_converter.converters.stix2.utils import get_nested_value
 
@@ -17,6 +17,7 @@ class MISPMapper:
 
     def __init__(self):
         self.mapping = Mapping()
+        ColanderRepository().clear()
 
     @staticmethod
     def tlp_level_to_tag(tlp_level: TlpPapLevel) -> MISPTag:
