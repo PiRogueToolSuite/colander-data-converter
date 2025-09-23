@@ -1010,6 +1010,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             obj: The object to check for existence. Can be:
+
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
                 - Any object that can be processed by get_id()
@@ -1048,8 +1049,7 @@ class ColanderFeed(ColanderType):
         then attempts to retrieve it from the appropriate collection.
 
         Args:
-            obj: The object to retrieve.
-                Can be:
+            obj: The object to retrieve. Can be:
 
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID

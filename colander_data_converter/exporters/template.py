@@ -89,8 +89,8 @@ class TemplateExporter(BaseExporter):
                 to customize the output or provide additional data.
 
         Raises:
-            :py:obj:`jinja2.TemplateError`: If there are errors in template syntax or rendering
-            :py:obj:`jinja2.TemplateNotFound`: If the specified template file cannot be found
+            ~jinja2.TemplateError: If there are errors in template syntax or rendering
+            ~jinja2.TemplateNotFound: If the specified template file cannot be found
             IOError: If there are issues writing to the output stream
 
         Warning:
