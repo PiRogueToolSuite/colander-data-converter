@@ -24,8 +24,8 @@ class CsvExporter(BaseExporter):
         Initialize the CSV exporter.
 
         Args:
-            feed (~colander_data_converter.base.models.ColanderFeed): The feed containing entities to export
-            entity_type (type[BaseModel]): The Pydantic model type to filter entities by
+            feed: The feed containing entities to export
+            entity_type: The Pydantic model type to filter entities by
 
         Raises:
             AssertionError: If :py:obj:`entity_type` is not a subclass of :py:class:`pydantic.BaseModel` or
@@ -63,7 +63,7 @@ class CsvExporter(BaseExporter):
         2. Second pass: Optionally excludes fields that are None for all entities
 
         Args:
-            exclude_none (bool, optional): Whether to exclude fields that are None for all entities. Defaults to True.
+            exclude_none: Whether to exclude fields that are None for all entities. Defaults to True.
 
         Returns:
             None: Updates :py:obj:`self.fields` in-place with the computed field list
@@ -109,7 +109,7 @@ class CsvExporter(BaseExporter):
         computed field values.
 
         Args:
-            output (TextIO): A file-like object to write the CSV to
+            output: A file-like object to write the CSV to
             csv_options: Optional keyword arguments passed to :py:class:`csv.DictWriter`. Common options include:
 
                 - quoting: csv.QUOTE_ALL, csv.QUOTE_MINIMAL, etc.

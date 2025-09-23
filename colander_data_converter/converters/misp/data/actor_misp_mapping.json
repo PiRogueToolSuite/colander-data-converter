@@ -5,8 +5,10 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/organization/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "type-of-organization"
+        "type": "match",
+        "property": "type-of-organization",
+        "target": "attribute-value",
+        "value": "APT group"
       }
     },
     "colander_misp_mapping": {
@@ -26,8 +28,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "sector"
+        "type": "match",
+        "property": "sector",
+        "target": "attribute-value",
+        "value": "private"
       }
     },
     "colander_misp_mapping": {
@@ -47,8 +51,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "function"
+        "type": "match",
+        "property": "function",
+        "target": "attribute-value",
+        "value": "cybercriminal"
       }
     },
     "colander_misp_mapping": {
@@ -68,8 +74,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "sector"
+        "type": "match",
+        "property": "sector",
+        "target": "attribute-value",
+        "value": "other"
       }
     },
     "colander_misp_mapping": {
@@ -89,8 +97,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "function"
+        "type": "match",
+        "property": "function",
+        "target": "attribute-value",
+        "value": "hacktivist"
       }
     },
     "colander_misp_mapping": {
@@ -109,8 +119,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "function"
+        "type": "match",
+        "property": "function",
+        "target": "attribute-value",
+        "value": "individual"
       }
     },
     "colander_misp_mapping": {
@@ -129,8 +141,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "function"
+        "type": "match",
+        "property": "function",
+        "target": "attribute-value",
+        "value": "insider threat"
       }
     },
     "colander_misp_mapping": {
@@ -150,8 +164,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "sector"
+        "type": "match",
+        "property": "sector",
+        "target": "attribute-value",
+        "value": "government-national"
       }
     },
     "colander_misp_mapping": {
@@ -171,8 +187,10 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/organization/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "sector"
+        "type": "match",
+        "property": "sector",
+        "target": "attribute-value",
+        "value": "non-profit"
       }
     },
     "colander_misp_mapping": {
@@ -192,8 +210,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "sector"
+        "type": "match",
+        "property": "sector",
+        "target": "attribute-value",
+        "value": "government"
       }
     },
     "colander_misp_mapping": {
@@ -213,8 +233,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "function"
+        "type": "match",
+        "property": "function",
+        "target": "attribute-value",
+        "value": "unknown type of threat actor"
       }
     },
     "colander_misp_mapping": {

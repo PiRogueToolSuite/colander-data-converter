@@ -46,12 +46,12 @@ class ColanderToThreatrMapper(ThreatrMapper):
         Get the relation name for a field based on the mapping configuration.
 
         Args:
-            source_type (str): The source entity type name
-            target_type (str): The target entity type name
-            field_name (str): The field name to map
+            source_type: The source entity type name
+            target_type: The target entity type name
+            field_name: The field name to map
 
         Returns:
-            str: The mapped relation name or a default based on the field name
+            The mapped relation name or a default based on the field name
 
         Note:
             If no mapping is found in the configuration, returns a normalized
@@ -81,8 +81,8 @@ class ColanderToThreatrMapper(ThreatrMapper):
         extraction and conversion to explicit relations.
 
         Args:
-            colander_feed (ColanderFeed): The Colander feed to convert
-            root_entity (Union[str, UUID4, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
+            colander_feed: The Colander feed to convert
+            root_entity: The root entity ID, UUID, or entity object to use as the root
 
         Returns:
             ThreatrFeed: A ThreatrFeed object containing the converted data
@@ -147,10 +147,10 @@ class ColanderToThreatrMapper(ThreatrMapper):
         Convert a Colander entity to a Threatr entity or event.
 
         Args:
-            entity (ColanderEntity): The Colander entity to convert
+            entity: The Colander entity to convert
 
         Returns:
-            Union[ThreatrEntity, ThreatrEvent]: A Threatr entity or event based on the input type
+            A Threatr entity or event based on the input type
 
         Note:
             Events are detected by checking if the entity is an instance of the Event class
@@ -180,10 +180,10 @@ class ColanderToThreatrMapper(ThreatrMapper):
         Convert a Colander entity relation to a Threatr entity relation.
 
         Args:
-            relation (ColanderEntityRelation): The Colander entity relation to convert
+            relation: The Colander entity relation to convert
 
         Returns:
-            ThreatrEntityRelation: A Threatr entity relation
+            A Threatr entity relation
 
         Note:
             Object references are normalized to UUIDs during conversion to maintain
@@ -214,10 +214,10 @@ class ColanderToThreatrMapper(ThreatrMapper):
         and converts them into explicit EntityRelation objects in the Threatr model.
 
         Args:
-            colander_feed (ColanderFeed): The Colander feed containing entities
+            colander_feed: The Colander feed containing entities
 
         Returns:
-            List[ThreatrEntityRelation]: A list of Threatr entity relations extracted from reference fields
+            A list of Threatr entity relations extracted from reference fields
 
         Note:
             Both single ObjectReference fields and List[ObjectReference] fields are processed
@@ -262,14 +262,14 @@ class ColanderToThreatrMapper(ThreatrMapper):
 
         Args:
             entity: The source entity containing the reference
-            field_name (str): The name of the reference field
+            field_name: The name of the reference field
             reference_value: The reference value (UUID or object)
-            entity_type_name (str): The source entity type name
-            colander_feed (ColanderFeed): The feed containing target entities
-            is_list (bool, optional): Whether the reference comes from a list field. Defaults to False.
+            entity_type_name: The source entity type name
+            colander_feed: The feed containing target entities
+            is_list: Whether the reference comes from a list field. Defaults to False.
 
         Returns:
-            ThreatrEntityRelation | None: A new ThreatrEntityRelation or None if target not found
+            A new ThreatrEntityRelation or None if target not found
         """
         target_id = reference_value if isinstance(reference_value, UUID) else reference_value.id
         target_entity = colander_feed.entities.get(str(target_id))
@@ -310,8 +310,8 @@ class ThreatrToColanderMapper(ThreatrMapper):
         and building the output ColanderFeed incrementally.
 
     Attributes:
-        threatr_feed (Optional[ThreatrFeed]): The input Threatr feed being converted
-        colander_feed (ColanderFeed): The output Colander feed being built
+        threatr_feed: The input Threatr feed being converted
+        colander_feed: The output Colander feed being built
     """
 
     def __init__(self):
@@ -330,12 +330,12 @@ class ThreatrToColanderMapper(ThreatrMapper):
         Get the field name for a relation based on the mapping configuration.
 
         Args:
-            source_type (str): The source entity type name
-            target_type (str): The target entity type name
-            relation_name (str): The relation name to reverse-map
+            source_type: The source entity type name
+            target_type: The target entity type name
+            relation_name: The relation name to reverse-map
 
         Returns:
-            Optional[str]: The corresponding field name or None if no mapping found
+            The corresponding field name or None if no mapping found
 
         Note:
             This method performs reverse lookup in the mapping configuration
@@ -360,10 +360,10 @@ class ThreatrToColanderMapper(ThreatrMapper):
         on the source entity, which is the preferred representation in the Colander model.
 
         Args:
-            threatr_relation (ThreatrEntityRelation): The Threatr relation to convert
+            threatr_relation: The Threatr relation to convert
 
         Returns:
-            bool: True if the relation was successfully converted to a reference field
+            True if the relation was successfully converted to a reference field
 
         Important:
             Only relations that map to known reference fields can be converted.
@@ -399,10 +399,10 @@ class ThreatrToColanderMapper(ThreatrMapper):
         Convert a Threatr entity relation to a Colander entity relation.
 
         Args:
-            relation (ThreatrEntityRelation): The Threatr entity relation to convert
+            relation: The Threatr entity relation to convert
 
         Returns:
-            Optional[ColanderEntityRelation]: A Colander entity relation or None if conversion fails
+            A Colander entity relation or None if conversion fails
 
         Raises:
             AssertionError: If relation or its object references are None
@@ -444,10 +444,10 @@ class ThreatrToColanderMapper(ThreatrMapper):
         Threatr entity's super_type and type, then creates the corresponding instance.
 
         Args:
-            entity (ThreatrEntity): The Threatr entity to convert
+            entity: The Threatr entity to convert
 
         Returns:
-            Optional[EntityTypes]: A Colander entity or None if conversion is not supported
+            A Colander entity or None if conversion is not supported
 
         Raises:
             AssertionError: If entity is None or not a ThreatrEntity instance
@@ -489,10 +489,10 @@ class ThreatrToColanderMapper(ThreatrMapper):
         Convert a Threatr event to a Colander event.
 
         Args:
-            event (ThreatrEvent): The Threatr event to convert
+            event: The Threatr event to convert
 
         Returns:
-            Event: A Colander event
+            A Colander event
 
         Raises:
             AssertionError: If event is None or not a ThreatrEvent instance
@@ -540,10 +540,10 @@ class ThreatrToColanderMapper(ThreatrMapper):
         relations back to reference fields where possible.
 
         Args:
-            threatr_feed (ThreatrFeed): The Threatr feed to convert
+            threatr_feed: The Threatr feed to convert
 
         Returns:
-            ColanderFeed: A ColanderFeed object containing the converted data
+            A ColanderFeed object containing the converted data
 
         Raises:
             AssertionError: If threatr_feed is None or not a ThreatrFeed instance
@@ -590,10 +590,10 @@ class ThreatrConverter:
         Converts Threatr data to Colander data using the mapping file.
 
         Args:
-            threatr_feed (ThreatrFeed): The Threatr data to convert.
+            threatr_feed: The Threatr data to convert.
 
         Returns:
-            ColanderFeed: The converted Colander data.
+            The converted Colander data.
         """
         mapper = ThreatrToColanderMapper()
         return mapper.convert(threatr_feed)
@@ -604,11 +604,11 @@ class ThreatrConverter:
         Converts Colander data to Threatr data using the mapping file.
 
         Args:
-            colander_feed (ColanderFeed): The Colander data to convert.
-            root_entity (Union[str, UUID4, EntityTypes]): The root entity ID, UUID, or entity object to use as the root
+            colander_feed: The Colander data to convert.
+            root_entity: The root entity ID, UUID, or entity object to use as the root
 
         Returns:
-            ThreatrFeed: The converted Threatr data.
+            The converted Threatr data.
         """
         mapper = ColanderToThreatrMapper()
         colander_feed.resolve_references()

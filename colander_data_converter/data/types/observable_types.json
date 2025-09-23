@@ -11,7 +11,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-ethernet",
-    "regex": "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$"
+    "regex": "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$",
+    "value_example": "192.0.2.1"
   },
   {
     "short_name": "IPV6",
@@ -25,7 +26,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-ethernet",
-    "regex": "^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::ffff:(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))$"
+    "regex": "^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::ffff:(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))$",
+    "value_example": "2001:db8::1"
   },
   {
     "short_name": "MAC",
@@ -36,7 +38,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-ethernet",
-    "regex": "^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$"
+    "regex": "^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$",
+    "value_example": "00:1A:2B:3C:4D:5E"
   },
   {
     "short_name": "DOMAIN",
@@ -48,7 +51,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*\\.[a-zA-Z]{2,}$"
+    "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*\\.[a-zA-Z]{2,}$",
+    "value_example": "example.com"
   },
   {
     "short_name": "DOMAIN_REGISTRAR",
@@ -68,7 +72,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": ""
+    "regex": "",
+    "value_example": "GitHub Inc."
   },
   {
     "short_name": "DOMAIN_REGISTRANT",
@@ -88,7 +93,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": ""
+    "regex": "",
+    "value_example": "Example Organization"
   },
   {
     "short_name": "HOSTNAME",
@@ -97,7 +103,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": ""
+    "regex": "",
+    "value_example": "host1.internal"
   },
   {
     "short_name": "EMAIL",
@@ -106,7 +113,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-email_outline",
-    "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+    "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+    "value_example": "user@example.com"
   },
   {
     "short_name": "PHONE",
@@ -119,7 +127,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-fa-phone",
-    "regex": "^(\\+\\d{1,3}[-.\\s]?)?(\\(?\\d{1,4}\\)?[-.\\s]?)*\\d{1,4}$"
+    "regex": "^(\\+\\d{1,3}[-.\\s]?)?(\\(?\\d{1,4}\\)?[-.\\s]?)*\\d{1,4}$",
+    "value_example": "+1 202-555-0143"
   },
   {
     "short_name": "SOCIAL_ACCOUNT",
@@ -130,7 +139,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-account_card_details",
-    "regex": ""
+    "regex": "",
+    "value_example": "@example_user"
   },
   {
     "short_name": "URL",
@@ -144,7 +154,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[^\\s]*)?$"
+    "regex": "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[^\\s]*)?$",
+    "value_example": "https://example.com/path?query=1"
   },
   {
     "short_name": "URI",
@@ -153,7 +164,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$"
+    "regex": "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$",
+    "value_example": "urn:isbn:0451450523"
   },
   {
     "short_name": "MD5",
@@ -162,7 +174,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": "^[a-fA-F0-9]{32}$"
+    "regex": "^[a-fA-F0-9]{32}$",
+    "value_example": "d41d8cd98f00b204e9800998ecf8427e"
   },
   {
     "short_name": "COMMUNITY_ID",
@@ -176,7 +189,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": ""
+    "regex": "",
+    "value_example": "1:hJ4jHqT3mUo4xXH7j0v3JY2F1hw="
   },
   {
     "short_name": "SHA1",
@@ -185,7 +199,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": "^[a-fA-F0-9]{40}$"
+    "regex": "^[a-fA-F0-9]{40}$",
+    "value_example": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
   },
   {
     "short_name": "SHA256",
@@ -194,7 +209,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": "^[a-fA-F0-9]{64}$"
+    "regex": "^[a-fA-F0-9]{64}$",
+    "value_example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   {
     "short_name": "PEHASH",
@@ -203,7 +219,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": ""
+    "regex": "",
+    "value_example": "3f2a9b7c"
   },
   {
     "short_name": "IMPHASH",
@@ -215,7 +232,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": ""
+    "regex": "",
+    "value_example": "1a2b3c4d5e6f7890"
   },
   {
     "short_name": "DEXOFUZZY",
@@ -224,7 +242,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-fa-hashtag",
-    "regex": ""
+    "regex": "",
+    "value_example": "3:abcde:12345"
   },
   {
     "short_name": "CIDR",
@@ -233,7 +252,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-ethernet",
-    "regex": "^((?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))\\/(3[0-2]|[12]?\\d)$"
+    "regex": "^((?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))\\/(3[0-2]|[12]?\\d)$",
+    "value_example": "192.0.2.0/24"
   },
   {
     "short_name": "PATH",
@@ -242,7 +262,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-file_tree",
-    "regex": "^([a-zA-Z]:[\\\\]|[\\\\]{2}[^\\\\]+[\\\\]|[\\/])?([\\w\\-. ]+[\\/\\\\])*[\\w\\-. ]+$"
+    "regex": "^([a-zA-Z]:[\\\\]|[\\\\]{2}[^\\\\]+[\\\\]|[\\/])?([\\w\\-. ]+[\\/\\\\])*[\\w\\-. ]+$",
+    "value_example": "/var/log/syslog"
   },
   {
     "short_name": "MUTEX",
@@ -251,7 +272,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-mdi-pencil_lock",
-    "regex": ""
+    "regex": "",
+    "value_example": "Global\\MyAppMutex"
   },
   {
     "short_name": "CVE",
@@ -260,7 +282,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-cod-debug_console",
-    "regex": "^CVE-\\d{4}-\\d{4,}$"
+    "regex": "^CVE-\\d{4}-\\d{4,}$",
+    "value_example": "CVE-2021-44228"
   },
   {
     "short_name": "OS_QUERY",
@@ -269,7 +292,8 @@
     "default_attributes": {},
     "svg_icon": "",
     "nf_icon": "nf-cod-inspect",
-    "regex": ""
+    "regex": "",
+    "value_example": "select * from processes where name='ssh';"
   },
   {
     "short_name": "SSL_CERT_F",
@@ -287,7 +311,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-certificate",
-    "regex": ""
+    "regex": "",
+    "value_example": "SHA256 Fingerprint=AB:CD:EF:..."
   },
   {
     "short_name": "DNS_RECORD",
@@ -309,7 +334,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": ""
+    "regex": "",
+    "value_example": "A example.com 192.0.2.1"
   },
   {
     "short_name": "ASN",
@@ -320,7 +346,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": "^AS[0-9]+$"
+    "regex": "^AS[0-9]+$",
+    "value_example": "AS15169"
   },
   {
     "short_name": "PROCESS",
@@ -332,7 +359,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-cod-debug_console",
-    "regex": ""
+    "regex": "",
+    "value_example": "chrome.exe"
   },
   {
     "short_name": "SERVICE",
@@ -345,7 +373,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-mdi-web",
-    "regex": ""
+    "regex": "",
+    "value_example": "80/tcp open http"
   },
   {
     "short_name": "NAMESPACE",
@@ -356,7 +385,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-md-code_tags",
-    "regex": ""
+    "regex": "",
+    "value_example": "com.example.app.module"
   },
   {
     "short_name": "LOCATION",
@@ -373,7 +403,8 @@
     },
     "svg_icon": "",
     "nf_icon": "nf-fa-globe",
-    "regex": ""
+    "regex": "",
+    "value_example": "37.4219983,-122.084"
   },
   {
     "short_name": "GENERIC",
@@ -381,6 +412,7 @@
     "description": "A general or unspecified observable type that does not fit other categories.",
     "svg_icon": "",
     "nf_icon": "nf nf-fa-bug",
-    "regex": ""
+    "regex": "",
+    "value_example": "example value"
   }
 ]

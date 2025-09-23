@@ -41,14 +41,13 @@ class TemplateExporter(BaseExporter):
         search path and template name.
 
         Args:
-            feed (~colander_data_converter.base.models.ColanderFeed): The data feed containing entities to
+            feed: The data feed containing entities to
                 be exported. This feed will be passed to the template as the :py:obj:`feed` variable.
-            template_search_path (str | os.PathLike[str] | Sequence[str | os.PathLike[str]]):
-                Path or sequence of paths where template files are located. Can be a single
+            template_search_path: Path or sequence of paths where template files are located. Can be a single
                 path string, PathLike object, or sequence of paths for multiple search locations.
-            template_name (str): The name of the template file to load from the search path.
+            template_name: The name of the template file to load from the search path.
                 Should include the file extension (e.g., "template.j2", "export.html").
-            template (~jinja2.Template): A pre-compiled Jinja2 Template object. If provided,
+            template: A pre-compiled Jinja2 Template object. If provided,
                 :py:obj:`template_search_path` and :py:obj:`template_name` are ignored. Defaults to None.
             **loader_options: Additional keyword arguments passed to the :py:obj:`~jinja2.FileSystemLoader`.
 
@@ -82,7 +81,7 @@ class TemplateExporter(BaseExporter):
         made available as template variables.
 
         Args:
-            output (io.TextIO): A text-based output stream where the rendered template
+            output: A text-based output stream where the rendered template
                 will be written. This can be a file object, StringIO,
                 or any object implementing the TextIO interface.
             **kwargs: Additional keyword arguments that will be passed as variables

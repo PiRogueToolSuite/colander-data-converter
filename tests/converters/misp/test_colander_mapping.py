@@ -23,7 +23,7 @@ from colander_data_converter.base.types.detection_rule import DetectionRuleTypes
 from colander_data_converter.base.types.device import DeviceTypes
 from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
-from colander_data_converter.converters.misp.converter import ColanderToMISPMapper
+from colander_data_converter.converters.misp.converter import ColanderToMISPMapper, MISPToColanderMapper
 
 
 class TestColanderMapping(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_observable_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["OBSERVABLE"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["OBSERVABLE"].get_supported_colander_types()
         for obs_type in ObservableTypes:
             if obs_type.value.short_name not in supported_types:
                 print(f"Skipping {obs_type.value.short_name}")
@@ -61,7 +61,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_artifact_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["ARTIFACT"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["ARTIFACT"].get_supported_colander_types()
         for colander_type in ArtifactTypes:
             if colander_type.value.short_name not in supported_types:
                 print(f"Skipping {colander_type.value.short_name}")
@@ -108,7 +108,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_device_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["DEVICE"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["DEVICE"].get_supported_colander_types()
         for colander_type in DeviceTypes:
             if colander_type.value.short_name not in supported_types:
                 print(f"Skipping {colander_type.value.short_name}")
@@ -122,7 +122,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_actor_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["ACTOR"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["ACTOR"].get_supported_colander_types()
         for colander_type in ActorTypes:
             if colander_type.value.short_name not in supported_types:
                 print(f"Skipping {colander_type.value.short_name}")
@@ -134,7 +134,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_event_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["EVENT"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["EVENT"].get_supported_colander_types()
         for colander_type in EventTypes:
             if colander_type.value.short_name not in supported_types:
                 print(f"Skipping {colander_type.value.short_name}")
@@ -146,7 +146,7 @@ class TestColanderMapping(unittest.TestCase):
 
     def test_data_fragment_mappings(self):
         mapper = ColanderToMISPMapper()
-        supported_types = mapper.mapping.super_types_mapping["DATAFRAGMENT"].get_supported_colander_types()
+        supported_types = mapper.mapping.colander_super_types_mapping["DATAFRAGMENT"].get_supported_colander_types()
         for colander_type in DataFragmentTypes:
             if colander_type.value.short_name not in supported_types:
                 print(f"Skipping {colander_type.value.short_name}")
@@ -178,14 +178,19 @@ class TestColanderMapping(unittest.TestCase):
         n_detection_rule = len(feed.get_by_super_type(CommonEntitySuperTypes.DETECTION_RULE.value))
         n_observable = len(feed.get_by_super_type(CommonEntitySuperTypes.OBSERVABLE.value))
         n_threat = len(feed.get_by_super_type(CommonEntitySuperTypes.THREAT.value))
+        n_entities = sum([n_actor, n_artifact, n_device, n_event, n_data_fragment, n_detection_rule])
 
         misp_event, skipped = mapper.convert_case(case, feed)
+
+        mapper = MISPToColanderMapper()
+        case, feed = mapper.convert_misp_event(misp_event)
+        assert len(feed.entities) == n_entities + n_observable - len(skipped)
 
         n_attributes = len(misp_event.attributes)
         n_objects = len(misp_event.objects)
 
         assert n_attributes == n_observable - len(skipped)
-        assert n_objects == sum([n_actor, n_artifact, n_device, n_event, n_data_fragment, n_detection_rule])
+        assert n_objects == n_entities
 
         org = MISPOrganisation()
         org.from_dict(

@@ -22,7 +22,7 @@ class ThreatrMappingLoader:
         subsequent use.
 
     Attributes:
-        mapping_data (List[Dict[str, Any]]): The loaded mapping data
+        mapping_data: The loaded mapping data
 
     Example:
         >>> loader = ThreatrMappingLoader()
@@ -49,12 +49,12 @@ class ThreatrMappingLoader:
         ``data/threatr_colander_mapping.json`` relative to this module's package.
 
         Returns:
-            List[Dict[str, Any]]: The mapping data loaded from the JSON file
+            The mapping data loaded from the JSON file
 
         Raises:
             ValueError: If the file cannot be found or contains invalid JSON
             FileNotFoundError: If the mapping file does not exist
-            json.JSONDecodeError: If the mapping file contains malformed JSON
+            ~json.JSONDecodeError: If the mapping file contains malformed JSON
 
         Important:
             The JSON file must contain a root object with a "mapping" key that holds
@@ -78,7 +78,7 @@ class ThreatrMapper:
     two systems.
 
     Attributes:
-        mapping_loader (ThreatrMappingLoader): Instance of ThreatrMappingLoader for accessing mapping data
+        mapping_loader: Instance of ThreatrMappingLoader for accessing mapping data
 
     Note:
         This is a base class that should be subclassed by specific mapper

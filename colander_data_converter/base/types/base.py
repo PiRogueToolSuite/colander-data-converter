@@ -42,6 +42,9 @@ class CommonEntityType(BaseModel, abc.ABC):
     svg_icon: str | None = Field(default=None, exclude=True)
     """Optional SVG icon for the model type."""
 
+    value_example: str | None = Field(default=None, exclude=True)
+    """Optional example value for the model type."""
+
     default_attributes: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     """Optional dictionary of default attributes."""
 

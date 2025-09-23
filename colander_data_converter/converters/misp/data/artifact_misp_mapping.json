@@ -5,8 +5,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target":"attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -27,8 +28,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -49,8 +51,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -71,8 +74,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -93,8 +97,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -115,8 +120,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -137,8 +143,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -159,8 +166,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -181,8 +189,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -203,8 +212,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -225,8 +235,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -247,8 +258,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -269,8 +281,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -291,8 +304,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -313,8 +327,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -335,8 +350,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -357,8 +373,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -377,12 +394,7 @@
     "colander_type": "REPORT",
     "misp_object": "report",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/report/definition.json",
-    "misp_colander_mapping": {
-      "discriminator": {
-        "type": "",
-        "field": ""
-      }
-    },
+    "misp_colander_mapping": {},
     "colander_misp_mapping": {
       "misp_attributes": {
         "name": "title",
@@ -396,8 +408,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -418,8 +431,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -440,8 +454,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -462,8 +477,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -484,8 +500,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -506,8 +523,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {
@@ -528,8 +546,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/objects/file/definition.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "mimetype"
+        "type": "suggest",
+        "property": "mimetype",
+        "target": "attribute-value"
       }
     },
     "colander_misp_mapping": {

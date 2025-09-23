@@ -457,3 +457,7 @@ class ArtifactTypes(enum.Enum):
                 return _artifact_type.value
         else:
             return cls.default.value
+
+    @classmethod
+    def suggest(cls, value: str) -> ArtifactType:
+        return cls.by_mime_type(value)

@@ -76,8 +76,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "regex",
-        "field": "value"
+        "type": "suggest",
+        "property": "value",
+        "target":"self"
       }
     },
     "colander_misp_mapping": {
@@ -95,8 +96,9 @@
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "regex",
-        "field": "value"
+        "type": "suggest",
+        "property": "value",
+        "target": "self"
       }
     },
     "colander_misp_mapping": {

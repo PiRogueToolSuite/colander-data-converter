@@ -171,3 +171,7 @@ class ActorTypes(enum.Enum):
         if sn in cls._member_names_:
             return cls[sn].value
         return cls.default.value
+
+    @classmethod
+    def suggest(cls, value: str) -> ActorType:
+        return cls.by_short_name(value)

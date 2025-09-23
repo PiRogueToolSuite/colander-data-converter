@@ -23,7 +23,7 @@ autodoc_typehints_description_target = "documented_params"
 autoclass_content = "class"
 autodoc_member_order = "groupwise"
 
-autodoc_pydantic_model_show_field_summary = True
+autodoc_pydantic_model_show_field_summary = False
 autodoc_pydantic_field_show_constraints = True
 autodoc_pydantic_model_signature_prefix = "class"
 autodoc_pydantic_field_show_required = True
@@ -95,6 +95,7 @@ exclude_patterns = []
 autosummary_generate = True
 
 intersphinx_mapping = {
+    "pymisp": ("https://pymisp.readthedocs.io/en/latest", None),
     "pydantic": ("https://docs.pydantic.dev/latest", None),
     "jinja2": ("https://jinja.palletsprojects.com/en/stable", None),
     "python": ("https://docs.python.org/3", None),

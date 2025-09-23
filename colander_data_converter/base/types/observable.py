@@ -89,6 +89,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "^AS[0-9]+$",
+            "value_example": "AS15169",
         }
     )
     """Autonomous system number - A unique number assigned to a group of IP networks operated by one or more network operators."""
@@ -102,6 +103,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
             "regex": "^((?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))\\/(3[0-2]|[12]?\\d)$",
+            "value_example": "192.0.2.0/24",
         }
     )
     """CIDR - A Classless Inter-Domain Routing block, representing a range of IP addresses."""
@@ -115,6 +117,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "",
+            "value_example": "1:hJ4jHqT3mUo4xXH7j0v3JY2F1hw=",
         }
     )
     """Community id - A hash value used to uniquely identify network flows across tools."""
@@ -128,6 +131,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-cod-debug_console",
             "regex": "^CVE-\\d{4}-\\d{4,}$",
+            "value_example": "CVE-2021-44228",
         }
     )
     """CVE - A Common Vulnerabilities and Exposures identifier for publicly known security flaws."""
@@ -141,6 +145,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "",
+            "value_example": "3:abcde:12345",
         }
     )
     """Dexofuzzy hash - A fuzzy hash value used to compare Android DEX files for similarity."""
@@ -167,6 +172,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "",
+            "value_example": "A example.com 192.0.2.1",
         }
     )
     """DNS record - A record containing information about a domain name in the DNS system."""
@@ -180,6 +186,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))*\\.[a-zA-Z]{2,}$",
+            "value_example": "example.com",
         }
     )
     """Domain name - A human-readable address used to identify resources on the internet."""
@@ -204,6 +211,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "",
+            "value_example": "Example Organization",
         }
     )
     """Domain registrant - The individual or organization that owns or controls a domain name."""
@@ -228,6 +236,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "",
+            "value_example": "GitHub Inc.",
         }
     )
     """Domain registrar - The organization or entity responsible for registering domain names."""
@@ -241,6 +250,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-email_outline",
             "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            "value_example": "user@example.com",
         }
     )
     """Email address - An address used to send and receive electronic mail."""
@@ -253,6 +263,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf nf-fa-bug",
             "regex": "",
+            "value_example": "example value",
         }
     )
     """Generic - A general or unspecified observable type that does not fit other categories."""
@@ -266,6 +277,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "",
+            "value_example": "host1.internal",
         }
     )
     """Hostname - A label assigned to a device on a network, used to identify it in various forms."""
@@ -279,6 +291,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "",
+            "value_example": "1a2b3c4d5e6f7890",
         }
     )
     """Import hash - A hash of the import table of a PE file, used to identify similar binaries."""
@@ -292,6 +305,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
             "regex": "^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$",
+            "value_example": "192.0.2.1",
         }
     )
     """IPv4 - An IPv4 address, a 32-bit numeric address used for identifying devices on a network."""
@@ -305,6 +319,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
             "regex": "^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|::ffff:(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d))$",
+            "value_example": "2001:db8::1",
         }
     )
     """IPv6 - An IPv6 address, a 128-bit alphanumeric address for identifying devices on a network."""
@@ -326,6 +341,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-globe",
             "regex": "",
+            "value_example": "37.4219983,-122.084",
         }
     )
     """Location - A physical or geographical place, specified by coordinates or address."""
@@ -339,6 +355,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-ethernet",
             "regex": "^([0-9a-fA-F]{2}[:-]){5}[0-9a-fA-F]{2}$",
+            "value_example": "00:1A:2B:3C:4D:5E",
         }
     )
     """MAC address - A unique hardware identifier assigned to a network interface card (NIC)."""
@@ -352,6 +369,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "^[a-fA-F0-9]{32}$",
+            "value_example": "d41d8cd98f00b204e9800998ecf8427e",
         }
     )
     """MD5 - A 128-bit hash value, commonly used to verify file integrity."""
@@ -365,6 +383,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-pencil_lock",
             "regex": "",
+            "value_example": "Global\\MyAppMutex",
         }
     )
     """Mutex - A mutual exclusion object used for process synchronization."""
@@ -378,6 +397,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-md-code_tags",
             "regex": "",
+            "value_example": "com.example.app.module",
         }
     )
     """Namespace - A container that holds a set of identifiers, such as classes or functions, to avoid naming conflicts."""
@@ -391,6 +411,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-cod-inspect",
             "regex": "",
+            "value_example": "select * from processes where name='ssh';",
         }
     )
     """Os query - A query or result from an operating system instrumentation framework."""
@@ -404,6 +425,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-file_tree",
             "regex": "^([a-zA-Z]:[\\\\]|[\\\\]{2}[^\\\\]+[\\\\]|[\\/])?([\\w\\-. ]+[\\/\\\\])*[\\w\\-. ]+$",
+            "value_example": "/var/log/syslog",
         }
     )
     """File path - A string specifying the location of a file or directory in a filesystem."""
@@ -417,6 +439,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "",
+            "value_example": "3f2a9b7c",
         }
     )
     """PE hash - A hash value calculated from the structure of a Portable Executable (PE) file."""
@@ -430,6 +453,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-phone",
             "regex": "^(\\+\\d{1,3}[-.\\s]?)?(\\(?\\d{1,4}\\)?[-.\\s]?)*\\d{1,4}$",
+            "value_example": "+1 202-555-0143",
         }
     )
     """Phone number - A numeric identifier used to reach a telephone endpoint."""
@@ -443,6 +467,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-cod-debug_console",
             "regex": "",
+            "value_example": "chrome.exe",
         }
     )
     """Process name - The name of a running process on a computer system."""
@@ -456,6 +481,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "",
+            "value_example": "80/tcp open http",
         }
     )
     """Running service - A network or system service that is currently active or listening."""
@@ -469,6 +495,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "^[a-fA-F0-9]{40}$",
+            "value_example": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
         }
     )
     """SHA1 - A 160-bit hash value, used for data integrity and file identification."""
@@ -482,6 +509,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-fa-hashtag",
             "regex": "^[a-fA-F0-9]{64}$",
+            "value_example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         }
     )
     """SHA256 - A 256-bit hash value, widely used for file and data integrity verification."""
@@ -495,6 +523,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-account_card_details",
             "regex": "",
+            "value_example": "@example_user",
         }
     )
     """Social account identifier - A unique identifier for a user account on a social media platform."""
@@ -517,6 +546,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-certificate",
             "regex": "",
+            "value_example": "SHA256 Fingerprint=AB:CD:EF:...",
         }
     )
     """SSL certificate fingerprint - A hash value uniquely identifying an SSL/TLS certificate."""
@@ -530,6 +560,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$",
+            "value_example": "urn:isbn:0451450523",
         }
     )
     """URI - A Uniform Resource Identifier, a string used to identify a resource."""
@@ -543,6 +574,7 @@ class ObservableTypes(enum.Enum):
             "svg_icon": "",
             "nf_icon": "nf-mdi-web",
             "regex": "^(https?|ftp):\\/\\/[a-zA-Z0-9.-]+(:[0-9]+)?(\\/[^\\s]*)?$",
+            "value_example": "https://example.com/path?query=1",
         }
     )
     """URL - A Uniform Resource Locator, specifying the address of a resource on the internet."""

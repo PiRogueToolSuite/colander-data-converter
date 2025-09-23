@@ -5,8 +5,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Alert"
       }
     },
     "colander_misp_mapping": {
@@ -28,8 +30,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Attack"
       }
     },
     "colander_misp_mapping": {
@@ -51,8 +55,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Targeted attack"
       }
     },
     "colander_misp_mapping": {
@@ -74,8 +80,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Antivirus detection"
       }
     },
     "colander_misp_mapping": {
@@ -97,8 +105,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "field",
-        "field": "event_type"
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Communication"
       }
     },
     "colander_misp_mapping": {
@@ -120,8 +130,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Compromise"
       }
     },
     "colander_misp_mapping": {
@@ -143,8 +155,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Generic"
       }
     },
     "colander_misp_mapping": {
@@ -166,8 +180,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Hit"
       }
     },
     "colander_misp_mapping": {
@@ -189,8 +205,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Infection"
       }
     },
     "colander_misp_mapping": {
@@ -212,8 +230,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Passive DNS"
       }
     },
     "colander_misp_mapping": {
@@ -235,8 +255,10 @@
     "misp_definition": "",
     "misp_colander_mapping": {
       "discriminator": {
-        "type": "",
-        "field": ""
+        "type": "match",
+        "property": "event_type",
+        "target": "attribute-value",
+        "value": "Resolve"
       }
     },
     "colander_misp_mapping": {

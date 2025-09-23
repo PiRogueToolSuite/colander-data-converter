@@ -23,8 +23,8 @@ class MermaidExporter(BaseExporter):
         Initialize the Mermaid exporter.
 
         Args:
-            feed (~colander_data_converter.base.models.ColanderFeed): The Colander feed data to be exported
-            theme (dict, optional): Custom theme configuration. If None, loads the default theme automatically
+            feed: The Colander feed data to be exported
+            theme: Custom theme configuration. If None, loads the default theme automatically
         """
         self.feed = feed
         self.theme = theme
@@ -45,7 +45,7 @@ class MermaidExporter(BaseExporter):
 
         Raises:
             FileNotFoundError: If the default theme file cannot be found
-            json.JSONDecodeError: If the theme file contains invalid JSON
+            ~json.JSONDecodeError: If the theme file contains invalid JSON
         """
         theme_file = (
             resources.files(resource_package)
@@ -65,7 +65,7 @@ class MermaidExporter(BaseExporter):
         and writes it to the provided output stream. It does not render the diagram.
 
         Args:
-            output (TextIO): The output stream to write the Mermaid diagram to
+            output: The output stream to write the Mermaid diagram to
             **kwargs: Additional keyword arguments passed to the template engine
         """
         self.template_exporter.export(output, theme=self.theme)

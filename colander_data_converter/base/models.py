@@ -42,7 +42,7 @@ def get_id(obj: Any) -> Optional[UUID4]:
         obj: The object to extract the UUID from. Can be a string, UUID, or an object with an 'id' attribute.
 
     Returns:
-        Optional[UUID4]: The extracted UUID4 if available, otherwise None.
+        The extracted UUID4 if available, otherwise None.
     """
     if not obj:
         return None
@@ -86,11 +86,7 @@ class ColanderType(BaseModel):
     resolving type hints, and extracting subclass information.
     """
 
-    model_config: ConfigDict = ConfigDict(
-        str_strip_whitespace=True,
-        arbitrary_types_allowed=True,
-        from_attributes=True
-    )
+    model_config: ConfigDict = ConfigDict(str_strip_whitespace=True, arbitrary_types_allowed=True, from_attributes=True)
 
     def model_post_init(self, __context):
         """Executes post-initialization logic for the model, ensuring the repository
@@ -205,7 +201,7 @@ class ColanderType(BaseModel):
         organizing and accessing class hierarchies dynamically.
 
         Returns:
-            Dict[str, type['EntityTypes']]: A dictionary where the keys are the lowercase names of the subclasses, and
+            A dictionary where the keys are the lowercase names of the subclasses, and
             the values are the subclass data_types themselves.
         """
         subclasses = {}
@@ -220,11 +216,11 @@ class ColanderType(BaseModel):
         the given content type is valid and matches one of the registered subclasses.
 
         Args:
-            content_type (str): A string representing the type of content to be resolved.
+            content_type: A string representing the type of content to be resolved.
                 Must match the name of a subclass (in lowercase) of the current class.
 
         Returns:
-            type['EntityTypes']: The resolved class type corresponding to the provided content type.
+            The resolved class type corresponding to the provided content type.
         """
         _content_type = content_type.lower()
         _subclasses = cls.subclasses()
@@ -241,10 +237,10 @@ class ColanderType(BaseModel):
         a ValueError is raised.
 
         Args:
-            obj (dict): The dictionary from which type hints need to be extracted.
+            obj: The dictionary from which type hints need to be extracted.
 
         Returns:
-            str: A string representing the extracted type hint.
+            A string representing the extracted type hint.
 
         Raises:
             ValueError: If the type hint cannot be extracted from the provided dictionary.
@@ -358,7 +354,7 @@ class Entity(ColanderType, abc.ABC):
         This method returns the type definition object (e.g., ObservableType, ActorType, DeviceType).
 
         Returns:
-            Optional[_EntityType]: The type definition object for this entity. The specific type depends
+            The type definition object for this entity. The specific type depends
             on the entity subclass (e.g., Observable returns ObservableType, Actor returns ActorType, etc.).
         """
         if hasattr(self, "type"):
@@ -381,15 +377,15 @@ class Entity(ColanderType, abc.ABC):
         'extracted_from', 'operated_by', 'associated_threat', etc.
 
         Args:
-            mapping (Dict[str, str], optional): A dictionary to customize relation names. Keys should
+            mapping: A dictionary to customize relation names. Keys should
                 be field names, and values should be the desired relation names. If not provided,
                 field names are converted to human-readable format by replacing underscores with spaces.
                 Defaults to None.
-            default_name (str): If a mapping is provided but no field mapping was found, the relation
+            default_name: If a mapping is provided but no field mapping was found, the relation
                 will be named 'default_new_name'.
 
         Returns:
-            Dict[str, "EntityRelation"]: A dictionary of EntityRelation objects keyed by their string
+            A dictionary of EntityRelation objects keyed by their string
             representation of relation IDs. Each relation represents a connection from this entity
             to another entity referenced in its fields.
 
@@ -636,7 +632,7 @@ class DataFragment(Entity):
     type: DataFragmentType
     """The type definition for the data fragment."""
 
-    content: str
+    content: str | None = None
     """The content of the data fragment."""
 
     extracted_from: Optional[Artifact] | Optional[ObjectReference] = None
@@ -736,7 +732,7 @@ class DetectionRule(Entity):
     type: DetectionRuleType
     """The type definition for the detection rule."""
 
-    content: str
+    content: str | None = None
     """The content or logic of the detection rule."""
 
     targeted_observables: Optional[List[Observable]] | Optional[List[ObjectReference]] = None
@@ -1013,13 +1009,13 @@ class ColanderFeed(ColanderType):
         It extracts the object's ID and searches across all three collections.
 
         Args:
-            obj (Any): The object to check for existence. Can be:
+            obj: The object to check for existence. Can be:
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
                 - Any object that can be processed by get_id()
 
         Returns:
-            bool: True if the object exists in entities, relations, or cases;
+            True if the object exists in entities, relations, or cases;
             False otherwise
 
         Example:
@@ -1052,15 +1048,15 @@ class ColanderFeed(ColanderType):
         then attempts to retrieve it from the appropriate collection.
 
         Args:
-            obj (Any): The object to retrieve. Can be:
+            obj: The object to retrieve.
+                Can be:
 
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
                 - Any object that can be processed by get_id()
 
         Returns:
-            Optional[Union[Case, EntityTypes, EntityRelation]]: The found object if it exists
-            in any of the collections (entities, relations, or cases), otherwise None.
+            The found object if it exists in any of the collections (entities, relations, or cases), otherwise None.
         """
         if not self.contains(obj):
             return None
@@ -1091,11 +1087,10 @@ class ColanderFeed(ColanderType):
         relations are considered to ensure data consistency.
 
         Args:
-            entity (EntityTypes): The entity to find incoming relations for. Must be an instance of Entity.
+            entity: The entity to find incoming relations for. Must be an instance of Entity.
 
         Returns:
-            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
-            is the target (obj_to).
+            A dictionary mapping relation IDs to EntityRelation objects where the entity is the target (obj_to).
         """
         assert isinstance(entity, Entity)
         relations = {}
@@ -1114,12 +1109,11 @@ class ColanderFeed(ColanderType):
         relations are considered to ensure data consistency.
 
         Args:
-            entity (EntityTypes): The entity to find outgoing relations for. Must be an instance of Entity.
+            entity: The entity to find outgoing relations for. Must be an instance of Entity.
             exclude_immutables (bool): If True, exclude immutable relations.
 
         Returns:
-            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
-            is the source (obj_from).
+            A dictionary mapping relation IDs to EntityRelation objects where the entity is the source (obj_from).
         """
         assert isinstance(entity, Entity)
         relations = {}
@@ -1141,11 +1135,11 @@ class ColanderFeed(ColanderType):
         involving the specified entity, regardless of direction.
 
         Args:
-            entity (EntityTypes): The entity to find all relations for. Must be an instance of Entity.
-            exclude_immutables (bool): If True, exclude immutable relations.
+            entity: The entity to find all relations for. Must be an instance of Entity.
+            exclude_immutables: If True, exclude immutable relations.
 
         Returns:
-            Dict[str, EntityRelation]: A dictionary mapping relation IDs to EntityRelation objects where the entity
+            A dictionary mapping relation IDs to EntityRelation objects where the entity
             is either the source (obj_from) or target (obj_to).
         """
         assert isinstance(entity, Entity)
@@ -1169,12 +1163,12 @@ class ColanderFeed(ColanderType):
         - For Events: matching first_seen and last_seen timestamps
 
         Args:
-            entity (EntityTypes): The entity to find similar matches for. Must be an
+            entity: The entity to find similar matches for. Must be an
                 instance of one of the supported entity types (Actor, Artifact,
                 DataFragment, DetectionRule, Device, Event, Observable, Threat).
 
         Returns:
-            Dict[str, EntityTypes]: A dictionary mapping entity IDs to
+            A dictionary mapping entity IDs to
             EntityTypes objects that match the similarity criteria. Returns an empty
             dictionary if no similar entities are found, or None if the input entity
             is invalid.
@@ -1221,17 +1215,15 @@ class ColanderFeed(ColanderType):
         entities and cases associated with the filtered entities.
 
         Args:
-            maximum_tlp_level (TlpPapLevel): The maximum TLP level threshold. Only entities
+            maximum_tlp_level: The maximum TLP level threshold. Only entities
                 with TLP levels strictly below this value will be included.
-            include_relations (bool, optional): If True, includes relations where both
+            include_relations: If True, includes relations where both
                 source and target entities are present in the filtered feed. Defaults to True.
-            include_cases (bool, optional): If True, includes cases associated with the
-                filtered entities. Defaults to True.
-            exclude_entity_types (Optional[List[EntityTypes]], optional): If provided, entities of these types
-                are excluded.
+            include_cases: If True, includes cases associated with the filtered entities. Defaults to True.
+            exclude_entity_types: If provided, entities of these types are excluded.
 
         Returns:
-            ColanderFeed: A new filtered feed containing entities, relations, and cases that meet the
+            A new filtered feed containing entities, relations, and cases that meet the
             specified criteria.
         """
         assert isinstance(maximum_tlp_level, TlpPapLevel)
@@ -1286,6 +1278,9 @@ class CommonEntitySuperType(BaseModel):
     type_class: Any = Field(default=None, exclude=True)
     """The Python class associated with the entity type (ObservableType...)."""
 
+    types_class: Any = Field(default=None, exclude=True)
+    """The Python class associated with the entity types (ObservableTypes...)."""
+
     default_type: Any = Field(default=None, exclude=True)
     """The default entity type (GENERIC...)."""
 
@@ -1323,6 +1318,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Actor",
         model_class=Actor,
         type_class=ActorType,
+        types_class=ActorTypes,
         default_type=ActorTypes.default,
         types=[t for t in ActorTypes],
     )
@@ -1331,6 +1327,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Artifact",
         model_class=Artifact,
         type_class=ArtifactType,
+        types_class=ArtifactTypes,
         default_type=ArtifactTypes.default,
         types=[t for t in ArtifactTypes],
     )
@@ -1339,6 +1336,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Data fragment",
         model_class=DataFragment,
         type_class=DataFragmentType,
+        types_class=DataFragmentTypes,
         default_type=DataFragmentTypes.default,
         types=[t for t in DataFragmentTypes],
     )
@@ -1347,6 +1345,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Detection rule",
         model_class=DetectionRule,
         type_class=DetectionRuleType,
+        types_class=DetectionRuleTypes,
         default_type=DetectionRuleTypes.default,
         types=[t for t in DetectionRuleTypes],
     )
@@ -1355,6 +1354,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Device",
         model_class=Device,
         type_class=DeviceType,
+        types_class=DeviceTypes,
         default_type=DeviceTypes.default,
         types=[t for t in DeviceTypes],
     )
@@ -1363,6 +1363,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Event",
         model_class=Event,
         type_class=EventType,
+        types_class=EventTypes,
         default_type=EventTypes.default,
         types=[t for t in EventTypes],
     )
@@ -1371,6 +1372,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Observable",
         model_class=Observable,
         type_class=ObservableType,
+        types_class=ObservableTypes,
         default_type=ObservableTypes.default,
         types=[t for t in ObservableTypes],
     )
@@ -1379,6 +1381,7 @@ class CommonEntitySuperTypes(enum.Enum):
         name="Threat",
         model_class=Threat,
         type_class=ThreatType,
+        types_class=ThreatTypes,
         default_type=ThreatTypes.default,
         types=[t for t in ThreatTypes],
     )

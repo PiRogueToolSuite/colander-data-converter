@@ -22,7 +22,7 @@ class BaseExporter(abc.ABC):
         and customizable export behavior through keyword arguments.
 
         Args:
-            output (IO[AnyStr]): The output stream where data will be written.
+            output: The output stream where data will be written.
                 Can be a file object, :py:class:`~io.StringIO`, :py:class:`~io.BytesIO`, or any
                 object that implements the IO interface for either
                 text or binary data.

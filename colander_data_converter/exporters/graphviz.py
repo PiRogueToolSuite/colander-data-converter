@@ -34,9 +34,9 @@ class GraphvizExporter(BaseExporter):
         the internal :py:class:`~colander_data_converter.exporters.template.TemplateExporter` with the Graphviz_ template.
 
         Args:
-            feed (~colander_data_converter.base.models.ColanderFeed): The data feed containing entities to
+            feed: The data feed containing entities to
                 be exported. This feed will be processed and converted to Graphviz DOT format.
-            theme (dict, optional): Theme configuration dictionary that controls the
+            theme: Theme configuration dictionary that controls the
                 visual styling of the generated graph. If None, the
                 default theme will be loaded automatically.
         """
@@ -76,7 +76,7 @@ class GraphvizExporter(BaseExporter):
         as a context variable, allowing the template to apply consistent styling.
 
         Args:
-            output (TextIO): A text-based output stream where the DOT format content
+            output: A text-based output stream where the DOT format content
                 will be written. This can be a file object, StringIO, or
                 any object implementing the TextIO interface.
             **kwargs: Additional keyword arguments that will be passed to the underlying
@@ -84,8 +84,8 @@ class GraphvizExporter(BaseExporter):
                 provide additional context variables to the Jinja2 template.
 
         Raises:
-            jinja2.TemplateError: If there are errors in the template syntax or rendering
-            jinja2.TemplateNotFound: If the Graphviz template file cannot be found
+            ~jinja2.TemplateError: If there are errors in the template syntax or rendering
+            ~jinja2.TemplateNotFound: If the Graphviz template file cannot be found
             IOError: If there are issues writing to the output stream
 
         Note:

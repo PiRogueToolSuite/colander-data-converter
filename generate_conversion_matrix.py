@@ -19,7 +19,7 @@ def get_misp_conversion(entity_super_type: CommonEntitySuperType, entity_type: C
     conversion: Dict[str, Any] = {
         "supported": False,
     }
-    entity_mapping = misp_mapping.get_mapping(entity_super_type, entity_type)
+    entity_mapping = misp_mapping.get_mapping_to_misp(entity_super_type, entity_type)
     if entity_mapping:
         conversion["supported"] = True
         conversion["misp_object"] = entity_mapping.misp_object
