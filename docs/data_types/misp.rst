@@ -157,7 +157,7 @@ Detection rules are converted into MISP objects of type :textmonoborder:`yara` o
 
 Devices
 -------
-Artifacts are converted into MISP objects of type :textmonoborder:`device`.
+Devices are converted into MISP objects of type :textmonoborder:`device`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/device_misp_mapping.json
    :template: misp-type.tmpl
@@ -208,7 +208,7 @@ Observables are converted into :textmonoborder:`attribute` of a MISP event:
 
 Threats
 -------
-Events are converted into MISP objects of type :textmonoborder:`misp-tag`.
+Threats are converted into MISP objects of type :textmonoborder:`misp-tag`.
 
 .. datatemplate:json:: ../../colander_data_converter/converters/misp/data/threat_misp_mapping.json
    :template: misp-type.tmpl
