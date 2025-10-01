@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - main
-      - "*.*.*"
+      - "v*.*.*"
       - "test-me-*"
     tags:
-      - "*.*.*"
+      - "v*.*.*"
 
   pull_request:
     branches:
       - main
-      - "*.*.*"
+      - "v*.*.*"
     types:
       - opened  # default
       - synchronize  # default
@@ -128,6 +128,8 @@ jobs:
           python-version: "3.13"
           enable-cache: true
           cache-dependency-glob: "pyproject.toml"
+      - name: Install the project
+        run: uv sync --all-extras --dev
       - name: Build
         run: uv build
       - name: Publish

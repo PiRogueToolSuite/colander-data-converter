@@ -42,6 +42,7 @@ dev = [
   "hatchling",
   "mypy",
   "pre-commit-uv",
+  "uv-dynamic-versioning",
   "pytest",
   "ruff",
   "tox",
