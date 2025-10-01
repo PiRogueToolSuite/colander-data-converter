@@ -51,7 +51,7 @@ It's designed for developers, CTI analysts, and investigators who need to normal
 
 **Once released**, install with:
 ```
-_pip install colander_data_converter
+pip install colander_data_converter
 ```
 
 ## Usage examples
