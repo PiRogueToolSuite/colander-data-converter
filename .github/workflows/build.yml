@@ -103,7 +103,7 @@ jobs:
         run: |
           tox run -e docs
       - name: Upload documentation
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs/_build/html
       - name: Publish documentation on GitHub Pages
