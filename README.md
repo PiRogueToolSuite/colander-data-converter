@@ -14,7 +14,7 @@ A set of helpers to manipulate Colander data.
 <a href="https://discord.gg/qGX73GYNdp">Support</a>
 </p>
 <p>
-<img src="https://github.com/PiRogueToolSuite/colander-data-converter/actions/workflows/test.yml/badge.svg">
+<img src="https://github.com/PiRogueToolSuite/colander-data-converter/actions/workflows/build.yml/badge.svg">
 <a href="https://codecov.io/gh/PiRogueToolSuite/colander-data-converter" >
 <img src="https://codecov.io/gh/PiRogueToolSuite/colander-data-converter/graph/badge.svg?token=P1Y783DUDA"/>
 </a>
