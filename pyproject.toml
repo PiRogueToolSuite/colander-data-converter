@@ -5,7 +5,7 @@ requires = [ "hatchling", "uv-dynamic-versioning" ]
 
 [project]
 name = "colander-data-converter"
-description = "A set of helpers to convert Colander data."
+description = "A set of helpers to manipulate Colander data."
 readme = "README.md"
 license = "GPL-3.0-or-later"
 maintainers = [

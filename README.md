@@ -6,6 +6,7 @@ A set of helpers to manipulate Colander data.
 </p>
 <p>
 <img src="https://img.shields.io/badge/License-GPL_v3-8A2BE2">
+<img src="https://img.shields.io/pypi/v/colander-data-converter?&label=PyPi%20distribution&color=8A2BE2">
 </p>
 <p>
 <a href="https://pts-project.org">Website</a> |
