@@ -46,7 +46,9 @@
     "misp_object": "misp-attribute",
     "misp_type": "email",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
-    "misp_colander_mapping": {},
+    "misp_colander_mapping": {
+      "also": ["email-src", "email-dst", "whois-registrant-email", "email-reply-to", "target-email"]
+    },
     "colander_misp_mapping": {
       "name": "value",
       "description": "comment",
@@ -75,6 +77,7 @@
     "misp_type": "ip-dst",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
     "misp_colander_mapping": {
+      "also": ["ip-src"],
       "discriminator": {
         "type": "suggest",
         "property": "value",
@@ -170,7 +173,9 @@
     "misp_object": "misp-attribute",
     "misp_type": "phone-number",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
-    "misp_colander_mapping": {},
+    "misp_colander_mapping": {
+      "also": ["whois-registrant-phone"]
+    },
     "colander_misp_mapping": {
       "name": "value",
       "description": "comment",
@@ -212,7 +217,9 @@
     "misp_object": "misp-attribute",
     "misp_type": "url",
     "misp_definition": "https://github.com/MISP/misp-objects/blob/main/schema_objects.json",
-    "misp_colander_mapping": {},
+    "misp_colander_mapping": {
+      "also": ["link", "onion-address"]
+    },
     "colander_misp_mapping": {
       "name": "value",
       "description": "comment",

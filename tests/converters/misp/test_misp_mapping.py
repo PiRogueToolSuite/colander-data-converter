@@ -1,6 +1,7 @@
 import unittest
+from importlib import resources
 
-from pymisp import MISPEvent, MISPObject
+from pymisp import MISPEvent, MISPObject, MISPFeed
 
 from colander_data_converter.base.types.actor import ActorTypes
 from colander_data_converter.base.types.artifact import ArtifactTypes
@@ -10,7 +11,7 @@ from colander_data_converter.base.types.device import DeviceTypes
 from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
 from colander_data_converter.base.types.threat import ThreatTypes
-from colander_data_converter.converters.misp.converter import MISPToColanderMapper
+from colander_data_converter.converters.misp.converter import MISPToColanderMapper, MISPConverter
 
 
 class TestMISPMapping(unittest.TestCase):
@@ -178,3 +179,16 @@ class TestMISPMapping(unittest.TestCase):
             misp_event.add_tag(tag_name)
             mapping = mapper.mapping.get_misp_tag_mapping(misp_event.tags[0])
             self.assertEqual(mapping.colander_type, t.value.short_name)
+
+    def test_misp_converter(self):
+        converter = MISPConverter()
+        # Load MISP feed
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("misp_feed.json")
+        misp_feed = MISPFeed()
+        with json_file.open() as json_file:
+            misp_feed.from_json(json_file.read())
+        feeds = converter.misp_to_colander(misp_feed)
+        self.assertEqual(len(feeds), 1)
+        feed = feeds[0]
+        self.assertEqual(len(feed.entities), 39)

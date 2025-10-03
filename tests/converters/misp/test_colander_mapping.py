@@ -169,6 +169,11 @@ class TestColanderMapping(unittest.TestCase):
             raw = json.load(f)
             feed = ColanderFeed.load(raw)
         case = Case(name="Test case", description="Test case description")
+        feed.cases[str(case.id)] = case
+        for _, entity in feed.entities.items():
+            entity.case = case
+        for _, relation in feed.relations.items():
+            relation.case = case
 
         n_actor = len(feed.get_by_super_type(CommonEntitySuperTypes.ACTOR.value))
         n_artifact = len(feed.get_by_super_type(CommonEntitySuperTypes.ARTIFACT.value))

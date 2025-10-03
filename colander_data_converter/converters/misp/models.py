@@ -25,6 +25,7 @@ class Discriminator(BaseModel):
 
 
 class MISPColanderMapping(BaseModel):
+    also: Optional[List[str]] = None
     discriminator: Optional[Discriminator] = None
 
 
@@ -123,6 +124,8 @@ class Mapping(object):
                 if type_mapping.misp_object == "misp-attribute":
                     if type_mapping.misp_type not in self.misp_attributes_mapping:
                         self.misp_attributes_mapping[type_mapping.misp_type] = []
+                    for s in type_mapping.misp_colander_mapping.also or []:
+                        self.misp_attributes_mapping[s] = [type_mapping]
                     self.misp_attributes_mapping[type_mapping.misp_type].append(type_mapping)
                 if type_mapping.misp_object == "misp-tag":
                     tag_name = type_mapping.colander_misp_mapping["literals"]["name"].replace("{value}", "")

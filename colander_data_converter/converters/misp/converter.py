@@ -1,6 +1,6 @@
 from typing import Optional, Union, List, Tuple
 
-from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute, MISPEvent
+from pymisp import AbstractMISP, MISPTag, MISPObject, MISPAttribute, MISPEvent, MISPFeed
 
 from colander_data_converter.base.common import TlpPapLevel
 from colander_data_converter.base.models import (
@@ -246,6 +246,8 @@ class ColanderToMISPMapper(MISPMapper):
         misp_event.info = case.description
         misp_event.date = case.created_at
         for entity in feed.entities.values():
+            if entity.case != case:
+                continue
             misp_object = self.convert_colander_object(entity)
             if not misp_object:
                 skipped.append(entity)
@@ -286,13 +288,16 @@ class MISPToColanderMapper(MISPMapper):
         Returns:
             The resulting Case and Feed.
         """
-        case = Case(name=event.info, description=f"Loaded from MISP event [{event.uuid}]")
+        case = Case(id=event.uuid, name=event.info, description=f"Loaded from MISP event [{event.uuid}]")
         feed = ColanderFeed(cases={f"{case.id}": case})
         for entity in self._convert_objects(event):
+            entity.case = case
             feed.entities[str(entity.id)] = entity
         for entity in self._convert_attributes(event):
+            entity.case = case
             feed.entities[str(entity.id)] = entity
         for relation in self._convert_relations(event):
+            relation.case = case
             feed.relations[str(relation.id)] = relation
         return case, feed
 
@@ -426,3 +431,50 @@ class MISPToColanderMapper(MISPMapper):
             if colander_entity:
                 entities.append(colander_entity)
         return entities
+
+
+class MISPConverter:
+    """
+    Converter for MISP data to Colander data and vice versa.
+    Uses the mapping file to convert between formats.
+    """
+
+    @staticmethod
+    def misp_to_colander(misp_feed: MISPFeed) -> Optional[List[ColanderFeed]]:
+        """
+        Convert a MISP feed to a list of Colander feeds. Each MISP event is converted to a separate Colander feed.
+
+        Args:
+            misp_feed: The MISP feed containing events to convert.
+
+        Returns:
+            A list of Colander feeds, or None if no events are found.
+        """
+        feeds: List[ColanderFeed] = []
+        mapper = MISPToColanderMapper()
+        for event in misp_feed.get("response", []):
+            misp_event = MISPEvent()
+            misp_event.from_dict(**event)
+            _, feed = mapper.convert_misp_event(misp_event)
+            feed.resolve_references()
+            feeds.append(feed)
+        return feeds
+
+    @staticmethod
+    def colander_to_misp(colander_feed: ColanderFeed) -> Optional[List[MISPEvent]]:
+        """
+        Convert a Colander feed to a list of MISP events. Each Colander case is converted to a MISP event.
+
+        Args:
+            colander_feed: The Colander feed containing cases to convert.
+
+        Returns:
+            A list of MISP events, or None if no cases are found.
+        """
+        mapper = ColanderToMISPMapper()
+        colander_feed.resolve_references()
+        events: List[MISPEvent] = []
+        for _, case in colander_feed.cases.items():
+            misp_event, _ = mapper.convert_case(case, colander_feed)
+            events.append(misp_event)
+        return events

@@ -45,6 +45,48 @@ Convert from Colander feed to Threatr feed
    threatr_feed = ThreatrConverter.colander_to_threatr(colander_feed, root_entity)
 
 
+
+MISP
+-------
+
+To convert data from or to MISP format, use helper methods of :py:class:`~colander_data_converter.converters.misp.converter.MISPConverter`:
+
+* :py:meth:`~colander_data_converter.converters.misp.converter.MISPConverter.misp_to_colander` to convert to a :ref:`Colander feed <colander_feed_structure>`, it returns a list of :py:class:`~colander_data_converter.base.models.ColanderFeed`
+
+* :py:meth:`~colander_data_converter.converters.misp.converter.MISPConverter.colander_to_misp` to convert to a MISP events, it returns a list of :py:class:`~pymisp.mispevent.MISPEvent`
+
+
+Convert from MISP feed to Colander feed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   from colander_data_converter.converters.misp.converter import MISPConverter
+   from pymisp import MISPFeed
+
+   misp_feed = MISPFeed()
+   with open("path/to/misp_feed.json", "r") as f:
+       raw = f.read()
+   misp_feed.from_json(raw)
+   feeds = converter.misp_to_colander(misp_feed)
+
+
+Convert from Colander feed to MISP events
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   import json
+   from colander_data_converter.base.models import ColanderFeed
+   from colander_data_converter.converters.misp.converter import MISPConverter
+
+   with open("path/to/colander_feed.json", "r") as f:
+       raw = json.load(f)
+   colander_feed = ColanderFeed.load(raw)
+   misp_events = MISPConverter.colander_to_misp(colander_feed)
+
+
+
 Stix2
 -------
 
