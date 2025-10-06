@@ -29,7 +29,7 @@ class TemplateExporter(BaseExporter):
         feed: ColanderFeed,
         template_search_path: str | os.PathLike[str] | Sequence[str | os.PathLike[str]],
         template_name: str,
-        template: Template = None,
+        template_source: str = None,
         **loader_options,
     ):
         """
@@ -47,7 +47,7 @@ class TemplateExporter(BaseExporter):
                 path string, PathLike object, or sequence of paths for multiple search locations.
             template_name: The name of the template file to load from the search path.
                 Should include the file extension (e.g., "template.j2", "export.html").
-            template: A pre-compiled Jinja2 Template object. If provided,
+            template_source: The source code of the Jinja2 template. If provided,
                 :py:obj:`template_search_path` and :py:obj:`template_name` are ignored. Defaults to None.
             **loader_options: Additional keyword arguments passed to the :py:obj:`~jinja2.FileSystemLoader`.
 
@@ -55,18 +55,14 @@ class TemplateExporter(BaseExporter):
             The exporter uses a :py:obj:`~jinja2.sandbox.SandboxedEnvironment` for security, which restricts
             access to potentially dangerous operations in templates. Auto-reload is
             enabled by default for development convenience.
-
-        Warning:
-            When a pre-compiled Template object is provided via the :py:obj:`template` parameter,
-            it will NOT be executed in a sandboxed environment. This means the template
-            can access all Python built-ins and potentially execute dangerous operations.
-            Only use trusted templates when providing pre-compiled Template objects.
         """
         self.feed = feed
-        self.template = template
-        if not self.template:
-            self.template_search_path = template_search_path
-            self.template_name = template_name
+        self.template_search_path = template_search_path
+        self.template_name = template_name
+        if template_source:
+            self.environment = SandboxedEnvironment()
+            self.template = self.environment.from_string(template_source)
+        else:
             self.loader = FileSystemLoader(self.template_search_path, **loader_options)
             self.environment = SandboxedEnvironment(loader=self.loader, auto_reload=True)
             self.template: Template = self.environment.get_template(self.template_name)
@@ -92,12 +88,6 @@ class TemplateExporter(BaseExporter):
             ~jinja2.TemplateError: If there are errors in template syntax or rendering
             ~jinja2.TemplateNotFound: If the specified template file cannot be found
             IOError: If there are issues writing to the output stream
-
-        Warning:
-            If this exporter was initialized with a pre-compiled Template object,
-            the template will NOT execute in a sandboxed environment and may have
-            access to dangerous Python operations. Ensure only trusted templates
-            are used in such cases.
         """
         for chunk in self.template.stream(feed=self.feed, **kwargs):
             output.write(chunk)

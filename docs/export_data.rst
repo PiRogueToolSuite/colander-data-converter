@@ -63,7 +63,7 @@ For more details, check the documentation of :py:class:`~colander_data_converter
 
 Template
 --------
-The template exporter uses Jinja2_ templates to generate custom output formats. It supports both file-based templates and pre-compiled Template objects, with automatic sandboxing for security when using file-based templates.
+The template exporter uses Jinja2_ templates to generate custom output formats. It supports both file-based templates and source-based templates, with automatic sandboxing for security.
 
 For more details, check the documentation of :py:class:`~colander_data_converter.exporters.template.TemplateExporter`.
 
@@ -89,27 +89,24 @@ For more details, check the documentation of :py:class:`~colander_data_converter
     with open("path/to/colander_feed.txt", "w") as f:
         exporter.export(f, title="Example")
 
-    # Using pre-compiled template (WARNING: No sandbox environment)
+    # Using source code of the template
     from jinja2 import Template
 
-    template = Template("Report: {{ title }}\nEntities: {{ feed.entities | length }}")
+    template_source = "Report: {{ title }}\nEntities: {{ feed.entities | length }}"
     exporter = TemplateExporter(
         colander_feed,
         "",
         "",
-        template=template
+        template_source=template_source
     )
     with open("path/to/report.txt", "w") as f:
         exporter.export(f, title="Security Report")
 
 
 .. danger::
-    When using the template exporter, be aware of the following security considerations:
+    When using the template exporter, be aware of the security considerations. Templates are executed in a sandboxed Jinja2 environment that restricts access to potentially dangerous operations.
 
-    - **File-based templates**: templates loaded from files are executed in a sandboxed Jinja2 environment that restricts access to potentially dangerous operations.
-    - **Pre-compiled templates**: When providing a pre-compiled template object, it will NOT be executed in a sandboxed environment and may have access to all Python built-ins. Only use trusted templates in this case.
-
-    For production environments, always prefer file-based templates over pre-compiled template objects unless you have full control over the template source.
+    For production environments, always prefer file-based templates.
 
 
 CSV

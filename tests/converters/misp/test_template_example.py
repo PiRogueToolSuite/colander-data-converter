@@ -2,7 +2,6 @@ import unittest
 from importlib import resources
 from io import StringIO
 
-from jinja2 import Template
 from pymisp import MISPFeed
 
 from colander_data_converter.converters.misp.converter import MISPConverter
@@ -16,7 +15,7 @@ class TestTemplateExample(unittest.TestCase):
         # Load the template
         template_file = resources.files(resource_package).joinpath("data").joinpath("suricata.j2")
         with template_file.open() as template_file:
-            template = Template(source=template_file.read())
+            template_source = template_file.read()
 
         # Load the MISP feed
         misp_json_file = resources.files(resource_package).joinpath("data").joinpath("misp_feed.json")
@@ -33,10 +32,9 @@ class TestTemplateExample(unittest.TestCase):
             feed=feeds[0],
             template_name="",
             template_search_path="",
-            template=template,
+            template_source=template_source,
         )
         io = StringIO()
         template_exporter.export(io)
         io.seek(0)
         output = io.read()
-        pass

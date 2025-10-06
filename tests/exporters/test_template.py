@@ -1,7 +1,5 @@
 from io import StringIO
 
-from jinja2 import Template
-
 from colander_data_converter.exporters.template import TemplateExporter
 
 
@@ -23,12 +21,12 @@ class TestTemplate:
                 str(obs_white.id): obs_white,
             }
         )
-        template = Template(source="{{ feed.id }}")
+        template_source = "{{ feed.id }}"
         template_exporter = TemplateExporter(
             feed=feed,
             template_name="",
             template_search_path="",
-            template=template,
+            template_source=template_source,
         )
         io = StringIO()
         template_exporter.export(io)
