@@ -47,7 +47,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "ADWARE",
             "name": "Adware",
             "description": "Software that automatically displays or downloads advertising material, often unwanted.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -58,7 +58,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "APT",
             "name": "APT",
             "description": "Advanced Persistent Threat; a prolonged and targeted cyberattack by a well-resourced adversary.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -69,7 +69,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "BACKDOOR",
             "name": "Backdoor",
             "description": "Malware that allows unauthorized remote access to a compromised system.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -80,7 +80,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "BOTNET",
             "name": "Botnet",
             "description": "A network of compromised computers controlled by an attacker to perform coordinated tasks.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -91,7 +91,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "BROWSER_HIJACKER",
             "name": "Browser Hijacker",
             "description": "Malware that alters browser settings, redirects traffic, or injects unwanted ads.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -102,7 +102,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "CRYPTOJACKING",
             "name": "Cryptojacking",
             "description": "Unauthorized use of a device to mine cryptocurrency.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -113,7 +113,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "CYBER_ATTACK",
             "name": "Cyber Attack",
             "description": "An attempt by hackers to damage, disrupt, or gain unauthorized access to computer systems, networks, or devices.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -124,7 +124,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "CYBERCRIME",
             "name": "Cybercrime",
             "description": "Criminal activities carried out using computers or the internet, including fraud, theft, and unauthorized access.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -135,7 +135,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "DOXXING",
             "name": "Doxxing",
             "description": "The act of publicly revealing private or identifying information about an individual without their consent.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -146,7 +146,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "DROPPER",
             "name": "Dropper",
             "description": "A type of malware designed to deliver and install other malicious software.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -157,7 +157,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "EXPLOIT_KIT",
             "name": "Exploit Kit",
             "description": "A toolkit used to exploit vulnerabilities in software to deliver malware.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -168,7 +168,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "A general or unspecified threat type that does not fit other categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -179,7 +179,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "HARASSMENT",
             "name": "Harassment",
             "description": "Unwanted behavior intended to intimidate, threaten, or disturb an individual, often through digital means.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -190,7 +190,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "INFO_STEALER",
             "name": "Information Stealer",
             "description": "Malware designed to steal sensitive information such as credentials or financial data.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -201,7 +201,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "LOADER",
             "name": "Loader",
             "description": "Malware that loads and executes other malicious payloads on a system.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -212,7 +212,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "MALVERTISING",
             "name": "Malvertising",
             "description": "The use of online advertising to spread malware.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -223,7 +223,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "MALWARE",
             "name": "Malware",
             "description": "A general term for any software intentionally designed to cause damage or unauthorized actions.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -234,7 +234,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "MOBILE_MALWARE",
             "name": "Mobile Malware",
             "description": "A malware specifically targeting mobile devices to steal data or perform malicious actions.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -245,7 +245,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "PHISHING",
             "name": "Phishing",
             "description": "A technique to trick users into revealing sensitive information, often via fake emails or websites.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -256,7 +256,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "PHYSICAL_ATTACK",
             "name": "Physical Attack",
             "description": "A threat involving physical actions intended to harm or compromise assets, infrastructure, or individuals.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -267,7 +267,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "RANSOMWARE",
             "name": "Ransomware",
             "description": "Malware that encrypts data and demands payment for decryption.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -278,7 +278,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "RAT",
             "name": "Remote Access Trojan (RAT)",
             "description": "Malware that provides remote control over an infected system.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -289,7 +289,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "ROOTKIT",
             "name": "Rootkit",
             "description": "Malware designed to hide its presence and provide privileged access to a system.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -300,7 +300,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "SPAM",
             "name": "Spam",
             "description": "Unsolicited or bulk messages, often used to deliver malware or phishing attempts.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -311,7 +311,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "SPYWARE",
             "name": "Spyware",
             "description": "Malware that secretly gathers user information without consent.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -322,7 +322,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "STALKERWARE",
             "name": "Stalkerware",
             "description": "Software used to secretly monitor and track user activity, often for surveillance.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )
@@ -333,7 +333,7 @@ class ThreatTypes(enum.Enum):
             "short_name": "TROJAN",
             "name": "Trojan",
             "description": "Malware disguised as legitimate software to trick users into installing it.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf nf-fa-bug",
         }
     )

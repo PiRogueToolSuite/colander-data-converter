@@ -39,11 +39,17 @@ class CommonEntityType(BaseModel, abc.ABC):
     description: str | None = Field(default=None, exclude=False)
     """An optional description of the model type."""
 
-    svg_icon: str | None = Field(default=None, exclude=True)
-    """Optional SVG icon for the model type."""
+    icon: str | None = Field(default=None, exclude=True)
+    """Optional icon name for the model type (e.g., mdi:home)."""
+
+    nf_icon: str | None = Field(default=None, exclude=True)
+    """Optional NerdFont icon name for the model type."""
 
     value_example: str | None = Field(default=None, exclude=True)
     """Optional example value for the model type."""
+
+    regex: str | None = Field(default=None, exclude=True)
+    """Optional regex used to suggest a type based on the entity name."""
 
     default_attributes: Optional[Dict[str, str]] = Field(default=None, exclude=True)
     """Optional dictionary of default attributes."""

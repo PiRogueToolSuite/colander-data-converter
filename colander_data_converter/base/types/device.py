@@ -47,7 +47,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "DESKTOP",
             "name": "Desktop",
             "description": "A personal computer intended for regular use at a single location.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-desktop",
         }
     )
@@ -58,7 +58,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "A general or unspecified device type that does not fit other categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-desktop",
         }
     )
@@ -69,7 +69,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "IOT",
             "name": "Internet of Things",
             "description": "A device connected to the internet, often embedded and used for specific functions (e.g., smart home devices).",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-plug",
         }
     )
@@ -80,7 +80,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "LAPTOP",
             "name": "Laptop",
             "description": "A portable personal computer designed for mobile use.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-laptop",
         }
     )
@@ -91,7 +91,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "MOBILE",
             "name": "Mobile device",
             "description": "A handheld device such as a smartphone or tablet.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-mobile_phone",
         }
     )
@@ -102,7 +102,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "ROUTER",
             "name": "Router",
             "description": "A network device that forwards data packets between computer networks.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-router_wireless",
         }
     )
@@ -113,7 +113,7 @@ class DeviceTypes(enum.Enum):
             "short_name": "SERVER",
             "name": "Server",
             "description": "A computer or system that provides resources, data, or services to other computers over a network.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-server_network",
         }
     )

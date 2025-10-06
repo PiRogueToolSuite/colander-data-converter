@@ -48,7 +48,7 @@ class DetectionRuleTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "A general or unspecified detection rule type that does not fit other categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-server_process",
         }
     )
@@ -59,7 +59,7 @@ class DetectionRuleTypes(enum.Enum):
             "short_name": "SURICATA",
             "name": "Suricata rule",
             "description": "A rule for the Suricata engine to detect network threats and suspicious traffic.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-server_process",
         }
     )
@@ -70,7 +70,7 @@ class DetectionRuleTypes(enum.Enum):
             "short_name": "YARA",
             "name": "Yara rule",
             "description": "A rule used to identify and classify malware or files based on patterns.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-server_process",
         }
     )

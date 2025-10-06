@@ -47,7 +47,7 @@ class EventTypes(enum.Enum):
             "short_name": "ALERT",
             "name": "Alert",
             "description": "A notification or warning about a detected security event or anomaly.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-oct-alert",
         }
     )
@@ -58,7 +58,7 @@ class EventTypes(enum.Enum):
             "short_name": "ATTACK",
             "name": "Attack",
             "description": "An event indicating a deliberate attempt to breach, disrupt, or damage a system or network.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-bomb",
         }
     )
@@ -69,7 +69,7 @@ class EventTypes(enum.Enum):
             "short_name": "AV_DETECTION",
             "name": "AntiVirus detection",
             "description": "An event where antivirus software detects malicious or suspicious activity.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-oct-alert",
         }
     )
@@ -80,7 +80,7 @@ class EventTypes(enum.Enum):
             "short_name": "COMMUNICATION",
             "name": "Communication",
             "description": "An event involving the exchange of information between entities, such as emails or messages.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-lan_connect",
         }
     )
@@ -91,7 +91,7 @@ class EventTypes(enum.Enum):
             "short_name": "COMPROMISE",
             "name": "Compromise",
             "description": "An event indicating that a system, account, or data has been breached or compromised.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-disk_alert",
         }
     )
@@ -102,7 +102,7 @@ class EventTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "An event that does not fit into any of the predefined categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
@@ -113,7 +113,7 @@ class EventTypes(enum.Enum):
             "short_name": "HIT",
             "name": "Hit",
             "description": "An event indicating a match or detection by a rule, signature, or indicator.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
@@ -124,7 +124,7 @@ class EventTypes(enum.Enum):
             "short_name": "INFECTION",
             "name": "Infection",
             "description": "An event where a system or device is infected by malware or a similar threat.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-disk_alert",
         }
     )
@@ -135,7 +135,7 @@ class EventTypes(enum.Enum):
             "short_name": "PASSIVE_DNS",
             "name": "Passive DNS",
             "description": "An event recording historical DNS resolution data observed passively.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-white_balance_sunny",
         }
     )
@@ -146,7 +146,7 @@ class EventTypes(enum.Enum):
             "short_name": "RESOLVE",
             "name": "Resolution",
             "description": "An event where a domain or hostname is resolved to an IP address.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-search_web",
         }
     )
@@ -157,7 +157,7 @@ class EventTypes(enum.Enum):
             "short_name": "TARGETED_ATTACK",
             "name": "Targeted attack",
             "description": "An event representing a focused and intentional attack against a specific entity or asset.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-crosshairs",
         }
     )

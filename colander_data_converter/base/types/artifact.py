@@ -79,7 +79,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "ANDROID_BACKUP",
             "name": "Android backup image",
             "description": "A backup image created from an Android device.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
@@ -90,7 +90,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "ANDROID_SAMPLE",
             "name": "Android sample",
             "description": "A sample file specific to the Android platform.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-android",
             "type_hints": {
                 "suggested_by_mime_types": {"types": ["application/vnd.android.package-archive", "application/x-dex"]}
@@ -104,7 +104,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "ARCHIVE",
             "name": "Archive",
             "description": "A compressed file or collection of files, such as ZIP or TAR.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_zip_o",
             "type_hints": {
                 "suggested_by_mime_types": {
@@ -140,7 +140,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "AUDIO",
             "name": "Audio",
             "description": "A file containing audio content, such as MP3, WAV, or AAC.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_audio_o",
             "default_attributes": {"content_warning": ""},
             "type_hints": {"suggested_by_mime_types": {"types": ["audio/*"]}},
@@ -153,7 +153,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "BACKUP",
             "name": "Backup image",
             "description": "A file containing a backup copy of data or a system image.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
@@ -164,7 +164,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "BINARY",
             "name": "Binary file",
             "description": "A file containing binary data, not intended to be read as text.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-file_binary",
             "type_hints": {
                 "suggested_by_mime_types": {
@@ -187,7 +187,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "CRYPTO_T",
             "name": "Cryptographic activity trace",
             "description": "A file logging cryptographic operations or key usage.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-key",
         }
     )
@@ -198,7 +198,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "DOCUMENT",
             "name": "Document",
             "description": "A generic document file, such as PDF, DOCX, or ODT.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-file_document",
             "default_attributes": {"content_warning": ""},
             "type_hints": {
@@ -228,7 +228,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "EMAIL",
             "name": "Email file",
             "description": "A file containing email messages, such as EML or MSG format.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-email_outline",
             "type_hints": {
                 "suggested_by_mime_types": {
@@ -249,7 +249,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "F_DUMP",
             "name": "Forensic dump",
             "description": "A file containing a forensic image or memory dump.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-harddisk",
         }
     )
@@ -260,7 +260,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "A file that does not fit into any of other predefined categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-file_binary",
         }
     )
@@ -271,7 +271,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "HAR",
             "name": "HAR file",
             "description": "A file containing HTTP Archive (HAR) data for web traffic analysis.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-download_network",
         }
     )
@@ -282,7 +282,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "IMAGE",
             "name": "Image",
             "description": "A file containing a still image, such as JPG, PNG, or GIF.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_image_o",
             "default_attributes": {"content_warning": ""},
             "type_hints": {"suggested_by_mime_types": {"types": ["image/*"]}},
@@ -295,7 +295,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "IOS_BACKUP",
             "name": "iOS backup image",
             "description": "A backup image created from an iOS device.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-backup_restore",
         }
     )
@@ -306,7 +306,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "IOS_SAMPLE",
             "name": "iOS sample",
             "description": "A sample file specific to the iOS platform.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-apple_ios",
         }
     )
@@ -317,7 +317,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "JSON",
             "name": "JSON file",
             "description": "A file in JavaScript Object Notation (JSON) format.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-json",
             "type_hints": {"suggested_by_mime_types": {"types": ["application/json"]}},
         }
@@ -329,7 +329,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "PCAP",
             "name": "PCAP file",
             "description": "A file capturing network traffic, typically in PCAP format.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-download_network",
             "type_hints": {
                 "suggested_by_mime_types": {
@@ -352,7 +352,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "REPORT",
             "name": "Report",
             "description": "A file containing an analytical or investigative report.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-file_document",
         }
     )
@@ -363,7 +363,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "SAMPLE",
             "name": "Sample",
             "description": "A generic sample file, often used for malware or suspicious files.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-oct-package",
         }
     )
@@ -374,7 +374,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "SOCIAL_POST",
             "name": "Social media post",
             "description": "A file or record representing a post from a social media platform.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-comment_o",
             "default_attributes": {"content_warning": ""},
         }
@@ -386,7 +386,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "SOCKET_T",
             "name": "Socket activity trace",
             "description": "A file recording socket or network connection activity.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-mdi-plus_network",
         }
     )
@@ -397,7 +397,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "SSLKEYLOG",
             "name": "SSL keylog file",
             "description": "A file containing SSL/TLS session keys for decrypting network traffic.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-key",
         }
     )
@@ -408,7 +408,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "TEXT",
             "name": "Text file",
             "description": "A plain text file, such as TXT or LOG.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_text",
             "type_hints": {"suggested_by_mime_types": {"types": ["text/plain"]}},
         }
@@ -420,7 +420,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "VIDEO",
             "name": "Video",
             "description": "A file containing video content, such as MP4, AVI, or MOV.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_video_o",
             "default_attributes": {"content_warning": ""},
             "type_hints": {"suggested_by_mime_types": {"types": ["video/*"]}},
@@ -433,7 +433,7 @@ class ArtifactTypes(enum.Enum):
             "short_name": "WEBPAGE",
             "name": "Web page",
             "description": "A file containing web page content, such as HTML or XHTML.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-cod-file_code",
             "default_attributes": {"content_warning": ""},
             "type_hints": {"suggested_by_mime_types": {"types": ["text/html", "application/xhtml+xml"]}},

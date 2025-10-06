@@ -48,7 +48,7 @@ class DataFragmentTypes(enum.Enum):
             "short_name": "CODE",
             "name": "Snippet of code",
             "description": "A snippet or segment of source code from any programming language.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-md-code_braces",
         }
     )
@@ -59,7 +59,7 @@ class DataFragmentTypes(enum.Enum):
             "short_name": "GENERIC",
             "name": "Generic",
             "description": "A general or unspecified data fragment type that does not fit other categories.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-oct-file_binary",
         }
     )
@@ -70,7 +70,7 @@ class DataFragmentTypes(enum.Enum):
             "short_name": "PATTERN",
             "name": "Matching pattern",
             "description": "A recognizable sequence or structure, such as a regular expression or YARA rule.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-puzzle_piece",
         }
     )
@@ -81,7 +81,7 @@ class DataFragmentTypes(enum.Enum):
             "short_name": "PAYLOAD",
             "name": "Encoded payload",
             "description": "A block of encoded data.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-oct-file_binary",
         }
     )
@@ -92,7 +92,7 @@ class DataFragmentTypes(enum.Enum):
             "short_name": "TEXT",
             "name": "Piece of text",
             "description": "A fragment of unstructured or plain text.",
-            "svg_icon": "",
+            "icon": "",
             "nf_icon": "nf-fa-file_text",
         }
     )
