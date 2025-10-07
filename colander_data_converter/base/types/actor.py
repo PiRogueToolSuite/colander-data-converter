@@ -92,7 +92,7 @@ class ActorTypes(enum.Enum):
             "name": "Hacktivist",
             "description": "An individual or group using hacking to promote political or social agendas.",
             "icon": "",
-            "nf_icon": "nf-mdi-hammer_sickle",
+            "nf_icon": "nf-cod-person",
         }
     )
     """Hacktivist - An individual or group using hacking to promote political or social agendas."""

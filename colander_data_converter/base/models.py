@@ -1260,8 +1260,11 @@ class CommonEntitySuperType(BaseModel):
     CommonEntitySuperType defines metadata for a super type of entities in the Colander data model.
 
     This class is used to represent high-level categories of entities (such as Actor, Artifact, Device, etc.)
-    and provides fields for the short name, display name, associated types, and the Python class implementing the entity.
+    and provides fields for the short name, display name, associated types, and the Python class
+    implementing the entity.
     """
+
+    model_config: ConfigDict = ConfigDict(str_strip_whitespace=True, arbitrary_types_allowed=True, from_attributes=True)
 
     short_name: str = Field(frozen=True, max_length=32)
     """A short name for the model type."""

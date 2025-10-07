@@ -319,5 +319,12 @@
     "description": "A file that does not fit into any of other predefined categories.",
     "icon": "",
     "nf_icon": "nf-cod-file_binary"
+  },
+  {
+    "short_name": "OTHER",
+    "name": "Other type",
+    "description": "A file that does not fit into any of other predefined categories.",
+    "icon": "",
+    "nf_icon": "nf-cod-file_binary"
   }
 ]

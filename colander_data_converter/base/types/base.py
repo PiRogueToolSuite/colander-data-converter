@@ -3,7 +3,7 @@ import json
 from importlib import resources
 from typing import List, Dict, Optional, Any, TypeVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 resource_package = __name__
 
@@ -29,6 +29,8 @@ class CommonEntityType(BaseModel, abc.ABC):
 
     This class provides fields for identifiers, names, descriptions, and other metadata.
     """
+
+    model_config: ConfigDict = ConfigDict(str_strip_whitespace=True, arbitrary_types_allowed=True, from_attributes=True)
 
     short_name: str = Field(frozen=True, max_length=32)
     """A short name for the model type."""

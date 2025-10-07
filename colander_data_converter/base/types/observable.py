@@ -263,7 +263,7 @@ class ObservableTypes(enum.Enum):
             "icon": "",
             "nf_icon": "nf nf-fa-bug",
             "regex": "",
-            "value_example": "example value",
+            "value_example": "",
         }
     )
     """Generic - A general or unspecified observable type that does not fit other categories."""

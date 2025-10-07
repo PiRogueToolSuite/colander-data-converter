@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, Any
 
-from pydantic import UUID4, BaseModel, model_serializer, GetCoreSchemaHandler, ValidationError
+from pydantic import UUID4, BaseModel, model_serializer, GetCoreSchemaHandler, ValidationError, ConfigDict
 from pydantic_core import core_schema
 
 type ObjectReference = UUID4
@@ -118,6 +118,8 @@ class Level(BaseModel):
         >>> str(level1)
         'Low Priority'
     """
+
+    model_config: ConfigDict = ConfigDict(str_strip_whitespace=True, arbitrary_types_allowed=True, from_attributes=True)
 
     code: str
     name: str

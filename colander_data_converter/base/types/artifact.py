@@ -324,6 +324,17 @@ class ArtifactTypes(enum.Enum):
     )
     """JSON file - A file in JavaScript Object Notation (JSON) format."""
 
+    OTHER = ArtifactType(
+        **{
+            "short_name": "OTHER",
+            "name": "Other type",
+            "description": "A file that does not fit into any of other predefined categories.",
+            "icon": "",
+            "nf_icon": "nf-cod-file_binary",
+        }
+    )
+    """Other type - A file that does not fit into any of other predefined categories."""
+
     PCAP = ArtifactType(
         **{
             "short_name": "PCAP",
