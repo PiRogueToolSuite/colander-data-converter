@@ -167,6 +167,15 @@ class TestFeed:
             feed.unlink_references()
             feed.resolve_references()
 
+    def test_load_alt(self):
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_alt.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+            feed = ColanderFeed.load(raw)
+            feed.unlink_references()
+            feed.resolve_references()
+
     def test_unlink_references_replaces_objects_with_ids(self):
         ot = ObservableTypes.IPV4.value
         obs1 = Observable(name="1.1.1.1", type=ot)

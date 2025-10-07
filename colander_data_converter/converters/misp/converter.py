@@ -452,7 +452,12 @@ class MISPConverter:
         """
         feeds: List[ColanderFeed] = []
         mapper = MISPToColanderMapper()
-        for event in misp_feed.get("response", []):
+        if not misp_feed:
+            return feeds
+        events = misp_feed.get("response", None)
+        if "response" not in misp_feed:
+            events = [misp_feed]
+        for event in events or []:
             misp_event = MISPEvent()
             misp_event.from_dict(**event)
             _, feed = mapper.convert_misp_event(misp_event)

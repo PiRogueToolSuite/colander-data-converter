@@ -180,7 +180,7 @@ class TestMISPMapping(unittest.TestCase):
             mapping = mapper.mapping.get_misp_tag_mapping(misp_event.tags[0])
             self.assertEqual(mapping.colander_type, t.value.short_name)
 
-    def test_misp_converter(self):
+    def test_misp_feed_converter(self):
         converter = MISPConverter()
         # Load MISP feed
         resource_package = __name__
@@ -192,3 +192,16 @@ class TestMISPMapping(unittest.TestCase):
         self.assertEqual(len(feeds), 1)
         feed = feeds[0]
         self.assertEqual(len(feed.entities), 39)
+
+    def test_misp_feed_converter_alt(self):
+        converter = MISPConverter()
+        # Load MISP feed
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("misp_feed_alt.json")
+        misp_feed = MISPFeed()
+        with json_file.open() as json_file:
+            misp_feed.from_json(json_file.read())
+        feeds = converter.misp_to_colander(misp_feed)
+        self.assertEqual(len(feeds), 1)
+        feed = feeds[0]
+        self.assertEqual(len(feed.entities), 12)
