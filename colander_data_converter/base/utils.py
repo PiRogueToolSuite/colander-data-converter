@@ -1,9 +1,10 @@
 import enum
-from typing import get_args, List, Any, Optional
+from typing import get_args, List, Any, Optional, Dict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 from colander_data_converter.base.common import ObjectReference
+from colander_data_converter.base.models import ColanderFeed, Entity, EntityRelation
 
 
 class MergingStrategy(str, enum.Enum):
@@ -26,7 +27,7 @@ class BaseModelMerger:
     - ``OVERWRITE``: Always merge fields from source to destination
 
     Fields are merged based on type compatibility and field constraints. Extra
-    attributes are automatically converted to strings when stored in the attributes
+    attributes are automatically converted to strings when stored in the attribute
     dictionary (if supported by the destination model).
 
     Example:
@@ -169,3 +170,101 @@ class BaseModelMerger:
                     unprocessed_fields.append(f"attributes.{name}")
 
         return unprocessed_fields
+
+
+class FeedMerger:
+    def __init__(self, source_feed: ColanderFeed, destination_feed: ColanderFeed):
+        self.source_feed = source_feed
+        self.destination_feed = destination_feed
+        self.id_rewrite: Dict[UUID4, UUID4] = {}  # source, destination
+        self.merging_candidates: Dict[Entity, Entity] = {}  # source, destination
+        self.added_entities: List[Entity] = []  # source added to the destination feed
+        self.merged_entities: Dict[Entity, Entity] = {}  # source, destination
+
+    def merge(self, aggressive: bool = False):
+        """
+        Merge the source feed into the destination feed.
+        This method performs a comprehensive merge operation between two ColanderFeeds,
+        handling entity merging, relation updates, and immutable relation management.
+        The merge process follows these main steps:
+
+        1. Identify merging candidates based on entity similarity
+        2. Merge compatible entities or add new ones to the destination feed
+        3. Update immutable relation references after merging
+        4. Copy non-immutable relations from source to destination
+
+        Args:
+            aggressive: If True, temporarily breaks and rebuilds immutable relations
+                       to allow more flexible merging. Use with caution as this may
+                       affect data integrity during the merge process.
+        """
+        model_merger = BaseModelMerger(strategy=MergingStrategy.PRESERVE)
+
+        if aggressive:
+            self.source_feed.break_immutable_relations()
+
+        # Identify merging candidates or add missing source entities to the destination feed
+        for _, source_entity in self.source_feed.entities.items():
+            destination_candidates = self.destination_feed.get_entities_similar_to(source_entity)
+            # Multiple or no candidates found or multiple immutable relations, add to the destination feed
+            if len(destination_candidates) != 1 or len(source_entity.get_immutable_relations()) > 0:
+                self.destination_feed.entities[str(source_entity.id)] = source_entity
+                self.id_rewrite[source_entity.id] = source_entity.id
+                self.added_entities.append(source_entity)
+            else:
+                # Only one candidate found
+                _, destination_candidate = destination_candidates.popitem()
+                # Candidate has no immutable relations, merge
+                if len(source_entity.get_immutable_relations()) == 0:
+                    model_merger.merge(source_entity, destination_candidate)
+                    destination_candidate.touch()
+                    self.id_rewrite[source_entity.id] = destination_candidate.id
+                    self.merged_entities[source_entity] = destination_candidate
+                else:
+                    self.merging_candidates[source_entity] = destination_candidate
+
+        for destination_entity in self.destination_feed.entities.values():
+            for _, immutable_relation in destination_entity.get_immutable_relations().items():
+                # The relation destination entity is missing: add it to the destination feed
+                if (
+                    immutable_relation.obj_to not in self.merged_entities
+                    and immutable_relation.obj_to not in self.added_entities
+                ):
+                    self.destination_feed.entities[str(immutable_relation.obj_to.id)] = immutable_relation.obj_to
+                    self.added_entities.append(immutable_relation.obj_to)
+                # The relation obj_to has been merged: update the reference
+                elif immutable_relation.obj_to in self.merged_entities:
+                    original_obj_to = immutable_relation.obj_to
+                    merged_obj_to = self.merged_entities[original_obj_to]
+                    object_reference = getattr(destination_entity, immutable_relation.name)
+                    if not object_reference:
+                        continue
+                    if isinstance(object_reference, list):
+                        object_reference.remove(original_obj_to)
+                        object_reference.append(merged_obj_to)
+                    else:
+                        setattr(destination_entity, immutable_relation.name, merged_obj_to)
+
+        for _, source_relation in self.source_feed.relations.items():
+            obj_from: Entity = self.merged_entities.get(source_relation.obj_from, source_relation.obj_from)
+            obj_to: Entity = self.merged_entities.get(source_relation.obj_to, source_relation.obj_to)
+            relation_exists = False
+            for _, relation in self.destination_feed.get_outgoing_relations(obj_from, exclude_immutables=True).items():
+                if relation.obj_to == obj_to and relation.name == source_relation.name:
+                    relation_exists = True
+            if not relation_exists:
+                self.destination_feed.relations[str(source_relation.id)] = EntityRelation(
+                    id=source_relation.id,
+                    name=source_relation.name,
+                    obj_from=obj_from,
+                    obj_to=obj_to,
+                )
+
+        for _, relation in self.destination_feed.relations.items():
+            obj_from = relation.obj_from
+            obj_to = relation.obj_to
+            if not self.destination_feed.contains(obj_from) or not self.destination_feed.contains(obj_to):
+                raise Exception(f"Unlinked relation detected: {obj_from} -- {relation.name} -> {obj_to}")
+
+        if aggressive:
+            self.destination_feed.rebuild_immutable_relations()

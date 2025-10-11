@@ -20,6 +20,7 @@ from colander_data_converter.base.common import (
     ObjectReference,
     TlpPapLevel,
     Singleton,
+    LRUDict,
 )
 from colander_data_converter.base.types.actor import ActorType, ActorTypes
 from colander_data_converter.base.types.artifact import ArtifactType, ArtifactTypes
@@ -50,7 +51,7 @@ def get_id(obj: Any) -> Optional[UUID4]:
     if isinstance(obj, str):
         try:
             return UUID(obj, version=4)
-        except Exception:
+        except (Exception,):  # nosec
             return None
     elif isinstance(obj, UUID):
         return obj
@@ -78,6 +79,7 @@ EntityTypes = Annotated[
 ]
 
 
+# noinspection PyTypeChecker,PyBroadException
 class ColanderType(BaseModel):
     """Base class for all Colander model data_types, providing common functionality.
 
@@ -102,12 +104,12 @@ class ColanderType(BaseModel):
         """Helper method to process reference fields for both unlinking and resolving operations.
 
         Args:
-            operation (str): The operation to perform, either 'unlink' or 'resolve'.
-            strict (bool, optional): If True, raises a ValueError when a UUID reference cannot be resolved.
+            operation: The operation to perform, either 'unlink' or 'resolve'.
+            strict: If True, raises a ValueError when a UUID reference cannot be resolved.
                 Only used for 'resolve' operation. Defaults to False.
 
         Raises:
-            ValueError: If strict is True and a UUID reference cannot be resolved.
+            ValueError: If strict is True, and a UUID reference cannot be resolved.
             AttributeError: If the class instance does not have the expected field or attribute.
         """
         for field, info in self.__class__.model_fields.items():
@@ -176,6 +178,15 @@ class ColanderType(BaseModel):
         self._process_reference_fields("resolve", strict)
 
     def is_fully_resolved(self) -> bool:
+        """
+        Checks whether all object references in the model are fully resolved.
+
+        This method verifies that all fields annotated as `ObjectReference` or `List[ObjectReference]`
+        do not contain unresolved UUIDs, indicating that references have been replaced with actual objects.
+
+        Returns:
+            bool: True if all references are resolved to objects, False if any remain as UUIDs.
+        """
         self.resolve_references()
 
         for field, info in self.__class__.model_fields.items():
@@ -189,8 +200,30 @@ class ColanderType(BaseModel):
                 for ref in refs:
                     if isinstance(ref, UUID):
                         return False
-
         return True
+
+    def has_property(self, property_name: str) -> bool:
+        """
+        Checks if the model has a field with the given property name.
+
+        Args:
+            property_name: The name of the property to check.
+
+        Returns:
+            True if the property exists in the model fields, False otherwise.
+        """
+        return property_name in self.__class__.model_fields
+
+    def define_arbitrary_property(self, property_name: str, value: Any):
+        """
+        Defines an arbitrary property on the model instance if it does not already exist.
+
+        Args:
+            property_name: The name of the property to define.
+            value: The value to assign to the property.
+        """
+        if not self.has_property(property_name):
+            setattr(self, property_name, value)
 
     @classmethod
     def subclasses(cls) -> Dict[str, type["EntityTypes"]]:
@@ -250,7 +283,7 @@ class ColanderType(BaseModel):
                 return obj.get("colander_internal_type", "")
             elif "super_type" in obj:
                 return obj.get("super_type").get("short_name").lower().replace("_", "")  # type: ignore[union-attr]
-        except:  # nosec
+        except (Exception,):  # nosec
             pass
         raise ValueError("Unable to extract type hints.")
 
@@ -300,6 +333,9 @@ class Case(ColanderType):
     documentation: str | None = None
     """Optional documentation or notes for the case."""
 
+    public_key: str | None = None
+    """Optional public key of the case."""
+
     pap: TlpPapLevel = TlpPapLevel.WHITE
     """The PAP (Permissible Actions Protocol) level for the case."""
 
@@ -346,6 +382,10 @@ class Entity(ColanderType, abc.ABC):
 
     tlp: TlpPapLevel = TlpPapLevel.WHITE
     """The TLP (Traffic Light Protocol) level for the entity."""
+
+    def touch(self):
+        """Touch this entity's attributes."""
+        self.updated_at = datetime.now(UTC)
 
     def get_type(self) -> Optional[EntityType_T]:
         """
@@ -430,6 +470,9 @@ class Entity(ColanderType, abc.ABC):
 
         return relations
 
+    def __hash__(self) -> int:
+        return hash(self.id)
+
 
 class EntityRelation(ColanderType):
     """EntityRelation represents a relationship between two entities in the model.
@@ -481,6 +524,10 @@ class EntityRelation(ColanderType):
 
     obj_to: EntityTypes | ObjectReference = Field(...)
     """The target entity or reference in the relation."""
+
+    def touch(self):
+        """Touch this relation's attributes."""
+        self.updated_at = datetime.now(UTC)
 
 
 class Actor(Entity):
@@ -826,9 +873,9 @@ class ColanderRepository(object, metaclass=Singleton):
 
     def __init__(self):
         """Initializes the repository with empty dictionaries for cases, entities, and relations."""
-        self.cases = {}
-        self.entities = {}
-        self.relations = {}
+        self.cases = LRUDict()
+        self.entities = LRUDict()
+        self.relations = LRUDict()
 
     def clear(self):
         self.cases.clear()
@@ -941,6 +988,7 @@ class ColanderFeed(ColanderType):
         Raises:
             ValueError: If there are inconsistencies in entity IDs or relations.
         """
+        ColanderRepository().clear()
         if "entities" in raw_object:
             for entity_id, entity in raw_object["entities"].items():
                 if entity_id != entity.get("id"):
@@ -1013,7 +1061,7 @@ class ColanderFeed(ColanderType):
 
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
-                - Any object that can be processed by get_id()
+                - Any object that get_id can process
 
         Returns:
             True if the object exists in entities, relations, or cases;
@@ -1041,6 +1089,23 @@ class ColanderFeed(ColanderType):
 
         return False
 
+    def add(self, obj: Union[Case, EntityTypes, EntityRelation]):
+        """
+        Adds an object to the feed's collection.
+
+        Args:
+            obj: The object to add. Can be a Case, EntityTypes, or EntityRelation.
+
+        This method inserts the object into the appropriate dictionary (entities, relations, or cases)
+        based on its type, using its stringified ID as the key. If the object already exists, it is not overwritten.
+        """
+        if isinstance(obj, Entity):
+            self.entities.setdefault(str(obj.id), obj)
+        if isinstance(obj, EntityRelation):
+            self.relations.setdefault(str(obj.id), obj)
+        if isinstance(obj, Case):
+            self.cases.setdefault(str(obj.id), obj)
+
     def get(self, obj: Any) -> Optional[Union[Case, EntityTypes, EntityRelation]]:
         """Retrieve an object from the feed by its identifier.
 
@@ -1053,7 +1118,7 @@ class ColanderFeed(ColanderType):
 
                 - An entity, relation, or case object with an 'id' attribute
                 - A string or UUID representing an object ID
-                - Any object that can be processed by get_id()
+                - Any object that get_id can process
 
         Returns:
             The found object if it exists in any of the collections (entities, relations, or cases), otherwise None.
@@ -1073,6 +1138,15 @@ class ColanderFeed(ColanderType):
         return None
 
     def get_by_super_type(self, super_type: "CommonEntitySuperType") -> List[EntityTypes]:
+        """
+        Returns a list of entities matching the given super type.
+
+        Args:
+            super_type: The CommonEntitySuperType to filter entities by.
+
+        Returns:
+            A list of entities that are instances of the specified super type's model class.
+        """
         entities = []
         for _, entity in self.entities.items():
             if isinstance(entity, super_type.model_class):
@@ -1110,7 +1184,7 @@ class ColanderFeed(ColanderType):
 
         Args:
             entity: The entity to find outgoing relations for. Must be an instance of Entity.
-            exclude_immutables (bool): If True, exclude immutable relations.
+            exclude_immutables: If True, exclude immutable relations.
 
         Returns:
             A dictionary mapping relation IDs to EntityRelation objects where the entity is the source (obj_from).
@@ -1231,10 +1305,7 @@ class ColanderFeed(ColanderType):
         excluded_types = exclude_entity_types or []
 
         self.resolve_references()
-        filtered = ColanderFeed(
-            name=self.name,
-            description=self.description,
-        )
+        filtered = ColanderFeed(name=self.name, description=self.description)
 
         for entity_id, entity in self.entities.items():
             if entity.tlp.value < maximum_tlp_level.value and type(entity) not in excluded_types:
@@ -1253,6 +1324,107 @@ class ColanderFeed(ColanderType):
 
         filtered.resolve_references()
         return filtered
+
+    def overwrite_case(self, case: Case):
+        """
+        Overwrites the case for all entities and relations in the feed.
+        This method updates the case reference for all entities and relations in the feed
+        to the provided case object. The case is also added to the feed's case dictionary.
+        This is useful when you want to reassign all feed contents to a specific case.
+
+        Args:
+            case: The Case object to assign to all entities and relations in the feed.
+        """
+        self.cases[str(case.id)] = case
+        for _, entity in self.entities.items():
+            entity.case = case
+        for _, relation in self.relations.items():
+            relation.case = case
+
+    def define_arbitrary_property(self, property_name, value: Any):
+        """
+        Defines an arbitrary property on all cases, entities, and relations in the feed.
+
+        Args:
+            property_name: The name of the property to define.
+            value: The value to assign to the property.
+        """
+        for _, case in self.cases.items():
+            case.define_arbitrary_property(property_name, value)
+        for _, entity in self.entities.items():
+            entity.define_arbitrary_property(property_name, value)
+        for _, relation in self.relations.items():
+            relation.define_arbitrary_property(property_name, value)
+
+    def break_immutable_relations(self):
+        """
+        Breaks immutable relations by converting object references to explicit relations.
+        This method iterates through all entities in the feed and converts their immutable
+        reference fields (those annotated with ObjectReference or List[ObjectReference])
+        into explicit EntityRelation objects. The original reference fields are then
+        cleared (set to None for single references or empty list for list references).
+
+        This is useful for creating a fully explicit representation of relationships
+        where all connections are represented as EntityRelation objects rather than
+        embedded object references.
+
+        Note:
+            This method modifies the feed in-place by:
+
+            - Adding new EntityRelation objects to the relation dictionary
+            - Clearing the original reference fields on entities
+        """
+        for _, entity in self.entities.items():
+            for _, immutable_relation in entity.get_immutable_relations().items():
+                self.relations[str(immutable_relation.id)] = immutable_relation
+                object_reference = getattr(entity, immutable_relation.name)
+                if isinstance(object_reference, list):
+                    setattr(entity, immutable_relation.name, [])
+                else:
+                    setattr(entity, immutable_relation.name, None)
+
+    def rebuild_immutable_relations(self):
+        """
+        Rebuilds immutable relations by restoring object references from explicit relations.
+        This method iterates through all entities and their outgoing relations (excluding immutables)
+        and attempts to restore the original immutable reference fields by setting the appropriate
+        entity attributes. After successfully restoring a reference, the explicit relation is removed
+        from the relation dictionary to avoid duplication.
+
+        The method handles both single object references and list-based references:
+
+        - For list fields: Appends the target object if not already present
+        - For single fields: Sets the target object if the field is currently None
+        - For existing matches: Removes the redundant explicit relation
+
+        This is typically used after breaking immutable relations to restore the original
+        entity structure while cleaning up temporary explicit relations.
+
+        Note:
+            This method modifies the feed in-place by updating entity attributes and
+            removing relations from the relation dictionary.
+        """
+        for _, entity in self.entities.items():
+            for _, relation in self.get_outgoing_relations(entity, exclude_immutables=True).items():
+                obj_from = relation.obj_from
+                obj_to = relation.obj_to
+                if not hasattr(obj_from, relation.name):
+                    continue
+                actual = getattr(obj_from, relation.name, None)
+                field_info = obj_from.__class__.model_fields[relation.name]
+                annotation_args = get_args(field_info.annotation) or []  # type: ignore[var-annotated]
+                obj_to_type = type(obj_to)
+                if List[obj_to_type] in annotation_args:
+                    if obj_to not in actual:
+                        actual.append(obj_to)
+                        setattr(obj_from, relation.name, actual)
+                    if obj_to in actual:
+                        self.relations.pop(str(relation.id))
+                elif obj_to_type in annotation_args:
+                    if actual is None:
+                        setattr(obj_from, relation.name, obj_to)
+                    if obj_to == getattr(obj_from, relation.name, None):
+                        self.relations.pop(str(relation.id))
 
 
 class CommonEntitySuperType(BaseModel):

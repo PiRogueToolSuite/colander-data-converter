@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from pydantic import BaseModel, Field, ConfigDict
 
-from colander_data_converter.base.common import Singleton
+from colander_data_converter.base.common import Singleton, LRUDict
 
 # Avoid circular imports
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ class Stix2Repository(object, metaclass=Singleton):
         """
         Initializes the repository with an empty dictionary for STIX2 objects.
         """
-        self.stix2_objects = {}
+        self.stix2_objects = LRUDict()
 
     def __lshift__(self, stix2_object: "Stix2ObjectTypes") -> None:
         """
@@ -183,6 +183,7 @@ class Stix2Bundle(BaseModel):
 
     @staticmethod
     def load(raw_object: dict) -> "Stix2Bundle":
+        Stix2Repository().clear()
         supported_types = Stix2ObjectBase.get_supported_types()
         objects_to_process = []
 

@@ -1,5 +1,6 @@
 import json
 import unittest
+from copy import deepcopy
 from datetime import datetime, UTC
 from importlib import resources
 from unittest.mock import MagicMock
@@ -15,10 +16,15 @@ from colander_data_converter.base.models import (
     Case,
     Artifact,
     Event,
+    Actor,
+    Threat,
 )
+from colander_data_converter.base.types.actor import ActorTypes
 from colander_data_converter.base.types.artifact import ArtifactTypes
 from colander_data_converter.base.types.event import EventTypes
 from colander_data_converter.base.types.observable import ObservableTypes
+from colander_data_converter.base.types.threat import ThreatTypes
+from colander_data_converter.base.utils import FeedMerger
 
 
 class TestFeed:
@@ -370,10 +376,10 @@ class TestFeedMerger(unittest.TestCase):
         )
 
         # Add entities to the feed
-        self.feed.entities[str(self.artifact2.id)] = self.artifact2
-        self.feed.entities[str(self.artifact3.id)] = self.artifact3
-        self.feed.entities[str(self.event2.id)] = self.event2
-        self.feed.entities[str(self.event3.id)] = self.event3
+        self.feed.add(self.artifact2)
+        self.feed.add(self.artifact3)
+        self.feed.add(self.event2)
+        self.feed.add(self.event3)
 
     def test_find_similar_artifacts(self):
         # Test finding similar artifacts
@@ -403,3 +409,209 @@ class TestFeedMerger(unittest.TestCase):
         invalid_entity = MagicMock()
         similar_entities = self.feed.get_entities_similar_to(invalid_entity)
         self.assertEqual(len(similar_entities), 0)
+
+    def test_merge_with_itself(self):
+        source_feed = deepcopy(self.feed)
+        destination_feed = deepcopy(self.feed)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge()
+        self.assertEqual(len(source_feed.entities), len(destination_feed.entities))
+        self.assertEqual(len(source_feed.entities), len(source_feed.entities.keys() & destination_feed.entities.keys()))
+        self.assertEqual(len(source_feed.relations), len(destination_feed.relations))
+        self.assertEqual(
+            len(source_feed.relations), len(source_feed.relations.keys() & destination_feed.relations.keys())
+        )
+
+
+class TestFeedMergerExtended(unittest.TestCase):
+    def test_merge_with_itself(self):
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw)
+        destination_feed = ColanderFeed.load(raw)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertEqual(len(source_feed.entities), len(destination_feed.entities))
+        self.assertEqual(len(source_feed.entities), len(source_feed.entities.keys() & destination_feed.entities.keys()))
+
+    def test_merge_with_different(self):
+        resource_package = __name__
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw)
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_alt.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        destination_feed = ColanderFeed.load(raw)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+
+    def test_simple(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_2", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge()
+        ac_2 = destination_feed.get(ac_2)
+        ob_1 = destination_feed.get(ob_1)
+        ob_2 = destination_feed.get(ob_2)
+        self.assertEqual(ac_2.description, "description")
+        self.assertEqual(ob_1.operated_by, ac_2)
+        self.assertEqual(ob_1.operated_by, ob_2.operated_by)
+
+    def test_with_no_conflicts(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertEqual(destination_feed.get(ob_2).operated_by, ac_2)
+        self.assertEqual(len(destination_feed.entities), 2)
+        self.assertEqual(len(destination_feed.relations), 0)
+
+    def test_with_immutable_conflicts(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_2", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ac_1))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertEqual(destination_feed.get(ob_2).operated_by, ac_2)
+        self.assertEqual(len(destination_feed.entities), 3)
+        self.assertEqual(len(destination_feed.relations), 1)
+        pass
+
+    def test_with_chained_immutables(self):
+        source_feed = ColanderFeed()
+        th_1 = Threat(name="threat_1", type=ThreatTypes.SPYWARE.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, associated_threat=th_1)
+        source_feed.add(th_1)
+        source_feed.add(ob_1)
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_2", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(th_1))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertEqual(destination_feed.get(ob_2).operated_by, ac_2)
+        self.assertEqual(destination_feed.get(ob_2).associated_threat, th_1)
+        self.assertEqual(len(destination_feed.entities), 3)
+        self.assertEqual(len(destination_feed.relations), 0)
+
+    def test_with_ref_list(self):
+        source_feed = ColanderFeed()
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value)
+        ev_1 = Event(name="event", type=EventTypes.HIT.value)
+        ev_1.involved_observables.append(ob_1)
+        source_feed.add(ev_1)
+        source_feed.add(ob_1)
+        destination_feed = ColanderFeed()
+        ev_2 = Event(name="event", type=EventTypes.HIT.value, first_seen=ev_1.first_seen, last_seen=ev_1.last_seen)
+        ob_2 = Observable(name="ob_2", type=ObservableTypes.IPV4.value)
+        ev_2.involved_observables.append(ob_2)
+        destination_feed.add(ev_2)
+        destination_feed.add(ob_2)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ob_1))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertTrue(destination_feed.contains(ev_2))
+        self.assertTrue(ob_1 in ev_2.involved_observables)
+        self.assertTrue(ob_2 in ev_2.involved_observables)
+        self.assertEqual(len(destination_feed.relations), 0)
+
+    def test_duplicated_relations(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        rel_1 = EntityRelation(name="related", obj_from=ob_1, obj_to=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        source_feed.relations[str(rel_1.id)] = rel_1
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        rel_2 = EntityRelation(name="related", obj_from=ob_2, obj_to=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        destination_feed.relations[str(rel_2.id)] = rel_2
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertTrue(destination_feed.contains(rel_2))
+
+    def test_duplicated_candidate_relations(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        rel_1 = EntityRelation(name="operated_by", obj_from=ob_1, obj_to=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        source_feed.relations[str(rel_1.id)] = rel_1
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        rel_2 = EntityRelation(name="operated_by", obj_from=ob_2, obj_to=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        destination_feed.relations[str(rel_2.id)] = rel_2
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertEqual(ob_2.operated_by, ac_2)
+
+    def test_conflicting_relations(self):
+        source_feed = ColanderFeed()
+        ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)
+        ob_1 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_1)
+        rel_1 = EntityRelation(name="operated_by", obj_from=ob_1, obj_to=ac_1)
+        source_feed.add(ac_1)
+        source_feed.add(ob_1)
+        source_feed.relations[str(rel_1.id)] = rel_1
+        destination_feed = ColanderFeed()
+        ac_2 = Actor(name="actor_2", type=ActorTypes.INDIVIDUAL.value, description="description")
+        ob_2 = Observable(name="ob_1", type=ObservableTypes.IPV4.value, operated_by=ac_2)
+        rel_2 = EntityRelation(name="operated_by", obj_from=ob_2, obj_to=ac_2)
+        destination_feed.add(ac_2)
+        destination_feed.add(ob_2)
+        destination_feed.relations[str(rel_2.id)] = rel_2
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.contains(ac_2))
+        self.assertTrue(destination_feed.contains(ob_2))
+        self.assertTrue(destination_feed.contains(rel_1))
+        self.assertEqual(ob_2.operated_by, ac_2)

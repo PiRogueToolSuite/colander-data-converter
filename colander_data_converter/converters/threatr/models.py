@@ -9,6 +9,7 @@ from colander_data_converter.base.common import (
     TlpPapLevel,
     ObjectReference,
     Singleton,
+    LRUDict,
 )
 from colander_data_converter.base.models import CommonEntitySuperType, CommonEntitySuperTypes
 from colander_data_converter.base.types.base import CommonEntityType
@@ -41,9 +42,9 @@ class ThreatrRepository(object, metaclass=Singleton):
         Note:
             Due to the Singleton pattern, this method is only called once per application run.
         """
-        self.events = {}
-        self.entities = {}
-        self.relations = {}
+        self.events = LRUDict()
+        self.entities = LRUDict()
+        self.relations = LRUDict()
 
     def clear(self):
         """Clears all stored entities, events, and relations from the repository.
@@ -410,6 +411,7 @@ class ThreatrFeed(ThreatrType):
         Important:
             Use ``strict=True`` to ensure all references in the feed are valid and resolvable.
         """
+        ThreatrRepository().clear()
         feed = ThreatrFeed.model_validate(raw_object)
         feed.resolve_references(strict=strict)
         return feed

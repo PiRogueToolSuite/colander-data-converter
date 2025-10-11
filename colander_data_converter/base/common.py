@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from enum import Enum
 from typing import Dict, Any
 
@@ -227,6 +228,56 @@ class TlpPapLevel(BasePydanticEnum):
 
     def __repr__(self):
         return self.name
+
+
+class LRUDict(OrderedDict):
+    """
+    A dictionary with Least Recently Used (LRU) eviction policy.
+
+    This class extends OrderedDict to automatically remove the oldest items
+    when the cache exceeds a specified length. Accessing or setting an item
+    moves it to the end of the dictionary, marking it as most recently used.
+    """
+
+    def __init__(self, *args, cache_len: int = 4096, **kwargs):
+        """
+        Initialize the LRUDict.
+
+        Args:
+            cache_len: Maximum number of items to keep in the cache.
+        """
+        assert cache_len > 0
+        self.cache_len = cache_len
+        super().__init__(*args, **kwargs)
+
+    def __setitem__(self, key, value):
+        """
+        Set an item in the dictionary and move it to the end.
+        Evict the least recently used item if the cache exceeds its length.
+
+        Args:
+            key: The key to set.
+            value: The value to associate with the key.
+        """
+        super().__setitem__(key, value)
+        super().move_to_end(key)
+        while len(self) > self.cache_len:
+            old_key = next(iter(self))
+            super().__delitem__(old_key)
+
+    def __getitem__(self, key):
+        """
+        Retrieve an item and move it to the end as most recently used.
+
+        Args:
+            key: The key to retrieve.
+
+        Returns:
+            The value associated with the key.
+        """
+        val = super().__getitem__(key)
+        super().move_to_end(key)
+        return val
 
 
 class Singleton(type):
