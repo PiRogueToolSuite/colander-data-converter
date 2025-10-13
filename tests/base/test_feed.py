@@ -449,6 +449,17 @@ class TestFeedMergerExtended(unittest.TestCase):
         merger = FeedMerger(source_feed, destination_feed)
         merger.merge(aggressive=True)
 
+    def test_merge_with_empty(self):
+        resource_package = __name__
+        destination_feed = ColanderFeed()
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_full.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw, reset_ids=True)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.is_fully_resolved())
+
     def test_simple(self):
         source_feed = ColanderFeed()
         ac_1 = Actor(name="actor_1", type=ActorTypes.INDIVIDUAL.value)

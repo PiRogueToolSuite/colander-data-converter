@@ -975,12 +975,12 @@ class ColanderFeed(ColanderType):
     """Dictionary of case objects, keyed by their IDs."""
 
     @staticmethod
-    def load(raw_object: dict | list) -> "ColanderFeed":
+    def load(raw_object: dict, reset_ids=False) -> "ColanderFeed":
         """Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
 
         Args:
-            raw_object: The raw data representing the entities and relations to be loaded into
-                the EntityFeed.
+            raw_object: The raw data representing the entities and relations to be loaded into the EntityFeed.
+            reset_ids: If true, resets the ids of the entities and relations to their values.
 
         Returns:
             The EntityFeed loaded from a raw object.
@@ -989,6 +989,7 @@ class ColanderFeed(ColanderType):
             ValueError: If there are inconsistencies in entity IDs or relations.
         """
         ColanderRepository().clear()
+
         if "entities" in raw_object:
             for entity_id, entity in raw_object["entities"].items():
                 if entity_id != entity.get("id"):
@@ -1006,14 +1007,33 @@ class ColanderFeed(ColanderType):
                 ):
                     relation["obj_from"] = relation["obj_from_id"]
                     relation["obj_to"] = relation["obj_to_id"]
+
+        if reset_ids:
+            # feed_objects = raw_object
+            entities = {}
+            relations = {}
+            rewrite_ids = {}
+            for e in raw_object["entities"].keys():
+                rewrite_ids[e] = str(uuid4())
+            for e in raw_object["relations"].keys():
+                rewrite_ids[e] = str(uuid4())
+            for entity in raw_object["entities"].values():
+                for k, v in entity.items():
+                    if isinstance(v, str):
+                        entity[k] = rewrite_ids.get(v, v)
+                    if isinstance(v, list):
+                        entity[k] = [rewrite_ids.get(value, value) for value in v]
+                entities[entity["id"]] = entity
+            for relation in raw_object["relations"].values():
+                for k, v in relation.items():
+                    if isinstance(v, str):
+                        relation[k] = rewrite_ids.get(v, v)
+                relations[relation["id"]] = relation
+            raw_object["entities"] = entities
+            raw_object["relations"] = relations
+
         entity_feed = ColanderFeed.model_validate(raw_object)
         entity_feed.resolve_references()
-        for _, entity in entity_feed.entities.items():
-            entity.resolve_references()
-        for _, relation in entity_feed.relations.items():
-            relation.resolve_references()
-        for _, case in entity_feed.cases.items():
-            case.resolve_references()
         return entity_feed
 
     def resolve_references(self, strict=False):
@@ -1189,7 +1209,6 @@ class ColanderFeed(ColanderType):
         Returns:
             A dictionary mapping relation IDs to EntityRelation objects where the entity is the source (obj_from).
         """
-        assert isinstance(entity, Entity)
         relations = {}
         if not exclude_immutables:
             for _, entity in self.entities.items():

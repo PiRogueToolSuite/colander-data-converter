@@ -1,0 +1,729 @@
+{
+    "name": "T1",
+    "description": "",
+    "created_at": "2025-10-07T13:30:07.718888Z",
+    "updated_at": "2025-10-13T15:24:35.713434Z",
+    "max_tlp": "AMBER",
+    "max_pap": "GREEN",
+    "entities": {
+        "693324a4-c2f5-46d1-9943-9f975873d1f6": {
+            "id": "693324a4-c2f5-46d1-9943-9f975873d1f6",
+            "colander_internal_type": "actor",
+            "super_type": {
+                "name": "actor",
+                "short_name": "ACTOR"
+            },
+            "name": "Bob",
+            "description": null,
+            "created_at": "2025-05-12T13:46:11.770869Z",
+            "updated_at": "2025-10-13T16:21:58.973617Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "f76f980d-c5c9-42f6-868c-ff6b27ba5221",
+                "name": "Private company",
+                "short_name": "COMPANY",
+                "description": "A privately owned business entity, often a target or participant in cyber activities."
+            },
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "99e4b5ff-06f0-4a50-ab17-db68577d4fe1": {
+            "id": "99e4b5ff-06f0-4a50-ab17-db68577d4fe1",
+            "colander_internal_type": "actor",
+            "super_type": {
+                "name": "actor",
+                "short_name": "ACTOR"
+            },
+            "name": "dfg",
+            "description": null,
+            "created_at": "2025-05-12T14:00:45.556811Z",
+            "updated_at": "2025-10-13T16:21:58.974934Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "f76f980d-c5c9-42f6-868c-ff6b27ba5221",
+                "name": "Private company",
+                "short_name": "COMPANY",
+                "description": "A privately owned business entity, often a target or participant in cyber activities."
+            },
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "c605af63-dbab-4947-84d2-17a2bd65aed4": {
+            "id": "c605af63-dbab-4947-84d2-17a2bd65aed4",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "Esther Onfroy - resume - EN.pdf",
+            "description": "",
+            "created_at": "2025-05-01T13:44:22.075545Z",
+            "updated_at": "2025-10-13T16:22:58.476341Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "8c8be44a-df74-4dc8-826d-4e7f067794dd",
+                "name": "Document",
+                "short_name": "DOCUMENT",
+                "description": "A generic document file, such as PDF, DOCX, or ODT."
+            },
+            "extension": ".pdf",
+            "original_name": "Esther Onfroy - resume - EN.pdf",
+            "mime_type": "application/pdf",
+            "detached_signature": "so+P6Zz8XHAJWEBra8z13DuUAEmLjzbdLDuo8/xu8VSgJ/t2xUlXeQcDVFSKHXmKNt7e5HwR2KqmLZkZKuRVMTFah6jW832NJESWkh3g3j+EC2M1YErmx+m4N+UTX3o3LA8e1MSaFjMUrnFtAlIWEBGQDjoOAjGBQEv9TGt9n0onaqgOPqcfk7aK2O6ag5NhC0FvZJ7JavVz6kS88iwxR12n0/vmv4AtJZrlf8LH6X1THKYVuRtLIFTo2X6d+8iLC+7dKrHXsAAaPUEl1jad3ZTAGZ7e+OivULDfNxSve9/ggDP3c2ks/z6FjFfOd9uB4wxWH1+r57QIfy10DpxUBbSjJ3/xDgDAAIg0EPGafUQqqWxE92K6/A8wzoAxXYXafyL7sst0z4/l5CA7XkqUB+RhvYmJbDocir9D0g5rPA03jwf4y6qhYgD6NVXQONpyH2wwhw6a6NHvKRfF/K+lxaHOeWHpLEey/4PBP1PyP9f0BcG/nnHYs1Zlp7QORicHIPoQN9GXovx/eaG+PODeBWDXuU6XwvfitzFNobeH+u6DrFy5M8+wb2F0AueQoR10I1I3beq2qkzTFpq4vSk0WuOt8wi9Jaj4mjbCWC3s9lkXscdocBeFT+CH/1jyoTDeZnpPdGc5XBOutgt5kN+kTjPFAGsiJmbiODIfqwlX8So=",
+            "md5": "a1cb37c1693b9fc79e5e2f73cb07671b",
+            "sha1": "57990ddc05fb507597d369ad3ddc6d67d91f3f7c",
+            "sha256": "d4ca3eb865cd510658d024d440393ee938b85696639d2ba83a321ebd2365994a",
+            "size_in_bytes": 267031,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": "7b8e9a20-b67d-4e3e-aa47-8bb955fee47c"
+        },
+        "8f26089c-6f5d-4a8d-b868-5e00d3ac18d8": {
+            "id": "8f26089c-6f5d-4a8d-b868-5e00d3ac18d8",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "avatar.jpg",
+            "description": "",
+            "created_at": "2025-10-11T11:47:35.728066Z",
+            "updated_at": "2025-10-13T16:21:58.994874Z",
+            "source_url": null,
+            "tlp": "GREEN",
+            "pap": "WHITE",
+            "type": {
+                "id": "e57f420f-beef-4314-a35a-c0aca2eb9ff2",
+                "name": "Image",
+                "short_name": "IMAGE",
+                "description": "A file containing a still image, such as JPG, PNG, or GIF."
+            },
+            "extension": ".jpg",
+            "original_name": "avatar.jpg",
+            "mime_type": "image/jpeg",
+            "detached_signature": "TGU6oSYV6Zj8OexsCVr9hT83NbJp4DJUMMTBZmCmfdd6AssaC3YVq9qE25GlM0DQYEcSXPnyc3yqWKo3f4ZvFjzkoddzVHbJdDebbTD3LvkHQFQ5BmbSpU2Hhd489hG73b+LRMLDIfwrqRS4xzsw4JVX09V5eE1dEI3oHxjoObvpK51DV54Qu0Tyij2wUkKfl2NuVWHP69nU7V4mkGM6lmVvhocGK3jH9KOXKO9dHQH8OAcuuAWpBdJywSYVOZk6NhLpxMsGcunIckEVrVdvH1balHoDtP+3O672V3Fb2jSiQuF5U/ne8fy2Cj48IqhWmZVs6bOzMi3uYsoVKbVU7yst0/Zb0JMOI/lXOM0eklQTfqW9mmLSP+OV6Pgz/u2/HIjCAaWbcjG08WI8CX3WYn7cYQzS9XtDTucT5x4pXvnlrCohrdQu1rv1ToTeRuz7YxsZGOn/FWMHtudJAiqnU1gyGlZ5dmbCRsF3ubPGesw9EG8VA7uVvE6pJvRR83zynw4+fv1JZlZIpNimax4bHqVBsQWeULVZl3s+11+wrCYONriMa2KQhJPAbTnEDMrMXxUeWlpMU7Qo1c8CfioeskrANBJ/b2L98pvbQt+384cAqv8naDkenlUc1kwLyjdO2NsOKuPu4B/9J3AKxRIK7iUpnScjO8/dZfzvXetN0sE=",
+            "md5": "f5a2f73049f72761476216d17de98a94",
+            "sha1": "4292de434acf68b5e5f3ab93c4267796191e8de7",
+            "sha256": "36e7fc1192aced5aba9b91e4e4d83132d221833d37d2d0fc40718711090afebb",
+            "size_in_bytes": 57092,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "707f8b09-91da-4214-915d-93d424f0966d": {
+            "id": "707f8b09-91da-4214-915d-93d424f0966d",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "Resume.pdf",
+            "description": "",
+            "created_at": "2025-05-19T11:00:37.851914Z",
+            "updated_at": "2025-10-13T16:21:58.991824Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "8c8be44a-df74-4dc8-826d-4e7f067794dd",
+                "name": "Document",
+                "short_name": "DOCUMENT",
+                "description": "A generic document file, such as PDF, DOCX, or ODT."
+            },
+            "extension": ".pdf",
+            "original_name": "Resume.pdf",
+            "mime_type": "application/pdf",
+            "detached_signature": "HdZMbTC0JKOrD82BkkL2WPo78R1wD1izxRfgKUsuMGeDfPAqgTn3YRhcGoofxmnEXrLCIBjT53e+/cSmg5uaOI15cgiaR3GM5M3P4/qXTxJQlFGVLZUzQcfzJI2IXZTOHmGB8QZnbVUezkFYCwR2gJqfIKZh+epXAoZhN3zRkD8Tg0jpk0GND19eaw3VVNtCTnir3n0IxR+g/hFAKrHrhgiQpDiZn/gab1QZfj9rDyfykuLUcs1doC05VM/9SEOpqwNb1Yxdntudbohs1/AQcBy2SRHlxDM/+YZ8CxNDRxWVPgVOhrVXVD3DBObPK2E5AqUvH1T6QKRk2wffokdy6sfRHfk3loYYX+smni523XwvpV5jB3kNo8rabXHGMLYl+VNbUp+umTIStSzjRQwGvkFD7eRmerBSO24sTLWEC6jm9OsN5zVdrsIubYnRSRUxYtjN1CmS8skcYsFrldShJ2oIK51RtVEnnzi564jmhXKi6Ruc8JxOcG8DmqS2Lyo+M0GfgfXucO0J9j1lm7dszzQcZl0Z75Bm7HlXXMU6/eZJ7kmGsLEkDPlnWvbJvhwUu4Q9GtEZC+cKnH3xXslsioqI1kLx6UBeAsxqKNjqIQsizgAktDXDIWdD4BRK9kMC7+EDLPHexNjWEAUNfYQ5OpyjaGONbS0D4RkbYypnMwU=",
+            "md5": "ec6faf7a4270126897a6154cfd906110",
+            "sha1": "248168de2b0a4089a73ecf48dcc46195e86caa20",
+            "sha256": "37f81d68e5e23a4fdd4f6c4d59b9aecbb0772e53810dfe73d4b8e22b05a1377b",
+            "size_in_bytes": 73732,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "c4988f2d-410c-4665-810a-84732a46130d": {
+            "id": "c4988f2d-410c-4665-810a-84732a46130d",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "IMG_3242.jpeg",
+            "description": "",
+            "created_at": "2025-05-19T10:59:55.457245Z",
+            "updated_at": "2025-10-13T16:21:58.990343Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "e57f420f-beef-4314-a35a-c0aca2eb9ff2",
+                "name": "Image",
+                "short_name": "IMAGE",
+                "description": "A file containing a still image, such as JPG, PNG, or GIF."
+            },
+            "extension": ".jpeg",
+            "original_name": "IMG_3242.jpeg",
+            "mime_type": "image/jpeg",
+            "detached_signature": "DtfXGBz6635nevFNiX2zODcy53eMNpokitIBMYDfZoADQjb4AyvGyS3Qh4T8F1dJmLD2/dBJAt6IAJmLqFIjAl/+qux2XtV7hFnrsV6r6+8Y7BFSWaP4V2Qjqt4fVFGTuB08yggeszNqFIYvNn9mGuzZdQDw2N7nMCTpsYHBQLEuIb93ZG/7pbXoPdYleTbzU7WQo51hOdgmcQm23I9eOn6WH6SdU9418jhCwLcGEfm2bwL9wxw5FxE/b6k4sgcQCZu3+9D8h9XpXTIq4iX5GfWTQYy+qRJ9Xl1cKsUUmxIO6Q02uOHBvcR0Zc7rn8YqNbie5Ou4Mcmx5FzzWJ+8Rx5GJub8HadVbcbqhlSxywMEzbvGyrWDv2Ma3NVewVIcfYFOD6Wy5ms6lpCFaBvclsCmgYqoL646tMBqDyeTWBybbyHPfU7g9Yj/OJGSuyh+4wMspE2tmYZtlsSiXhUldwxBJ0xASSB65m5Umd2B/qrWT/vnzKBHYulNJICvYwQ0C1lGiTNMlIdKvV2KcpN5DyqnvMgRjV32RWZCFsEplJS/cyv0DjxI0DbTvI90YyGhKzOoQyKmWKJSNpwPcmfpmIk9jBCExKwSw/gGN9pwoKvRxeQpkKPOOctvAzpfYoFu7FfBgTmbngwXh3R6PD/S3xp0r+uwPDudDNt9eo0WeDA=",
+            "md5": "f524d113cd8845f33af12399a2782b64",
+            "sha1": "df6555d0847cfed7b664ca9e100a4b5e2a7dcc3d",
+            "sha256": "1f5b04e7aaba9bde3fb6d123eed3b978f3828dee42904e9b77e3c33a199a583e",
+            "size_in_bytes": 12794217,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "485c9ddc-d806-4976-b1fb-2efa5b3eb0af": {
+            "id": "485c9ddc-d806-4976-b1fb-2efa5b3eb0af",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "IMG_3242.jpeg",
+            "description": "",
+            "created_at": "2025-05-01T15:03:21.187396Z",
+            "updated_at": "2025-10-13T16:21:58.988787Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "e57f420f-beef-4314-a35a-c0aca2eb9ff2",
+                "name": "Image",
+                "short_name": "IMAGE",
+                "description": "A file containing a still image, such as JPG, PNG, or GIF."
+            },
+            "extension": ".jpeg",
+            "original_name": "IMG_3242.jpeg",
+            "mime_type": "image/jpeg",
+            "detached_signature": "C24gW2z8GjhFg/kv1oU9uuQ2MA6KQceMKHAVjCfCJJ7RhoVKk/wCeGOru4Yq+VuJPNDrCX7JNTeW+jGgqglXQYHI/wRpLps3vlNvHAF49+tdscc3yI9QG8fZwyyeEBkTby7M1Q0b3TWB2RV83SE4rvo48dR/O3IXIVLNilbe2mFtFc4mOL28HbWUevfvfxDvqTxeBkPe8abx+1xR4vRl1QNEoQ38Mf2NuuHPdTqGJbRpWU8VRCLfvxEGUjajDXVlTt91X/VNNJxjaQlZlxuTjvF3Io54Y09dDr/HWDdL/2i0J7KFL7lpWNjhfWULQcDcgOFEEAXhgpXAmtj6X92e0B2yZPUtd1L5Mj7/QwntT7GfSMSZ+ZEExvFqpyeavQBDFaq20Gl/woDAg9y+VvgX1gDDNKFBRKogEVOfpczP3P1BHiv1NcAFZqj21eb0Dnhoy/bMCoippNzCJ/a0h3t7r5M9VqZeDIRIhpwSRk4f4tXYZSMnnlzKe5QBbJMs/t6HjdN2rQNItn2L6BamU8E1k2tXzQOwSicMircQo0745pWjLg5DPLBrmEgiIjG6eJLxgigjos9rrH1QudhTaNMZmb0DgUxYJCRUFqSGYnY4zGj/ZOK30RbVFeCLWAUBYEj4FpuYFWs0w6ETNaglkLQUyrUHoj0qZbYxiw72wyAiVkM=",
+            "md5": "f524d113cd8845f33af12399a2782b64",
+            "sha1": "df6555d0847cfed7b664ca9e100a4b5e2a7dcc3d",
+            "sha256": "1f5b04e7aaba9bde3fb6d123eed3b978f3828dee42904e9b77e3c33a199a583e",
+            "size_in_bytes": 12794217,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "6820991e-87f2-4350-bece-3b142eb65b92": {
+            "id": "6820991e-87f2-4350-bece-3b142eb65b92",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "Lookout_Dark-Caracal_srr_20180118_us_v.1.0.pdf",
+            "description": "",
+            "created_at": "2025-05-02T14:11:07.838492Z",
+            "updated_at": "2025-10-13T16:21:58.987279Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "8c8be44a-df74-4dc8-826d-4e7f067794dd",
+                "name": "Document",
+                "short_name": "DOCUMENT",
+                "description": "A generic document file, such as PDF, DOCX, or ODT."
+            },
+            "extension": ".pdf",
+            "original_name": "Lookout_Dark-Caracal_srr_20180118_us_v.1.0.pdf",
+            "mime_type": "application/pdf",
+            "detached_signature": "WNTf+duGRcxT91zJsASI8RwSBpKnSE6wx3VW6dnOX7UGOoQvXCfO1FEAX0z+QgPsMDOyJ/3ZHmxdMJRigtiYz+sWgzFGruI2KInOZrqqIDrNFRzLnAIlD3LdBYsce2Fhj8RjCRtRMhvceYu+b/Z2unyNblFrIFk8yE9na39sHKc/EbhbvcWsgGvPMfMqHQFom3qeVQcll8FRSRlf05Geg1YtlvBpKPex8nrjMjuMNKKQnz+kVfWmeNXaRma6WwId3wlkwAcHVeuAYcR2JixcGdyC32ORe63IEaetRBDm3zEhdD66f2O0dAloseup5lTHPjjHR6dpwKc+2nitBjoRwMI4puYczRnHVGm7tmCLRu8Pdwn2B7gt1EC8H8JNOCFln1NpX4weZ619EHncJZkkLGWGb94N//XcMF7+LWdQSq7d2/LcDyQhlrZlu771EABOBdl/FbmMjf9J4kKL+XLPqYWlTzfl6Ei9IqIV3mT2PNgz4kyd0yWx+yQ1Bv2QpgvmnWNDdG5okZGPq7xaP6A83mlGz0gOTnxJRzW1U79q6LHlNozdYOzYKvO5csfI9Ea3heG9pmHHNk8DfwYQIOXuSEbTmTXtMDSkFW/vBmEwBEMsVWvtBOTgGg+8RQlMisLn16QwBMHAJ6M26/AlDnVa2aPeKp+OOoN+1zPsmPauoQI=",
+            "md5": "d83de60fdf0fddec0f19e2da35a36724",
+            "sha1": "d5c605fd42adb5312d17a54d246d8178a6a9094c",
+            "sha256": "3d203cfa9362a3de5653a098f785d0d4c5992bf032cd428d45658b6276e88a1b",
+            "size_in_bytes": 43713089,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "179da0d1-3012-4d0c-8e93-cb26ed1db35c": {
+            "id": "179da0d1-3012-4d0c-8e93-cb26ed1db35c",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "decrypted.pcapng",
+            "description": "",
+            "created_at": "2025-05-01T14:37:23.888566Z",
+            "updated_at": "2025-10-13T16:21:58.985733Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "42eb28d7-028d-47bd-95c0-aea2a38d3523",
+                "name": "PCAP file",
+                "short_name": "PCAP",
+                "description": "A file capturing network traffic, typically in PCAP format."
+            },
+            "extension": ".pcapng",
+            "original_name": "decrypted.pcapng",
+            "mime_type": "application/octet-stream",
+            "detached_signature": "KO79O21Ihy4dfLjx9AmterS7+nBvAni+Igg840qOXO32nLYdOBKHFPTfe+APLKxGXwzFCF1lwA9NQzma16+98ADOCSGFt1UwL8HK0FkhBAoOnW+0bjRuSe4SkRicdFpVAd+H0njZrFvdJ4Mw20m17dKYPs58nE/xAe4lfe6++hVsIZlrLmToEatiZhIs3YE1qE7lYyPNj5t4yxSW37ppEHPd2Ag2QBE5h8giOj0ABKLL2+BUFVMmZnIiZzkH+lvf6ZMLNtzVY4lZYESkc+cPJPxkr+ZtsYA9RyjynuxxE1qzlJU9M3O1iTN8HWQHw/0MvzMHkWyB0aMkz4EEU3TpKJPevqr9I7FxK0N7EL4e44iyqHRA7NTOgYQY7XQ4OgNaVZMxpJhz5DWA8DRCfPv1IP9vPSm92gjyV4rbAzpTS8hPwe81ug9/MBpdURIUo4RUrsbX7NlfZ5YLt5MwTVwp/3R4kH9EMNAI5XN17lce7/GgNuT/dF5jaWzLkha3IQ+a4D3Q5sQ1xUmlVhdmwoNxgYDwgeByV/5WGVfJNg2GsXXXGEpiNJU22/OiIR8eXlQiEOPe5wv9PmI/hxvaWFFCy9dQTu+s4e3ZZ72WjKIQsZ6Zay3r8WlUDH+GSDYSbd5+IQq3DVVCQ4v+18Ex5xS23qz5QA6K0gmJQnbbIDOaFlc=",
+            "md5": "a7cb0139855e232b4c9fd1aadab3453c",
+            "sha1": "6cc3ab91aa3c5d9e3216f6f2afa9194a143b2198",
+            "sha256": "78a657e03a3ca71325fd3fb73da441c6a3cc1ddad5d20c533e74b3d80a2924e6",
+            "size_in_bytes": 693940,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "9f4e051d-9a72-486d-bb89-e61ee9be07b0": {
+            "id": "9f4e051d-9a72-486d-bb89-e61ee9be07b0",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "Extract.mp4",
+            "description": "",
+            "created_at": "2025-05-01T14:27:15.912433Z",
+            "updated_at": "2025-10-13T16:21:58.984257Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "be9e6e0c-0cfb-496b-a030-dccedf3bc9f9",
+                "name": "Video",
+                "short_name": "VIDEO",
+                "description": "A file containing video content, such as MP4, AVI, or MOV."
+            },
+            "extension": ".mp4",
+            "original_name": "Extract.mp4",
+            "mime_type": "video/mp4",
+            "detached_signature": "PUp0Atz7NKST1cUdmFSfFqV9M2/q6RKdg2WKg0sDmKNo68U0FMfIM5zrYVqzXJio9TFAeBwq0TnI+LM7GoTefKWVTUCPbOV6R4ZAfi1NwvaR4J54ra+dbrSpDmVr6DECc1ecIF+Ghjh6h1aC4DpD20Ms7/ODxSuCZMVBXKIvnPx9TOq7HIaBdm8aeB2R50jMCkv94m/i9wsZiAKY+AJHEqc0TtMP+8xc4qq6WixENOhp5PBt/qE3VHZBMceFpAcFyAA/XfX3Y2OiQoPiy3sNHyyywwIwMVpw1Oyp8p8GkoeeFf4l5s/4zVzq4WX7/kR+sg13rde4rjpW+GfRDfmIwroCpB7+qYQJ3wIeF4UdIM+hhDJKBrUbp7/VsgAspRMWmiDb84hp3W4LrUpB0nfTWLqLTFAgiMb//PaJP/IUYAdG47zhaRGDNAZchnnnQxNea/uKnQp7tcxGAU8JjH4DmScxg4Axg1SFECfsGqBrMxcEklRlIral9KrylVXvMi4oJIC0nXmczYBDUoWyecPdieYVD3K7Hh2cMLbdNwy7SRUQHQcKT8UPemGihfVWhpBeIqJCWNyqNQlI+AoCScRXeBcIynPsPgwnl3r9RIc4GyoZFhhsk30WLzB6a/g6Xht45QFbwclYIHRFeaKoNznlTwJ0tp6Y0fKmzvqEKLH1bHY=",
+            "md5": "6141b473a91413dff060bccb849b9da0",
+            "sha1": "ed3cef7e9d0054d4bbcc83e3ff246ab56ffea8fa",
+            "sha256": "374ead4cc6ef5f8384d3097addf515ef717c20491f1a0eeeb4cd47e182d3c7ce",
+            "size_in_bytes": 6324602,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "eed201f2-dcff-44c5-84d2-a779a9eb8143": {
+            "id": "eed201f2-dcff-44c5-84d2-a779a9eb8143",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "91B3D67D8758449546256E7EFC72AA838C444B47.asc",
+            "description": "",
+            "created_at": "2025-05-01T13:53:55.059447Z",
+            "updated_at": "2025-10-13T16:21:58.982780Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "f3418934-0026-405d-86d7-d1d265bbd37d",
+                "name": "Other type",
+                "short_name": "OTHER",
+                "description": "A file that does not fit into any of other predefined categories."
+            },
+            "extension": ".asc",
+            "original_name": "91B3D67D8758449546256E7EFC72AA838C444B47.asc",
+            "mime_type": "application/pgp-keys",
+            "detached_signature": "H4X2qrXxydCsSF9v0261HcMRPozDdgQdtw9cYDo5wdB2n2rd9fpF8xpWOqXrlXpR77V1RIMHI6+kGXzDGKxPgriQokM5GwkjY4sAHCmlmeH+Xegfl5aJzqf3MQoLsykp8wSidV/emlf0eXjoq2YlT1lIOYYGRI6jnQ//CbeaR5NTMbeGOlHrs+eizp7oaWihOmFT4P7IlaXIBIwFhvZWC24IsHtR+r5cK4rgR6QEcIt0xMb8jkH5Y0crv5Ej3ppB5scyiaQyuLsvdBNpleESleI0acSSljAGWrVLBg6AkcKlk3WcXAVzOodt+EsZDRMavVvJpcOMeKYZVmemWF+8Mk0pCCTkXTLZ4hmxPtvUhCIMPlkUXUTYePUg4XgOYWWWTCUXpbH92FSDEvtrzJplQLV/iJQCv2bCPhg25jhenCmOQPVGFyc3nPgGEQvGb8y2X0tf3FxskokwUZ7fvVdWHg5uO+FFrlviGBR5f1WJ6ZmI/M2NhnzYePgV8fUNBl66CWFgdcF3TLoxhYetJvlqIXrzhejsnLy+Rf7KEfZpHr24malau2PxWb8N0rMq3Uiv9F+vPe4umGXEnzV1gwnGFbOSicI5kSSN/3emFsFLX6/+7QayOUlN6dLUoKEatg5Jg889MMOtKxnXbwcKyEPzDEUgGEs1PAfNFnuqNNG9ZBw=",
+            "md5": "bbbca1a33d129ad6a12d8d3b2d91128e",
+            "sha1": "3f0f304bdc4ef48150a8e682e780b2f39d65a0f0",
+            "sha256": "955b8eb75f85c1c5076fa10d1b7c945dc0461d613444587542311e9ded3dd84c",
+            "size_in_bytes": 30125,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "c7b491d2-b1f8-4f1c-b652-73ecfaed5cd8": {
+            "id": "c7b491d2-b1f8-4f1c-b652-73ecfaed5cd8",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "report.txt",
+            "description": "",
+            "created_at": "2025-05-01T13:43:47.534559Z",
+            "updated_at": "2025-10-13T16:21:58.979697Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "efefffad-4daf-4e9f-8b22-f1370cad7981",
+                "name": "Report",
+                "short_name": "REPORT",
+                "description": "A file containing an analytical or investigative report."
+            },
+            "extension": ".txt",
+            "original_name": "report.txt",
+            "mime_type": "text/plain",
+            "detached_signature": "XEXBHrt4tL55+bwO40jyPCccYBozYVy/l0NIkoe1ywtiMxAavxJu6yyCUjyHVPGYmUrYjY6R4xk2nWX9mY3dNV3TBfeibzKog9PnflvmBE8XjxIZPFKm9W5q8778WnIvUFm0DVx8xZE5IOC1eSfgAAPbQWEK4200z66PD52AiqkB86RJnWD750KmdhFCTt1XTIOYJzcvvkxGJoFfeWMSAUzBSqJnRvEye8qurVX7AooXJ6OOF2dKsAUhv+/YrS5SUGJzlb2MQDZ3fdFASzuNnJ9nIUDlosxgQrdylfylgVP2bxYocOiG+/IA3buAV6GGKEP/i6KnyVwQwJtiGaaSuCZ2oyQ7MDkJylF6En6StJFlhZwhFYC68OvwnI7Tboeku46UBQlHE6cJKBU1lAlp8JVjbpr8zmcg1zMpyvud3AC6SKhcbIiWw9Crw0PIaV+Bk1IyPkrv15tbnqVuxGD89bZEHJZ1b4yfGyaP/wNoltzk3B/3XFbrR4zOgixPBBVD80lBSfPrVQQ7Q0rLwmZBLNk4ZGGf6ag0sTVeaSH6f2ApEhv5Lp7kOXgtU4VCWluNpkY99LwTP9IMbW5RSCUzmJ53033PLqEbmwT9yKiGEVdMmzc0om2SpgEPsuMAnq9oSMervcEZuCKLYiybmgs/aYoASeMN/gG1wi6qfoS7Bwk=",
+            "md5": "415081ac5dff2eb7aa853e6f45277588",
+            "sha1": "9adedf75f21e63831ef89812dedf79b95ce80b41",
+            "sha256": "560d4a5b0f54501431e0ad7e5564e883e2205fcf2cba6b582f64cbbc02035a3d",
+            "size_in_bytes": 74877,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "2fc5067e-2fc9-4c9b-aa6e-e5624b0a8bac": {
+            "id": "2fc5067e-2fc9-4c9b-aa6e-e5624b0a8bac",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "body_output.har",
+            "description": "",
+            "created_at": "2025-05-01T13:43:30.822948Z",
+            "updated_at": "2025-10-13T16:21:58.978068Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "1ea34eea-8af0-4c52-b15b-a2f629a85769",
+                "name": "HAR file",
+                "short_name": "HAR",
+                "description": "A file containing HTTP Archive (HAR) data for web traffic analysis."
+            },
+            "extension": ".har",
+            "original_name": "body_output.har",
+            "mime_type": "application/json",
+            "detached_signature": "FCOCwHUYQbyW5i5qsilvl0KfhzmOmU9saDh/ZKyPiyMEM203CpMOdnSwLpy1CcmJXiZ08fF7c/323AmGPkqfLDXOIhjN+SvNSFmmBet43jbC0J0dKSVzG1Kfk5sk31Hv1Zny/GOT7rgj76A0Az+A/fYzZnNWSOAFjtnoyMCj8pjj4UtAb7tNKyeIIEFaLuw+qu0wMN0XK9+C3LuZVOYyVqIKZGAcPG9VGuT9zaPRcVXCp7lnQYh0X0OioRDFX/ZaXLdetPleoUw2WrwX4Yw4wgAeNSg/9Wn82cX+rV2d9YQG+zglW1MAMuldCcysq/vfyZOtE+dnJzY4BP1lrWwcMSdQzo6hzV8NKgWhD8ZCs/Nw3rYiHoIPGF2C/QGEqGj1b15N0+ez1zAYzkT7eay+/bcFqdffG9bA5YFDc+5A4+w/hiutdBiNLsY0LogugzYj+yBQJJH+IvIN+iC9FxmK8alweFnSY/QaK6+VjpCwR78Gscs7PM84Ut3IItMyvE7V+wkp1g4xLaDu+oL1AgnvxJhoYTb248P7lrGOaKm41ZJQJBN1s2e8vwtmdardfRlrnkGV08Dg9p1mZnFS4b6l26tlfjXFGm9pQkjrfa2WryFjYxARw8/K/Fteim+YcwVVK5LPTUMSUpYdUO3PtqVxltkdLv+rz42j5koP9nIJ/Hk=",
+            "md5": "12c5f35391632469b98d729dcac5db0d",
+            "sha1": "f8d8fcce05862cb7c50faca12ec4b1566a5f5513",
+            "sha256": "5915e5a99707d8cea9f3d90113c400faaf64f85db6a37326c8b27964777c061a",
+            "size_in_bytes": 2510945,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "09f2bcfd-e028-476c-a4dd-4074077987e9": {
+            "id": "09f2bcfd-e028-476c-a4dd-4074077987e9",
+            "colander_internal_type": "artifact",
+            "super_type": {
+                "name": "artifact",
+                "short_name": "ARTIFACT"
+            },
+            "name": "csv-sample.csv",
+            "description": "",
+            "created_at": "2025-05-01T13:41:39.111434Z",
+            "updated_at": "2025-10-13T16:21:58.976501Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "5661e4d7-23d1-4af5-9230-4c1456e8fd10",
+                "name": "Text file",
+                "short_name": "TEXT",
+                "description": "A plain text file, such as TXT or LOG."
+            },
+            "extension": ".csv",
+            "original_name": "csv-sample.csv",
+            "mime_type": "text/plain",
+            "detached_signature": "F+cDNscy44C0lU5VdJSSKQ8xnwLXlSVPZFMnvcrKZzM0YqP8/+n59qe7gdbS1RhsWfnqseeFqsqE3qXqS5WIU9ZwdEBfZh3I+O3mdEgsRnr9qFVMgcV40XKsga3/PweMJdX3ggnvW75j1b0jNMTHt7lr6JQUY/tewwHXijzq/hj6QH+Hk4WlBia+0ADJYfrqk9m6YEOKYnkJphyjCie69jDloNwUmcRTtN8E92edj5CbuibPd8cMZi7sap9AqnSIKtYy6UbPYtTL8wLBcfh6Jci3yetO4V1j2o+/w12b+HpFZJZDKiROmc1DR84OakdX3UOR/rBTfjyzxsZsM85pbsbt3KSGU2wP08bg1B91y8ZAgl/jWEVmnsyINriqndAQmzCVFXaP0S2zaSAqyIOp1iyuPr9Nf/O17Ur/M3C6WXEF+i8/Hg7ZpVqfOhewexZXEqZxEs1Ew3gjdhUWE+gxi3gdxgpMdA8TiUSj6fIfF/r/mYNc2IaUNhP6xA57A973wd063pAZLHKKzZMCks+GRUlX+SVswgCiryPzWiUAWSUNHZBCZ7RUF/cIOlljCvKBIZs8ZLhRyuTYVphvy9tDlV3nJxW1xSe0PSOsxbKnQN1My357lHLpEI3NiVel7p9Oy5QVjBfCs+w1aAvHAZvHP1aBBZJvyY9yD3zcUh11Q7k=",
+            "md5": "d873f6af66f849d2733ce4c800e48efc",
+            "sha1": "936d537c73db07a2b801c9c1f892da71270441c1",
+            "sha256": "7f7c1dcc520569249f9c1f51b54c10db829661fe6a24e731de1edb1c44857c63",
+            "size_in_bytes": 793,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null
+        },
+        "ad8c971f-f072-4b04-b3b4-3e81f0b10906": {
+            "id": "ad8c971f-f072-4b04-b3b4-3e81f0b10906",
+            "colander_internal_type": "detectionrule",
+            "super_type": {
+                "name": "detectionrule",
+                "short_name": "DETECTIONRULE"
+            },
+            "name": "Foo",
+            "description": "",
+            "created_at": "2025-10-07T16:23:22.326642Z",
+            "updated_at": "2025-10-13T16:21:58.996234Z",
+            "source_url": null,
+            "tlp": "AMBER",
+            "pap": "WHITE",
+            "type": {
+                "id": "d82563b9-62c3-4cef-bb33-a4d6b1687b32",
+                "name": "Generic",
+                "short_name": "GENERIC",
+                "description": "A general or unspecified detection rule type that does not fit other categories."
+            },
+            "content": "sdsdf",
+            "detection_index": "c6320968-4c57-412d-a1b0-c2e4815edca1",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "targeted_observables": []
+        },
+        "7b8e9a20-b67d-4e3e-aa47-8bb955fee47c": {
+            "id": "7b8e9a20-b67d-4e3e-aa47-8bb955fee47c",
+            "colander_internal_type": "device",
+            "super_type": {
+                "name": "device",
+                "short_name": "DEVICE"
+            },
+            "name": "njjtyh",
+            "description": "",
+            "created_at": "2025-05-12T15:20:24.708668Z",
+            "updated_at": "2025-10-13T16:21:58.999283Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "d0328f72-3309-4f8a-944d-a01ce1881589",
+                "name": "Laptop",
+                "short_name": "LAPTOP",
+                "description": "A portable personal computer designed for mobile use."
+            },
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "operated_by": null
+        },
+        "4e8c6099-420b-44c4-b50a-cbcd09327308": {
+            "id": "4e8c6099-420b-44c4-b50a-cbcd09327308",
+            "colander_internal_type": "device",
+            "super_type": {
+                "name": "device",
+                "short_name": "DEVICE"
+            },
+            "name": "sdf",
+            "description": null,
+            "created_at": "2025-05-12T14:09:26.234977Z",
+            "updated_at": "2025-10-13T16:21:58.997999Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "b4968214-2e11-4092-b4f9-f2efe001e942",
+                "name": "Router",
+                "short_name": "ROUTER",
+                "description": "A network device that forwards data packets between computer networks."
+            },
+            "attributes": {
+                "foo": "barbar"
+            },
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "operated_by": null
+        },
+        "29931d7c-d21c-4db6-887f-b6a4d7787e82": {
+            "id": "29931d7c-d21c-4db6-887f-b6a4d7787e82",
+            "colander_internal_type": "observable",
+            "super_type": {
+                "name": "observable",
+                "short_name": "OBSERVABLE"
+            },
+            "name": "088e952c774dd11e52f4c35042794ae4692c58f7a20f3ea90981ffc4ca0d3321",
+            "description": "",
+            "created_at": "2025-05-01T14:44:22.858732Z",
+            "updated_at": "2025-10-13T16:21:59.010426Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "bea31f33-7069-4a1b-b30d-ce7c402725e6",
+                "name": "SHA256",
+                "short_name": "SHA256",
+                "description": "A 256-bit hash value, widely used for file and data integrity verification."
+            },
+            "classification": null,
+            "attributes": {
+                "md5": "a5892b9e489a34a53e37c7310368a96a",
+                "sha1": "a98883bdc6f7cd8ad4e2ba4b0eeb8f3ae103a353",
+                "filename": "esther-at-defensive-lab.agency.asc",
+                "mime_type": "application/pgp-keys",
+                "original_name": "esther-at-defensive-lab.agency.asc",
+                "size_in_bytes": "5389"
+            },
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null,
+            "associated_threat": null,
+            "operated_by": null
+        },
+        "4a74d4c3-7342-4acc-bc1c-56cb54f5c53c": {
+            "id": "4a74d4c3-7342-4acc-bc1c-56cb54f5c53c",
+            "colander_internal_type": "observable",
+            "super_type": {
+                "name": "observable",
+                "short_name": "OBSERVABLE"
+            },
+            "name": "esther.codes",
+            "description": null,
+            "created_at": "2025-10-07T14:19:41.929556Z",
+            "updated_at": "2025-10-13T16:21:59.000629Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "270681a7-8a5f-4403-b49f-740ffcf78cf8",
+                "name": "Domain name",
+                "short_name": "DOMAIN",
+                "description": "A human-readable address used to identify resources on the internet."
+            },
+            "classification": null,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": null,
+            "associated_threat": null,
+            "operated_by": null
+        },
+        "2386ab6c-0bc9-4739-ab67-3feca37e255c": {
+            "id": "2386ab6c-0bc9-4739-ab67-3feca37e255c",
+            "colander_internal_type": "threat",
+            "super_type": {
+                "name": "threat",
+                "short_name": "THREAT"
+            },
+            "name": "sdfdsf",
+            "description": null,
+            "created_at": "2025-05-12T14:45:48.842035Z",
+            "updated_at": "2025-10-13T16:21:59.004504Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "7e5f31a2-fa6a-4295-9f01-51286d02a6c8",
+                "name": "Botnet",
+                "short_name": "BOTNET",
+                "description": "A network of compromised computers controlled by an attacker to perform coordinated tasks."
+            },
+            "documentation": "No documentation",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "4ae270e7-a5aa-4881-9285-f4548f91ec40": {
+            "id": "4ae270e7-a5aa-4881-9285-f4548f91ec40",
+            "colander_internal_type": "threat",
+            "super_type": {
+                "name": "threat",
+                "short_name": "THREAT"
+            },
+            "name": "sdfsf",
+            "description": null,
+            "created_at": "2025-05-12T14:11:28.665809Z",
+            "updated_at": "2025-10-13T16:21:59.003279Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "1b201cc2-105d-4d44-b838-9fdc87ef0356",
+                "name": "Browser Hijacker",
+                "short_name": "BROWSER_HIJACKER",
+                "description": "Malware that alters browser settings, redirects traffic, or injects unwanted ads."
+            },
+            "documentation": "No documentation",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "768298fb-5186-4f3e-b36d-38d0d3c60f21": {
+            "id": "768298fb-5186-4f3e-b36d-38d0d3c60f21",
+            "colander_internal_type": "threat",
+            "super_type": {
+                "name": "threat",
+                "short_name": "THREAT"
+            },
+            "name": "df",
+            "description": null,
+            "created_at": "2025-05-12T13:46:49.462854Z",
+            "updated_at": "2025-10-13T16:21:59.001959Z",
+            "source_url": null,
+            "tlp": "WHITE",
+            "pap": "WHITE",
+            "type": {
+                "id": "1b201cc2-105d-4d44-b838-9fdc87ef0356",
+                "name": "Browser Hijacker",
+                "short_name": "BROWSER_HIJACKER",
+                "description": "Malware that alters browser settings, redirects traffic, or injects unwanted ads."
+            },
+            "documentation": "No documentation",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "113fc4b3-3688-4574-9001-ace2f13de648": {
+            "id": "113fc4b3-3688-4574-9001-ace2f13de648",
+            "colander_internal_type": "event",
+            "super_type": {
+                "name": "event",
+                "short_name": "EVENT"
+            },
+            "name": "eventttt",
+            "description": "",
+            "created_at": "2025-10-13T15:24:16.917355Z",
+            "updated_at": "2025-10-13T16:21:59.007705Z",
+            "source_url": null,
+            "tlp": "GREEN",
+            "pap": "WHITE",
+            "type": {
+                "id": "f6f0327f-b10b-456e-84c7-68204ce87d2c",
+                "name": "Attack",
+                "short_name": "ATTACK",
+                "description": "An event indicating a deliberate attempt to breach, disrupt, or damage a system or network."
+            },
+            "first_seen": "2025-10-13T15:23:41Z",
+            "last_seen": "2025-10-13T15:23:48Z",
+            "count": 1,
+            "attributes": {},
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "extracted_from": "8f26089c-6f5d-4a8d-b868-5e00d3ac18d8",
+            "observed_on": "4e8c6099-420b-44c4-b50a-cbcd09327308",
+            "detected_by": "ad8c971f-f072-4b04-b3b4-3e81f0b10906",
+            "attributed_to": "693324a4-c2f5-46d1-9943-9f975873d1f6",
+            "target": "99e4b5ff-06f0-4a50-ab17-db68577d4fe1",
+            "involved_observables": [
+                "4a74d4c3-7342-4acc-bc1c-56cb54f5c53c",
+                "29931d7c-d21c-4db6-887f-b6a4d7787e82"
+            ]
+        }
+    },
+    "relations": {
+        "1ffe2a21-4dea-4d09-9cb0-f34116ad1f15": {
+            "id": "1ffe2a21-4dea-4d09-9cb0-f34116ad1f15",
+            "super_type": {
+                "name": "entityrelation",
+                "short_name": "ENTITYRELATION"
+            },
+            "colander_internal_type": "entityrelation",
+            "name": "foobar zzz",
+            "created_at": "2025-10-07T13:35:36.443040Z",
+            "updated_at": "2025-10-07T13:35:36.443051Z",
+            "attributes": null,
+            "obj_from_id": "99e4b5ff-06f0-4a50-ab17-db68577d4fe1",
+            "obj_to_id": "693324a4-c2f5-46d1-9943-9f975873d1f6",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        },
+        "1ffe2a21-4dea-4d09-9cb0-f34116ad1f19": {
+            "id": "1ffe2a21-4dea-4d09-9cb0-f34116ad1f19",
+            "super_type": {
+                "name": "entityrelation",
+                "short_name": "ENTITYRELATION"
+            },
+            "colander_internal_type": "entityrelation",
+            "name": "foobar ****",
+            "created_at": "2025-10-07T13:35:36.443040Z",
+            "updated_at": "2025-10-07T13:35:36.443051Z",
+            "attributes": null,
+            "obj_from_id": "768298fb-5186-4f3e-b36d-38d0d3c60f21",
+            "obj_to_id": "693324a4-c2f5-46d1-9943-9f975873d1f6",
+            "case": "f81134f0-cae9-479c-b724-9c575dc840b1"
+        }
+    },
+    "cases": {
+        "f81134f0-cae9-479c-b724-9c575dc840b1": {
+            "id": "f81134f0-cae9-479c-b724-9c575dc840b1",
+            "colander_internal_type": "case",
+            "super_type": {
+                "name": "case",
+                "short_name": "CASE"
+            },
+            "name": "Test",
+            "description": "No description",
+            "created_at": "2025-05-01T13:41:01.494604Z",
+            "updated_at": "2025-10-13T16:22:40.501822Z",
+            "source_url": null,
+            "tlp": "RED",
+            "pap": "WHITE",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtNzpKacoXn7MpS46KLbl\na6ouE5HDUV6tSCWDAudm+38HTxaNUQj5jx2fReZ4gSfzoqzZTqFye6WmnJREjALn\nKAMw5Cb1oZGaK1u9gqkIdYv1mVmCyiFCbHoHJ/xc7lWi2/CKynZNLQXFV6n/Vk6G\nP+n0uPExkbdaI20wgQrRtPjQoV1gkS2AgAL9nPImUTgUT7ldZnD9pRxYcIU9EJZ0\nyRGkqH0/EUKeul44UF0VEh4vLkbDDbYHU1YNc2hfHHIY9a0X2GrShxEhUkEy3aSG\nzAQ3H5eR7noO3yHFhpJ7P6GFbbqjmzaVLfm/4Th17lxUy1jz0x4hDpd63T7JPnNU\nDmQltRPnOXK54GyvATcREeMg06gbIXY3VQ8LioUYs9SKjq8iZesaOPbrGmVtxftH\nvEJzWGCZKrr5ojThm1HlTz4KSz0XOIDx5BTzH2J/wAH5Ae+ajIn9Thua9byUIBro\nna9nG2b5E1tZwBJre++sQiGs8zEuwR6SCtBTA6Q1BBTlWm8PA8ZsQiTloeakH9tZ\nFzLec7mstUDrjWiFtQMeEqUYLIgEqZEXTnSQT1rQqK66zWkRfxJEfQBCKbA7c60M\neQ6CmtitDM9kPOMuCkNW+utpxtmcc6euWFB5CX9q/xDtHYvvzFP5fOuCS+X9gZDt\nKMEMVFpIJoeqhxJwDhQmWaUCAwEAAQ==\n-----END PUBLIC KEY-----\n",
+            "documentation": null
+        }
+    }
+}
