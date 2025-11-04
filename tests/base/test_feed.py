@@ -426,15 +426,25 @@ class TestFeedMerger(unittest.TestCase):
 class TestFeedMergerExtended(unittest.TestCase):
     def test_merge_with_itself(self):
         resource_package = __name__
-        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed.json")
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_full.json")
         with json_file.open() as f:
             raw = json.load(f)
-        source_feed = ColanderFeed.load(raw)
-        destination_feed = ColanderFeed.load(raw)
+        source_feed = ColanderFeed.load(raw, reset_ids=True)
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_full.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        destination_feed = ColanderFeed.load(raw, reset_ids=True)
         merger = FeedMerger(source_feed, destination_feed)
         merger.merge(aggressive=True)
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_full.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw, reset_ids=True)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        self.assertTrue(destination_feed.is_fully_resolved())
         self.assertEqual(len(source_feed.entities), len(destination_feed.entities))
-        self.assertEqual(len(source_feed.entities), len(source_feed.entities.keys() & destination_feed.entities.keys()))
+        self.assertEqual(len(source_feed.relations), len(destination_feed.relations))
 
     def test_merge_with_different(self):
         resource_package = __name__
@@ -626,3 +636,44 @@ class TestFeedMergerExtended(unittest.TestCase):
         self.assertTrue(destination_feed.contains(ob_2))
         self.assertTrue(destination_feed.contains(rel_1))
         self.assertEqual(ob_2.operated_by, ac_2)
+
+    def test_feed_old_format(self):
+        resource_package = __name__
+        destination_feed = ColanderFeed()
+        destination_feed.add(Observable(name="organizer@conf-update.example", type=ObservableTypes.EMAIL.value))
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_old.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw, reset_ids=True, resolve_types=False)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        # Feeds not properly merged
+        self.assertEqual(len(destination_feed.entities), 2)
+
+    def test_feed_old_format_fixed(self):
+        resource_package = __name__
+        destination_feed = ColanderFeed()
+        destination_feed.add(Observable(name="organizer@conf-update.example", type=ObservableTypes.EMAIL.value))
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_old.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw, reset_ids=True, resolve_types=True)
+        merger = FeedMerger(source_feed, destination_feed)
+        merger.merge(aggressive=True)
+        # Feeds properly merged
+        self.assertEqual(len(destination_feed.entities), 1)
+
+    def test_feed_missing_reference(self):
+        resource_package = __name__
+        destination_feed = ColanderFeed()
+        destination_feed.add(Observable(name="organizer@conf-update.example", type=ObservableTypes.EMAIL.value))
+        json_file = resources.files(resource_package).joinpath("data").joinpath("colander_feed_missing_reference.json")
+        with json_file.open() as f:
+            raw = json.load(f)
+        source_feed = ColanderFeed.load(raw, reset_ids=True, resolve_types=True)
+        merger = FeedMerger(source_feed, destination_feed)
+        with self.assertRaises(Exception):
+            merger.merge(aggressive=True)
+        # Feeds properly merged
+        merger.merge(aggressive=True, delete_unlinked=True)
+        self.assertEqual(len(destination_feed.entities), 7)

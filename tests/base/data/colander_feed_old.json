@@ -1,0 +1,31 @@
+{
+  "entities": {
+    "bcbb2c31-ff61-465a-a770-85c154733567": {
+      "id": "bcbb2c31-ff61-465a-a770-85c154733567",
+      "super_type": {
+        "name": "observable",
+        "short_name": "OBSERVABLE"
+      },
+      "type": {
+        "name": "Email address",
+        "short_name": "EMAIL",
+        "description": "",
+        "nf_icon": "nf-mdi-email_outline"
+      },
+      "description": "",
+      "source_url": null,
+      "created_at": "2025-10-16T14:38:12.420826Z",
+      "updated_at": "2025-10-16T14:56:49.170153Z",
+      "tlp": "AMBER",
+      "pap": "AMBER",
+      "thumbnail": null,
+      "name": "organizer@conf-update.example",
+      "classification": null,
+      "attributes": {},
+      "extracted_from": null,
+      "associated_threat": null,
+      "operated_by": null
+    }
+  },
+  "relations": {}
+}

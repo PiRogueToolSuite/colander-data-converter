@@ -975,12 +975,13 @@ class ColanderFeed(ColanderType):
     """Dictionary of case objects, keyed by their IDs."""
 
     @staticmethod
-    def load(raw_object: dict, reset_ids=False) -> "ColanderFeed":
+    def load(raw_object: dict, reset_ids=False, resolve_types=True) -> "ColanderFeed":
         """Loads an EntityFeed from a raw object, which can be either a dictionary or a list.
 
         Args:
             raw_object: The raw data representing the entities and relations to be loaded into the EntityFeed.
             reset_ids: If true, resets the ids of the entities and relations to their values.
+            resolve_types: If True, resolves entity types based on the types enum. Mandatory to find similar entities.
 
         Returns:
             The EntityFeed loaded from a raw object.
@@ -1033,8 +1034,15 @@ class ColanderFeed(ColanderType):
             raw_object["relations"] = relations
 
         entity_feed = ColanderFeed.model_validate(raw_object)
+        if resolve_types:
+            entity_feed.resolve_types()
         entity_feed.resolve_references()
         return entity_feed
+
+    def resolve_types(self):
+        for entity_id, entity in self.entities.items():
+            super_type = CommonEntitySuperTypes.by_short_name(entity.super_type.short_name)
+            entity.type = super_type.types_class.by_short_name(entity.type.short_name)
 
     def resolve_references(self, strict=False):
         """Resolves references within entities, relations, and cases.
@@ -1172,6 +1180,28 @@ class ColanderFeed(ColanderType):
             if isinstance(entity, super_type.model_class):
                 entities.append(entity)
         return entities
+
+    def remove_relation_duplicates(self):
+        """
+        Remove duplicate EntityRelation objects from the repository.
+
+        Iterates over all stored relations and identifies duplicates by comparing
+        the `name`, `obj_from`, and `obj_to` properties. If two distinct relation
+        instances are semantically identical, the latter discovered instance is
+        scheduled for removal.
+        """
+        duplicates = []
+        for relation_a in self.relations.values():
+            for relation_b in self.relations.values():
+                if (
+                    relation_a != relation_b
+                    and relation_a.name == relation_b.name
+                    and relation_a.obj_from == relation_b.obj_from
+                    and relation_a.obj_to == relation_b.obj_to
+                ):
+                    duplicates.append(relation_b)
+        for duplicate in duplicates:
+            self.relations.pop(str(duplicate.id))
 
     def get_incoming_relations(self, entity: EntityTypes) -> Dict[str, EntityRelation]:
         """Retrieve all relations where the specified entity is the target (obj_to).
@@ -1583,6 +1613,7 @@ class CommonEntitySuperTypes(enum.Enum):
     @classmethod
     def by_short_name(cls, short_name: str) -> Optional[CommonEntitySuperType]:
         sn = short_name.replace(" ", "_").upper()
-        if sn in cls.__members__:
-            return cls[sn].value
+        for member in cls:
+            if member.value.short_name == sn:
+                return member.value
         return None

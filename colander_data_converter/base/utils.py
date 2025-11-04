@@ -181,7 +181,7 @@ class FeedMerger:
         self.added_entities: List[Entity] = []  # source added to the destination feed
         self.merged_entities: Dict[Entity, Entity] = {}  # source, destination
 
-    def merge(self, aggressive: bool = False):
+    def merge(self, delete_unlinked: bool = False, aggressive: bool = False):
         """
         Merge the source feed into the destination feed.
         This method performs a comprehensive merge operation between two ColanderFeeds,
@@ -194,6 +194,7 @@ class FeedMerger:
         4. Copy non-immutable relations from source to destination
 
         Args:
+            delete_unlinked: If True, delete relations involving missing entities
             aggressive: If True, temporarily breaks and rebuilds immutable relations
                        to allow more flexible merging. Use with caution as this may
                        affect data integrity during the merge process.
@@ -202,6 +203,7 @@ class FeedMerger:
 
         if aggressive:
             self.source_feed.break_immutable_relations()
+            self.destination_feed.break_immutable_relations()
 
         # Identify merging candidates or add missing source entities to the destination feed
         for _, source_entity in self.source_feed.entities.items():
@@ -260,11 +262,19 @@ class FeedMerger:
                     obj_to=obj_to,
                 )
 
+        unlinked_relations: List[str] = []
         for _, relation in self.destination_feed.relations.items():
             obj_from = relation.obj_from
             obj_to = relation.obj_to
             if not self.destination_feed.contains(obj_from) or not self.destination_feed.contains(obj_to):
-                raise Exception(f"Unlinked relation detected: {obj_from} -- {relation.name} -> {obj_to}")
+                unlinked_relations.append(str(relation.id))
+
+        if delete_unlinked:
+            for relation_id in unlinked_relations:
+                self.destination_feed.relations.pop(relation_id)
+        elif unlinked_relations:
+            raise Exception(f"{len(unlinked_relations)} unlinked relation detected")
 
         if aggressive:
+            self.source_feed.rebuild_immutable_relations()
             self.destination_feed.rebuild_immutable_relations()
