@@ -425,15 +425,13 @@ class MISPToColanderMapper(MISPMapper):
                         colander_entity.tlp = level
             elif tag.name.startswith("misp-galaxy:threat-actor"):
                 actor_name = tag.name
-                actor_name = actor_name.replace("misp-galaxy:threat-actor=", '').replace('"', '')
+                actor_name = actor_name.replace("misp-galaxy:threat-actor=", "").replace('"', "")
                 colander_entity.add_tags([actor_name])
             else:
                 colander_entity.add_tags([tag.name])
 
     def convert_attribute(
-            self,
-            misp_attribute: MISPAttribute,
-            event_tags: Optional[List[MISPTag]] = None
+        self, misp_attribute: MISPAttribute, event_tags: Optional[List[MISPTag]] = None
     ) -> Optional[EntityTypes]:
         entity_mapping = self.mapping.get_misp_attribute_mapping(misp_attribute)
         if not entity_mapping or not entity_mapping.colander_super_type:

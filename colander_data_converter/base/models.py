@@ -486,7 +486,7 @@ class Entity(ColanderType, abc.ABC):
     def add_attributes(self, attributes: Dict[str, str]):
         if not attributes or not hasattr(self, "attributes"):
             return
-        entity_attributes = getattr(self, "attributes", {})
+        entity_attributes = getattr(self, "attributes", {}) or {}
         entity_attributes.update(attributes)
         self.attributes = entity_attributes
 
