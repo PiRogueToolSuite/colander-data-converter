@@ -109,7 +109,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
             root_entity_obj = root_entity
 
         # Convert the root entity to a Threatr entity
-        threatr_root_entity = self._convert_entity(root_entity_obj)
+        threatr_root_entity = self.convert_entity(root_entity_obj)
         threatr_events = []
 
         # Convert all entities
@@ -118,7 +118,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
             # Skip the root entity as it's already included
             if str(entity.id) == str(root_entity_obj.id):
                 continue
-            threatr_entity = self._convert_entity(entity)
+            threatr_entity = self.convert_entity(entity)
             if isinstance(threatr_entity, ThreatrEvent):
                 threatr_events.append(threatr_entity)
             else:
@@ -127,7 +127,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
         # Convert all relations
         threatr_relations = []
         for relation_id, relation in colander_feed.relations.items():
-            threatr_relation = self._convert_relation(relation)
+            threatr_relation = self.convert_relation(relation)
             threatr_relations.append(threatr_relation)
 
         # Convert reference fields to relations
@@ -142,7 +142,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
             events=threatr_events,
         )
 
-    def _convert_entity(self, entity: ColanderEntity) -> Union[ThreatrEntity, ThreatrEvent]:
+    def convert_entity(self, entity: ColanderEntity) -> Union[ThreatrEntity, ThreatrEvent]:
         """
         Convert a Colander entity to a Threatr entity or event.
 
@@ -175,7 +175,7 @@ class ColanderToThreatrMapper(ThreatrMapper):
 
         return threatr_entity
 
-    def _convert_relation(self, relation: ColanderEntityRelation) -> ThreatrEntityRelation:
+    def convert_relation(self, relation: ColanderEntityRelation) -> ThreatrEntityRelation:
         """
         Convert a Colander entity relation to a Threatr entity relation.
 

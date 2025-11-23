@@ -38,7 +38,7 @@ class TestColanderToThreatrConverter(unittest.TestCase):
 
         # Create a mapper and convert the entity
         mapper = ColanderToThreatrMapper()
-        threatr_entity = mapper._convert_entity(actor)
+        threatr_entity = mapper.convert_entity(actor)
 
         # Verify the conversion
         self.assertEqual(threatr_entity.id, actor.id)
@@ -58,7 +58,7 @@ class TestColanderToThreatrConverter(unittest.TestCase):
 
         # Create a mapper and convert the relation
         mapper = ColanderToThreatrMapper()
-        threatr_relation = mapper._convert_relation(relation)
+        threatr_relation = mapper.convert_relation(relation)
 
         # Verify the conversion
         self.assertEqual(threatr_relation.id, relation.id)
