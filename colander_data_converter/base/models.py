@@ -470,6 +470,26 @@ class Entity(ColanderType, abc.ABC):
 
         return relations
 
+    def add_tags(self, tags: Optional[List[str]]):
+        if not tags or not hasattr(self, "attributes"):
+            return
+        entity_attributes = getattr(self, "attributes", {}) or {}
+        entity_tags = set(entity_attributes.get("tags", "").split(",") or [])
+        for tag in tags:
+            if tag and tag not in entity_tags:
+                entity_tags.add(tag)
+        if "" in entity_tags:
+            entity_tags.remove("")
+        entity_attributes["tags"] = ",".join(entity_tags)
+        self.attributes = entity_attributes
+
+    def add_attributes(self, attributes: Dict[str, str]):
+        if not attributes or not hasattr(self, "attributes"):
+            return
+        entity_attributes = getattr(self, "attributes", {})
+        entity_attributes.update(attributes)
+        self.attributes = entity_attributes
+
     def __hash__(self) -> int:
         return hash(self.id)
 

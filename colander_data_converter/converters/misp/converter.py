@@ -290,18 +290,18 @@ class MISPToColanderMapper(MISPMapper):
         """
         case = Case(id=event.uuid, name=event.info, description=f"Loaded from MISP event [{event.uuid}]")
         feed = ColanderFeed(cases={f"{case.id}": case})
-        for entity in self._convert_objects(event):
+        for entity in self.convert_objects(event):
             entity.case = case
             feed.entities[str(entity.id)] = entity
-        for entity in self._convert_attributes(event):
+        for entity in self.convert_attributes(event):
             entity.case = case
             feed.entities[str(entity.id)] = entity
-        for relation in self._convert_relations(event):
+        for relation in self.convert_relations(event):
             relation.case = case
             feed.relations[str(relation.id)] = relation
         return case, feed
 
-    def _convert_relations(self, event: MISPEvent) -> List[EntityRelation]:
+    def convert_relations(self, event: MISPEvent) -> List[EntityRelation]:
         relations = []
         for misp_object in event.objects + event.attributes:
             source_object = ColanderRepository() >> misp_object.uuid
@@ -351,7 +351,7 @@ class MISPToColanderMapper(MISPMapper):
 
         return colander_entity
 
-    def _convert_object(self, misp_object: MISPObject) -> Optional[EntityTypes]:
+    def convert_object(self, misp_object: MISPObject) -> Optional[EntityTypes]:
         """
         Convert a MISPObject to its corresponding Colander entity.
 
@@ -407,27 +407,51 @@ class MISPToColanderMapper(MISPMapper):
 
         return colander_entity
 
-    def _convert_objects(self, misp_object: MISPEvent) -> List[EntityTypes]:
+    def convert_objects(self, misp_object: MISPEvent) -> List[EntityTypes]:
         entities: List[EntityTypes] = []
         for misp_object in misp_object.objects:
-            colander_entity = self._convert_object(misp_object)
+            colander_entity = self.convert_object(misp_object)
             if colander_entity:
                 entities.append(colander_entity)
         return entities
 
-    def _convert_attribute(self, misp_attribute: MISPAttribute) -> Optional[EntityTypes]:
+    def convert_tags(self, colander_entity: EntityTypes, tags: Optional[List[MISPTag]]):
+        if not tags:
+            return
+        for tag in tags:
+            if tag.name.startswith("tlp"):
+                for level in TlpPapLevel:
+                    if level.name.lower() in tag.name.lower():
+                        colander_entity.tlp = level
+            elif tag.name.startswith("misp-galaxy:threat-actor"):
+                actor_name = tag.name
+                actor_name = actor_name.replace("misp-galaxy:threat-actor=", '').replace('"', '')
+                colander_entity.add_tags([actor_name])
+            else:
+                colander_entity.add_tags([tag.name])
+
+    def convert_attribute(
+            self,
+            misp_attribute: MISPAttribute,
+            event_tags: Optional[List[MISPTag]] = None
+    ) -> Optional[EntityTypes]:
         entity_mapping = self.mapping.get_misp_attribute_mapping(misp_attribute)
         if not entity_mapping or not entity_mapping.colander_super_type:
             return None
         misp_property_for_name = entity_mapping.colander_misp_mapping.get("name")
         entity_name = getattr(misp_attribute, misp_property_for_name)
         colander_entity = self._prepare_colander_entity(misp_attribute, entity_mapping, entity_name)
+        tags = event_tags or []
+        tags.extend(misp_attribute.tags)
+        self.convert_tags(colander_entity, tags)
+        if misp_attribute.to_ids:
+            colander_entity.add_attributes({"is_malicious": True})
         return colander_entity
 
-    def _convert_attributes(self, misp_event: MISPEvent) -> List[EntityTypes]:
+    def convert_attributes(self, misp_event: MISPEvent) -> List[EntityTypes]:
         entities: List[EntityTypes] = []
         for misp_attribute in misp_event.attributes:
-            colander_entity = self._convert_attribute(misp_attribute)
+            colander_entity = self.convert_attribute(misp_attribute, misp_event.tags)
             if colander_entity:
                 entities.append(colander_entity)
         return entities
