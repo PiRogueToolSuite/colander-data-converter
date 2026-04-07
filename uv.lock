@@ -309,7 +309,7 @@ docs = [
     { name = "autoclasstoc", specifier = ">=1.7" },
     { name = "autodoc-pydantic", specifier = ">=2.2" },
     { name = "myst-parser" },
-    { name = "sphinx", specifier = ">=8.1.3" },
+    { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-autobuild" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-hoverxref", specifier = ">=1.4.2" },
