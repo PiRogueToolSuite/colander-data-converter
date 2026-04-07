@@ -91,6 +91,13 @@ class ColanderToMISPMapper(MISPMapper):
         else:
             return None
 
+        # Set the "to_ids" attribute when the object is flagged as malicious
+        if hasattr(colander_object, "attributes"):
+            if colander_object.attributes and colander_object.attributes.get("is_malicious", False):
+                misp_object.to_ids = True
+        if hasattr(colander_object, "associated_threat") and colander_object.associated_threat is not None:
+            misp_object.to_ids = True
+
         # Set common MISP object properties
         # ToDo: add tag for TLP
         misp_object.uuid = str(colander_object.id)
