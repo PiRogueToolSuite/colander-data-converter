@@ -241,11 +241,9 @@ wheels = [
 name = "colander-data-converter"
 source = { editable = "." }
 dependencies = [
-    { name = "docutils-stubs" },
     { name = "jinja2" },
     { name = "pydantic" },
     { name = "pymisp" },
-    { name = "types-docutils" },
 ]
 
 [package.dev-dependencies]
@@ -262,6 +260,7 @@ dev = [
 docs = [
     { name = "autoclasstoc" },
     { name = "autodoc-pydantic" },
+    { name = "docutils-stubs" },
     { name = "myst-parser" },
     { name = "sphinx" },
     { name = "sphinx-autobuild" },
@@ -274,6 +273,7 @@ docs = [
     { name = "sphinx-rtd-theme" },
     { name = "sphinx-toolbox" },
     { name = "sphinxcontrib-datatemplates" },
+    { name = "types-docutils" },
 ]
 test = [
     { name = "coverage" },
@@ -287,11 +287,9 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "docutils-stubs", specifier = "==0.0.22" },
-    { name = "jinja2", specifier = "==3.1.6" },
-    { name = "pydantic", specifier = "==2.11.7" },
+    { name = "jinja2", specifier = ">=3.1.6" },
+    { name = "pydantic", specifier = ">=2.11.7" },
     { name = "pymisp", specifier = ">=2.5.17" },
-    { name = "types-docutils", specifier = "==0.22.1.20250923" },
 ]
 
 [package.metadata.requires-dev]
@@ -308,6 +306,7 @@ dev = [
 docs = [
     { name = "autoclasstoc", specifier = ">=1.7" },
     { name = "autodoc-pydantic", specifier = ">=2.2" },
+    { name = "docutils-stubs", specifier = "==0.0.22" },
     { name = "myst-parser" },
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-autobuild" },
@@ -320,6 +319,7 @@ docs = [
     { name = "sphinx-rtd-theme" },
     { name = "sphinx-toolbox" },
     { name = "sphinxcontrib-datatemplates", specifier = ">=0.11" },
+    { name = "types-docutils", specifier = "==0.22.1.20250923" },
 ]
 test = [
     { name = "coverage" },

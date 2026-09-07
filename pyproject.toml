@@ -22,11 +22,9 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
-  "docutils-stubs==0.0.22",
-  "jinja2==3.1.6",
-  "pydantic==2.11.7",
+  "jinja2>=3.1.6",
+  "pydantic>=2.11.7",
   "pymisp>=2.5.17",
-  "types-docutils==0.22.1.20250923",
 ]
 
 urls.discord = "https://discord.gg/qGX73GYNdp"
@@ -59,6 +57,8 @@ test = [
 ]
 
 docs = [
+  "docutils-stubs==0.0.22",
+  "types-docutils==0.22.1.20250923",
   "autoclasstoc>=1.7",
   "autodoc-pydantic>=2.2",
   "myst-parser",
